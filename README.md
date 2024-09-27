@@ -18,10 +18,3 @@ Meet the brilliant minds behind Team Zenith:
 4. Aoun Khan           (CCID: makhan11)
 5. Abdulrahman Khafagy (CCID: akhafagy)
 6. Soban Shoaib        (CCID: msshoaib)
-
-
-## How to Get Started
-
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/TeamZenithCmput301/zenith.git
