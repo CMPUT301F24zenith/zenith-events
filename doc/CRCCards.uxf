@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>70</x>
+      <y>315</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>Administrator
+--
+Responsibilities:
+- Maintains information
+about an Adminstrator
+--
+Collaborators:
+-User</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>231</x>
+      <y>7</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>Model
+--
+Responsibilities:
+- Holding information about
+state of app
+--
+Collaborators:
+- View
+- Controller</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>63</x>
+      <y>161</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>Organizer
+--
+Responsibilities:
+- Maintains information
+about an Entrant
+--
+Collaborators:
+- User</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>63</x>
+      <y>7</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>Entrant
+--
+Responsibilities:
+- Maintains information
+about an Entrant
+
+--
+Collaborators:
+- User</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>231</x>
+      <y>161</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>View
+--
+Responsibilities:
+- Displaying app 
+and infromation
+
+--
+Collaborators:
+- Model
+- Controller</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>231</x>
+      <y>315</y>
+      <w>147</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>Controller
+--
+Responsibilities:
+- Handling user input
+--
+Collaborators:
+- Model
+- View</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>70</x>
+      <y>462</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>Event
+--
+Responsibilities:
+
+--
+Collaborators:
+- Organizers
+- Entrant
+- Adminstrator</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>231</x>
+      <y>462</y>
+      <w>147</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>EventArrayAdapter
+--
+Responsibilities:
+- Handling/displaying 
+information for event array
+--
+Collaborators:
+- Event</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>70</x>
+      <y>609</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>User
+--
+Responsibilities:
+- Maintains information
+about Users
+--
+Collaborators:</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
