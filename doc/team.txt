@@ -3,4 +3,4 @@ maounkhan : makhan11
 realmuaadh : muaadh
 hfmohammed : hfmohammed
 sobanshoaib : msshoaib
-akhafagy47 
+akhafagy47 : akhafagy
