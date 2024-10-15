@@ -3,6 +3,7 @@
 # Team Zenith - CMPUT 301 Project
 
 Welcome to the **Team Zenith** repository for our CMPUT 301 class project! 🚀
+
 Feel free to check our Wiki for all documentation related to this app.
 
 ## About Us
