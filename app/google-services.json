@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1011796704158",
+    "project_id": "zenith-events",
+    "storage_bucket": "zenith-events.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011796704158:android:f45d4c3f3ab41078b4748f",
+        "android_client_info": {
+          "package_name": "com.example.zenithevents"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXoWwfFG5kk89dphS8Sncdp1-xJhiqvY8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
