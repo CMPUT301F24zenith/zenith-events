@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>10</x>
+      <y>140</y>
+      <w>210</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
+User
+--
+-userId: Long
+-email: string
+-first_name: string
+-last_name: string
+-phone_number: int
+-password_hash: string
+-profile_pic: image
+-geolocation: str
+-role: str
+--
+/+AbstractOperation()/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>890</x>
+      <y>10</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>Facility
+--
+-facilityId: Long
+-address: string
+-name: string
+-events: array&lt;Event&gt;
+--
+#Operation(i: int): int
+/+AbstractOperation()/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>800</x>
+      <y>320</y>
+      <w>320</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>Event
+--
+-eventId: Long
+-creator: Organizer
+-waitingList: array&lt;Entrant&gt;
+-selected: array&lt;Entrant&gt;
+-registrants: array&lt;Entrant&gt;
+-poster: image
+-qrCode: image
+--
++DrawLottery(waitiingList: array&lt;User&gt;): 
+array&lt;Entrant&gt;
++sendNotification(message: str, 
+recipients: array&lt;Entrant&gt;, list: string): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>210</x>
+      <y>620</y>
+      <w>260</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>Organizer
+--
+-events: Array&lt;Event&gt;
+--
++createEvent(): Event
++deleteEvent(eventId: Long): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>980</x>
+      <y>190</y>
+      <w>60</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=0..*
+</panel_attributes>
+    <additional_attributes>10.0;10.0;20.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>460</x>
+      <y>400</y>
+      <w>360</w>
+      <h>340</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=0..*</panel_attributes>
+    <additional_attributes>10.0;320.0;340.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>90</x>
+      <y>340</y>
+      <w>240</w>
+      <h>300</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;220.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>450</x>
+      <y>30</y>
+      <w>320</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>Entrant
+--
+-entrantEvents: array&lt;Events&gt;
+--
++enterWaitingList(eventId: Long)
++leaveWaitingList(eventId: Long)
++registrationDecision(eventId:Long): Boolean
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>210</x>
+      <y>120</y>
+      <w>260</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;140.0;240.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>640</x>
+      <y>210</y>
+      <w>180</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;&gt;
+m1=0..*
+m2=0..*</panel_attributes>
+    <additional_attributes>10.0;10.0;160.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>360</x>
+      <y>320</y>
+      <w>290</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>Admin
+--
+
+--
++deleteEvent(eventId: Long): void
++deleteFacility(facilityId: Long): void
++deleteUser(userId: Long): void
++deleteProfilePicture(userId: Long): void
++deleteImage(eventId: Long): void
++deleteQR(eventId: Long): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>210</x>
+      <y>280</y>
+      <w>170</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;150.0;130.0</additional_attributes>
+  </element>
+</diagram>
