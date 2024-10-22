@@ -35,7 +35,9 @@ state of app
 --
 Collaborators:
 - View
-- Controller</panel_attributes>
+- Controller
+- User
+- Facility</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -53,7 +55,8 @@ Responsibilities:
 about an Entrant
 --
 Collaborators:
-- User</panel_attributes>
+- User
+- Facility</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -165,6 +168,25 @@ Responsibilities:
 about Users
 --
 Collaborators:</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>231</x>
+      <y>581</y>
+      <w>147</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>Facility
+--
+Responsibilities:
+- Maintains information
+about a facility
+
+--
+Collaborators:
+</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
