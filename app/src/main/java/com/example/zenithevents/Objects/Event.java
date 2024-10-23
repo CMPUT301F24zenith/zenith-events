@@ -55,6 +55,7 @@ public class Event {
     public int getNumParticipants() {
         return numParticipants;
     }
+
     public String getQRCodeURL() {
         return QRCodeURL;
     }
@@ -68,5 +69,11 @@ public class Event {
     }
     public String getEventImage() {
         return eventImage;
+    }
+    public void setEventImage(String eventImage) {
+        this.eventImage = eventImage;
+    }
+    public void setQRCodeURL(String QRCodeURL) {
+        this.QRCodeURL = QRCodeURL;
     }
 }
