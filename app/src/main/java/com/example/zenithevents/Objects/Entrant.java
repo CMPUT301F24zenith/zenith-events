@@ -3,7 +3,7 @@ package com.example.zenithevents.Objects;
 import java.util.ArrayList;
 
 public class Entrant {
-    private String password;
+
     private String role;
     private long entrantId;
     private String entrantFirstName;
@@ -14,8 +14,8 @@ public class Entrant {
     private String profileImageURL;
     private Boolean wantsNotifs;
 
-    public Entrant(String password, String role, long entrantId, String entrantFirstName, String entrantLastName, String email, String phoneNumber) {
-        this.password = password;
+    public Entrant(String role, long entrantId, String entrantFirstName, String entrantLastName, String email, String phoneNumber) {
+
         this.role = role;
         this.entrantId = entrantId;
         this.entrantFirstName = entrantFirstName;
@@ -24,9 +24,6 @@ public class Entrant {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public String getRole() {
         return role;
@@ -64,11 +61,7 @@ public class Entrant {
         return entrantEvents;
     }
 
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    
     public void setRole(String role) {
         this.role = role;
     }
