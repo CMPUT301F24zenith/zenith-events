@@ -33,13 +33,11 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
 
         // Lookup view for data population
         TextView eventIdOrName = convertView.findViewById(R.id.eventIdOrName);
-        TextView eventCreator = convertView.findViewById(R.id.eventCreator);
         TextView eventImageUrl = convertView.findViewById(R.id.eventImageUrl);
         TextView eventQRCodeURL = convertView.findViewById(R.id.eventQRCodeURL);
 
         // Populate the data into the template view using the data object
         eventIdOrName.setText(event.getEventId());
-        eventCreator.setText(event.getCreator().getOrganizationName());
         eventImageUrl.setText(event.getEventImage());
         eventQRCodeURL.setText(event.getQRCodeURL());
 

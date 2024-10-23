@@ -14,13 +14,8 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <!-- Event Creator (Organization) -->
-    <TextView
-        android:id="@+id/eventCreator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Created by: Organization"
-        android:textSize="16sp" />
+
+
 
     <!-- Number of Participants -->
     <TextView
