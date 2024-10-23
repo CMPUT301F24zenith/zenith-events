@@ -3,26 +3,45 @@ package com.example.zenithevents.Objects;
 import java.util.ArrayList;
 
 public class Entrant {
-    private String entrantName;
+    private String password;
+    private String role;
+    private long entrantId;
+    private String entrantFirstName;
+    private String entrantLastName;
     private String email;
     private String phoneNumber;
     private ArrayList<Event> entrantEvents;
     private String profileImageURL;
     private Boolean wantsNotifs;
 
-    public Entrant(String entrantName, String email, String phoneNumber, Boolean wantsNotifs) {
-        this.entrantName = entrantName;
+    public Entrant(String password, String role, long entrantId, String entrantFirstName, String entrantLastName, String email, String phoneNumber) {
+        this.password = password;
+        this.role = role;
+        this.entrantId = entrantId;
+        this.entrantFirstName = entrantFirstName;
+        this.entrantLastName = entrantLastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.wantsNotifs = wantsNotifs;
-        this.entrantEvents = new ArrayList<>();
-        }
-
-    public String getEntrantName() {
-        return entrantName;
     }
-    public String getProfileImageURL() {
-        return profileImageURL;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public long getEntrantId() {
+        return entrantId;
+    }
+
+    public String getEntrantFirstName() {
+        return entrantFirstName;
+    }
+
+    public String getEntrantLastName() {
+        return entrantLastName;
     }
 
     public String getEmail() {
@@ -33,8 +52,57 @@ public class Entrant {
         return phoneNumber;
     }
 
+    public String getProfileImageURL() {
+        return profileImageURL;
+    }
+
+    public Boolean getWantsNotifs() {
+        return wantsNotifs;
+    }
+
     public ArrayList<Event> getEntrantEvents() {
         return entrantEvents;
+    }
+
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setEntrantId(long entrantId) {
+        this.entrantId = entrantId;
+    }
+
+    public void setEntrantFirstName(String entrantFirstName) {
+        this.entrantFirstName = entrantFirstName;
+    }
+
+    public void setEntrantLastName(String entrantLastName) {
+        this.entrantLastName = entrantLastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setEntrantEvents(ArrayList<Event> entrantEvents) {
+        this.entrantEvents = entrantEvents;
+    }
+
+    public void setProfileImageURL(String profileImageURL) {
+        this.profileImageURL = profileImageURL;
+    }
+
+    public void setWantsNotifs(Boolean wantsNotifs) {
+        this.wantsNotifs = wantsNotifs;
     }
 
     public void enterWaitingList(Event event) {
