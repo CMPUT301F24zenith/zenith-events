@@ -1,16 +1,31 @@
-package com.example.zenithevents;
+package com.example.zenithevents.Objects;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Event {
-    private long eventId;
-    private Organizer creator;
+    private String eventId;
     private ArrayList<Entrant> waitingList;
     private ArrayList<Entrant> selected;
     private ArrayList<Entrant> registrants;
+    private String eventImage;
+    private String QRCodeURL;
     private int numParticipants;
 
+    public Event(String eventId, String eventImage, String QRCodeURL, int numParticipants){
+        this.eventId = eventId;
+        this.waitingList = new ArrayList<>();
+        this.selected = new ArrayList<>();
+        this.registrants = new ArrayList<>();
+        this.eventImage = eventImage;
+        this.QRCodeURL = QRCodeURL;
+        this.numParticipants = numParticipants;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
 
     public ArrayList<Entrant> getWaitingList() {
         return waitingList;
@@ -34,11 +49,24 @@ public class Event {
 
         return drawEntrants;
     }
+    public ArrayList<Entrant> getRegistrants() {
+        return registrants;
+    }
+    public int getNumParticipants() {
+        return numParticipants;
+    }
+    public String getQRCodeURL() {
+        return QRCodeURL;
+    }
 
     public void sendNotifications(String message, ArrayList<Entrant> recipients){
         // Send notifications to recipients
         for (Entrant recipient : recipients) {
-            recipient.sendNotification(message);
+            if (recipient.wantsNotifs()){
+            recipient.sendNotification(message);}
         }
+    }
+    public String getEventImage() {
+        return eventImage;
     }
 }
