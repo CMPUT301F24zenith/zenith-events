@@ -7,6 +7,10 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.zenithevents.LogInSignUP.EntrantSignUpActivity;
+import com.example.zenithevents.LogInSignUP.LogInActivity;
+import com.example.zenithevents.LogInSignUP.SignUpOption;
+
 public class MainActivity extends AppCompatActivity {
 
     Button buttonEntrant;
@@ -33,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
         buttonSignUp.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+            Intent intent = new Intent(MainActivity.this, SignUpOption.class);
             startActivity(intent);
         });
     }

@@ -13,10 +13,16 @@
         android:theme="@style/Theme.ZenithEvents"
         tools:targetApi="31">
         <activity
-            android:name=".SignUpActivity"
+            android:name=".LogInSignUP.OrganizerSignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".LogInActivity"
+            android:name=".LogInSignUP.SignUpOption"
+            android:exported="false" />
+        <activity
+            android:name=".LogInSignUP.EntrantSignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LogInSignUP.LogInActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
