@@ -17,73 +17,45 @@
      android:layout_gravity="left"
      />
 
-    <RadioGroup
-        android:id="@+id/rgUserType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        >
-        <RadioButton
-            android:id="@+id/rbEntrant"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Entrant"/>
-        <RadioButton
-            android:id="@+id/rbOrganizer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Organizer"/>
-    </RadioGroup>
-
-
 
     <EditText
-        android:id="@+id/etFirstName"
+        android:id="@+id/etEntrantFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="First Name"
         android:visibility="visible"/>
 
     <EditText
-        android:id="@+id/etLastName"
+        android:id="@+id/etEntrantLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Last Name"
         android:visibility="visible"/>
 
     <EditText
-        android:id="@+id/etPhoneNumber"
+        android:id="@+id/etEntrantPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Phone Number (Optional)"
         android:inputType="phone"
         android:visibility="visible"/>
 
-    <!-- Field for Organizer (Organizer Name) -->
-    <EditText
-        android:id="@+id/etOrganizerName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Organizer Name"
-        android:visibility="gone"/>
-
 
     <EditText
-        android:id="@+id/etEmail"
+        android:id="@+id/etEntrantEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"/>
 
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/etEntrantPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
         android:inputType="textPassword"/>
 
     <Button
-        android:id="@+id/btnSignUp"
+        android:id="@+id/btnEntrantSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign Up"/>

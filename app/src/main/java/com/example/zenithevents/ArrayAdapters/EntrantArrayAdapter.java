@@ -33,7 +33,7 @@ public class EntrantArrayAdapter extends ArrayAdapter<Entrant> {
         TextView profileImageView = convertView.findViewById(R.id.profileImage);
 
         // Populate the data into the template view using the data object
-        nameView.setText(entrant.getEntrantName());
+//        nameView.setText(entrant.getEntrantName());
         emailView.setText(entrant.getEmail());
         phoneNumberView.setText(entrant.getPhoneNumber());
         profileImageView.setText(entrant.getProfileImageURL());

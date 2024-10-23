@@ -1,14 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="20dp"
-    tools:context=".LogInSignUP.LogInActivity">
+    android:padding="16dp">
+
     <Button
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
@@ -18,42 +16,50 @@
         android:padding="10dp"
         android:layout_gravity="left"
         />
-    <TextView
+
+
+    <EditText
+        android:id="@+id/etOrganizerOrganizerName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Log In"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        android:gravity="center"
+        android:hint="Organizer Name"
         />
 
     <EditText
-        android:id="@+id/Email_editText"
+        android:id="@+id/etOrganizerPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:layout_gravity="center"/>
+        android:hint="Phone Number (Optional)"
+        android:inputType="phone"
+        android:visibility="visible"/>
+
+
+
+
     <EditText
-        android:id="@+id/Password_editText"
+        android:id="@+id/etOrganizerEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"/>
+
+    <EditText
+        android:id="@+id/etOrganizerPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
-        android:inputType="textPassword"
-        android:layout_gravity="center"/>
+        android:inputType="textPassword"/>
 
     <Button
-        android:id="@+id/LogIn_button"
+        android:id="@+id/btnSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Log In"
-        android:layout_gravity="center"
-        />
+        android:text="Sign Up"/>
+
     <TextView
-        android:id="@+id/SignUp_textView"
+        android:id="@+id/tvAlreadyHaveAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don't have an account? Sign up here."
+        android:text="Already have an account? Log in here."
         android:layout_marginTop="20dp"
         android:padding="10dp"
         android:layout_gravity="center"
