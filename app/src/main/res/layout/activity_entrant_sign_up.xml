@@ -1,0 +1,74 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+ <Button
+     android:id="@+id/back_button"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:text="Back"
+     android:layout_marginBottom="16dp"
+     android:padding="10dp"
+     android:layout_gravity="left"
+     />
+
+
+    <EditText
+        android:id="@+id/etEntrantFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="First Name"
+        android:visibility="visible"/>
+
+    <EditText
+        android:id="@+id/etEntrantLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Last Name"
+        android:visibility="visible"/>
+
+    <EditText
+        android:id="@+id/etEntrantPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone Number (Optional)"
+        android:inputType="phone"
+        android:visibility="visible"/>
+
+
+    <EditText
+        android:id="@+id/etEntrantEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"/>
+
+    <EditText
+        android:id="@+id/etEntrantPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:id="@+id/btnEntrantSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"/>
+
+    <TextView
+        android:id="@+id/tvAlreadyHaveAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already have an account? Log in here."
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:textColor="@color/red"
+        />
+
+</LinearLayout>
