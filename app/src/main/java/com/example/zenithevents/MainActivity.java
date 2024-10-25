@@ -7,9 +7,9 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.zenithevents.LogInSignUP.EntrantSignUpActivity;
 import com.example.zenithevents.LogInSignUP.LogInActivity;
 import com.example.zenithevents.LogInSignUP.SignUpOption;
+import com.example.zenithevents.WaitingListPackage.WaitingList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonCreateEventEvent;
     Button buttonLogIn;
     Button buttonSignUp;
+    Button waitingListButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         buttonCreateEventEvent = findViewById(R.id.createEventButton);
         buttonLogIn = findViewById(R.id.logInButton);
         buttonSignUp = findViewById(R.id.signUpButton);
+        waitingListButton = findViewById(R.id.waitingListButton);
 
         buttonLogIn.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, LogInActivity.class);
@@ -38,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
         });
         buttonSignUp.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SignUpOption.class);
+            startActivity(intent);
+        });
+        waitingListButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, WaitingList.class);
             startActivity(intent);
         });
     }

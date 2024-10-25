@@ -8,6 +8,16 @@
     tools:context=".MainActivity"
     >
 
+    <Button
+        android:id="@+id/waitingListButton"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="568dp"
+        android:background="@drawable/square_button"
+        android:text="Waiting List"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/entrantButton"

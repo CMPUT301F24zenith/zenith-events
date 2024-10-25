@@ -25,6 +25,8 @@
             android:name=".LogInSignUP.LogInActivity"
             android:exported="false" />
         <activity
+            android:name=".WaitingListPackage.WaitingList" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
