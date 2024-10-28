@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Entrant {
 
     private String role;
-    private long entrantId;
+    private String entrantId;
     private String entrantFirstName;
     private String entrantLastName;
     private String email;
@@ -14,7 +14,7 @@ public class Entrant {
     private String profileImageURL;
     private Boolean wantsNotifs;
 
-    public Entrant(String role, long entrantId, String entrantFirstName, String entrantLastName, String email, String phoneNumber) {
+    public Entrant(String role, String entrantId, String entrantFirstName, String entrantLastName, String email, String phoneNumber) {
 
         this.role = role;
         this.entrantId = entrantId;
@@ -29,7 +29,7 @@ public class Entrant {
         return role;
     }
 
-    public long getEntrantId() {
+    public String getEntrantId() {
         return entrantId;
     }
 
@@ -66,7 +66,7 @@ public class Entrant {
         this.role = role;
     }
 
-    public void setEntrantId(long entrantId) {
+    public void setEntrantId(String entrantId) {
         this.entrantId = entrantId;
     }
 

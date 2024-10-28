@@ -22,16 +22,16 @@
         android:id="@+id/etOrganizerOrganizerName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Organizer Name"
+        android:hint="Organizer Name *"
         />
 
     <EditText
         android:id="@+id/etOrganizerPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Phone Number (Optional)"
+        android:hint="Phone Number"
         android:inputType="phone"
-        android:visibility="visible"/>
+        />
 
 
 
@@ -40,13 +40,14 @@
         android:id="@+id/etOrganizerEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"/>
+        android:hint="Email *"
+        android:inputType="textEmailAddress"/>
 
     <EditText
         android:id="@+id/etOrganizerPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="Password *"
         android:inputType="textPassword"/>
 
     <Button
