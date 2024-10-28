@@ -9,9 +9,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.zenithevents.LogInSignUP.EntrantSignUpActivity;
 import com.example.zenithevents.LogInSignUP.LogInActivity;
 import com.example.zenithevents.LogInSignUP.SignUpOption;
+import com.example.zenithevents.WaitingListPackage.WaitingList;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonCreateEventEvent;
     Button buttonLogIn;
     Button buttonSignUp;
+    Button waitingListButton;
     Button buttonLogOut;
 
     @Override
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize Firebase Auth
+        
         auth = FirebaseAuth.getInstance();
 
         buttonEntrant = findViewById(R.id.entrantButton);
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         buttonCreateEventEvent = findViewById(R.id.createEventButton);
         buttonLogIn = findViewById(R.id.logInButton);
         buttonSignUp = findViewById(R.id.signUpButton);
+        waitingListButton = findViewById(R.id.waitingListButton);
         buttonLogOut = findViewById(R.id.logOutButton);
 
         buttonLogIn.setOnClickListener(v -> {
@@ -49,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, SignUpOption.class);
             startActivity(intent);
         });
+        waitingListButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, WaitingList.class);
+            startActivity(intent);
+        });
+    }
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
             buttonLogOut.setVisibility(View.VISIBLE);
