@@ -24,9 +24,8 @@
         >
         <ImageView
             android:id="@+id/profile_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_person_24"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:contentDescription="profile_photo"
             android:layout_margin="16dp"
             android:scaleType="centerCrop"
