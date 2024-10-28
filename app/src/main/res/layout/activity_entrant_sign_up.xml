@@ -22,36 +22,37 @@
         android:id="@+id/etEntrantFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="First Name"
+        android:hint="First Name *"
         android:visibility="visible"/>
 
     <EditText
         android:id="@+id/etEntrantLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Last Name"
+        android:hint="Last Name *"
         android:visibility="visible"/>
 
     <EditText
         android:id="@+id/etEntrantPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Phone Number (Optional)"
-        android:inputType="phone"
-        android:visibility="visible"/>
+        android:hint="Phone Number "
+        android:inputType="phone" />
 
 
     <EditText
         android:id="@+id/etEntrantEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"/>
+        android:hint="Email *"
+        android:inputType="textEmailAddress"/>
 
     <EditText
         android:id="@+id/etEntrantPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="Password *"
+
         android:inputType="textPassword"/>
 
     <Button
