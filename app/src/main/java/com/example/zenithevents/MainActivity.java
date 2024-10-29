@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        
+
         auth = FirebaseAuth.getInstance();
 
         buttonEntrant = findViewById(R.id.entrantButton);
@@ -55,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, WaitingList.class);
             startActivity(intent);
         });
-    }
+
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
             buttonLogOut.setVisibility(View.VISIBLE);
-    } else {
+        } else {
             buttonLogOut.setVisibility(View.GONE);
         }
         buttonLogOut.setOnClickListener(v -> {
@@ -67,10 +67,10 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
             buttonLogOut.setVisibility(View.GONE);
         });
-        }
 
-
+    }
 }
+
 
 
 
