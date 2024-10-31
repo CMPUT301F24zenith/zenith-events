@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
-    <!-- Entrant Name -->
+    <!-- User Name -->
     <TextView
         android:id="@+id/entrantName"
         android:layout_width="wrap_content"
@@ -14,7 +14,7 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <!-- Entrant Email -->
+    <!-- User Email -->
     <TextView
         android:id="@+id/entrantEmail"
         android:layout_width="wrap_content"

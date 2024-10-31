@@ -6,9 +6,9 @@ import java.util.Collections;
 
 public class Event {
     private String eventId;
-    private ArrayList<Entrant> waitingList;
-    private ArrayList<Entrant> selected;
-    private ArrayList<Entrant> registrants;
+    private ArrayList<User> waitingList;
+    private ArrayList<User> selected;
+    private ArrayList<User> registrants;
     private String eventImage;
     private String QRCodeURL;
     private int numParticipants;
@@ -27,29 +27,29 @@ public class Event {
         return eventId;
     }
 
-    public ArrayList<Entrant> getWaitingList() {
+    public ArrayList<User> getWaitingList() {
         return waitingList;
     }
 
-    public ArrayList<Entrant> getSelected() {
+    public ArrayList<User> getSelected() {
         return selected;
     }
 
     // Get numParticipants number of selected from waiting list
-    public ArrayList<Entrant> drawLottery() {
+    public ArrayList<User> drawLottery() {
         Collections.shuffle(waitingList);
 
         int numToSelect = Math.min(numParticipants, waitingList.size());
 
-        ArrayList<Entrant> drawEntrants = new ArrayList<>(waitingList.subList(0, numToSelect));
+        ArrayList<User> drawUsers = new ArrayList<>(waitingList.subList(0, numToSelect));
 
-        selected.addAll(drawEntrants);
+        selected.addAll(drawUsers);
 
-        waitingList.removeAll(drawEntrants);
+        waitingList.removeAll(drawUsers);
 
-        return drawEntrants;
+        return drawUsers;
     }
-    public ArrayList<Entrant> getRegistrants() {
+    public ArrayList<User> getRegistrants() {
         return registrants;
     }
     public int getNumParticipants() {
@@ -59,9 +59,9 @@ public class Event {
         return QRCodeURL;
     }
 
-    public void sendNotifications(String message, ArrayList<Entrant> recipients){
+    public void sendNotifications(String message, ArrayList<User> recipients){
         // Send notifications to recipients
-        for (Entrant recipient : recipients) {
+        for (User recipient : recipients) {
             if (recipient.wantsNotifs()){
             recipient.sendNotification(message);}
         }

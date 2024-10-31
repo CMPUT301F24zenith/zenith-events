@@ -1,8 +1,12 @@
 package com.example.zenithevents.Objects;
 
+import java.util.ArrayList;
+
 public class Facility {
     private String facilityName;
     private String address;
+    private String ownerID;
+    private ArrayList<Event> events;
 
 
     public Facility(String facilityName, String address) {

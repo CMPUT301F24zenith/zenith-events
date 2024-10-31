@@ -12,10 +12,10 @@
         android:id="@+id/waitingListButton"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
         android:layout_marginTop="568dp"
         android:background="@drawable/square_button"
         android:text="Waiting List"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,10 +23,10 @@
         android:id="@+id/entrantButton"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
         android:layout_marginTop="92dp"
         android:background="@drawable/square_button"
         android:text="Entrant"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,10 +34,10 @@
         android:id="@+id/organizerButton"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
         android:layout_marginTop="52dp"
         android:background="@drawable/square_button"
         android:text="Organizer"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/entrantButton" />
 
@@ -45,10 +45,10 @@
         android:id="@+id/adminButton"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
         android:layout_marginTop="52dp"
         android:background="@drawable/square_button"
         android:text="Admin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/organizerButton" />
 
@@ -56,44 +56,25 @@
         android:id="@+id/createEventButton"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
         android:layout_marginTop="52dp"
         android:background="@drawable/square_button"
         android:text="Create Event"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/adminButton" />
 
     <Button
-        android:id="@+id/logInButton"
+        android:id="@+id/createAProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="52dp"
-        android:text="Log In"
-        app:layout_constraintEnd_toStartOf="@+id/signUpButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createEventButton" />
+        android:background="@drawable/square_button"
+        android:text="Create A Profile"
 
-    <Button
-        android:id="@+id/signUpButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="76dp"
-        android:text="Sign Up"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/logInButton" />
 
-    <Button
-        android:id="@+id/logOutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Log out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createEventButton"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/waitingListButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
