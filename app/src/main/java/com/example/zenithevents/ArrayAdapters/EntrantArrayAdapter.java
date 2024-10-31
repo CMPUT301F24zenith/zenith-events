@@ -7,19 +7,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.zenithevents.Objects.Entrant;
+import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
 
 import java.util.List;
 
-public class EntrantArrayAdapter extends ArrayAdapter<Entrant> {
-    public EntrantArrayAdapter(Context context, List<Entrant> entrants) {
-        super(context, 0, entrants);
+public class EntrantArrayAdapter extends ArrayAdapter<User> {
+    public EntrantArrayAdapter(Context context, List<User> users) {
+        super(context, 0, users);
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        Entrant entrant = getItem(position);
+        User user = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
@@ -33,10 +33,10 @@ public class EntrantArrayAdapter extends ArrayAdapter<Entrant> {
         TextView profileImageView = convertView.findViewById(R.id.profileImage);
 
         // Populate the data into the template view using the data object
-        nameView.setText(entrant.getEntrantFirstName() + " " + entrant.getEntrantLastName());
-        emailView.setText(entrant.getEmail());
-        phoneNumberView.setText(entrant.getPhoneNumber());
-        profileImageView.setText(entrant.getProfileImageURL());
+        nameView.setText(user.getFirstName() + " " + user.getLastName());
+        emailView.setText(user.getEmail());
+        phoneNumberView.setText(user.getPhoneNumber());
+        profileImageView.setText(user.getProfileImageURL());
 
         // Return the completed view to render on screen
         return convertView;

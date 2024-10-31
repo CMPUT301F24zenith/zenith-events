@@ -7,15 +7,21 @@
     android:gravity="center"
     android:padding="16dp">
 
- <Button
-     android:id="@+id/back_button"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:text="Back"
-     android:layout_marginBottom="16dp"
-     android:padding="10dp"
-     android:layout_gravity="left"
-     />
+    <Button
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:layout_marginBottom="16dp"
+        android:padding="10dp"
+        android:layout_gravity="left"
+        />
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+      android:text="Create Your Profile"
+      android:textSize="24sp"/>
 
 
     <EditText
@@ -47,29 +53,14 @@
         android:hint="Email *"
         android:inputType="textEmailAddress"/>
 
-    <EditText
-        android:id="@+id/etEntrantPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password *"
 
-        android:inputType="textPassword"/>
 
     <Button
-        android:id="@+id/btnEntrantSignUp"
+        android:id="@+id/btnEntrantConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign Up"/>
+        android:text="Confirm"/>
 
-    <TextView
-        android:id="@+id/tvAlreadyHaveAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Already have an account? Log in here."
-        android:layout_marginTop="20dp"
-        android:padding="10dp"
-        android:layout_gravity="center"
-        android:textColor="@color/red"
-        />
+
 
 </LinearLayout>

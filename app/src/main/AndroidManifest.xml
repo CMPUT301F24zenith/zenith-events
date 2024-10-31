@@ -13,16 +13,16 @@
         android:theme="@style/Theme.ZenithEvents"
         tools:targetApi="31">
         <activity
-            android:name=".LogInSignUP.OrganizerSignUpActivity"
+            android:name=".CreatProfile.OrganizerSignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".LogInSignUP.SignUpOption"
+            android:name=".CreatProfile.SignUpOption"
             android:exported="false" />
         <activity
-            android:name=".LogInSignUP.EntrantSignUpActivity"
+            android:name=".CreatProfile.CreateProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".LogInSignUP.LogInActivity"
+            android:name=".CreatProfile.LogInActivity"
             android:exported="false" />
         <activity
             android:name=".WaitingListPackage.WaitingList" />
