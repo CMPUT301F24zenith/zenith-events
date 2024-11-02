@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.zenithevents.CreatProfile.CreateProfileActivity;
+import com.example.zenithevents.User.UserPage;
 import com.example.zenithevents.WaitingListPackage.WaitingList;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonCreateEventEvent;
     Button waitingListButton;
     Button createAProfile;
+    Button viewProfileButton;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         buttonCreateEventEvent = findViewById(R.id.createEventButton);
         waitingListButton = findViewById(R.id.waitingListButton);
         createAProfile = findViewById(R.id.createAProfile);
+        viewProfileButton = findViewById(R.id.viewProfileButton);
 
 
 
@@ -43,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, CreateProfileActivity.class);
             startActivity(intent);
         });
+        viewProfileButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, UserPage.class);
+            startActivity(intent);
+        });
+
 
 
 

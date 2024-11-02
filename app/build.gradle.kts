@@ -35,6 +35,7 @@ android {
 dependencies {
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.firebase.storage)
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("jp.wasabeef:glide-transformations:4.3.0")
     implementation(platform("com.google.firebase:firebase-bom:33.4.0"))

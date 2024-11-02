@@ -69,8 +69,17 @@
         android:layout_height="wrap_content"
         android:background="@drawable/square_button"
         android:text="Create A Profile"
+        app:layout_constraintBottom_toTopOf="@+id/waitingListButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createEventButton" />
 
-
+    <Button
+        android:id="@+id/viewProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/square_button"
+        android:text="View Profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

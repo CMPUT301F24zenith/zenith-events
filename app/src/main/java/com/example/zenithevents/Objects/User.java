@@ -15,6 +15,8 @@ public class User {
     private Boolean isAdmin;
     private String myFacility;
 
+    // No-argument constructor required for Firestore
+    public User() {}
     public User(String deviceID, String firstName, String lastName, String email, String phoneNumber) {
         this.deviceID = deviceID;
         this.firstName = firstName;
