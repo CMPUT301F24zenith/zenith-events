@@ -22,6 +22,8 @@
         <activity
             android:name=".WaitingListPackage.WaitingList" />
         <activity
+            android:name=".QRCodes.QRScannerActivity"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
