@@ -36,26 +36,21 @@ public class QRScannerActivity extends AppCompatActivity {
         barcodeView = findViewById(R.id.barcodeView);
         capture = new CaptureManager(this, barcodeView);
 
-        // Set the callback for scanning
+
         barcodeView.decodeContinuous(new BarcodeCallback() {
             @Override
             public void barcodeResult(BarcodeResult result) {
-                // Handle the scanned QR code result
+
                 String qrCodeContent = result.getText();
                 Toast.makeText(QRScannerActivity.this, "Scanned: " + qrCodeContent, Toast.LENGTH_LONG).show();
                 capture.onPause();
-                // Optionally you could return the result to the previous activity
+
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("SCAN_RESULT", qrCodeContent);
                 setResult(RESULT_OK, resultIntent);
-                finish(); // Close the scanner activity
+                finish();
             }
 
-
-            // @Override
-            // public void possibleResultPoints(List<ResultPoint> resultPoints) {
-                // Handle possible result points if needed
-            // }
 
         });
     }
