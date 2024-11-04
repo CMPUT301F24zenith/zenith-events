@@ -29,16 +29,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/profileImage"
+            android:background="@drawable/circle_background"
             android:scaleType="centerCrop"
-            android:contentDescription="Profile Picture"/>
+            android:adjustViewBounds="true"
+            android:clipToOutline="true"
+            android:contentDescription="Profile Picture"
+            android:visibility="visible"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/initials"
             android:gravity="center"
-            android:text="AA"
+            android:text=""
             android:textColor="@android:color/white"
+            android:visibility="visible"
             android:textSize="35sp"/>
 
 
@@ -46,11 +51,7 @@
 
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnUpload"
-        android:text="Upload Picture"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
