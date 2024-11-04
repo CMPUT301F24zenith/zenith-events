@@ -1,7 +1,7 @@
 package com.example.zenithevents.HelperClasses;
 
-
 import android.content.Context;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.example.zenithevents.Objects.User;
@@ -29,11 +29,11 @@ public class UserUtils {
         void onUserFetchComplete(User user);
     }
 
-    // Method to check if the user exists in Firestore
-    public void checkUserExists(Context context, UserExistenceCallback callback) {
-        String deviceID = DeviceUtils.getDeviceID(context);
 
-        db.collection("users").document(deviceID).get()
+    public void checkUserExists(UserExistenceCallback callback) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("users").document(userId).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
@@ -44,30 +44,30 @@ public class UserUtils {
                 });
     }
 
-    // Method to create or update user profile in Firestore
-    public void createOrUpdateUserProfile(Context context, User user, UserExistenceCallback callback) {
-        String deviceID = DeviceUtils.getDeviceID(context);
 
-        db.collection("users").document(deviceID).set(user)
+    public void createOrUpdateUserProfile(User user, UserExistenceCallback callback) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("users").document(userId).set(user)
                 .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))
                 .addOnFailureListener(e -> callback.onUserCheckComplete(false));
     }
 
-    // Method to delete a user profile from Firestore
-    public void deleteUserProfile(Context context, UserExistenceCallback callback) {
-        String deviceID = DeviceUtils.getDeviceID(context);
 
-        db.collection("users").document(deviceID)
+    public void deleteUserProfile(UserExistenceCallback callback) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("users").document(userId)
                 .delete()
                 .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))  // Deleted successfully
                 .addOnFailureListener(e -> callback.onUserCheckComplete(false));   // Deletion failed
     }
 
-    // Method to fetch the user profile from Firestore
-    public void fetchUserProfile(Context context, UserFetchCallback callback) {
-        String deviceID = DeviceUtils.getDeviceID(context);
 
-        db.collection("users").document(deviceID).get()
+    public void fetchUserProfile(UserFetchCallback callback) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("users").document(userId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         User user = documentSnapshot.toObject(User.class);
@@ -79,21 +79,21 @@ public class UserUtils {
                 .addOnFailureListener(e -> callback.onUserFetchComplete(null));  // Fetch failed
     }
 
-    // Method to update specific fields in a user profile
-    public void updateUserField(Context context, String fieldName, Object value, UserExistenceCallback callback) {
-        String deviceID = DeviceUtils.getDeviceID(context);
 
-        db.collection("users").document(deviceID)
+    public void updateUserField(String fieldName, Object value, UserExistenceCallback callback) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("users").document(userId)
                 .update(fieldName, value)
                 .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))  // Update successful
                 .addOnFailureListener(e -> callback.onUserCheckComplete(false));    // Update failed
     }
 
-    // Method to check if the user has admin status
-    public void checkAdminStatus(Context context, UserExistenceCallback callback) {
-        String deviceID = DeviceUtils.getDeviceID(context);
 
-        db.collection("users").document(deviceID).get()
+    public void checkAdminStatus(UserExistenceCallback callback) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("users").document(userId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
@@ -105,7 +105,7 @@ public class UserUtils {
                 .addOnFailureListener(e -> callback.onUserCheckComplete(false));
     }
 
-    // Helper method to convert a User object to a Map for Firestore
+
     public static Map<String, Object> convertUserToMap(User user) {
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("deviceID", user.getDeviceID());
@@ -120,5 +120,14 @@ public class UserUtils {
         userMap.put("myFacility", user.getMyFacility());
         return userMap;
     }
-}
 
+
+    public void updateUserFields(Map<String, Object> fieldsToUpdate, UserExistenceCallback callback) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("users").document(userId)
+                .update(fieldsToUpdate)
+                .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))  // Update successful
+                .addOnFailureListener(e -> callback.onUserCheckComplete(false));    // Update failed
+    }
+}
