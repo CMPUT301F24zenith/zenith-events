@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,19 +17,12 @@
         android:theme="@style/Theme.ZenithEvents"
         tools:targetApi="31">
         <activity
-            android:name=".CreatProfile.OrganizerSignUpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CreatProfile.SignUpOption"
-            android:exported="false" />
-        <activity
             android:name=".CreatProfile.CreateProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".CreatProfile.LogInActivity"
-            android:exported="false" />
-        <activity
             android:name=".WaitingListPackage.WaitingList" />
+        <activity
+            android:name=".QRCodes.QRScannerActivity"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

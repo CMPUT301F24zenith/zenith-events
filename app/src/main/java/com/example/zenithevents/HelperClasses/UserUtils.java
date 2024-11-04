@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Utility class for user-related operations.
  */
-public class UserUtils {git s
+public class UserUtils {
 
     private FirebaseFirestore db;
 
