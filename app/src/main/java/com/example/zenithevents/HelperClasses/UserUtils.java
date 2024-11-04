@@ -114,14 +114,14 @@ public class UserUtils {
         db.collection("users").document(deviceID).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        List<String> entrantEvents = (List<String>) documentSnapshot.get("entrantEvents");
-                        if (entrantEvents == null)
-                            entrantEvents = new ArrayList<>();
+                        List<String> waitingEvents = (List<String>) documentSnapshot.get("waitingEvents");
+                        if (waitingEvents == null)
+                            waitingEvents = new ArrayList<>();
 
-                        if (!entrantEvents.contains(eventId)) {
-                            entrantEvents.add(eventId);
+                        if (!waitingEvents.contains(eventId)) {
+                            waitingEvents.add(eventId);
                             db.collection("users").document(deviceID)
-                                    .update("entrantEvents", entrantEvents)
+                                    .update("waitingEvents", waitingEvents)
                                     .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))
                                     .addOnFailureListener(e -> callback.onUserCheckComplete(false));
                         }  else {
@@ -131,7 +131,8 @@ public class UserUtils {
                         Map<String, Object> newUser = new HashMap<>();
                         newUser.put("deviceID", deviceID);
                         newUser.put("email", "mmngf@ggg.com");
-                        newUser.put("entrantEvents", new ArrayList<>(List.of(eventId)));
+                        newUser.put("entrantEvents", null);
+                        newUser.put("waitingEvents", new ArrayList<>(List.of(eventId)));
                         newUser.put("firstName", "m");
                         newUser.put("lastName", "A");
                         newUser.put("myFacility", null);

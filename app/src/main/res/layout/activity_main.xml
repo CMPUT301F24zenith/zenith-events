@@ -87,11 +87,11 @@
         app:layout_constraintTop_toBottomOf="@+id/waitingListButton" />
 
     <Button
-        android:id="@+id/joinEvent"
+        android:id="@+id/applyEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/square_button"
-        android:text="Join event"
+        android:text="Apply for event"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

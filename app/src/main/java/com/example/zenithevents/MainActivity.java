@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     Button scanQRButton;
     Button waitingListButton;
     Button createAProfile;
-    Button joinEventButton;
+    Button applyEventButton;
 
     private UserUtils userUtils;
 
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         scanQRButton = findViewById(R.id.scanQRButton);
         waitingListButton = findViewById(R.id.waitingListButton);
         createAProfile = findViewById(R.id.createAProfile);
-        joinEventButton = findViewById(R.id.joinEvent);
+        applyEventButton = findViewById(R.id.applyEvent);
 
 
 
@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        joinEventButton.setOnClickListener(v -> {
-            String eventId = "e";
+        applyEventButton.setOnClickListener(v -> {
+            String eventId = "k";
             Context context = MainActivity.this;
 
             userUtils.addEvent(context, eventId, isSuccess -> {
