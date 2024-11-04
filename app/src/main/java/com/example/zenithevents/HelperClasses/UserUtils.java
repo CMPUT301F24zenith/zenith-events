@@ -5,7 +5,10 @@ import android.content.Context;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.example.zenithevents.Objects.User;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -105,6 +108,45 @@ public class UserUtils {
                 .addOnFailureListener(e -> callback.onUserCheckComplete(false));
     }
 
+    public void addEvent(Context context, String eventId, UserExistenceCallback callback) {
+        String deviceID = DeviceUtils.getDeviceID(context);
+
+        db.collection("users").document(deviceID).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        List<String> entrantEvents = (List<String>) documentSnapshot.get("entrantEvents");
+                        if (entrantEvents == null)
+                            entrantEvents = new ArrayList<>();
+
+                        if (!entrantEvents.contains(eventId)) {
+                            entrantEvents.add(eventId);
+                            db.collection("users").document(deviceID)
+                                    .update("entrantEvents", entrantEvents)
+                                    .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))
+                                    .addOnFailureListener(e -> callback.onUserCheckComplete(false));
+                        }  else {
+                            callback.onUserCheckComplete(true);
+                        }
+                    } else {
+                        Map<String, Object> newUser = new HashMap<>();
+                        newUser.put("deviceID", deviceID);
+                        newUser.put("email", "mmngf@ggg.com");
+                        newUser.put("entrantEvents", new ArrayList<>(List.of(eventId)));
+                        newUser.put("firstName", "m");
+                        newUser.put("lastName", "A");
+                        newUser.put("myFacility", null);
+                        newUser.put("phoneNumber", "1258");
+                        newUser.put("profileImageURL", null);
+
+                        db.collection("users").document(deviceID)
+                                .set(newUser)
+                                .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))
+                                .addOnFailureListener(e -> callback.onUserCheckComplete(false));
+                    }
+                })
+                .addOnFailureListener(e -> callback.onUserCheckComplete(false));
+    }
+
     // Helper method to convert a User object to a Map for Firestore
     public static Map<String, Object> convertUserToMap(User user) {
         Map<String, Object> userMap = new HashMap<>();
@@ -121,4 +163,3 @@ public class UserUtils {
         return userMap;
     }
 }
-
