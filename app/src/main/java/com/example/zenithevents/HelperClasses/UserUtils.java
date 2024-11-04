@@ -125,7 +125,11 @@ public class UserUtils {
                                     .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))
                                     .addOnFailureListener(e -> callback.onUserCheckComplete(false));
                         }  else {
-                            callback.onUserCheckComplete(true);
+                            waitingEvents.remove(eventId);
+                            db.collection("users").document(deviceID)
+                                    .update("waitingEvents", waitingEvents)
+                                    .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))
+                                    .addOnFailureListener(e -> callback.onUserCheckComplete(false));
                         }
                     } else {
                         Map<String, Object> newUser = new HashMap<>();
