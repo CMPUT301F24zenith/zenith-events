@@ -6,42 +6,46 @@ import java.util.Collections;
 
 public class Event {
     private String eventId;
-    private ArrayList<User> waitingList;
-    private ArrayList<User> selected;
-    private ArrayList<User> registrants;
-    private String eventImage;
+    private ArrayList<String> waitingList;
+    private ArrayList<String> selected;
+    private ArrayList<String> registrants;
+    private String ImageUrl;
     private String QRCodeURL;
     private int numParticipants;
+    private String eventTitle;
+    private String ownerFacility;
 
-    public Event(String eventId, String eventImage, String QRCodeURL, int numParticipants){
+
+    public Event(String eventTitle, String eventId, String ImageUrl, int numParticipants) {
+        this.eventTitle = eventTitle;
         this.eventId = eventId;
-        this.waitingList = new ArrayList<>();
-        this.selected = new ArrayList<>();
-        this.registrants = new ArrayList<>();
-        this.eventImage = eventImage;
-        this.QRCodeURL = QRCodeURL;
+        this.ImageUrl = ImageUrl;
         this.numParticipants = numParticipants;
+    }
+
+    public Event() {
+
     }
 
     public String getEventId() {
         return eventId;
     }
 
-    public ArrayList<User> getWaitingList() {
+    public ArrayList<String> getWaitingList() {
         return waitingList;
     }
 
-    public ArrayList<User> getSelected() {
+    public ArrayList<String> getSelected() {
         return selected;
     }
 
     // Get numParticipants number of selected from waiting list
-    public ArrayList<User> drawLottery() {
+    public ArrayList<String> drawLottery() {
         Collections.shuffle(waitingList);
 
         int numToSelect = Math.min(numParticipants, waitingList.size());
 
-        ArrayList<User> drawUsers = new ArrayList<>(waitingList.subList(0, numToSelect));
+        ArrayList<String> drawUsers = new ArrayList<>(waitingList.subList(0, numToSelect));
 
         selected.addAll(drawUsers);
 
@@ -49,7 +53,7 @@ public class Event {
 
         return drawUsers;
     }
-    public ArrayList<User> getRegistrants() {
+    public ArrayList<String> getRegistrants() {
         return registrants;
     }
     public int getNumParticipants() {
@@ -66,7 +70,41 @@ public class Event {
             recipient.sendNotification(message);}
         }
     }
-    public String getEventImage() {
-        return eventImage;
+    public String getImageUrl() {
+        return ImageUrl;
+    }
+
+    public String getEventTitle() {
+        return eventTitle;
+    }
+    public void setQRCodeURL(String QRCodeURL) {
+        this.QRCodeURL = QRCodeURL;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.ImageUrl = imageUrl;
+    }
+    public void setNumParticipants(int numParticipants) {
+        this.numParticipants = numParticipants;
+        }
+    public void setEventTitle(String eventTitle) {
+        this.eventTitle = eventTitle;
+    }
+    public void setWaitingList(ArrayList<String> waitingList) {
+        this.waitingList = waitingList;
+    }
+    public void setSelected(ArrayList<String> selected) {
+        this.selected = selected;
+        }
+    public void setRegistrants(ArrayList<String> registrants) {
+        this.registrants = registrants;
+    }
+    public void setOwnerFacility(String ownerFacility) {
+        this.ownerFacility = ownerFacility;
+    }
+    public String getOwnerFacility() {
+        return ownerFacility;
+    }
+
+    public void setEventId(String documentId) {
     }
 }
