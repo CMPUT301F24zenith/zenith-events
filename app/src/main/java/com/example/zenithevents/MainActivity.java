@@ -44,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            createAProfile.setEnabled(false);
+            createAProfile.setEnabled(true);
         } else {
-            viewProfileButton.setEnabled(false);
+            viewProfileButton.setEnabled(true);
         }
 
 
