@@ -1,13 +1,16 @@
 package com.example.zenithevents;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.zenithevents.CreatProfile.CreateProfileActivity;
+import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.QRCodes.QRScannerActivity;
 import com.example.zenithevents.User.UserPage;
 import com.example.zenithevents.WaitingListPackage.WaitingList;
@@ -22,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     Button scanQRButton;
     Button waitingListButton;
     Button createAProfile;
+    Button applyEventButton;
+
+    private UserUtils userUtils;
 
     Button viewProfileButton;
     private FirebaseAuth mAuth;
@@ -29,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        userUtils = new UserUtils();
         mAuth = FirebaseAuth.getInstance();
 
         buttonEntrant = findViewById(R.id.entrantButton);
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         waitingListButton = findViewById(R.id.waitingListButton);
         createAProfile = findViewById(R.id.createAProfile);
         viewProfileButton = findViewById(R.id.viewProfileButton);
+        applyEventButton = findViewById(R.id.applyEvent);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -68,18 +74,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        applyEventButton.setOnClickListener(v -> {
+            String eventId = "k";
+            Context context = MainActivity.this;
 
+            userUtils.addEvent(context, eventId, isSuccess -> {
+                if (isSuccess) {
+                    Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-

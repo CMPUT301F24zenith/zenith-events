@@ -5,7 +5,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.example.zenithevents.Objects.User;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -105,7 +108,51 @@ public class UserUtils {
                 .addOnFailureListener(e -> callback.onUserCheckComplete(false));
     }
 
+    public void addEvent(Context context, String eventId, UserExistenceCallback callback) {
+        String deviceID = DeviceUtils.getDeviceID(context);
 
+        db.collection("users").document(deviceID).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        List<String> waitingEvents = (List<String>) documentSnapshot.get("waitingEvents");
+                        if (waitingEvents == null)
+                            waitingEvents = new ArrayList<>();
+
+                        if (!waitingEvents.contains(eventId)) {
+                            waitingEvents.add(eventId);
+                            db.collection("users").document(deviceID)
+                                    .update("waitingEvents", waitingEvents)
+                                    .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))
+                                    .addOnFailureListener(e -> callback.onUserCheckComplete(false));
+                        }  else {
+                            waitingEvents.remove(eventId);
+                            db.collection("users").document(deviceID)
+                                    .update("waitingEvents", waitingEvents)
+                                    .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))
+                                    .addOnFailureListener(e -> callback.onUserCheckComplete(false));
+                        }
+                    } else {
+                        Map<String, Object> newUser = new HashMap<>();
+                        newUser.put("deviceID", deviceID);
+                        newUser.put("email", "mmngf@ggg.com");
+                        newUser.put("entrantEvents", null);
+                        newUser.put("waitingEvents", new ArrayList<>(List.of(eventId)));
+                        newUser.put("firstName", "m");
+                        newUser.put("lastName", "A");
+                        newUser.put("myFacility", null);
+                        newUser.put("phoneNumber", "1258");
+                        newUser.put("profileImageURL", null);
+
+                        db.collection("users").document(deviceID)
+                                .set(newUser)
+                                .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))
+                                .addOnFailureListener(e -> callback.onUserCheckComplete(false));
+                    }
+                })
+                .addOnFailureListener(e -> callback.onUserCheckComplete(false));
+    }
+
+    // Helper method to convert a User object to a Map for Firestore
     public static Map<String, Object> convertUserToMap(User user) {
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("deviceID", user.getDeviceID());
@@ -120,7 +167,6 @@ public class UserUtils {
         userMap.put("myFacility", user.getMyFacility());
         return userMap;
     }
-
 
     public void updateUserFields(Map<String, Object> fieldsToUpdate, UserExistenceCallback callback) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
