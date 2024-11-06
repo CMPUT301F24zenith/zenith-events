@@ -1,114 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     tools:context=".MainActivity"
     >
 
-    <Button
-        android:id="@+id/waitingListButton"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="568dp"
-        android:background="@drawable/square_button"
-        android:text="Waiting List"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
         android:id="@+id/entrantButton"
-        android:layout_width="130dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
         android:background="@drawable/square_button"
-        android:text="Entrant"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginBottom="10dp"
+        android:text="Entrant" />
 
     <Button
         android:id="@+id/organizerButton"
-        android:layout_width="130dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
         android:background="@drawable/square_button"
-        android:text="Organizer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/entrantButton" />
+        android:layout_marginBottom="10dp"
+        android:text="Organizer" />
 
     <Button
         android:id="@+id/adminButton"
-        android:layout_width="130dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
         android:background="@drawable/square_button"
-        android:text="Admin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/organizerButton" />
+        android:layout_marginBottom="10dp"
+        android:text="Admin" />
+
+    <Button
+        android:id="@+id/waitingListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/square_button"
+        android:layout_marginBottom="10dp"
+        android:text="Waiting List" />
 
     <Button
         android:id="@+id/createEventButton"
-        android:layout_width="130dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:background="@drawable/square_button"
-        android:text="Create Event"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adminButton" />
+        android:layout_marginBottom="10dp"
+        android:text="Create Event" />
 
     <Button
         android:id="@+id/scanQRButton"
-        android:layout_width="130dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
         android:background="@drawable/square_button"
+        android:layout_marginBottom="10dp"
         android:text="Scan QR Code"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createEventButton" />
+/>
 
     <Button
         android:id="@+id/createAProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:background="@drawable/square_button"
+        android:layout_marginBottom="10dp"
         android:text="Create A Profile"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/waitingListButton" />
+ />
 
     <Button
         android:id="@+id/applyEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/square_button"
-        android:text="Apply for event"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createEventButton" />
+        android:layout_marginBottom="10dp"
+        android:text="Apply for event" />
 
     <Button
         android:id="@+id/viewProfileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/square_button"
+        android:layout_marginBottom="10dp"
         android:text="View Profile"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/waitingListButton" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        />
+</LinearLayout>

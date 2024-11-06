@@ -10,6 +10,7 @@ activity = "1.9.3"
 constraintlayout = "2.1.4"
 firebaseAuth = "23.1.0"
 firebaseStorage = "21.0.1"
+kotlin = "1.9.0"
 
 [libraries]
 firebase-storage-v2021 = { module = "com.google.firebase:firebase-storage", version.ref = "firebaseStorageVersion" }
@@ -25,4 +26,5 @@ firebase-storage = { group = "com.google.firebase", name = "firebase-storage", v
 
 [plugins]
 android-application = { id = "com.android.application", version = "8.6.0" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
