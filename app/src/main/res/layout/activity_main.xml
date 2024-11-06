@@ -86,4 +86,14 @@
         android:layout_marginBottom="10dp"
         android:text="View Profile"
         />
+
+    <Button
+        android:id="@+id/testEventView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/square_button"
+        android:layout_marginBottom="10dp"
+        android:text="test event view"
+        />
+
 </LinearLayout>
