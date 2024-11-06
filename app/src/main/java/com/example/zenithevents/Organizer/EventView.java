@@ -13,18 +13,24 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 public class EventView extends AppCompatActivity {
-    // create a TAG
+
     private static final String TAG = "EventView";
+
+
     ImageView eventPosterimageView;
-    Button btnJoinWaitingList, btnLeaveWaitingList;
-    TextView QRCodeRequiredText, eventName, facilityName, address;
-    ProgressBar progressBar;
-    EventUtils eventUtils = new EventUtils();
+    private Button btnJoinWaitingList, btnLeaveWaitingList;
+    private TextView QRCodeRequiredText, eventName, facilityName, address;
+    private ProgressBar progressBar;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ListenerRegistration eventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +45,13 @@ public class EventView extends AppCompatActivity {
         // Retrieve the event ID from the Intent
         String eventId = getIntent().getStringExtra("event_id");
 
+        initializeViews();
+        setupRealTimeEventListener(eventId);
 
+    }
+
+
+    private void initializeViews() {
         eventPosterimageView = findViewById(R.id.eventImage);
         btnJoinWaitingList = findViewById(R.id.btnJoinWaitingList);
         btnLeaveWaitingList = findViewById(R.id.btnLeaveWaitingList);
@@ -48,23 +60,9 @@ public class EventView extends AppCompatActivity {
         address = findViewById(R.id.address);
         progressBar = findViewById(R.id.progressBar);
         eventName = findViewById(R.id.eventName);
-
-        eventUtils.fetchEventById(eventId, new EventUtils.EventFetchCallback() {
-            public void onEventFetchComplete(Event event) {
-                if (event != null) {
-                    String title = event.getTitle();
-                    String imageUrl = event.getImageUrl();
-                    String facility = event.getOwnerFacility();
-                    //TODO get facility address from database
-
-
-                }
-            }
-        });
-
     }
 
-    private void fetchAndDisplayEventDetails(String eventId) {
+    private void setupRealTimeEventListener(String eventId) {
         if (eventId == null) {
             Log.e(TAG, "Event ID not provided in the Intent.");
             return;
@@ -73,18 +71,58 @@ public class EventView extends AppCompatActivity {
         // Show progress bar while loading
         progressBar.setVisibility(ProgressBar.VISIBLE);
 
-        eventUtils.fetchEventById(eventId, new EventUtils.EventFetchCallback() {
-            @Override
-            public void onEventFetchComplete(Event event) {
-                if (event != null) {
-//                    dregenereisplayEventDetails(event);
-                } else {
-                    Log.e(TAG, "Event not found or an error occurred while fetching.");
-                }
+        // Set up the real-time listener for the event document
+        eventListener = db.collection("events").document(eventId)
+                .addSnapshotListener((documentSnapshot, e) -> {
+                    if (e != null) {
+                        Log.e(TAG, "Listen failed.", e);
+                        progressBar.setVisibility(ProgressBar.GONE);
+                        return;
+                    }
 
-                // Hide progress bar after loading
-                progressBar.setVisibility(ProgressBar.GONE);
-            }
-        });
+                    if (documentSnapshot != null && documentSnapshot.exists()) {
+                        // Convert document snapshot to Event object
+                        Event event = documentSnapshot.toObject(Event.class);
+                        if (event != null) {
+                            displayEventDetails(event);
+                        }
+                    } else {
+                        Log.e(TAG, "Event document does not exist.");
+                    }
+
+                    // Hide progress bar after loading
+                    progressBar.setVisibility(ProgressBar.GONE);
+                });
     }
+
+    private void displayEventDetails(Event event) {
+        // Set event details
+        eventName.setText(event.getEventTitle());
+        facilityName.setText(event.getOwnerFacility());
+        address.setText(event.getAddress());  // Display event address
+
+        // Load event image using Glide
+        loadImage(event.getImageUrl());
+    }
+
+    private void loadImage(String imageUrl) {
+        if (imageUrl != null) {
+            Glide.with(this)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.event_place_holder)
+                    .into(eventPosterimageView);
+        } else {
+            eventPosterimageView.setImageResource(R.drawable.event_place_holder);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (eventListener != null) {
+            eventListener.remove(); // Remove the listener to avoid memory leaks
+        }
+    }
+
+
 }
