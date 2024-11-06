@@ -108,7 +108,7 @@ public class UserUtils {
                 .addOnFailureListener(e -> callback.onUserCheckComplete(false));
     }
 
-    public void addEvent(Context context, String eventId, UserExistenceCallback callback) {
+    public void applyEvent(Context context, String eventId, UserExistenceCallback callback) {
         String deviceID = DeviceUtils.getDeviceID(context);
 
         db.collection("users").document(deviceID).get()

@@ -1,62 +1,121 @@
 package com.example.zenithevents.Objects;
 
 
+import android.util.Log;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Event {
-    private String eventId;
-    private ArrayList<User> waitingList;
-    private ArrayList<User> selected;
-    private ArrayList<User> registrants;
-    private String eventImage;
-    private String QRCodeURL;
-    private int numParticipants;
+public class Event implements Serializable {
+    private ArrayList<User> waitingList, selectedList, cancelledList, confirmedList;
+    private String deviceId, eventId, eventName, QRCodeURL, eventImage;
+    private int eventLimit;
 
-    public Event(String eventId, String eventImage, String QRCodeURL, int numParticipants){
-        this.eventId = eventId;
+    public Event(){
         this.waitingList = new ArrayList<>();
-        this.selected = new ArrayList<>();
-        this.registrants = new ArrayList<>();
+        this.selectedList = new ArrayList<>();
+        this.cancelledList = new ArrayList<>();
+        this.confirmedList = new ArrayList<>();
+
+        this.eventName = null;
+        this.eventImage = "https://image.benq.com/is/image/benqco/rd-m?$ResponsivePreset$";
+        this.QRCodeURL = null;
+
+        this.eventLimit = 0;
+    }
+
+    public Event(String eventName, String eventImage, String QRCodeURL, int eventLimit){
+        this.waitingList = new ArrayList<>();
+        this.selectedList = new ArrayList<>();
+        this.cancelledList = new ArrayList<>();
+        this.confirmedList = new ArrayList<>();
+
+        this.eventName = eventName;
         this.eventImage = eventImage;
         this.QRCodeURL = QRCodeURL;
-        this.numParticipants = numParticipants;
+
+        this.eventLimit = eventLimit;
+    }
+
+    public ArrayList<User> getWaitingList() {
+        return this.waitingList;
+    }
+
+    public ArrayList<User> getSelectedList() {
+        return this.selectedList;
+    }
+
+    public ArrayList<User> getCancelledList() {
+        return this.cancelledList;
+    }
+
+    public ArrayList<User> getConfirmedList() {
+        return this.confirmedList;
     }
 
     public String getEventId() {
         return eventId;
     }
 
-    public ArrayList<User> getWaitingList() {
-        return waitingList;
+    public String getEventName() {
+        return this.eventName;
     }
 
-    public ArrayList<User> getSelected() {
-        return selected;
+    public int getEventLimit() {
+        return this.eventLimit;
     }
 
-    // Get numParticipants number of selected from waiting list
-    public ArrayList<User> drawLottery() {
-        Collections.shuffle(waitingList);
-
-        int numToSelect = Math.min(numParticipants, waitingList.size());
-
-        ArrayList<User> drawUsers = new ArrayList<>(waitingList.subList(0, numToSelect));
-
-        selected.addAll(drawUsers);
-
-        waitingList.removeAll(drawUsers);
-
-        return drawUsers;
-    }
-    public ArrayList<User> getRegistrants() {
-        return registrants;
-    }
-    public int getNumParticipants() {
-        return numParticipants;
-    }
     public String getQRCodeURL() {
-        return QRCodeURL;
+        return this.QRCodeURL;
+    }
+
+    public String getEventImage() {
+        return this.eventImage;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    public void setWaitingList(ArrayList<User> waitingList) {
+        this.waitingList = waitingList;
+    }
+
+    public void setSelectedList(ArrayList<User> selectedList) {
+        this.selectedList = selectedList;
+    }
+
+    public void setCancelledList(ArrayList<User> cancelledList) {
+        this.cancelledList = cancelledList;
+    }
+
+    public void setConfirmedList(ArrayList<User> confirmedList) {
+        this.confirmedList = confirmedList;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public void setEventLimit(int eventLimit) {
+        this.eventLimit = eventLimit;
+    }
+
+    public void setQRCodeURL(String QRCodeURL) {
+        this.QRCodeURL = QRCodeURL;
+    }
+
+    public void setEventImage(String eventImage) {
+        this.eventImage = eventImage;
+    }
+
+    public ArrayList<User> drawLottery(ArrayList<User> waitingList, int sampleSize) {
+        Collections.shuffle(waitingList);
+        int sampleSizeUpdated = Math.min(sampleSize, waitingList.size());
+
+        ArrayList<User> selectedList = new ArrayList<>(waitingList.subList(0, sampleSizeUpdated));
+        return selectedList;
     }
 
     public void sendNotifications(String message, ArrayList<User> recipients){
@@ -66,7 +125,12 @@ public class Event {
             recipient.sendNotification(message);}
         }
     }
-    public String getEventImage() {
-        return eventImage;
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 }

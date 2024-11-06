@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.zenithevents.CreatProfile.CreateProfileActivity;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.QRCodes.QRScannerActivity;
+import com.example.zenithevents.User.OrganizerPage;
 import com.example.zenithevents.User.UserPage;
 import com.example.zenithevents.WaitingListPackage.WaitingList;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     Button buttonEntrant;
-    Button buttonOrganizer;
+    Button organizerButton;
     Button buttonAdmin;
     Button buttonCreateEventEvent;
     Button scanQRButton;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         buttonEntrant = findViewById(R.id.entrantButton);
-        buttonOrganizer = findViewById(R.id.organizerButton);
+        organizerButton = findViewById(R.id.organizerButton);
         buttonAdmin = findViewById(R.id.adminButton);
         buttonCreateEventEvent = findViewById(R.id.createEventButton);
         scanQRButton = findViewById(R.id.scanQRButton);
@@ -72,13 +73,17 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, UserPage.class);
             startActivity(intent);
         });
+        organizerButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, OrganizerPage.class);
+            startActivity(intent);
+        });
 
 
         applyEventButton.setOnClickListener(v -> {
             String eventId = "k";
             Context context = MainActivity.this;
 
-            userUtils.addEvent(context, eventId, isSuccess -> {
+            userUtils.applyEvent(context, eventId, isSuccess -> {
                 if (isSuccess) {
                     Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
                 } else {
