@@ -14,13 +14,16 @@ public class Event {
     private int numParticipants;
     private String eventTitle;
     private String ownerFacility;
+    private String eventAddress;
 
 
-    public Event(String eventTitle, String eventId, String ImageUrl, int numParticipants) {
+    public Event(String eventTitle, String eventId, String eventAddress,String ImageUrl, int numParticipants) {
         this.eventTitle = eventTitle;
         this.eventId = eventId;
         this.ImageUrl = ImageUrl;
         this.numParticipants = numParticipants;
+        this.eventAddress = eventAddress;
+
     }
 
     public Event() {
@@ -106,5 +109,15 @@ public class Event {
     }
 
     public void setEventId(String documentId) {
+    }
+
+    public String getTitle() {
+        return eventTitle;
+    }
+    public String getAddress() {
+        return eventAddress;
+    }
+    public void setAddress(String address) {
+        this.eventAddress = address;
     }
 }
