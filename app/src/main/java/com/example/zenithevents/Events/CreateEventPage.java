@@ -23,8 +23,14 @@ import android.Manifest;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
 import com.example.zenithevents.User.OrganizerPage;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
+import java.util.UUID;
 
 public class CreateEventPage extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
@@ -35,7 +41,7 @@ public class CreateEventPage extends AppCompatActivity {
     EditText eventNameView, eventLimitView;
     Event event;
     ImageView eventPosterImage;
-    Uri uploadedPosterUrl;
+    Uri uploadedPosterUri;
     private EventUtils eventUtils;
 
     @Override
@@ -51,12 +57,13 @@ public class CreateEventPage extends AppCompatActivity {
 
         eventPosterImage = findViewById(R.id.eventPosterImage);
         uploadedPosterString = event.getEventImage();
-        uploadedPosterUrl = Uri.parse(uploadedPosterString);
-        if (event.getEventImage() != null) {
+        if (uploadedPosterString != null) {
+            uploadedPosterUri = Uri.parse(uploadedPosterString);
+            Log.d("FunctionCall", "uploading image");
             Glide.with(this)
                     .load(uploadedPosterString)
                     .into(eventPosterImage);
-            Log.d("FunctionCall", "" + uploadedPosterUrl);
+            Log.d("FunctionCall", "" + uploadedPosterUri);
         }
 
         eventName = event.getEventName();
@@ -90,6 +97,36 @@ public class CreateEventPage extends AppCompatActivity {
             if (!Objects.equals(eventLimit, "0") && !Objects.equals(eventName, "")) {
                 event.setEventName(eventName);
                 event.setEventLimit(Objects.equals(eventLimit, "") ? 0 : Integer.parseInt(eventLimit));
+
+                StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                StorageReference imageRef = storageRef.child("images/" + UUID.randomUUID().toString());
+
+                assert uploadedPosterUri != null;
+                try {
+                    InputStream inputStream = getContentResolver().openInputStream(uploadedPosterUri);
+                    Log.d("FunctionCall", "inputStream: " + inputStream);
+                    assert inputStream != null;
+
+                    imageRef.putStream(inputStream)
+                            .addOnSuccessListener(taskSnapshot -> {
+                                imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                        uploadedPosterString = uri.toString();
+                                        Log.d("FunctionCall", "uploadedPosterString: " + uploadedPosterString);
+                                        event.setEventImage(uploadedPosterString);
+                                    });
+                                }).addOnFailureListener(e -> {
+                                        Log.d("FunctionCall", "uploadedPosterUri: " + uploadedPosterUri);
+                                }).addOnCompleteListener(task -> {
+                                    try {
+                                        inputStream.close();
+                                    } catch (IOException e) {
+                                        Log.e("InputStream", "Failed to close InputStream", e);
+                                    }
+                                });
+
+                } catch (FileNotFoundException e) {
+                        Log.d("DEBUG", "File not found");
+                }
 
                 eventUtils.updateEvent(context, event, eventId -> {
                     if (eventId != null) {
@@ -125,12 +162,10 @@ public class CreateEventPage extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            uploadedPosterUrl = data.getData();
-            eventPosterImage.setImageURI(uploadedPosterUrl);
-            uploadedPosterString = String.valueOf(uploadedPosterUrl);
+            uploadedPosterUri = data.getData();
+            eventPosterImage.setImageURI(uploadedPosterUri);
         }
     }
-
     private void checkStoragePermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
                 != PackageManager.PERMISSION_GRANTED) {

@@ -19,7 +19,7 @@ public class Event implements Serializable {
         this.confirmedList = new ArrayList<>();
 
         this.eventName = null;
-        this.eventImage = "https://image.benq.com/is/image/benqco/rd-m?$ResponsivePreset$";
+        this.eventImage = null;
         this.QRCodeURL = null;
 
         this.eventLimit = 0;
