@@ -3,8 +3,11 @@ package com.example.zenithevents.Events;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +29,7 @@ import com.example.zenithevents.User.OrganizerPage;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,12 +62,8 @@ public class CreateEventPage extends AppCompatActivity {
         eventPosterImage = findViewById(R.id.eventPosterImage);
         uploadedPosterString = event.getEventImage();
         if (uploadedPosterString != null) {
-            uploadedPosterUri = Uri.parse(uploadedPosterString);
-            Log.d("FunctionCall", "uploading image");
-            Glide.with(this)
-                    .load(uploadedPosterString)
-                    .into(eventPosterImage);
-            Log.d("FunctionCall", "" + uploadedPosterUri);
+            Bitmap decodedImage = decodeBase64ToBitmap(uploadedPosterString);
+            Glide.with(this).load(decodedImage).into(eventPosterImage);
         }
 
         eventName = event.getEventName();
@@ -106,36 +106,21 @@ public class CreateEventPage extends AppCompatActivity {
                     InputStream inputStream = getContentResolver().openInputStream(uploadedPosterUri);
                     Log.d("FunctionCall", "inputStream: " + inputStream);
                     assert inputStream != null;
+                    Bitmap image = BitmapFactory.decodeStream(inputStream);
+                    uploadedPosterString = encodeBitmapToBase64(image);
+                    event.setEventImage(uploadedPosterString);
 
-                    imageRef.putStream(inputStream)
-                            .addOnSuccessListener(taskSnapshot -> {
-                                imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                                        uploadedPosterString = uri.toString();
-                                        Log.d("FunctionCall", "uploadedPosterString: " + uploadedPosterString);
-                                        event.setEventImage(uploadedPosterString);
-                                    });
-                                }).addOnFailureListener(e -> {
-                                        Log.d("FunctionCall", "uploadedPosterUri: " + uploadedPosterUri);
-                                }).addOnCompleteListener(task -> {
-                                    try {
-                                        inputStream.close();
-                                    } catch (IOException e) {
-                                        Log.e("InputStream", "Failed to close InputStream", e);
-                                    }
-                                });
-
+                    eventUtils.updateEvent(context, event, eventId -> {
+                        if (eventId != null) {
+                            Toast.makeText(context, "Event was successfully published!", Toast.LENGTH_SHORT).show();
+                            event.setEventId(eventId);
+                        } else {
+                            Toast.makeText(context, "There was an error. Please try again!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } catch (FileNotFoundException e) {
-                        Log.d("DEBUG", "File not found");
+                    Log.d("DEBUG", "File not found");
                 }
-
-                eventUtils.updateEvent(context, event, eventId -> {
-                    if (eventId != null) {
-                        Toast.makeText(context, "Event was successfully published!", Toast.LENGTH_SHORT).show();
-                        event.setEventId(eventId);
-                    } else {
-                        Toast.makeText(context, "There was an error. Please try again!", Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
         });
 
@@ -185,5 +170,17 @@ public class CreateEventPage extends AppCompatActivity {
                 Toast.makeText(this, "Permission required", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private String encodeBitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        byte[] byteArray = outputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
+    private Bitmap decodeBase64ToBitmap(String base64Str) {
+        byte[] decodedBytes = Base64.decode(base64Str, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 }

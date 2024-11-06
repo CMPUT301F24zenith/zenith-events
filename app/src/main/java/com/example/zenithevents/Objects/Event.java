@@ -1,6 +1,7 @@
 package com.example.zenithevents.Objects;
 
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.io.Serializable;
