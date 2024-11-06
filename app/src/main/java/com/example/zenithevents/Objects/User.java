@@ -66,10 +66,10 @@ public class User {
         return myFacility;
     }
 
-    public void enterWaitingList(Event event) {
-        event.getWaitingList().add(this);
-        entrantEvents.add(event);
-    }
+//    public void enterWaitingList(Event event) { // TODO
+//        event.getWaitingList().add(this);
+//        entrantEvents.add(event);
+//    }
 
     public void leaveWaitingList(Event event) {
         event.getWaitingList().remove(this);

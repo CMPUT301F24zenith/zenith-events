@@ -9,42 +9,42 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Event implements Serializable {
-    private ArrayList<User> waitingList, selectedList, cancelledList, confirmedList;
-    private String deviceId, eventId, eventName, QRCodeURL, eventImage;
-    private int eventLimit;
+    private ArrayList<User> waitingList, selected, cancelledList, registrants;
+    private String ownerFacility, eventId, eventTitle, QRCodeURL, ImageUrl;
+    private int numParticipants;
 
     public Event(){
         this.waitingList = new ArrayList<>();
-        this.selectedList = new ArrayList<>();
+        this.selected = new ArrayList<>();
         this.cancelledList = new ArrayList<>();
-        this.confirmedList = new ArrayList<>();
+        this.registrants = new ArrayList<>();
 
-        this.eventName = null;
-        this.eventImage = null;
+        this.eventTitle = null;
+        this.ImageUrl = null;
         this.QRCodeURL = null;
 
-        this.eventLimit = 0;
+        this.numParticipants = 0;
     }
 
-    public Event(String eventName, String eventImage, String QRCodeURL, int eventLimit){
+    public Event(String eventTitle, String eventImage, String QRCodeURL, int numParticipants){
         this.waitingList = new ArrayList<>();
-        this.selectedList = new ArrayList<>();
+        this.selected = new ArrayList<>();
         this.cancelledList = new ArrayList<>();
-        this.confirmedList = new ArrayList<>();
+        this.registrants = new ArrayList<>();
 
-        this.eventName = eventName;
-        this.eventImage = eventImage;
+        this.eventTitle = eventTitle;
+        this.ImageUrl = eventImage;
         this.QRCodeURL = QRCodeURL;
 
-        this.eventLimit = eventLimit;
+        this.numParticipants = numParticipants;
     }
 
     public ArrayList<User> getWaitingList() {
         return this.waitingList;
     }
 
-    public ArrayList<User> getSelectedList() {
-        return this.selectedList;
+    public ArrayList<User> getSelected() {
+        return this.selected;
     }
 
     public ArrayList<User> getCancelledList() {
@@ -52,7 +52,7 @@ public class Event implements Serializable {
     }
 
     public ArrayList<User> getConfirmedList() {
-        return this.confirmedList;
+        return this.registrants;
     }
 
     public String getEventId() {
@@ -60,19 +60,19 @@ public class Event implements Serializable {
     }
 
     public String getEventName() {
-        return this.eventName;
+        return this.eventTitle;
     }
 
-    public int getEventLimit() {
-        return this.eventLimit;
+    public int getNumParticipants() {
+        return this.numParticipants;
     }
 
     public String getQRCodeURL() {
         return this.QRCodeURL;
     }
 
-    public String getEventImage() {
-        return this.eventImage;
+    public String getImageUrl() {
+        return this.ImageUrl;
     }
 
     public void setEventId(String eventId) {
@@ -83,32 +83,37 @@ public class Event implements Serializable {
         this.waitingList = waitingList;
     }
 
-    public void setSelectedList(ArrayList<User> selectedList) {
-        this.selectedList = selectedList;
+    public void setSelected(ArrayList<User> selected) {
+        this.selected = selected;
+    }
+
+    public void setRegistrants(ArrayList<User> registrants) {
+        this.registrants = registrants;
     }
 
     public void setCancelledList(ArrayList<User> cancelledList) {
         this.cancelledList = cancelledList;
     }
 
-    public void setConfirmedList(ArrayList<User> confirmedList) {
-        this.confirmedList = confirmedList;
+
+    public void getRegistrants(ArrayList<User> registrants) {
+        this.registrants = registrants;
     }
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
+    public void setEventName(String eventTitle) {
+        this.eventTitle = eventTitle;
     }
 
-    public void setEventLimit(int eventLimit) {
-        this.eventLimit = eventLimit;
+    public void setNumParticipants(int eventLimit) {
+        this.numParticipants = eventLimit;
     }
 
     public void setQRCodeURL(String QRCodeURL) {
         this.QRCodeURL = QRCodeURL;
     }
 
-    public void setEventImage(String eventImage) {
-        this.eventImage = eventImage;
+    public void setImageUrl(String eventImage) {
+        this.ImageUrl = eventImage;
     }
 
     public ArrayList<User> drawLottery(ArrayList<User> waitingList, int sampleSize) {
@@ -127,11 +132,11 @@ public class Event implements Serializable {
         }
     }
 
-    public String getDeviceId() {
-        return deviceId;
+    public String getOwnerFacility() {
+        return ownerFacility;
     }
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
+    public void setOwnerFacility(String ownerFacility) {
+        this.ownerFacility = ownerFacility;
     }
 }

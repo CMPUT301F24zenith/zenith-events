@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.zenithevents.CreatProfile.CreateProfileActivity;
+import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.QRCodes.QRScannerActivity;
 import com.example.zenithevents.User.OrganizerPage;
@@ -51,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            createAProfile.setEnabled(false);
+            createAProfile.setEnabled(true);
         } else {
-            viewProfileButton.setEnabled(false);
+            viewProfileButton.setEnabled(true);
         }
 
 
@@ -77,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, OrganizerPage.class);
             startActivity(intent);
         });
+
+        buttonEntrant.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, EntrantViewActivity.class);
+            startActivity(intent);
+
+            });
 
 
         applyEventButton.setOnClickListener(v -> {

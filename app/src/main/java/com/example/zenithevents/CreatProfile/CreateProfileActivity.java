@@ -31,7 +31,7 @@ public class CreateProfileActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private Button backButton, confirmButton;
     private EditText etEntrantFirstName, etEntrantLastName, etEntrantPhoneNumber, etEntrantEmail;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,10 +46,14 @@ public class CreateProfileActivity extends AppCompatActivity {
 
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
+
         if (currentUser == null) {
             signInAnonymously();
+            Toast.makeText(this, "ran signInAnonymously", Toast.LENGTH_SHORT).show();
         } else {
 
+            Toast.makeText(this, mAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
             Toast.makeText(this, "Anonymous user authenticated", Toast.LENGTH_SHORT).show();
         }
 
@@ -74,8 +78,7 @@ public class CreateProfileActivity extends AppCompatActivity {
 
         confirmButton.setOnClickListener(v -> {
             createProfile();
-            Intent intent = new Intent(CreateProfileActivity.this, MainActivity.class);
-            startActivity(intent);
+
         });
     }
 
