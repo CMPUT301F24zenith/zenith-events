@@ -87,6 +87,8 @@ public class CreateEventPage extends AppCompatActivity {
 
         createEventSaveButton = findViewById(R.id.createEventSaveButton);
         createEventSaveButton.setOnClickListener(v -> {
+            Log.d("FunctionCall", "createEventSaveButton");
+
             eventTitle = eventNameView.getText().toString();
             numParticipants = String.valueOf(eventLimitView.getText());
             eventLocation = eventLocationView.getText().toString();
@@ -104,6 +106,8 @@ public class CreateEventPage extends AppCompatActivity {
             }
 
             if (!Objects.equals(numParticipants, "0") && !Objects.equals(eventTitle, "")) {
+                Log.d("FunctionCall", "if1");
+
                 event.setEventTitle(eventTitle);
                 event.setNumParticipants(Objects.equals(numParticipants, "") ? 0 : Integer.parseInt(numParticipants));
                 event.setEventAddress(eventLocation);
@@ -122,34 +126,41 @@ public class CreateEventPage extends AppCompatActivity {
                         Log.d("DEBUG", "Image couldn't be processed");
                     }
                 }
+
+                Log.d("FunctionCall", "if2");
                 eventUtils.updateEvent(context, event, eventId -> {
                     if (eventId != null) {
-                        Toast.makeText(context, "Event was successfully published!", Toast.LENGTH_SHORT).show();
                         event.setEventId(eventId);
+                        Log.d("FunctionCall", "if2.5");
+
+                        Bitmap qrCodeBitmap = QRCodeUtils.generateQRCode(event.getEventId());
+                        String qrCodeBase64 = QRCodeUtils.encodeBitmapToBase64(qrCodeBitmap);
+                        String qrCodeHashed = QRCodeUtils.hashQRCodeData(qrCodeBase64);
+                        if (qrCodeHashed != null) {
+                            event.setQRCodeHash(qrCodeHashed);
+                        }
+                        Log.d("FunctionCall", "if3");
+
+
+                        eventUtils.updateEvent(context, event, eventId_ -> {
+                            if (eventId_ != null) {
+                                Log.d("Firestore", "QR code hash updated successfully.");
+                                Toast.makeText(this, "Event was successfully published!", Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(CreateEventPage.this, CreationSuccessActivity.class);
+                                intent.putExtra("Event", event);
+                                intent.putExtra("qr_code", qrCodeBase64);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(this, "There was an error updating the QR code. Please try again!", Toast.LENGTH_SHORT).show();
+                                Log.w("Firestore", "Failed to update QR code hash.");
+                            }
+                        });
                     } else {
                         Toast.makeText(context, "There was an error. Please try again!", Toast.LENGTH_SHORT).show();
+                        Log.d("FunctionCall", "if2.6");
                     }
                 });
-
-                Bitmap qrCodeBitmap = QRCodeUtils.generateQRCode(event.getEventId());
-                String qrCodeBase64 = QRCodeUtils.encodeBitmapToBase64(qrCodeBitmap);
-                String qrCodeHashed = QRCodeUtils.hashQRCodeData(qrCodeBase64);
-                if (qrCodeHashed != null) {
-                    event.setQRCodeHash(qrCodeHashed);
-                }
-
-                eventUtils.updateEventField(event.getEventId(), "QRCodeURL", qrCodeHashed, success -> {
-                    if (success) {
-                        Log.d("Firestore", "QR code hash updated successfully.");
-                    } else {
-                        Log.w("Firestore", "Failed to update QR code hash.");
-                    }
-                });
-
-                Intent intent = new Intent(CreateEventPage.this, CreationSuccessActivity.class);
-                intent.putExtra("Event", (Serializable) event);
-                intent.putExtra("qr_code", event);
-                startActivity(intent);
             }
         });
 

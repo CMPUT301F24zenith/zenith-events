@@ -14,11 +14,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
+import com.google.zxing.qrcode.encoder.QRCode;
 
 public class CreationSuccessActivity extends AppCompatActivity {
     private TextView eventNameText;
     private ImageView eventImageView, qrCodeView;
     private Button shareQRButton;
+    Event event;
+    Bitmap QRCode, eventImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +33,25 @@ public class CreationSuccessActivity extends AppCompatActivity {
         qrCodeView = findViewById(R.id.qrCodeView);
         shareQRButton = findViewById(R.id.shareQRButton);
 
-        Event event = (Event) getIntent().getSerializableExtra("Event");
-        eventNameText.setText(event.getEventTitle());
+        event = (Event) getIntent().getSerializableExtra("Event");
 
-        Bitmap eventImage = QRCodeUtils.decodeBase64ToBitmap(event.getImageUrl());
-        eventImageView.setImageBitmap(eventImage);
+        if (event != null) {
+            eventNameText.setText(event.getEventTitle());
 
-        Bitmap QRCode = QRCodeUtils.decodeBase64ToBitmap(getIntent().getStringExtra("qr_code"));
-        qrCodeView.setImageBitmap(QRCode);
+            if (event.getImageUrl() != null) {
+                eventImage = QRCodeUtils.decodeBase64ToBitmap(event.getImageUrl());
+                eventImageView.setImageBitmap(eventImage);
+            }
 
-        shareQRButton.setOnClickListener(v -> {
-            shareQRCode(QRCode);
-        });
+            if (getIntent().getStringExtra("qr_code") != null) {
+                QRCode = QRCodeUtils.decodeBase64ToBitmap(getIntent().getStringExtra("qr_code"));
+                qrCodeView.setImageBitmap(QRCode);
+            }
+
+            shareQRButton.setOnClickListener(v -> {
+                shareQRCode(QRCode);
+            });
+        }
     }
 
     private void shareQRCode(Bitmap qrCodeBitmap) {

@@ -113,7 +113,7 @@ public class Event implements Serializable {
     }
 
     public void setQRCodeHash(String QRCodeHash) {
-        this.QRCodeHash = this.QRCodeHash;
+        this.QRCodeHash = QRCodeHash;
     }
 
     public void setImageUrl(String eventImage) {
