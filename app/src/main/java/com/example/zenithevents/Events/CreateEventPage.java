@@ -140,6 +140,9 @@ public class CreateEventPage extends AppCompatActivity {
 
                         Bitmap qrCodeBitmap = QRCodeUtils.generateQRCode(event.getEventId());
                         String qrCodeBase64 = QRCodeUtils.encodeBitmapToBase64(qrCodeBitmap);
+                        if (qrCodeBase64 != null) {
+                            event.setQRCodeBitmap(qrCodeBase64);
+                        }
                         String qrCodeHashed = QRCodeUtils.hashQRCodeData(qrCodeBase64);
                         if (qrCodeHashed != null) {
                             event.setQRCodeHash(qrCodeHashed);
