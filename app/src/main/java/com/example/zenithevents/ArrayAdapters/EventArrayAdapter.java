@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Organizer.EventView;
 import com.example.zenithevents.R;
@@ -42,7 +43,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         String imgUrl = event.getImageUrl();
 
         if (imgUrl != null) {
-            Bitmap imgBitMap = event.decodeBase64ToBitmap(imgUrl);
+            Bitmap imgBitMap = QRCodeUtils.decodeBase64ToBitmap(imgUrl);
             Glide.with(this.getContext()).load(imgBitMap).into(eventImage);
         } else {
             eventImage.setImageResource(R.drawable.event_place_holder);
