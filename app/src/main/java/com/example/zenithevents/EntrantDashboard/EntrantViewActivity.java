@@ -26,7 +26,7 @@ public class EntrantViewActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_entrant_view);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activityEntrant), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -35,19 +35,20 @@ public class EntrantViewActivity extends AppCompatActivity {
         events = findViewById(R.id.btnEvents);
         myEvents = findViewById(R.id.btnMyEvents);
 
-        // Display the EventsFragment initially
-        loadFragment(new EventsFragment());
+        Bundle args = new Bundle();
+        args.putString("type", "entrant-waiting");
+        loadFragment(new EventsFragment(), args);
 
-        // Set up button clicks to load different fragments
-        events.setOnClickListener(v -> loadFragment(new EventsFragment()));
-//        myEvents.setOnClickListener(v -> loadFragment(new MyEventsFragment())); // TODO replace with MyEventsFragment
+        events.setOnClickListener(v -> loadFragment(new EventsFragment(), args));
     }
 
-    private void loadFragment(Fragment fragment) {
+    private void loadFragment(Fragment fragment, Bundle args) {
+        fragment.setArguments(args);
+
         // Replace the fragment in the fragmentContainer
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer, fragment); // Updated ID to fragmentContainer
+        fragmentTransaction.replace(R.id.fragmentContainer, fragment);
         fragmentTransaction.commit();
     }
 }
