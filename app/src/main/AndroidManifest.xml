@@ -49,9 +49,10 @@
             android:name=".User.UserPage"
             android:exported="false" />
         <activity android:name=".User.OrganizerPage" />
-        <activity
-            android:name=".Events.CreateEventPage"
-            android:exported="false" />
+
+        <activity android:name=".Events.CreateEventPage" android:exported="false"/>
+        <activity android:name=".Events.CreationSuccessActivity" />
+
         <activity android:name=".WaitingListPackage.WaitingList" />
         <activity android:name=".QRCodes.QRScannerActivity" />
         <activity

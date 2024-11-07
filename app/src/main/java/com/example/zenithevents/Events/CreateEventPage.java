@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import android.Manifest;
 import com.example.zenithevents.Objects.Event;
+import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.R;
 import com.example.zenithevents.User.OrganizerPage;
 import com.google.firebase.storage.FirebaseStorage;
@@ -32,6 +34,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -61,7 +64,7 @@ public class CreateEventPage extends AppCompatActivity {
         eventPosterImage = findViewById(R.id.eventPosterImage);
         uploadedPosterString = event.getImageUrl();
         if (uploadedPosterString != null) {
-            Bitmap decodedImage = decodeBase64ToBitmap(uploadedPosterString);
+            Bitmap decodedImage = QRCodeUtils.decodeBase64ToBitmap(uploadedPosterString);
             Glide.with(this).load(decodedImage).into(eventPosterImage);
         }
 
@@ -84,6 +87,8 @@ public class CreateEventPage extends AppCompatActivity {
 
         createEventSaveButton = findViewById(R.id.createEventSaveButton);
         createEventSaveButton.setOnClickListener(v -> {
+            Log.d("FunctionCall", "createEventSaveButton");
+
             eventTitle = eventNameView.getText().toString();
             numParticipants = String.valueOf(eventLimitView.getText());
             eventLocation = eventLocationView.getText().toString();
@@ -101,6 +106,8 @@ public class CreateEventPage extends AppCompatActivity {
             }
 
             if (!Objects.equals(numParticipants, "0") && !Objects.equals(eventTitle, "")) {
+                Log.d("FunctionCall", "if1");
+
                 event.setEventTitle(eventTitle);
                 event.setNumParticipants(Objects.equals(numParticipants, "") ? 0 : Integer.parseInt(numParticipants));
                 event.setEventAddress(eventLocation);
@@ -113,21 +120,46 @@ public class CreateEventPage extends AppCompatActivity {
                         InputStream inputStream = getContentResolver().openInputStream(uploadedPosterUri);
                         Log.d("FunctionCall", "inputStream: " + inputStream);
                         Bitmap image = BitmapFactory.decodeStream(inputStream);
-                        uploadedPosterString = encodeBitmapToBase64(image);
+                        uploadedPosterString = QRCodeUtils.encodeBitmapToBase64(image);
                         event.setImageUrl(uploadedPosterString);
                     } catch (FileNotFoundException e) {
                         Log.d("DEBUG", "Image couldn't be processed");
                     }
                 }
+
+                Log.d("FunctionCall", "if2");
                 eventUtils.updateEvent(context, event, eventId -> {
                     if (eventId != null) {
-                        Toast.makeText(context, "Event was successfully published!", Toast.LENGTH_SHORT).show();
                         event.setEventId(eventId);
+                        Log.d("FunctionCall", "if2.5");
+
+                        Bitmap qrCodeBitmap = QRCodeUtils.generateQRCode(event.getEventId());
+                        String qrCodeBase64 = QRCodeUtils.encodeBitmapToBase64(qrCodeBitmap);
+                        String qrCodeHashed = QRCodeUtils.hashQRCodeData(qrCodeBase64);
+                        if (qrCodeHashed != null) {
+                            event.setQRCodeHash(qrCodeHashed);
+                        }
+                        Log.d("FunctionCall", "if3");
+
+
+                        eventUtils.updateEvent(context, event, eventId_ -> {
+                            if (eventId_ != null) {
+                                Log.d("Firestore", "QR code hash updated successfully.");
+                                Toast.makeText(this, "Event was successfully published!", Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(CreateEventPage.this, CreationSuccessActivity.class);
+                                intent.putExtra("Event", event);
+                                intent.putExtra("qr_code", qrCodeBase64);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(this, "There was an error updating the QR code. Please try again!", Toast.LENGTH_SHORT).show();
+                                Log.w("Firestore", "Failed to update QR code hash.");
+                            }
+                        });
                     } else {
                         Toast.makeText(context, "There was an error. Please try again!", Toast.LENGTH_SHORT).show();
+                        Log.d("FunctionCall", "if2.6");
                     }
-                    Intent intent = new Intent(CreateEventPage.this, OrganizerPage.class);
-                    startActivity(intent);
                 });
             }
         });
@@ -178,17 +210,5 @@ public class CreateEventPage extends AppCompatActivity {
                 Toast.makeText(this, "Permission required", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    private String encodeBitmapToBase64(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-        byte[] byteArray = outputStream.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
-    }
-
-    private Bitmap decodeBase64ToBitmap(String base64Str) {
-        byte[] decodedBytes = Base64.decode(base64Str, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 }
