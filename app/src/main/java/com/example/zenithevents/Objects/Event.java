@@ -13,7 +13,7 @@ import java.util.Collections;
 
 public class Event implements Serializable {
     private ArrayList<User> waitingList, selected, cancelledList, registrants;
-    private String ownerFacility, eventId, eventTitle, QRCodeHash, ImageUrl, eventAddress, eventDescription;
+    private String ownerFacility, eventId, eventTitle, QRCodeHash, QRCodeBitmap, ImageUrl, eventAddress, eventDescription;
     private int numParticipants;
 
     public Event(){
@@ -25,13 +25,14 @@ public class Event implements Serializable {
         this.eventTitle = null;
         this.ImageUrl = null;
         this.QRCodeHash = null;
+        this.QRCodeBitmap = null;
         this.eventAddress = null;
         this.eventId = null;
 
         this.numParticipants = 0;
     }
 
-    public Event(String eventId, String eventTitle, String eventImage, String QRCodeHash, int numParticipants, String eventAddress){
+    public Event(String eventId, String eventTitle, String eventImage, String QRCodeHash, String QRCodeBitmap, int numParticipants, String eventAddress){
         this.waitingList = new ArrayList<>();
         this.selected = new ArrayList<>();
         this.cancelledList = new ArrayList<>();
@@ -41,6 +42,7 @@ public class Event implements Serializable {
         this.eventTitle = eventTitle;
         this.ImageUrl = eventImage;
         this.QRCodeHash = QRCodeHash;
+        this.QRCodeBitmap = QRCodeBitmap;
 
         this.numParticipants = numParticipants;
         this.eventAddress = eventAddress;
@@ -86,6 +88,8 @@ public class Event implements Serializable {
         return this.QRCodeHash;
     }
 
+    public String getQRCodeBitmap() { return this.QRCodeBitmap; }
+
     public String getImageUrl() {
         return this.ImageUrl;
     }
@@ -122,6 +126,8 @@ public class Event implements Serializable {
         this.QRCodeHash = QRCodeHash;
     }
 
+    public void setQRCodeBitmap(String QRCodeBitmap) { this.QRCodeBitmap = QRCodeBitmap; }
+
     public void setImageUrl(String eventImage) {
         this.ImageUrl = eventImage;
     }
@@ -148,18 +154,6 @@ public class Event implements Serializable {
 
     public void setOwnerFacility(String ownerFacility) {
         this.ownerFacility = ownerFacility;
-    }
-
-    public String encodeBitmapToBase64(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-        byte[] byteArray = outputStream.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
-    }
-
-    public Bitmap decodeBase64ToBitmap(String base64Str) {
-        byte[] decodedBytes = Base64.decode(base64Str, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 
     public String getEventDescription() {
