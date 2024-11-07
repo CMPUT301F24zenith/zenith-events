@@ -92,19 +92,5 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("event_id", eventId);
             startActivity(intent);
         });
-
-        applyEventButton.setOnClickListener(v -> {
-            String eventId = "k";
-            Context context = MainActivity.this;
-
-            userUtils.applyEvent(context, eventId, isSuccess -> {
-                if (isSuccess) {
-                    Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
-                }
-            });
-        });
-
     }
 }

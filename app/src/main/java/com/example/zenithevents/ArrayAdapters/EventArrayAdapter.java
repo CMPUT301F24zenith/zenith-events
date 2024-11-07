@@ -1,6 +1,7 @@
 package com.example.zenithevents.ArrayAdapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.Event;
+import com.example.zenithevents.Organizer.EventView;
 import com.example.zenithevents.R;
 
 import java.util.List;
@@ -46,6 +48,13 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         } else {
             eventImage.setImageResource(R.drawable.event_place_holder);
         }
+
+        convertView.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), EventView.class);
+            intent.putExtra("event_id", event.getEventId());
+            getContext().startActivity(intent);
+        });
+
         return convertView;
     }
 }

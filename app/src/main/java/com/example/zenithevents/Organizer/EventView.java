@@ -1,11 +1,14 @@
 package com.example.zenithevents.Organizer;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +17,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
-import com.example.zenithevents.HelperClasses.EventUtils;
+import com.example.zenithevents.HelperClasses.BitmapUtils;
+import com.example.zenithevents.HelperClasses.UserUtils;
+import com.example.zenithevents.MainActivity;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,9 +30,9 @@ public class EventView extends AppCompatActivity {
     private static final String TAG = "EventView";
 
 
-    ImageView eventPosterimageView;
+    ImageView eventPosterImageView, eventQRImageView;
     private Button btnJoinWaitingList, btnLeaveWaitingList;
-    private TextView QRCodeRequiredText, eventName, facilityName, address;
+    private TextView QRCodeRequiredText, eventDescription, eventName, facilityName, eventAddress;
     private ProgressBar progressBar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ListenerRegistration eventListener;
@@ -42,9 +47,8 @@ public class EventView extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // Retrieve the event ID from the Intent
-        String eventId = getIntent().getStringExtra("event_id");
 
+        String eventId = getIntent().getStringExtra("event_id");
         initializeViews();
         setupRealTimeEventListener(eventId);
 
@@ -52,14 +56,14 @@ public class EventView extends AppCompatActivity {
 
 
     private void initializeViews() {
-        eventPosterimageView = findViewById(R.id.eventImage);
+        eventPosterImageView = findViewById(R.id.eventImage);
         btnJoinWaitingList = findViewById(R.id.btnJoinWaitingList);
-        btnLeaveWaitingList = findViewById(R.id.btnLeaveWaitingList);
-        QRCodeRequiredText = findViewById(R.id.QRCodeRequiredText);
         facilityName = findViewById(R.id.facilityName);
-        address = findViewById(R.id.address);
+        eventAddress = findViewById(R.id.eventAddress);
         progressBar = findViewById(R.id.progressBar);
         eventName = findViewById(R.id.eventName);
+        eventDescription = findViewById(R.id.eventDescription);
+        eventQRImageView = findViewById(R.id.eventQR);
     }
 
     private void setupRealTimeEventListener(String eventId) {
@@ -99,20 +103,34 @@ public class EventView extends AppCompatActivity {
         // Set event details
         eventName.setText(event.getEventTitle());
         facilityName.setText(event.getOwnerFacility());
-        address.setText(event.getEventAddress());  // Display event address
+        eventAddress.setText(event.getEventAddress());
+        eventDescription.setText(event.getEventDescription());
+
+        btnJoinWaitingList.setOnClickListener(v -> {
+            Context context = this;
+
+            UserUtils userUtils = new UserUtils();
+            userUtils.applyEvent(context, event.getEventId(), isSuccess -> {
+                if (isSuccess) {
+                    Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
 
         // Load event image using Glide
-        loadImage(event.getImageUrl());
+        loadImage(event.getImageUrl(), eventPosterImageView);
+        loadImage(event.getQRCodeBitmap(), eventQRImageView);
     }
 
-    private void loadImage(String imageUrl) {
+    private void loadImage(String imageUrl, ImageView placeholder) {
+        BitmapUtils bitmapUtils = new BitmapUtils();
         if (imageUrl != null) {
-            Glide.with(this)
-                    .load(imageUrl)
-                    .placeholder(R.drawable.event_place_holder)
-                    .into(eventPosterimageView);
+            Bitmap imgBitMap = bitmapUtils.decodeBase64ToBitmap(imageUrl);
+            Glide.with(this).load(imgBitMap).into(placeholder);
         } else {
-            eventPosterimageView.setImageResource(R.drawable.event_place_holder);
+            placeholder.setImageResource(R.drawable.event_place_holder);
         }
     }
 
@@ -123,6 +141,4 @@ public class EventView extends AppCompatActivity {
             eventListener.remove(); // Remove the listener to avoid memory leaks
         }
     }
-
-
 }
