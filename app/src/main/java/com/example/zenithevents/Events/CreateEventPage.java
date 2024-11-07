@@ -119,7 +119,7 @@ public class CreateEventPage extends AppCompatActivity {
                         Log.d("DEBUG", "Image couldn't be processed");
                     }
                 }
-                eventUtils.updateEvent(context, event, eventId -> {
+                eventUtils.createUpdateEvent(context, event, eventId -> {
                     if (eventId != null) {
                         Toast.makeText(context, "Event was successfully published!", Toast.LENGTH_SHORT).show();
                         event.setEventId(eventId);

@@ -33,7 +33,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
 
         // Lookup view for data population
         ImageView eventImage = convertView.findViewById(R.id.eventImage);
-        TextView eventIdOrName = convertView.findViewById(R.id.eventIdOrName);
+        TextView eventIdOrName = convertView.findViewById(R.id.eventTitle);
         TextView facilityName = convertView.findViewById(R.id.facilityName);
 
 

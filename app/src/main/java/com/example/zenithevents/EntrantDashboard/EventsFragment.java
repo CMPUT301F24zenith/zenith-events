@@ -40,10 +40,8 @@ public class EventsFragment extends Fragment {
     private List<Event> events;
     private static final String TAG = "EventsFragment";
 
-
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference eventsRef = db.collection("events");
-
 
 
     public EventsFragment() {
@@ -70,12 +68,10 @@ public class EventsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_events, container, false);
         eventListView = view.findViewById(R.id.ListView);
@@ -116,8 +112,4 @@ public class EventsFragment extends Fragment {
             }
         });
     }
-
-
-
-    }
-
+}

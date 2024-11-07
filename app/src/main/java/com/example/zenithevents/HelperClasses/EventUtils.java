@@ -15,6 +15,7 @@ import com.example.zenithevents.Objects.Event;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Utility class for event-related operations.
@@ -72,7 +73,10 @@ public class EventUtils {
                 .addOnFailureListener(e -> callback.onEventCheckComplete(false));
     }
 
-    public void updateEvent(Context context, Event event, EventUtils.EventUpdateCallback callback) {
+    /**
+     * Creates event if event is not in Firestore otherwise updates the event in Firestore.
+     */
+    public void createUpdateEvent(Context context, Event event, EventUpdateCallback callback) {
         Log.d("FunctionCall", "updateEvent");
 
         String deviceID = DeviceUtils.getDeviceID(context);
@@ -107,6 +111,34 @@ public class EventUtils {
                         callback.onEventUpdate(null);
                     });
         }
+    }
+
+    /**
+     * This function fetches all events which are owned by the given deviceId
+     * @param context
+     * @param deviceId
+     * @param callback
+     */
+    public void fetchOrganizerEvents(Context context, String deviceId, EventsFetchCallback callback) {
+        db.collection("events")
+                .whereEqualTo("ownerFacility", deviceId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    ArrayList<Event> organizerEvents = new ArrayList<>();
+
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        Event event = document.toObject(Event.class);
+                        Log.d("FunctionCall", "event fetched");
+                        if (event != null) {
+                            organizerEvents.add(event);
+                        }
+                    }
+
+                    callback.onEventsFetchComplete(organizerEvents);
+                }).addOnFailureListener(e -> {
+                    Log.d("FunctionCall", "failed");
+                    callback.onEventsFetchComplete(null);
+                });
     }
 
     /**

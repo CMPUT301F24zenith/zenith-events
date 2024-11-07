@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     Button buttonEntrant;
     Button organizerButton;
     Button buttonAdmin;
-    Button buttonCreateEventEvent;
     Button scanQRButton;
     Button waitingListButton;
     Button createAProfile;
