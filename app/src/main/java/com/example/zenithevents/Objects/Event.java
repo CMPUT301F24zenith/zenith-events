@@ -1,13 +1,19 @@
 package com.example.zenithevents.Objects;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.util.Log;
+
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Event implements Serializable {
     private ArrayList<User> waitingList, selected, cancelledList, registrants;
-    private String ownerFacility, eventId, eventTitle, QRCodeHash, ImageUrl, eventAddress;
+    private String ownerFacility, eventId, eventTitle, QRCodeURL, ImageUrl, eventAddress, eventDescription;
     private int numParticipants;
 
     public Event(){
@@ -142,5 +148,25 @@ public class Event implements Serializable {
 
     public void setOwnerFacility(String ownerFacility) {
         this.ownerFacility = ownerFacility;
+    }
+
+    public String encodeBitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        byte[] byteArray = outputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
+    public Bitmap decodeBase64ToBitmap(String base64Str) {
+        byte[] decodedBytes = Base64.decode(base64Str, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+    }
+
+    public String getEventDescription() {
+        return eventDescription;
+    }
+
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
     }
 }
