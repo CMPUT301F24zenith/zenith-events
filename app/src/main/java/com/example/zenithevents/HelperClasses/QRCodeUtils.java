@@ -12,6 +12,7 @@ import com.google.zxing.common.BitMatrix;
 import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 
 public class QRCodeUtils {
     public static Bitmap generateQRCode(String eventId) {
@@ -39,10 +40,10 @@ public class QRCodeUtils {
         return bitmap;
     }
 
-    public static String hashQRCodeData(String qrCodeBase64) {
+    public static String hashQRCodeData(String qrCodeContent) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hashBytes = digest.digest(qrCodeBase64.getBytes());
+            byte[] hashBytes = digest.digest(qrCodeContent.getBytes());
             StringBuilder hexString = new StringBuilder();
 
             for (byte b : hashBytes) {
@@ -54,6 +55,18 @@ public class QRCodeUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static String generateRandomString(int length) {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder stringBuilder = new StringBuilder(length);
+        Random random = new Random();
+
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(chars.length());
+            stringBuilder.append(chars.charAt(index));
+        }
+        return stringBuilder.toString();
     }
 
     public static String encodeBitmapToBase64(Bitmap bitmap) {
