@@ -1,69 +1,134 @@
 package com.example.zenithevents.Objects;
 
 
+import android.graphics.Bitmap;
+import android.util.Log;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Event {
-    private String eventId;
-    private ArrayList<String> waitingList;
-    private ArrayList<String> selected;
-    private ArrayList<String> registrants;
-    private String ImageUrl;
-    private String QRCodeURL;
+public class Event implements Serializable {
+    private ArrayList<User> waitingList, selected, cancelledList, registrants;
+    private String ownerFacility, eventId, eventTitle, QRCodeURL, ImageUrl, eventAddress;
     private int numParticipants;
-    private String eventTitle;
-    private String ownerFacility;
-    private String eventAddress;
 
+    public Event(){
+        this.waitingList = new ArrayList<>();
+        this.selected = new ArrayList<>();
+        this.cancelledList = new ArrayList<>();
+        this.registrants = new ArrayList<>();
 
-    public Event(String eventTitle, String eventId, String eventAddress,String ImageUrl, int numParticipants) {
-        this.eventTitle = eventTitle;
-        this.eventId = eventId;
-        this.ImageUrl = ImageUrl;
-        this.numParticipants = numParticipants;
-        this.eventAddress = eventAddress;
+        this.eventTitle = null;
+        this.ImageUrl = null;
+        this.QRCodeURL = null;
+        this.eventAddress = null;
+        this.eventId = null;
 
+        this.numParticipants = 0;
     }
 
-    public Event() {
+    public Event(String eventId, String eventTitle, String eventImage, String QRCodeURL, int numParticipants, String eventAddress){
+        this.waitingList = new ArrayList<>();
+        this.selected = new ArrayList<>();
+        this.cancelledList = new ArrayList<>();
+        this.registrants = new ArrayList<>();
 
+        this.eventId = eventId;
+        this.eventTitle = eventTitle;
+        this.ImageUrl = eventImage;
+        this.QRCodeURL = QRCodeURL;
+
+        this.numParticipants = numParticipants;
+        this.eventAddress = eventAddress;
+    }
+
+    public String getEventAddress() {
+        return eventAddress;
+    }
+
+    public void setEventAddress(String eventAddress) {
+        this.eventAddress = eventAddress;
+    }
+
+    public ArrayList<User> getWaitingList() {
+        return this.waitingList;
+    }
+
+    public ArrayList<User> getSelected() {
+        return this.selected;
+    }
+
+    public ArrayList<User> getCancelledList() {
+        return this.cancelledList;
+    }
+
+    public ArrayList<User> getRegistrants() {
+        return this.registrants;
     }
 
     public String getEventId() {
         return eventId;
     }
 
-    public ArrayList<String> getWaitingList() {
-        return waitingList;
+    public String getEventTitle() {
+        return this.eventTitle;
     }
 
-    public ArrayList<String> getSelected() {
-        return selected;
-    }
-
-    // Get numParticipants number of selected from waiting list
-    public ArrayList<String> drawLottery() {
-        Collections.shuffle(waitingList);
-
-        int numToSelect = Math.min(numParticipants, waitingList.size());
-
-        ArrayList<String> drawUsers = new ArrayList<>(waitingList.subList(0, numToSelect));
-
-        selected.addAll(drawUsers);
-
-        waitingList.removeAll(drawUsers);
-
-        return drawUsers;
-    }
-    public ArrayList<String> getRegistrants() {
-        return registrants;
-    }
     public int getNumParticipants() {
-        return numParticipants;
+        return this.numParticipants;
     }
+
     public String getQRCodeURL() {
-        return QRCodeURL;
+        return this.QRCodeURL;
+    }
+
+    public String getImageUrl() {
+        return this.ImageUrl;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    public void setWaitingList(ArrayList<User> waitingList) {
+        this.waitingList = waitingList;
+    }
+
+    public void setSelected(ArrayList<User> selected) {
+        this.selected = selected;
+    }
+
+    public void setRegistrants(ArrayList<User> registrants) {
+        this.registrants = registrants;
+    }
+
+    public void setCancelledList(ArrayList<User> cancelledList) {
+        this.cancelledList = cancelledList;
+    }
+
+    public void setEventTitle(String eventTitle) {
+        this.eventTitle = eventTitle;
+    }
+
+    public void setNumParticipants(int eventLimit) {
+        this.numParticipants = eventLimit;
+    }
+
+    public void setQRCodeURL(String QRCodeURL) {
+        this.QRCodeURL = QRCodeURL;
+    }
+
+    public void setImageUrl(String eventImage) {
+        this.ImageUrl = eventImage;
+    }
+
+    public ArrayList<User> drawLottery(ArrayList<User> waitingList, int sampleSize) {
+        Collections.shuffle(waitingList);
+        int sampleSizeUpdated = Math.min(sampleSize, waitingList.size());
+
+        ArrayList<User> selectedList = new ArrayList<>(waitingList.subList(0, sampleSizeUpdated));
+        return selectedList;
     }
 
     public void sendNotifications(String message, ArrayList<User> recipients){
@@ -73,51 +138,12 @@ public class Event {
             recipient.sendNotification(message);}
         }
     }
-    public String getImageUrl() {
-        return ImageUrl;
-    }
 
-    public String getEventTitle() {
-        return eventTitle;
-    }
-    public void setQRCodeURL(String QRCodeURL) {
-        this.QRCodeURL = QRCodeURL;
-    }
-    public void setImageUrl(String imageUrl) {
-        this.ImageUrl = imageUrl;
-    }
-    public void setNumParticipants(int numParticipants) {
-        this.numParticipants = numParticipants;
-        }
-    public void setEventTitle(String eventTitle) {
-        this.eventTitle = eventTitle;
-    }
-    public void setWaitingList(ArrayList<String> waitingList) {
-        this.waitingList = waitingList;
-    }
-    public void setSelected(ArrayList<String> selected) {
-        this.selected = selected;
-        }
-    public void setRegistrants(ArrayList<String> registrants) {
-        this.registrants = registrants;
-    }
-    public void setOwnerFacility(String ownerFacility) {
-        this.ownerFacility = ownerFacility;
-    }
     public String getOwnerFacility() {
         return ownerFacility;
     }
 
-    public void setEventId(String documentId) {
-    }
-
-    public String getTitle() {
-        return eventTitle;
-    }
-    public String getAddress() {
-        return eventAddress;
-    }
-    public void setAddress(String address) {
-        this.eventAddress = address;
+    public void setOwnerFacility(String ownerFacility) {
+        this.ownerFacility = ownerFacility;
     }
 }

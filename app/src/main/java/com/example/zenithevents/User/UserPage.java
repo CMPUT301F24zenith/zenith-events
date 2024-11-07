@@ -20,7 +20,6 @@ import com.bumptech.glide.Glide;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
