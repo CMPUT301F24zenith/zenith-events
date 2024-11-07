@@ -99,7 +99,7 @@ public class EventView extends AppCompatActivity {
         // Set event details
         eventName.setText(event.getEventTitle());
         facilityName.setText(event.getOwnerFacility());
-        address.setText(event.getAddress());  // Display event address
+        address.setText(event.getEventAddress());  // Display event address
 
         // Load event image using Glide
         loadImage(event.getImageUrl());

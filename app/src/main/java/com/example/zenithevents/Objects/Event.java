@@ -24,6 +24,7 @@ public class Event implements Serializable {
         this.QRCodeURL = null;
         this.eventAddress = null;
         this.eventId = null;
+
         this.numParticipants = 0;
     }
 
@@ -42,6 +43,14 @@ public class Event implements Serializable {
         this.eventAddress = eventAddress;
     }
 
+    public String getEventAddress() {
+        return eventAddress;
+    }
+
+    public void setEventAddress(String eventAddress) {
+        this.eventAddress = eventAddress;
+    }
+
     public ArrayList<User> getWaitingList() {
         return this.waitingList;
     }
@@ -54,7 +63,7 @@ public class Event implements Serializable {
         return this.cancelledList;
     }
 
-    public ArrayList<User> getConfirmedList() {
+    public ArrayList<User> getRegistrants() {
         return this.registrants;
     }
 
@@ -96,11 +105,6 @@ public class Event implements Serializable {
 
     public void setCancelledList(ArrayList<User> cancelledList) {
         this.cancelledList = cancelledList;
-    }
-
-
-    public void getRegistrants(ArrayList<User> registrants) {
-        this.registrants = registrants;
     }
 
     public void setEventTitle(String eventTitle) {

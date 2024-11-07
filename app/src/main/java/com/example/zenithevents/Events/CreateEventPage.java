@@ -39,9 +39,9 @@ public class CreateEventPage extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
 
     Button createEventSaveButton, createEventCancelButton, uploadEventPosterButton;
-    String pageTitle, eventTitle, eventLimitString, numParticipants, uploadedPosterString;
+    String pageTitle, eventTitle, eventLimitString, numParticipants, uploadedPosterString, eventLocation;
     TextView pageTitleView;
-    EditText eventNameView, eventLimitView;
+    EditText eventNameView, eventLimitView, eventLocationView;
     Event event;
     ImageView eventPosterImage;
     Uri uploadedPosterUri;
@@ -65,22 +65,29 @@ public class CreateEventPage extends AppCompatActivity {
             Glide.with(this).load(decodedImage).into(eventPosterImage);
         }
 
-        eventTitle = event.getEventTitle();
-        eventLimitString = event.getNumParticipants() == 0 ? "" : String.valueOf(event.getNumParticipants());
 
         pageTitleView = findViewById(R.id.createEventTitle);
         pageTitleView.setText(pageTitle);
 
+        eventTitle = event.getEventTitle();
         eventNameView = findViewById(R.id.eventNameInput);
         eventNameView.setText(eventTitle);
 
+        eventLimitString = event.getNumParticipants() == 0 ? "" : String.valueOf(event.getNumParticipants());
         eventLimitView = findViewById(R.id.eventLimitInput);
         eventLimitView.setText(eventLimitString);
+
+        eventLocation = event.getEventAddress();
+        eventLocationView = findViewById(R.id.eventLocationInput);
+        eventLocationView.setText(eventLocation);
+
 
         createEventSaveButton = findViewById(R.id.createEventSaveButton);
         createEventSaveButton.setOnClickListener(v -> {
             eventTitle = eventNameView.getText().toString();
             numParticipants = String.valueOf(eventLimitView.getText());
+            eventLocation = eventLocationView.getText().toString();
+
             Context context = CreateEventPage.this;
 
             if (Objects.equals(eventTitle, "")) {
@@ -96,33 +103,32 @@ public class CreateEventPage extends AppCompatActivity {
             if (!Objects.equals(numParticipants, "0") && !Objects.equals(eventTitle, "")) {
                 event.setEventTitle(eventTitle);
                 event.setNumParticipants(Objects.equals(numParticipants, "") ? 0 : Integer.parseInt(numParticipants));
+                event.setEventAddress(eventLocation);
 
                 StorageReference storageRef = FirebaseStorage.getInstance().getReference();
                 StorageReference imageRef = storageRef.child("images/" + UUID.randomUUID().toString());
 
-                assert uploadedPosterUri != null;
-                try {
-                    InputStream inputStream = getContentResolver().openInputStream(uploadedPosterUri);
-                    Log.d("FunctionCall", "inputStream: " + inputStream);
-                    assert inputStream != null;
-                    Bitmap image = BitmapFactory.decodeStream(inputStream);
-                    uploadedPosterString = encodeBitmapToBase64(image);
-                    event.setImageUrl(uploadedPosterString);
-
-                    eventUtils.updateEvent(context, event, eventId -> {
-                        if (eventId != null) {
-                            Toast.makeText(context, "Event was successfully published!", Toast.LENGTH_SHORT).show();
-                            event.setEventId(eventId);
-                        } else {
-                            Toast.makeText(context, "There was an error. Please try again!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } catch (FileNotFoundException e) {
-                    Log.d("DEBUG", "File not found");
+                if (uploadedPosterUri != null) {
+                    try {
+                        InputStream inputStream = getContentResolver().openInputStream(uploadedPosterUri);
+                        Log.d("FunctionCall", "inputStream: " + inputStream);
+                        Bitmap image = BitmapFactory.decodeStream(inputStream);
+                        uploadedPosterString = encodeBitmapToBase64(image);
+                        event.setImageUrl(uploadedPosterString);
+                    } catch (FileNotFoundException e) {
+                        Log.d("DEBUG", "Image couldn't be processed");
+                    }
                 }
-
-                Intent intent = new Intent(CreateEventPage.this, OrganizerPage.class);
-                startActivity(intent);
+                eventUtils.updateEvent(context, event, eventId -> {
+                    if (eventId != null) {
+                        Toast.makeText(context, "Event was successfully published!", Toast.LENGTH_SHORT).show();
+                        event.setEventId(eventId);
+                    } else {
+                        Toast.makeText(context, "There was an error. Please try again!", Toast.LENGTH_SHORT).show();
+                    }
+                    Intent intent = new Intent(CreateEventPage.this, OrganizerPage.class);
+                    startActivity(intent);
+                });
             }
         });
 

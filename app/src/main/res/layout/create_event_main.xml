@@ -24,7 +24,9 @@
             app:layout_constraintBottom_toTopOf="@+id/eventNameInput"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/uploadEventPosterButton" />
+            app:layout_constraintTop_toBottomOf="@+id/uploadEventPosterButton"
+            android:text="Page Title"
+            />
 
         <EditText
             android:id="@+id/eventNameInput"
@@ -32,10 +34,22 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:hint="Event Name (Required)"
-            app:layout_constraintBottom_toBottomOf="@+id/eventLimitInput"
+            app:layout_constraintBottom_toTopOf="@+id/eventLocationInput"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/createEventTitle"
+            />
+
+        <EditText
+            android:id="@+id/eventLocationInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:hint="Event Location (Required)"
+            app:layout_constraintBottom_toTopOf="@+id/eventLimitInput"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/eventNameInput"
             />
 
         <EditText
@@ -46,7 +60,7 @@
             android:hint="Limit (Optional)"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eventNameInput"
+            app:layout_constraintTop_toBottomOf="@+id/eventLocationInput"
             android:inputType="number"
             />
 
