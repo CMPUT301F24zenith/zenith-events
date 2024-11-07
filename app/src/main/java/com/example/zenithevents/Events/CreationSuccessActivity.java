@@ -19,7 +19,7 @@ import com.google.zxing.qrcode.encoder.QRCode;
 public class CreationSuccessActivity extends AppCompatActivity {
     private TextView eventNameText;
     private ImageView eventImageView, qrCodeView;
-    private Button shareQRButton;
+    private Button shareQRButton, exitButton;
     Event event;
     Bitmap QRCode, eventImage;
 
@@ -32,6 +32,7 @@ public class CreationSuccessActivity extends AppCompatActivity {
         eventImageView = findViewById(R.id.eventImageView);
         qrCodeView = findViewById(R.id.qrCodeView);
         shareQRButton = findViewById(R.id.shareQRButton);
+        exitButton = findViewById(R.id.exitButton);
 
         event = (Event) getIntent().getSerializableExtra("Event");
 
@@ -50,6 +51,10 @@ public class CreationSuccessActivity extends AppCompatActivity {
 
             shareQRButton.setOnClickListener(v -> {
                 shareQRCode(QRCode);
+            });
+
+            exitButton.setOnClickListener(v -> {
+                finish();
             });
         }
     }
