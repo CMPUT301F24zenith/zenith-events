@@ -4,7 +4,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>160</x>
+      <x>104</x>
       <y>104</y>
       <w>168</w>
       <h>168</h>
@@ -28,7 +28,7 @@ User
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>864</x>
+      <x>808</x>
       <y>0</y>
       <w>168</w>
       <h>152</h>
@@ -47,7 +47,7 @@ User
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>792</x>
+      <x>736</x>
       <y>248</y>
       <w>256</w>
       <h>200</h>
@@ -72,7 +72,7 @@ recipients: array&lt;Entrant&gt;, list: string): void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>320</x>
+      <x>264</x>
       <y>488</y>
       <w>208</w>
       <h>152</h>
@@ -88,7 +88,7 @@ recipients: array&lt;Entrant&gt;, list: string): void
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>936</x>
+      <x>880</x>
       <y>144</y>
       <w>48</w>
       <h>120</h>
@@ -102,7 +102,7 @@ m2=0..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
+      <x>464</x>
       <y>312</y>
       <w>288</w>
       <h>272</h>
@@ -115,7 +115,7 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>224</x>
+      <x>168</x>
       <y>264</y>
       <w>192</w>
       <h>240</h>
@@ -126,7 +126,7 @@ m2=0..*</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>512</x>
+      <x>456</x>
       <y>16</y>
       <w>256</w>
       <h>152</h>
@@ -144,7 +144,7 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>320</x>
+      <x>264</x>
       <y>88</y>
       <w>208</w>
       <h>128</h>
@@ -155,7 +155,7 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>664</x>
+      <x>608</x>
       <y>160</y>
       <w>144</w>
       <h>128</h>
@@ -168,7 +168,7 @@ m2=0..*</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>440</x>
+      <x>384</x>
       <y>248</y>
       <w>232</w>
       <h>152</h>
@@ -188,7 +188,7 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>320</x>
+      <x>264</x>
       <y>216</y>
       <w>136</w>
       <h>120</h>
@@ -199,7 +199,7 @@ m2=0..*</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>120</x>
+      <x>64</x>
       <y>856</y>
       <w>112</w>
       <h>40</h>
@@ -210,7 +210,7 @@ m2=0..*</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>160</x>
+      <x>104</x>
       <y>1000</y>
       <w>248</w>
       <h>152</h>
@@ -231,7 +231,7 @@ view component</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>416</x>
+      <x>360</x>
       <y>1160</y>
       <w>264</w>
       <h>152</h>
@@ -254,7 +254,7 @@ view component</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>416</x>
+      <x>360</x>
       <y>1000</y>
       <w>264</w>
       <h>152</h>
@@ -277,7 +277,7 @@ view component</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>144</x>
+      <x>88</x>
       <y>1160</y>
       <w>264</w>
       <h>152</h>
@@ -300,7 +300,7 @@ view component</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>120</x>
+      <x>64</x>
       <y>904</y>
       <w>112</w>
       <h>56</h>
@@ -311,7 +311,7 @@ view component</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>160</x>
+      <x>104</x>
       <y>952</y>
       <w>384</w>
       <h>224</h>
@@ -322,7 +322,7 @@ view component</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>160</x>
+      <x>104</x>
       <y>952</y>
       <w>96</w>
       <h>224</h>
@@ -333,7 +333,7 @@ view component</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>144</x>
+      <x>88</x>
       <y>1336</y>
       <w>272</w>
       <h>88</h>
@@ -351,12 +351,61 @@ ViewGroup parent) -&gt; View
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>160</x>
+      <x>104</x>
       <y>952</y>
       <w>64</w>
       <h>400</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>60.0;480.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>680</x>
+      <y>920</y>
+      <w>112</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>CreateProfile</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>680</x>
+      <y>960</y>
+      <w>248</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+CreateProfileActivity
+--
+-FirebaseAuth mAuth
+-FirebaseFirestore db
+-Button backbutton, confirmButton
+-EditText etEntrantFirstName, 
+etEntrantLastName, 
+etEntrantPhoneNumber,
+etEntrantEmail
+--
++onCreate(Bundle savedInstance) -&gt; void
+--
+Responsibilities
+-- Handling the UI and logic for creating
+a new user profile using anyonymous 
+authentication</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>80</x>
+      <y>1464</y>
+      <w>144</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>Entrant Dashboard</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
