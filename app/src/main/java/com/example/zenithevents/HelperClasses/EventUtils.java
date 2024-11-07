@@ -74,16 +74,16 @@ public class EventUtils {
             db.collection("events").add(event)
                     .addOnSuccessListener(ref -> {
                         String generatedId = ref.getId();
+                        Log.d("Firestore", "Event added to database");
 
                         ref.update("eventId", generatedId)
                             .addOnSuccessListener(aVoid -> {
+                                Log.d("Firestore", "Id updated");
                                 callback.onEventUpdate(generatedId);
                             }).addOnFailureListener(e -> {
+                                Log.d("Firestore", "Id failed to updated");
                                 callback.onEventUpdate(null);
                             });
-
-                        Log.d("Firestore", "Event added to database");
-                        callback.onEventUpdate(generatedId);
                     }).addOnFailureListener(e -> {
                         Log.w("Firestore", "Couldn't add event to database");
                         callback.onEventUpdate(null);
@@ -93,9 +93,9 @@ public class EventUtils {
             ref.set(event, SetOptions.merge())
                     .addOnSuccessListener(v -> {
                         Log.d("Firestore", "Event updated to database");
-                        callback.onEventUpdate(ref.getId());
+                        callback.onEventUpdate(event.getEventId());
                     }).addOnFailureListener(e -> {
-                        Log.w("Firestrore", "Couldnt find Event Id in the database");
+                        Log.w("Firestore", "Couldn't find Event Id in the database");
                         callback.onEventUpdate(null);
                     });
         }
@@ -224,7 +224,7 @@ public class EventUtils {
         eventMap.put("selected", event.getSelected());
         eventMap.put("registrants", event.getRegistrants());
         eventMap.put("ownerFacility", event.getOwnerFacility());
-        eventMap.put("QRCodeURL", event.getQRCodeURL());
+        eventMap.put("QRCodeURL", event.getQRCodeHash());
         return eventMap;
     }
 }

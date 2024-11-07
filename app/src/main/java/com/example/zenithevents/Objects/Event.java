@@ -24,14 +24,14 @@ public class Event implements Serializable {
 
         this.eventTitle = null;
         this.ImageUrl = null;
-        this.QRCodeURL = null;
+        this.QRCodeHash = null;
         this.eventAddress = null;
         this.eventId = null;
 
         this.numParticipants = 0;
     }
 
-    public Event(String eventId, String eventTitle, String eventImage, String QRCodeURL, int numParticipants, String eventAddress){
+    public Event(String eventId, String eventTitle, String eventImage, String QRCodeHash, int numParticipants, String eventAddress){
         this.waitingList = new ArrayList<>();
         this.selected = new ArrayList<>();
         this.cancelledList = new ArrayList<>();
@@ -40,7 +40,7 @@ public class Event implements Serializable {
         this.eventId = eventId;
         this.eventTitle = eventTitle;
         this.ImageUrl = eventImage;
-        this.QRCodeURL = QRCodeURL;
+        this.QRCodeHash = QRCodeHash;
 
         this.numParticipants = numParticipants;
         this.eventAddress = eventAddress;
@@ -82,8 +82,8 @@ public class Event implements Serializable {
         return this.numParticipants;
     }
 
-    public String getQRCodeURL() {
-        return this.QRCodeURL;
+    public String getQRCodeHash() {
+        return this.QRCodeHash;
     }
 
     public String getImageUrl() {
@@ -118,8 +118,8 @@ public class Event implements Serializable {
         this.numParticipants = eventLimit;
     }
 
-    public void setQRCodeURL(String QRCodeURL) {
-        this.QRCodeURL = QRCodeURL;
+    public void setQRCodeHash(String QRCodeHash) {
+        this.QRCodeHash = QRCodeHash;
     }
 
     public void setImageUrl(String eventImage) {
