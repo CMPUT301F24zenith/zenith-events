@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="15.1">
-  <zoom_level>10</zoom_level>
+  <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>10</x>
-      <y>140</y>
-      <w>210</w>
-      <h>210</h>
+      <x>160</x>
+      <y>104</y>
+      <w>168</w>
+      <h>168</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Abstract&gt;&gt;
 User
@@ -28,10 +28,10 @@ User
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>890</x>
-      <y>10</y>
-      <w>210</w>
-      <h>190</h>
+      <x>864</x>
+      <y>0</y>
+      <w>168</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>Facility
 --
@@ -47,10 +47,10 @@ User
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>800</x>
-      <y>320</y>
-      <w>320</w>
-      <h>250</h>
+      <x>792</x>
+      <y>248</y>
+      <w>256</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>Event
 --
@@ -72,10 +72,10 @@ recipients: array&lt;Entrant&gt;, list: string): void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>210</x>
-      <y>620</y>
-      <w>260</w>
-      <h>190</h>
+      <x>320</x>
+      <y>488</y>
+      <w>208</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>Organizer
 --
@@ -88,10 +88,10 @@ recipients: array&lt;Entrant&gt;, list: string): void
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
-      <y>190</y>
-      <w>60</w>
-      <h>150</h>
+      <x>936</x>
+      <y>144</y>
+      <w>48</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=1
@@ -102,10 +102,10 @@ m2=0..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>460</x>
-      <y>400</y>
-      <w>360</w>
-      <h>340</h>
+      <x>520</x>
+      <y>312</y>
+      <w>288</w>
+      <h>272</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
@@ -115,10 +115,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>90</x>
-      <y>340</y>
-      <w>240</w>
-      <h>300</h>
+      <x>224</x>
+      <y>264</y>
+      <w>192</w>
+      <h>240</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;220.0;280.0</additional_attributes>
@@ -126,10 +126,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>450</x>
-      <y>30</y>
-      <w>320</w>
-      <h>190</h>
+      <x>512</x>
+      <y>16</y>
+      <w>256</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>Entrant
 --
@@ -144,10 +144,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
-      <y>120</y>
-      <w>260</w>
-      <h>160</h>
+      <x>320</x>
+      <y>88</y>
+      <w>208</w>
+      <h>128</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;140.0;240.0;10.0</additional_attributes>
@@ -155,10 +155,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>640</x>
-      <y>210</y>
-      <w>180</w>
-      <h>160</h>
+      <x>664</x>
+      <y>160</y>
+      <w>144</w>
+      <h>128</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;&gt;&gt;
 m1=0..*
@@ -168,10 +168,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>360</x>
-      <y>320</y>
-      <w>290</w>
-      <h>190</h>
+      <x>440</x>
+      <y>248</y>
+      <w>232</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>Admin
 --
@@ -188,12 +188,175 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
-      <y>280</y>
-      <w>170</w>
-      <h>150</h>
+      <x>320</x>
+      <y>216</y>
+      <w>136</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;150.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>120</x>
+      <y>856</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>ArrayAdapters</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>160</x>
+      <y>1000</y>
+      <w>248</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;ArrayAdapter&lt;User&gt;&gt;&gt;
+EntrantArrayAdapter
+--
+--
++ getView(int position, View convertView,
+ViewGroup parent) -&gt; View
+--
+Responsibilities
+-- Adapting a list of entrant (user)
+objects for display in a
+view component</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>416</x>
+      <y>1160</y>
+      <w>264</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;ArrayAdapter&lt;Organization&gt;&gt;&gt;
+OrganizationArrayAdapter
+--
+--
++FacilityArrayAdapter(Context context,
+List&lt;Facility&gt; facilities)
++getView(int position, View convertView,
+ViewGroup parent) -&gt; View
+--
+Responsibilities
+-- Adapting a list of Facility
+objects for display in a
+view component</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>416</x>
+      <y>1000</y>
+      <w>264</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;ArrayAdapter&lt;Event&gt;&gt;&gt;
+EventArrayAdapter
+--
+--
++EventArrayAdapter(Context context,
+List&lt;Event&gt; events)
++getView(int position, View convertView,
+ViewGroup parent) -&gt; View
+--
+Responsibilities
+-- Adapting a list of event
+objects for display in a
+view component</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>144</x>
+      <y>1160</y>
+      <w>264</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;ArrayAdapter&lt;Facility&gt;&gt;&gt;
+FacilityArrayAdapter
+--
+--
++FacilityArrayAdapter(Context context,
+List&lt;Facility&gt; facilities)
++getView(int position, View convertView,
+ViewGroup parent) -&gt; View
+--
+Responsibilities
+-- Adapting a list of Facility
+objects for display in a
+view component</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>120</x>
+      <y>904</y>
+      <w>112</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>Note: Not used</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>952</y>
+      <w>384</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>460.0;260.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>952</y>
+      <w>96</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>100.0;260.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>144</x>
+      <y>1336</y>
+      <w>272</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>CustomArrayAdapter&lt;T&gt;
+--
+--
++CustomArrayAdapter(Context context, int i,
+ArrayList&lt;T&gt; objects)
++getView(int position, View convertView,
+ViewGroup parent) -&gt; View
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>952</y>
+      <w>64</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>60.0;480.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
