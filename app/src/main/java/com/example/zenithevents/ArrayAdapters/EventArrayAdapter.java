@@ -38,6 +38,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
 
 
         // Populate the data into the template view using the data object
+        assert event != null;
         eventIdOrName.setText(event.getEventTitle());
         facilityName.setText(event.getOwnerFacility());
         // Load image using Glide

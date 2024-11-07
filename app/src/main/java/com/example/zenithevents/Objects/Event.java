@@ -59,7 +59,7 @@ public class Event implements Serializable {
         return eventId;
     }
 
-    public String getEventName() {
+    public String getEventTitle() {
         return this.eventTitle;
     }
 
@@ -100,7 +100,7 @@ public class Event implements Serializable {
         this.registrants = registrants;
     }
 
-    public void setEventName(String eventTitle) {
+    public void setEventTitle(String eventTitle) {
         this.eventTitle = eventTitle;
     }
 

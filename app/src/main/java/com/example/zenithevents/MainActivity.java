@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button viewProfileButton;
     private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         buttonEntrant = findViewById(R.id.entrantButton);
         organizerButton = findViewById(R.id.organizerButton);
         buttonAdmin = findViewById(R.id.adminButton);
-        buttonCreateEventEvent = findViewById(R.id.createEventButton);
         scanQRButton = findViewById(R.id.scanQRButton);
         waitingListButton = findViewById(R.id.waitingListButton);
         createAProfile = findViewById(R.id.createAProfile);
@@ -82,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
         buttonEntrant.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, EntrantViewActivity.class);
             startActivity(intent);
-
-            });
+        });
 
 
         applyEventButton.setOnClickListener(v -> {

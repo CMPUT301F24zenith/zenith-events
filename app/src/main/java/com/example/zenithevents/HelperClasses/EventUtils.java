@@ -25,13 +25,22 @@ public class EventUtils {
         Log.d("FunctionCall", "updateEvent");
 
         String deviceID = DeviceUtils.getDeviceID(context);
-        event.setDeviceId(deviceID);
+        event.setOwnerFacility(deviceID);
 
         if (event.getEventId() == null) {
             db.collection("events").add(event)
                     .addOnSuccessListener(ref -> {
+                        String generatedId = ref.getId();
+
+                        ref.update("eventId", generatedId)
+                            .addOnSuccessListener(aVoid -> {
+                                callback.onEventUpdate(generatedId);
+                            }).addOnFailureListener(e -> {
+                                callback.onEventUpdate(null);
+                            });
+
                         Log.d("Firestore", "Event added to database");
-                        callback.onEventUpdate(ref.getId());
+                        callback.onEventUpdate(generatedId);
                     }).addOnFailureListener(e -> {
                         Log.w("Firestore", "Couldn't add event to database");
                         callback.onEventUpdate(null);

@@ -122,7 +122,7 @@ public class User {
     }
 
     boolean isSelected(Event event) {
-        return event.getSelectedList().contains(this);
+        return event.getSelected().contains(this);
     }
     boolean wantsNotifs() {
         return wantsNotifs;

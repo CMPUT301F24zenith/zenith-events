@@ -31,7 +31,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.UUID;
@@ -40,7 +39,7 @@ public class CreateEventPage extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
 
     Button createEventSaveButton, createEventCancelButton, uploadEventPosterButton;
-    String pageTitle, eventName, eventLimitString, eventLimit, uploadedPosterString;
+    String pageTitle, eventTitle, eventLimitString, numParticipants, uploadedPosterString;
     TextView pageTitleView;
     EditText eventNameView, eventLimitView;
     Event event;
@@ -60,43 +59,43 @@ public class CreateEventPage extends AppCompatActivity {
         assert event != null;
 
         eventPosterImage = findViewById(R.id.eventPosterImage);
-        uploadedPosterString = event.getEventImage();
+        uploadedPosterString = event.getImageUrl();
         if (uploadedPosterString != null) {
             Bitmap decodedImage = decodeBase64ToBitmap(uploadedPosterString);
             Glide.with(this).load(decodedImage).into(eventPosterImage);
         }
 
-        eventName = event.getEventName();
-        eventLimitString = event.getEventLimit() == 0 ? "" : String.valueOf(event.getEventLimit());
+        eventTitle = event.getEventTitle();
+        eventLimitString = event.getNumParticipants() == 0 ? "" : String.valueOf(event.getNumParticipants());
 
         pageTitleView = findViewById(R.id.createEventTitle);
         pageTitleView.setText(pageTitle);
 
         eventNameView = findViewById(R.id.eventNameInput);
-        eventNameView.setText(eventName);
+        eventNameView.setText(eventTitle);
 
         eventLimitView = findViewById(R.id.eventLimitInput);
         eventLimitView.setText(eventLimitString);
 
         createEventSaveButton = findViewById(R.id.createEventSaveButton);
         createEventSaveButton.setOnClickListener(v -> {
-            eventName = eventNameView.getText().toString();
-            eventLimit = String.valueOf(eventLimitView.getText());
+            eventTitle = eventNameView.getText().toString();
+            numParticipants = String.valueOf(eventLimitView.getText());
             Context context = CreateEventPage.this;
 
-            if (Objects.equals(eventName, "")) {
+            if (Objects.equals(eventTitle, "")) {
                 eventNameView.setError("Event Name can't be empty");
                 eventNameView.requestFocus();
             }
 
-            if (Objects.equals(eventLimit, "0")) {
+            if (Objects.equals(numParticipants, "0")) {
                 eventLimitView.setError("Limit can't be 0");
                 eventLimitView.requestFocus();
             }
 
-            if (!Objects.equals(eventLimit, "0") && !Objects.equals(eventName, "")) {
-                event.setEventName(eventName);
-                event.setEventLimit(Objects.equals(eventLimit, "") ? 0 : Integer.parseInt(eventLimit));
+            if (!Objects.equals(numParticipants, "0") && !Objects.equals(eventTitle, "")) {
+                event.setEventTitle(eventTitle);
+                event.setNumParticipants(Objects.equals(numParticipants, "") ? 0 : Integer.parseInt(numParticipants));
 
                 StorageReference storageRef = FirebaseStorage.getInstance().getReference();
                 StorageReference imageRef = storageRef.child("images/" + UUID.randomUUID().toString());
@@ -108,7 +107,7 @@ public class CreateEventPage extends AppCompatActivity {
                     assert inputStream != null;
                     Bitmap image = BitmapFactory.decodeStream(inputStream);
                     uploadedPosterString = encodeBitmapToBase64(image);
-                    event.setEventImage(uploadedPosterString);
+                    event.setImageUrl(uploadedPosterString);
 
                     eventUtils.updateEvent(context, event, eventId -> {
                         if (eventId != null) {
@@ -121,6 +120,9 @@ public class CreateEventPage extends AppCompatActivity {
                 } catch (FileNotFoundException e) {
                     Log.d("DEBUG", "File not found");
                 }
+
+                Intent intent = new Intent(CreateEventPage.this, OrganizerPage.class);
+                startActivity(intent);
             }
         });
 
