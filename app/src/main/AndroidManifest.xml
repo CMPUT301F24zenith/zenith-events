@@ -6,10 +6,12 @@
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
+        android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
@@ -23,17 +25,37 @@
         android:theme="@style/Theme.ZenithEvents"
         tools:targetApi="31">
         <activity
+            android:name=".MainActivity007"
+            android:exported="false" />
+        <activity
+            android:name=".EntrantsList.SampledEntrants"
+            android:exported="false" />
+        <activity
+            android:name=".EntrantsList.CancelledEntrants"
+            android:exported="false" />
+        <activity
+            android:name=".EntrantsList.WaitlistedEntrants"
+            android:exported="false" />
+        <activity
+            android:name=".EntrantsList.EnrolledEntrants"
+            android:exported="false" />
+        <activity
             android:name=".Organizer.EventView"
+            android:exported="false" />
+        <activity
+            android:name=".CreateProfile.CreateProfileActivity"
             android:exported="false" />
         <activity
             android:name=".EntrantDashboard.EntrantViewActivity"
             android:exported="false" />
         <activity
-            android:name=".CreatProfile.CreateProfileActivity"
-            android:exported="false" />
-        <activity
             android:name=".User.UserPage"
             android:exported="false" />
+        <activity android:name=".User.OrganizerPage" />
+        <activity
+            android:name=".Events.CreateEventPage"
+            android:exported="false" />
+        <activity android:name=".Events.CreationSuccessActivity" />
         <activity android:name=".WaitingListPackage.WaitingList" />
         <activity android:name=".QRCodes.QRScannerActivity" />
         <activity

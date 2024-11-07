@@ -108,7 +108,7 @@ public class UserUtils {
                 .addOnFailureListener(e -> callback.onUserCheckComplete(false));
     }
 
-    public void addEvent(Context context, String eventId, UserExistenceCallback callback) {
+    public void applyEvent(Context context, String eventId, UserExistenceCallback callback) {
         String deviceID = DeviceUtils.getDeviceID(context);
 
         db.collection("users").document(deviceID).get()
@@ -155,7 +155,7 @@ public class UserUtils {
     // Helper method to convert a User object to a Map for Firestore
     public static Map<String, Object> convertUserToMap(User user) {
         Map<String, Object> userMap = new HashMap<>();
-        userMap.put("deviceID", user.getDeviceID());
+        userMap.put("userID", user.getDeviceID());
         userMap.put("firstName", user.getFirstName());
         userMap.put("lastName", user.getLastName());
         userMap.put("email", user.getEmail());
