@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.zenithevents.Organizer.EventView;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -44,7 +45,7 @@ public class QRScannerActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 DocumentSnapshot documentSnapshot = task.getResult();
                 if (documentSnapshot != null && documentSnapshot.exists()) {
-                    Intent intent = new Intent(QRScannerActivity.this, QREventView.class);
+                    Intent intent = new Intent(QRScannerActivity.this, EventView.class);
                     intent.putExtra("event_id", eventId);
                     startActivity(intent);
                     finish();
