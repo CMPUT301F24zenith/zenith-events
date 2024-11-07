@@ -320,17 +320,6 @@ view component</panel_attributes>
     <additional_attributes>460.0;260.0;10.0;10.0</additional_attributes>
   </element>
   <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>104</x>
-      <y>952</y>
-      <w>96</w>
-      <h>224</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>100.0;260.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
     <id>UMLClass</id>
     <coordinates>
       <x>88</x>
@@ -406,6 +395,29 @@ authentication</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>Entrant Dashboard</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>1520</y>
+      <w>344</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompactActivity&gt;&gt;
+EntrantViewActivity
+--
+-static final String TAG = "EntrantViewsActivity"
+-Button events, myEvents
+--
++onCreate(Bundle savedInstanceState)-&gt;void
++loadFragment(Fragment fragment, Bundle args)-&gt;void
+--
+Responsibilities
+-- Managing the main dashboard view for entrants,
+providing navigation between diferent sections with
+the app using fragments</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
