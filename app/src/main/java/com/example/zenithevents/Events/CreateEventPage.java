@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import android.Manifest;
 import com.example.zenithevents.Objects.Event;
+import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.R;
 import com.example.zenithevents.User.OrganizerPage;
 import com.google.firebase.storage.FirebaseStorage;
@@ -61,7 +63,7 @@ public class CreateEventPage extends AppCompatActivity {
         eventPosterImage = findViewById(R.id.eventPosterImage);
         uploadedPosterString = event.getImageUrl();
         if (uploadedPosterString != null) {
-            Bitmap decodedImage = decodeBase64ToBitmap(uploadedPosterString);
+            Bitmap decodedImage = QRCodeUtils.decodeBase64ToBitmap(uploadedPosterString);
             Glide.with(this).load(decodedImage).into(eventPosterImage);
         }
 
@@ -113,7 +115,7 @@ public class CreateEventPage extends AppCompatActivity {
                         InputStream inputStream = getContentResolver().openInputStream(uploadedPosterUri);
                         Log.d("FunctionCall", "inputStream: " + inputStream);
                         Bitmap image = BitmapFactory.decodeStream(inputStream);
-                        uploadedPosterString = encodeBitmapToBase64(image);
+                        uploadedPosterString = QRCodeUtils.encodeBitmapToBase64(image);
                         event.setImageUrl(uploadedPosterString);
                     } catch (FileNotFoundException e) {
                         Log.d("DEBUG", "Image couldn't be processed");
@@ -126,9 +128,27 @@ public class CreateEventPage extends AppCompatActivity {
                     } else {
                         Toast.makeText(context, "There was an error. Please try again!", Toast.LENGTH_SHORT).show();
                     }
-                    Intent intent = new Intent(CreateEventPage.this, OrganizerPage.class);
-                    startActivity(intent);
                 });
+
+                Bitmap qrCodeBitmap = QRCodeUtils.generateQRCode(event.getEventId());
+                String qrCodeBase64 = QRCodeUtils.encodeBitmapToBase64(qrCodeBitmap);
+                String qrCodeHashed = QRCodeUtils.hashQRCodeData(qrCodeBase64);
+                if (qrCodeHashed != null) {
+                    event.setQRCodeHash(qrCodeHashed);
+                }
+
+                eventUtils.updateEventField(event.getEventId(), "QRCodeURL", qrCodeHashed, success -> {
+                    if (success) {
+                        Log.d("Firestore", "QR code hash updated successfully.");
+                    } else {
+                        Log.w("Firestore", "Failed to update QR code hash.");
+                    }
+                });
+
+                Intent intent = new Intent(CreateEventPage.this, CreationSuccessActivity.class);
+                intent.putExtra("event", event);
+                intent.putExtra("qrCodeBase64", event);
+                startActivity(intent);
             }
         });
 
@@ -178,17 +198,5 @@ public class CreateEventPage extends AppCompatActivity {
                 Toast.makeText(this, "Permission required", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    private String encodeBitmapToBase64(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-        byte[] byteArray = outputStream.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
-    }
-
-    private Bitmap decodeBase64ToBitmap(String base64Str) {
-        byte[] decodedBytes = Base64.decode(base64Str, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 }

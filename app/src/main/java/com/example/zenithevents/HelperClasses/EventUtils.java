@@ -103,7 +103,7 @@ public class EventUtils {
                         Log.d("Firestore", "Event updated to database");
                         callback.onEventUpdate(ref.getId());
                     }).addOnFailureListener(e -> {
-                        Log.w("Firestrore", "Couldnt find Event Id in the database");
+                        Log.w("Firestore", "Couldn't find Event Id in the database");
                         callback.onEventUpdate(null);
                     });
         }
@@ -204,7 +204,7 @@ public class EventUtils {
         eventMap.put("selected", event.getSelected());
         eventMap.put("registrants", event.getRegistrants());
         eventMap.put("ownerFacility", event.getOwnerFacility());
-        eventMap.put("QRCodeURL", event.getQRCodeURL());
+        eventMap.put("QRCodeURL", event.getQRCodeHash());
         return eventMap;
     }
 }
