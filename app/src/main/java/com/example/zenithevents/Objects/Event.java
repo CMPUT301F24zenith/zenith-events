@@ -111,9 +111,6 @@ public class Event {
     public void setEventId(String documentId) {
     }
 
-    public String getTitle() {
-        return eventTitle;
-    }
     public String getAddress() {
         return eventAddress;
     }

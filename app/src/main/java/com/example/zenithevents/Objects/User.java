@@ -1,8 +1,10 @@
 package com.example.zenithevents.Objects;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 
-public class User {
+public class User extends Activity {
 
     private String deviceID;
     private String firstName;

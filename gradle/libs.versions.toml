@@ -11,6 +11,7 @@ constraintlayout = "2.1.4"
 firebaseAuth = "23.1.0"
 firebaseStorage = "21.0.1"
 kotlin = "1.9.0"
+espressoIntents = "3.6.1"
 
 [libraries]
 firebase-storage-v2021 = { module = "com.google.firebase:firebase-storage", version.ref = "firebaseStorageVersion" }
@@ -23,6 +24,7 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "espressoIntents" }
 
 [plugins]
 android-application = { id = "com.android.application", version = "8.6.0" }
