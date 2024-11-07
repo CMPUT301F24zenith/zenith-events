@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="15.1">
-  <zoom_level>6</zoom_level>
+  <zoom_level>3</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>30</x>
-      <y>78</y>
-      <w>126</w>
-      <h>126</h>
+      <x>15</x>
+      <y>39</y>
+      <w>63</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Abstract&gt;&gt;
 User
@@ -28,10 +28,10 @@ User
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>558</x>
+      <x>279</x>
       <y>0</y>
-      <w>126</w>
-      <h>114</h>
+      <w>63</w>
+      <h>57</h>
     </coordinates>
     <panel_attributes>Facility
 --
@@ -47,10 +47,10 @@ User
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>504</x>
-      <y>186</y>
-      <w>192</w>
-      <h>150</h>
+      <x>252</x>
+      <y>93</y>
+      <w>96</w>
+      <h>75</h>
     </coordinates>
     <panel_attributes>Event
 --
@@ -72,10 +72,10 @@ recipients: array&lt;Entrant&gt;, list: string): void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>150</x>
-      <y>366</y>
-      <w>156</w>
-      <h>114</h>
+      <x>75</x>
+      <y>183</y>
+      <w>78</w>
+      <h>57</h>
     </coordinates>
     <panel_attributes>Organizer
 --
@@ -88,10 +88,10 @@ recipients: array&lt;Entrant&gt;, list: string): void
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>612</x>
-      <y>108</y>
-      <w>36</w>
-      <h>90</h>
+      <x>306</x>
+      <y>54</y>
+      <w>18</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=1
@@ -102,10 +102,10 @@ m2=0..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>300</x>
-      <y>234</y>
-      <w>216</w>
-      <h>204</h>
+      <x>150</x>
+      <y>117</y>
+      <w>108</w>
+      <h>102</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
@@ -115,10 +115,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>78</x>
-      <y>198</y>
-      <w>144</w>
-      <h>180</h>
+      <x>39</x>
+      <y>99</y>
+      <w>72</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;220.0;280.0</additional_attributes>
@@ -126,10 +126,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>294</x>
-      <y>12</y>
-      <w>192</w>
-      <h>114</h>
+      <x>147</x>
+      <y>6</y>
+      <w>96</w>
+      <h>57</h>
     </coordinates>
     <panel_attributes>Entrant
 --
@@ -144,10 +144,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>150</x>
-      <y>66</y>
-      <w>156</w>
-      <h>96</h>
+      <x>75</x>
+      <y>33</y>
+      <w>78</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;140.0;240.0;10.0</additional_attributes>
@@ -155,10 +155,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>408</x>
-      <y>120</y>
-      <w>108</w>
-      <h>96</h>
+      <x>204</x>
+      <y>60</y>
+      <w>54</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;&gt;&gt;
 m1=0..*
@@ -168,10 +168,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>240</x>
-      <y>186</y>
-      <w>174</w>
-      <h>114</h>
+      <x>120</x>
+      <y>93</y>
+      <w>87</w>
+      <h>57</h>
     </coordinates>
     <panel_attributes>Admin
 --
@@ -188,10 +188,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>150</x>
-      <y>162</y>
-      <w>102</w>
-      <h>90</h>
+      <x>75</x>
+      <y>81</y>
+      <w>51</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;150.0;130.0</additional_attributes>
@@ -200,9 +200,9 @@ m2=0..*</panel_attributes>
     <id>UMLNote</id>
     <coordinates>
       <x>0</x>
-      <y>642</y>
-      <w>84</w>
-      <h>30</h>
+      <y>321</y>
+      <w>42</w>
+      <h>15</h>
     </coordinates>
     <panel_attributes>ArrayAdapters</panel_attributes>
     <additional_attributes/>
@@ -210,10 +210,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>126</x>
-      <y>606</y>
-      <w>186</w>
-      <h>114</h>
+      <x>63</x>
+      <y>303</y>
+      <w>93</w>
+      <h>57</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ArrayAdapter&lt;User&gt;&gt;&gt;
 EntrantArrayAdapter
@@ -231,10 +231,10 @@ view component</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>222</x>
-      <y>870</y>
-      <w>198</w>
-      <h>114</h>
+      <x>111</x>
+      <y>435</y>
+      <w>99</w>
+      <h>57</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ArrayAdapter&lt;Organization&gt;&gt;&gt;
 OrganizationArrayAdapter
@@ -254,10 +254,10 @@ view component</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>222</x>
-      <y>750</y>
-      <w>198</w>
-      <h>114</h>
+      <x>111</x>
+      <y>375</y>
+      <w>99</w>
+      <h>57</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ArrayAdapter&lt;Event&gt;&gt;&gt;
 EventArrayAdapter
@@ -277,10 +277,10 @@ view component</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>18</x>
-      <y>870</y>
-      <w>198</w>
-      <h>114</h>
+      <x>9</x>
+      <y>435</y>
+      <w>99</w>
+      <h>57</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ArrayAdapter&lt;Facility&gt;&gt;&gt;
 FacilityArrayAdapter
@@ -301,9 +301,9 @@ view component</panel_attributes>
     <id>UMLNote</id>
     <coordinates>
       <x>0</x>
-      <y>678</y>
-      <w>84</w>
-      <h>42</h>
+      <y>339</y>
+      <w>42</w>
+      <h>21</h>
     </coordinates>
     <panel_attributes>Note: Not used</panel_attributes>
     <additional_attributes/>
@@ -311,10 +311,10 @@ view component</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>30</x>
-      <y>714</y>
-      <w>288</w>
-      <h>168</h>
+      <x>15</x>
+      <y>357</y>
+      <w>144</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>460.0;260.0;10.0;10.0</additional_attributes>
@@ -322,10 +322,10 @@ view component</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>18</x>
-      <y>1002</y>
-      <w>204</w>
-      <h>66</h>
+      <x>9</x>
+      <y>501</y>
+      <w>102</w>
+      <h>33</h>
     </coordinates>
     <panel_attributes>CustomArrayAdapter&lt;T&gt;
 --
@@ -340,10 +340,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>30</x>
-      <y>714</y>
-      <w>48</w>
-      <h>300</h>
+      <x>15</x>
+      <y>357</y>
+      <w>24</w>
+      <h>150</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>60.0;480.0;10.0;10.0</additional_attributes>
@@ -351,10 +351,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>462</x>
-      <y>690</y>
-      <w>84</w>
-      <h>24</h>
+      <x>231</x>
+      <y>345</y>
+      <w>42</w>
+      <h>12</h>
     </coordinates>
     <panel_attributes>CreateProfile</panel_attributes>
     <additional_attributes/>
@@ -362,10 +362,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>462</x>
-      <y>720</y>
-      <w>186</w>
-      <h>150</h>
+      <x>231</x>
+      <y>360</y>
+      <w>93</w>
+      <h>75</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 CreateProfileActivity
@@ -389,10 +389,10 @@ authentication</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>78</x>
-      <y>1122</y>
-      <w>108</w>
-      <h>24</h>
+      <x>39</x>
+      <y>561</y>
+      <w>54</w>
+      <h>12</h>
     </coordinates>
     <panel_attributes>Entrant Dashboard</panel_attributes>
     <additional_attributes/>
@@ -400,10 +400,10 @@ authentication</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>54</x>
-      <y>1302</y>
-      <w>258</w>
-      <h>114</h>
+      <x>27</x>
+      <y>651</y>
+      <w>129</w>
+      <h>57</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Fragment&gt;&gt;
 EventFragment
@@ -422,13 +422,13 @@ and handling user interactions</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>666</x>
-      <y>1194</y>
-      <w>282</w>
-      <h>156</h>
+      <x>489</x>
+      <y>603</y>
+      <w>141</w>
+      <h>78</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
-CancelledEntrants
+SampledEntrants
 --
 -ArrayList&lt;user&gt; dataList
 -ListView entrantList
@@ -440,19 +440,20 @@ CancelledEntrants
 +showListEnrolled()-&gt;void
 --
 Responsibilities
--- Displaying a list of users who have canceled their enrollment
-in a specific event by fetching and displaing data from Firebase
-Firestre in a ListView
+-- Displaying a list of users who have been specially sampled
+for a specific event
+-- Pulling the data from database
+-- Displaying it in ListView
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>54</x>
-      <y>1170</y>
-      <w>258</w>
-      <h>114</h>
+      <x>27</x>
+      <y>585</y>
+      <w>129</w>
+      <h>57</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompactActivity&gt;&gt;
 EntrantViewActivity
@@ -472,10 +473,10 @@ the app using fragments</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>666</x>
-      <y>1152</y>
-      <w>84</w>
-      <h>30</h>
+      <x>333</x>
+      <y>576</y>
+      <w>42</w>
+      <h>15</h>
     </coordinates>
     <panel_attributes>EntrantsList</panel_attributes>
     <additional_attributes/>
@@ -483,10 +484,10 @@ the app using fragments</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>324</x>
-      <y>1170</y>
-      <w>270</w>
-      <h>258</h>
+      <x>162</x>
+      <y>585</y>
+      <w>135</w>
+      <h>129</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Fragment&gt;&gt;
 EventsFragment
@@ -515,6 +516,87 @@ Responsibilities
 from the firestore databased based on the users role,
 and dynamically updating the view with relevant event
 information according to the users type and stauts</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>333</x>
+      <y>687</y>
+      <w>141</w>
+      <h>78</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+EnrolledEntrants
+--
+-ArrayList&lt;User&gt; dataList
+-ListView entrantList
+-EntrantArrayAdapter entrantAdapter
+-FirebaseFirestore db
+-String eventId
+--
++onCreate(Bundle savedInstanceState)-&gt;void
++showListEnrolled()-&gt;void
+--
+Responsibilities
+-- Displaying a list of users who are currently enrolled in 
+a specific event, fetching this data from the database
+and displaying it in a listview
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>339</x>
+      <y>603</y>
+      <w>141</w>
+      <h>78</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+CancelledEntrants
+--
+-ArrayList&lt;user&gt; dataList
+-ListView entrantList
+-EntrantArrayAdapter entrantAdapter
+-FirebaseFirestore db
+-String eventId
+--
++onCreate(Bundle savedInstanceState)-&gt;void
++showListEnrolled()-&gt;void
+--
+Responsibilities
+-- Displaying a list of users who have canceled their enrollment
+in a specific event by fetching and displaing data from Firebase
+Firestre in a ListView
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>489</x>
+      <y>687</y>
+      <w>141</w>
+      <h>78</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+WaitListedEntrants
+--
+-ArrayList&lt;User&gt; dataList
+-ListView entrantList
+-EntrantArrayAdapter entrantAdapter
+-FirebaseFirestore db
+-String eventId
+--
++onCreate(Bundle savedInstanceState)-&gt;void
++showListEnrolled()-&gt;void
+--
+Responsibilities
+-- Displaying list of users on the waitlist for an event
+-- Retrieving the information from the database
+-- Displaying in a ListView
+</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
