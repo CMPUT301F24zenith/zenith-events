@@ -13,7 +13,7 @@ import java.util.Collections;
 
 public class Event implements Serializable {
     private ArrayList<User> waitingList, selected, cancelledList, registrants;
-    private String ownerFacility, eventId, eventTitle, QRCodeURL, ImageUrl, eventAddress;
+    private String ownerFacility, eventId, eventTitle, QRCodeURL, ImageUrl, eventAddress, eventDescription;
     private int numParticipants;
 
     public Event(){
@@ -160,5 +160,13 @@ public class Event implements Serializable {
     public Bitmap decodeBase64ToBitmap(String base64Str) {
         byte[] decodedBytes = Base64.decode(base64Str, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+    }
+
+    public String getEventDescription() {
+        return eventDescription;
+    }
+
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
     }
 }

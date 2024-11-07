@@ -39,9 +39,9 @@ public class CreateEventPage extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
 
     Button createEventSaveButton, createEventCancelButton, uploadEventPosterButton;
-    String pageTitle, eventTitle, eventLimitString, numParticipants, uploadedPosterString, eventLocation;
+    String pageTitle, eventTitle, eventLimitString, numParticipants, uploadedPosterString, eventLocation, eventDescription;
     TextView pageTitleView;
-    EditText eventNameView, eventLimitView, eventLocationView;
+    EditText eventNameView, eventLimitView, eventLocationView, eventDescriptionView;
     Event event;
     ImageView eventPosterImage;
     Uri uploadedPosterUri;
@@ -77,6 +77,10 @@ public class CreateEventPage extends AppCompatActivity {
         eventLimitView = findViewById(R.id.eventLimitInput);
         eventLimitView.setText(eventLimitString);
 
+        eventDescription = event.getEventDescription();
+        eventDescriptionView = findViewById(R.id.eventDescriptionInput);
+        eventDescriptionView.setText(eventDescription);
+
         eventLocation = event.getEventAddress();
         eventLocationView = findViewById(R.id.eventLocationInput);
         eventLocationView.setText(eventLocation);
@@ -87,6 +91,7 @@ public class CreateEventPage extends AppCompatActivity {
             eventTitle = eventNameView.getText().toString();
             numParticipants = String.valueOf(eventLimitView.getText());
             eventLocation = eventLocationView.getText().toString();
+            eventDescription = eventDescriptionView.getText().toString();
 
             Context context = CreateEventPage.this;
 
@@ -103,6 +108,7 @@ public class CreateEventPage extends AppCompatActivity {
             if (!Objects.equals(numParticipants, "0") && !Objects.equals(eventTitle, "")) {
                 event.setEventTitle(eventTitle);
                 event.setNumParticipants(Objects.equals(numParticipants, "") ? 0 : Integer.parseInt(numParticipants));
+                event.setEventDescription(eventDescription);
                 event.setEventAddress(eventLocation);
 
                 StorageReference storageRef = FirebaseStorage.getInstance().getReference();
