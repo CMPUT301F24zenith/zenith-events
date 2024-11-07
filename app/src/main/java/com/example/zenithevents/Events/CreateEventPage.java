@@ -1,5 +1,8 @@
 package com.example.zenithevents.Events;
 
+import static com.example.zenithevents.HelperClasses.QRCodeUtils.generateQRCode;
+import static com.example.zenithevents.HelperClasses.QRCodeUtils.hashQRCodeData;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -60,14 +63,14 @@ public class CreateEventPage extends AppCompatActivity {
         assert event != null;
 
         eventPosterImage = findViewById(R.id.eventPosterImage);
-        uploadedPosterString = event.getEventImage();
+        uploadedPosterString = event.getImageUrl();
         if (uploadedPosterString != null) {
             Bitmap decodedImage = decodeBase64ToBitmap(uploadedPosterString);
             Glide.with(this).load(decodedImage).into(eventPosterImage);
         }
 
         eventName = event.getEventName();
-        eventLimitString = event.getEventLimit() == 0 ? "" : String.valueOf(event.getEventLimit());
+        eventLimitString = event.getNumParticipants() == 0 ? "" : String.valueOf(event.getNumParticipants());
 
         pageTitleView = findViewById(R.id.createEventTitle);
         pageTitleView.setText(pageTitle);
@@ -96,7 +99,7 @@ public class CreateEventPage extends AppCompatActivity {
 
             if (!Objects.equals(eventLimit, "0") && !Objects.equals(eventName, "")) {
                 event.setEventName(eventName);
-                event.setEventLimit(Objects.equals(eventLimit, "") ? 0 : Integer.parseInt(eventLimit));
+                event.setNumParticipants(Objects.equals(eventLimit, "") ? 0 : Integer.parseInt(eventLimit));
 
                 StorageReference storageRef = FirebaseStorage.getInstance().getReference();
                 StorageReference imageRef = storageRef.child("images/" + UUID.randomUUID().toString());
@@ -108,7 +111,7 @@ public class CreateEventPage extends AppCompatActivity {
                     assert inputStream != null;
                     Bitmap image = BitmapFactory.decodeStream(inputStream);
                     uploadedPosterString = encodeBitmapToBase64(image);
-                    event.setEventImage(uploadedPosterString);
+                    event.setImageUrl(uploadedPosterString);
 
                     eventUtils.updateEvent(context, event, eventId -> {
                         if (eventId != null) {
@@ -118,6 +121,13 @@ public class CreateEventPage extends AppCompatActivity {
                             Toast.makeText(context, "There was an error. Please try again!", Toast.LENGTH_SHORT).show();
                         }
                     });
+
+                    Bitmap qrCodeBitmap = generateQRCode(event.getEventId());
+                    String qrCodeBase64 = encodeBitmapToBase64(qrCodeBitmap);
+                    String hashedQR = hashQRCodeData(qrCodeBase64);
+                    event.setQRCodeURL(hashedQR);
+
+
                 } catch (FileNotFoundException e) {
                     Log.d("DEBUG", "File not found");
                 }
