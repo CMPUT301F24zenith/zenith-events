@@ -17,6 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.MainActivity;
 import com.example.zenithevents.Objects.Event;
@@ -119,13 +120,14 @@ public class EventView extends AppCompatActivity {
         });
 
         // Load event image using Glide
-        loadImage(event, event.getImageUrl(), eventPosterImageView);
-//        loadImage(event, event.getQRCodeUrl(), eventQRImageView);
+        loadImage(event.getImageUrl(), eventPosterImageView);
+        loadImage(event.getQRCodeBitmap(), eventQRImageView);
     }
 
-    private void loadImage(Event event, String imageUrl, ImageView placeholder) {
+    private void loadImage(String imageUrl, ImageView placeholder) {
+        BitmapUtils bitmapUtils = new BitmapUtils();
         if (imageUrl != null) {
-            Bitmap imgBitMap = event.decodeBase64ToBitmap(imageUrl);
+            Bitmap imgBitMap = bitmapUtils.decodeBase64ToBitmap(imageUrl);
             Glide.with(this).load(imgBitMap).into(placeholder);
         } else {
             placeholder.setImageResource(R.drawable.event_place_holder);
