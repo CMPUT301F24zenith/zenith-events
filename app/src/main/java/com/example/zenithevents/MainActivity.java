@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.zenithevents.CreatProfile.CreateProfileActivity;
 import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
 import com.example.zenithevents.HelperClasses.UserUtils;
+import com.example.zenithevents.Organizer.EventView;
 import com.example.zenithevents.QRCodes.QRScannerActivity;
 import com.example.zenithevents.User.OrganizerPage;
 import com.example.zenithevents.User.UserPage;
@@ -28,11 +29,13 @@ public class MainActivity extends AppCompatActivity {
     Button waitingListButton;
     Button createAProfile;
     Button applyEventButton;
+    Button testEventView;
 
     private UserUtils userUtils;
 
     Button viewProfileButton;
     private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
         buttonEntrant = findViewById(R.id.entrantButton);
         organizerButton = findViewById(R.id.organizerButton);
         buttonAdmin = findViewById(R.id.adminButton);
-        buttonCreateEventEvent = findViewById(R.id.createEventButton);
         scanQRButton = findViewById(R.id.scanQRButton);
         waitingListButton = findViewById(R.id.waitingListButton);
         createAProfile = findViewById(R.id.createAProfile);
         viewProfileButton = findViewById(R.id.viewProfileButton);
         applyEventButton = findViewById(R.id.applyEvent);
+        testEventView = findViewById(R.id.testEventView);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -82,9 +85,14 @@ public class MainActivity extends AppCompatActivity {
         buttonEntrant.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, EntrantViewActivity.class);
             startActivity(intent);
+        });
 
-            });
-
+        testEventView.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, EventView.class);
+            String eventId = "fyqvxEqLuv1vCw4xOMCu";
+            intent.putExtra("event_id", eventId);
+            startActivity(intent);
+        });
 
         applyEventButton.setOnClickListener(v -> {
             String eventId = "k";

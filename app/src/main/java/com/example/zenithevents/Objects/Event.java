@@ -10,7 +10,7 @@ import java.util.Collections;
 
 public class Event implements Serializable {
     private ArrayList<User> waitingList, selected, cancelledList, registrants;
-    private String ownerFacility, eventId, eventTitle, QRCodeURL, ImageUrl;
+    private String ownerFacility, eventId, eventTitle, QRCodeURL, ImageUrl, eventAddress;
     private int numParticipants;
 
     public Event(){
@@ -22,21 +22,33 @@ public class Event implements Serializable {
         this.eventTitle = null;
         this.ImageUrl = null;
         this.QRCodeURL = null;
+        this.eventAddress = null;
+        this.eventId = null;
 
         this.numParticipants = 0;
     }
 
-    public Event(String eventTitle, String eventImage, String QRCodeURL, int numParticipants){
+    public Event(String eventId, String eventTitle, String eventImage, String QRCodeURL, int numParticipants, String eventAddress){
         this.waitingList = new ArrayList<>();
         this.selected = new ArrayList<>();
         this.cancelledList = new ArrayList<>();
         this.registrants = new ArrayList<>();
 
+        this.eventId = eventId;
         this.eventTitle = eventTitle;
         this.ImageUrl = eventImage;
         this.QRCodeURL = QRCodeURL;
 
         this.numParticipants = numParticipants;
+        this.eventAddress = eventAddress;
+    }
+
+    public String getEventAddress() {
+        return eventAddress;
+    }
+
+    public void setEventAddress(String eventAddress) {
+        this.eventAddress = eventAddress;
     }
 
     public ArrayList<User> getWaitingList() {
@@ -51,7 +63,7 @@ public class Event implements Serializable {
         return this.cancelledList;
     }
 
-    public ArrayList<User> getConfirmedList() {
+    public ArrayList<User> getRegistrants() {
         return this.registrants;
     }
 
@@ -59,7 +71,7 @@ public class Event implements Serializable {
         return eventId;
     }
 
-    public String getEventName() {
+    public String getEventTitle() {
         return this.eventTitle;
     }
 
@@ -95,12 +107,7 @@ public class Event implements Serializable {
         this.cancelledList = cancelledList;
     }
 
-
-    public void getRegistrants(ArrayList<User> registrants) {
-        this.registrants = registrants;
-    }
-
-    public void setEventName(String eventTitle) {
+    public void setEventTitle(String eventTitle) {
         this.eventTitle = eventTitle;
     }
 

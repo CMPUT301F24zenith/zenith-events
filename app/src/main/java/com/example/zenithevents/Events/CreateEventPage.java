@@ -1,8 +1,5 @@
 package com.example.zenithevents.Events;
 
-import static com.example.zenithevents.HelperClasses.QRCodeUtils.generateQRCode;
-import static com.example.zenithevents.HelperClasses.QRCodeUtils.hashQRCodeData;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -34,7 +31,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.UUID;
@@ -43,9 +39,9 @@ public class CreateEventPage extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
 
     Button createEventSaveButton, createEventCancelButton, uploadEventPosterButton;
-    String pageTitle, eventName, eventLimitString, eventLimit, uploadedPosterString;
+    String pageTitle, eventTitle, eventLimitString, numParticipants, uploadedPosterString, eventLocation;
     TextView pageTitleView;
-    EditText eventNameView, eventLimitView;
+    EditText eventNameView, eventLimitView, eventLocationView;
     Event event;
     ImageView eventPosterImage;
     Uri uploadedPosterUri;
@@ -69,68 +65,70 @@ public class CreateEventPage extends AppCompatActivity {
             Glide.with(this).load(decodedImage).into(eventPosterImage);
         }
 
-        eventName = event.getEventName();
-        eventLimitString = event.getNumParticipants() == 0 ? "" : String.valueOf(event.getNumParticipants());
 
         pageTitleView = findViewById(R.id.createEventTitle);
         pageTitleView.setText(pageTitle);
 
+        eventTitle = event.getEventTitle();
         eventNameView = findViewById(R.id.eventNameInput);
-        eventNameView.setText(eventName);
+        eventNameView.setText(eventTitle);
 
+        eventLimitString = event.getNumParticipants() == 0 ? "" : String.valueOf(event.getNumParticipants());
         eventLimitView = findViewById(R.id.eventLimitInput);
         eventLimitView.setText(eventLimitString);
 
+        eventLocation = event.getEventAddress();
+        eventLocationView = findViewById(R.id.eventLocationInput);
+        eventLocationView.setText(eventLocation);
+
+
         createEventSaveButton = findViewById(R.id.createEventSaveButton);
         createEventSaveButton.setOnClickListener(v -> {
-            eventName = eventNameView.getText().toString();
-            eventLimit = String.valueOf(eventLimitView.getText());
+            eventTitle = eventNameView.getText().toString();
+            numParticipants = String.valueOf(eventLimitView.getText());
+            eventLocation = eventLocationView.getText().toString();
+
             Context context = CreateEventPage.this;
 
-            if (Objects.equals(eventName, "")) {
+            if (Objects.equals(eventTitle, "")) {
                 eventNameView.setError("Event Name can't be empty");
                 eventNameView.requestFocus();
             }
 
-            if (Objects.equals(eventLimit, "0")) {
+            if (Objects.equals(numParticipants, "0")) {
                 eventLimitView.setError("Limit can't be 0");
                 eventLimitView.requestFocus();
             }
 
-            if (!Objects.equals(eventLimit, "0") && !Objects.equals(eventName, "")) {
-                event.setEventName(eventName);
-                event.setNumParticipants(Objects.equals(eventLimit, "") ? 0 : Integer.parseInt(eventLimit));
+            if (!Objects.equals(numParticipants, "0") && !Objects.equals(eventTitle, "")) {
+                event.setEventTitle(eventTitle);
+                event.setNumParticipants(Objects.equals(numParticipants, "") ? 0 : Integer.parseInt(numParticipants));
+                event.setEventAddress(eventLocation);
 
                 StorageReference storageRef = FirebaseStorage.getInstance().getReference();
                 StorageReference imageRef = storageRef.child("images/" + UUID.randomUUID().toString());
 
-                assert uploadedPosterUri != null;
-                try {
-                    InputStream inputStream = getContentResolver().openInputStream(uploadedPosterUri);
-                    Log.d("FunctionCall", "inputStream: " + inputStream);
-                    assert inputStream != null;
-                    Bitmap image = BitmapFactory.decodeStream(inputStream);
-                    uploadedPosterString = encodeBitmapToBase64(image);
-                    event.setImageUrl(uploadedPosterString);
-
-                    eventUtils.updateEvent(context, event, eventId -> {
-                        if (eventId != null) {
-                            Toast.makeText(context, "Event was successfully published!", Toast.LENGTH_SHORT).show();
-                            event.setEventId(eventId);
-                        } else {
-                            Toast.makeText(context, "There was an error. Please try again!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    Bitmap qrCodeBitmap = generateQRCode(event.getEventId());
-                    String qrCodeBase64 = encodeBitmapToBase64(qrCodeBitmap);
-                    String hashedQR = hashQRCodeData(qrCodeBase64);
-                    event.setQRCodeURL(hashedQR);
-
-
-                } catch (FileNotFoundException e) {
-                    Log.d("DEBUG", "File not found");
+                if (uploadedPosterUri != null) {
+                    try {
+                        InputStream inputStream = getContentResolver().openInputStream(uploadedPosterUri);
+                        Log.d("FunctionCall", "inputStream: " + inputStream);
+                        Bitmap image = BitmapFactory.decodeStream(inputStream);
+                        uploadedPosterString = encodeBitmapToBase64(image);
+                        event.setImageUrl(uploadedPosterString);
+                    } catch (FileNotFoundException e) {
+                        Log.d("DEBUG", "Image couldn't be processed");
+                    }
                 }
+                eventUtils.updateEvent(context, event, eventId -> {
+                    if (eventId != null) {
+                        Toast.makeText(context, "Event was successfully published!", Toast.LENGTH_SHORT).show();
+                        event.setEventId(eventId);
+                    } else {
+                        Toast.makeText(context, "There was an error. Please try again!", Toast.LENGTH_SHORT).show();
+                    }
+                    Intent intent = new Intent(CreateEventPage.this, OrganizerPage.class);
+                    startActivity(intent);
+                });
             }
         });
 
