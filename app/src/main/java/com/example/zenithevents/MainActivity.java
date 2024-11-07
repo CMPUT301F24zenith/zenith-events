@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.zenithevents.CreatProfile.CreateProfileActivity;
+import com.example.zenithevents.CreateProfile.CreateProfileActivity;
 import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Organizer.EventView;
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         testEventView.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, EventView.class);
-            String eventId = "fyqvxEqLuv1vCw4xOMCu";
+            String eventId = "lUqyOyneNo4CgfNhS5OP";
             intent.putExtra("event_id", eventId);
             startActivity(intent);
         });
