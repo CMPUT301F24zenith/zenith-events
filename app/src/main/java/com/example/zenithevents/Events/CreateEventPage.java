@@ -160,6 +160,7 @@ public class CreateEventPage extends AppCompatActivity {
                                 intent.putExtra("Event", event);
                                 intent.putExtra("qr_code", qrCodeBase64);
                                 startActivity(intent);
+                                finish();
                             } else {
                                 Toast.makeText(this, "There was an error updating the QR code. Please try again!", Toast.LENGTH_SHORT).show();
                                 Log.w("Firestore", "Failed to update QR code hash.");
