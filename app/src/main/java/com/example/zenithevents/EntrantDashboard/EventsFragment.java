@@ -82,7 +82,7 @@ public class EventsFragment extends Fragment {
         events = new ArrayList<>();
         adapter = new EventArrayAdapter(requireContext(), events);
         eventListView.setAdapter(adapter);
-//        addMockEventsOnce();
+
         fetchEvents();
 
 
@@ -117,48 +117,7 @@ public class EventsFragment extends Fragment {
         });
     }
 
-    private void addMockEventsOnce() {
-        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        boolean hasAddedMockEvents = sharedPreferences.getBoolean("hasAddedMockEvents", false);
 
-        if (!hasAddedMockEvents) {
-            // Create two mock events without setting eventId yet
-            Event event1 = new Event("Mock Event 1", null, "https://example.com/image1.jpg", 100);
-            Event event2 = new Event("Mock Event 2", null, "https://example.com/image2.jpg", 150);
-
-            // Add event1 to Firestore and set its eventId to the document ID
-            eventsRef.add(event1)
-                    .addOnSuccessListener(documentReference -> {
-                        String documentId = documentReference.getId();
-                        event1.setEventId(documentId); // Set eventId to the document ID
-                        eventsRef.document(documentId).set(event1); // Update Firestore with eventId
-                        Log.d(TAG, "Mock event 1 added successfully with eventId: " + documentId);
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.e(TAG, "Error adding mock event 1", e);
-                        Toast.makeText(getContext(), "Error adding mock event 1", Toast.LENGTH_SHORT).show();
-                    });
-
-            // Add event2 to Firestore and set its eventId to the document ID
-            eventsRef.add(event2)
-                    .addOnSuccessListener(documentReference -> {
-                        String documentId = documentReference.getId();
-                        event2.setEventId(documentId); // Set eventId to the document ID
-                        eventsRef.document(documentId).set(event2); // Update Firestore with eventId
-                        Log.d(TAG, "Mock event 2 added successfully with eventId: " + documentId);
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.e(TAG, "Error adding mock event 2", e);
-                        Toast.makeText(getContext(), "Error adding mock event 2", Toast.LENGTH_SHORT).show();
-                    });
-
-            // Update SharedPreferences to avoid adding them again
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("hasAddedMockEvents", true);
-            editor.apply();
-        }
 
     }
 
-
-}
