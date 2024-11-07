@@ -155,7 +155,7 @@ public class UserUtils {
     // Helper method to convert a User object to a Map for Firestore
     public static Map<String, Object> convertUserToMap(User user) {
         Map<String, Object> userMap = new HashMap<>();
-        userMap.put("deviceID", user.getDeviceID());
+        userMap.put("userID", user.getDeviceID());
         userMap.put("firstName", user.getFirstName());
         userMap.put("lastName", user.getLastName());
         userMap.put("email", user.getEmail());

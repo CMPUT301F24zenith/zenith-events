@@ -7,15 +7,7 @@
     android:gravity="center"
     android:padding="16dp">
 
-    <Button
-        android:id="@+id/back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"
-        android:layout_marginBottom="16dp"
-        android:padding="10dp"
-        android:layout_gravity="left"
-        />
+
 
    <TextView
        android:layout_width="wrap_content"
@@ -39,20 +31,18 @@
         android:visibility="visible"/>
 
     <EditText
-        android:id="@+id/etEntrantPhoneNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Phone Number "
-        android:inputType="phone" />
-
-
-    <EditText
         android:id="@+id/etEntrantEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email *"
         android:inputType="textEmailAddress"/>
 
+    <EditText
+        android:id="@+id/etEntrantPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone Number "
+        android:inputType="phone" />
 
 
     <Button
