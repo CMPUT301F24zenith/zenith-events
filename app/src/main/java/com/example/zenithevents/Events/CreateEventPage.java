@@ -34,6 +34,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -146,8 +147,8 @@ public class CreateEventPage extends AppCompatActivity {
                 });
 
                 Intent intent = new Intent(CreateEventPage.this, CreationSuccessActivity.class);
-                intent.putExtra("event", event);
-                intent.putExtra("qrCodeBase64", event);
+                intent.putExtra("Event", (Serializable) event);
+                intent.putExtra("qr_code", event);
                 startActivity(intent);
             }
         });
