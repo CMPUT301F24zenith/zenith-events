@@ -13,7 +13,7 @@ import java.util.Collections;
 
 public class Event implements Serializable {
     private ArrayList<User> waitingList, selected, cancelledList, registrants;
-    private String ownerFacility, eventId, eventTitle, QRCodeURL, ImageUrl, eventAddress, eventDescription;
+    private String ownerFacility, eventId, eventTitle, QRCodeHash, ImageUrl, eventAddress, eventDescription;
     private int numParticipants;
 
     public Event(){

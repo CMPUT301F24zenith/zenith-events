@@ -147,7 +147,7 @@ public class CreateEventPage extends AppCompatActivity {
                         Log.d("FunctionCall", "if3");
 
 
-                        eventUtils.updateEvent(context, event, eventId_ -> {
+                        eventUtils.createUpdateEvent(context, event, eventId_ -> {
                             if (eventId_ != null) {
                                 Log.d("Firestore", "QR code hash updated successfully.");
                                 Toast.makeText(this, "Event was successfully published!", Toast.LENGTH_SHORT).show();
