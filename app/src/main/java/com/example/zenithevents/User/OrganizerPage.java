@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.zenithevents.EntrantDashboard.EventFragment;
 import com.example.zenithevents.EntrantDashboard.EventsFragment;
 import com.example.zenithevents.Events.CreateEventPage;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
@@ -39,18 +38,8 @@ public class OrganizerPage extends AppCompatActivity {
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.myEventsFragment), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom);
             return insets;
-        });
-
-        Context context = OrganizerPage.this;
-        String deviceID = DeviceUtils.getDeviceID(context);
-
-        eventUtils.fetchOrganizerEvents(context, deviceID, fetchedOrganizerEvents -> {
-            if (fetchedOrganizerEvents != null)
-                organizerEvents = fetchedOrganizerEvents;
-
-            Log.d("FunctionCall", "Fetched events: " + organizerEvents.size());
         });
 
         createEventButton = findViewById(R.id.createEventButton);
@@ -61,13 +50,6 @@ public class OrganizerPage extends AppCompatActivity {
             intent.putExtra("Event", event);
             startActivity(intent);
         });
-
-        if (savedInstanceState == null) {
-            EventFragment myEvents = new EventFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.myEventsFragment, myEvents)
-                    .commit();
-        }
 
         Bundle args = new Bundle();
         args.putString("type", "organizer");
