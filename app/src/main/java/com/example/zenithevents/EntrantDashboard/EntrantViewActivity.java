@@ -35,15 +35,17 @@ public class EntrantViewActivity extends AppCompatActivity {
         events = findViewById(R.id.btnEvents);
         myEvents = findViewById(R.id.btnMyEvents);
 
-        // Display the EventsFragment initially
-        loadFragment(new EventsFragment());
+        Bundle args = new Bundle();
+        args.putString("type", "organizer");
+        loadFragment(new EventsFragment(), args);
 
         // Set up button clicks to load different fragments
-        events.setOnClickListener(v -> loadFragment(new EventsFragment()));
-//        myEvents.setOnClickListener(v -> loadFragment(new MyEventsFragment())); // TODO replace with MyEventsFragment
+        events.setOnClickListener(v -> loadFragment(new EventsFragment(), args));
     }
 
-    private void loadFragment(Fragment fragment) {
+    private void loadFragment(Fragment fragment, Bundle args) {
+        fragment.setArguments(args);
+
         // Replace the fragment in the fragmentContainer
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

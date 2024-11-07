@@ -62,18 +62,6 @@ public class EventUtils {
     }
 
     /**
-     * Creates or updates an event in Firestore.
-     */
-    public void createOrUpdateEvent(Event event, EventExistenceCallback callback) {
-        String eventId = event.getEventId();
-        Map<String, Object> eventMap = convertEventToMap(event);
-
-        db.collection("events").document(eventId).set(eventMap)
-                .addOnSuccessListener(aVoid -> callback.onEventCheckComplete(true))
-                .addOnFailureListener(e -> callback.onEventCheckComplete(false));
-    }
-
-    /**
      * Creates event if event is not in Firestore otherwise updates the event in Firestore.
      */
     public void createUpdateEvent(Context context, Event event, EventUpdateCallback callback) {
