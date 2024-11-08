@@ -59,8 +59,6 @@ public class CreateEventPage extends AppCompatActivity {
         pageTitle = getIntent().getStringExtra("page_title");
         event = (Event) getIntent().getSerializableExtra("Event");
 
-//        assert event != null;
-
         eventPosterImage = findViewById(R.id.eventPosterImage);
         uploadedPosterString = event.getImageUrl();
         if (uploadedPosterString != null) {
@@ -160,19 +158,22 @@ public class CreateEventPage extends AppCompatActivity {
                 if (eventId != null) {
                     event.setEventId(eventId);
                     Log.d("FunctionCall", "if2.5");
-
-                    String qrCodeContent = QRCodeUtils.generateRandomString(16);
-                    Bitmap qrCodeBitmap = QRCodeUtils.generateQRCode(qrCodeContent);
-                    String qrCodeBase64 = QRCodeUtils.encodeBitmapToBase64(qrCodeBitmap);
-                    if (qrCodeBase64 != null) {
-                        event.setQRCodeBitmap(qrCodeBase64);
+                    String qrCodeBase64;
+                    if (event.getQRCodeHash() == null) {
+                        String qrCodeContent = QRCodeUtils.generateRandomString(16);
+                        Bitmap qrCodeBitmap = QRCodeUtils.generateQRCode(qrCodeContent);
+                        qrCodeBase64 = QRCodeUtils.encodeBitmapToBase64(qrCodeBitmap);
+                        if (qrCodeBase64 != null) {
+                            event.setQRCodeBitmap(qrCodeBase64);
+                        }
+                        String qrCodeHashed = QRCodeUtils.hashQRCodeData(qrCodeContent);
+                        if (qrCodeHashed != null) {
+                            event.setQRCodeHash(qrCodeHashed);
+                        }
+                        Log.d("FunctionCall", "if3");
+                    } else {
+                        qrCodeBase64 = event.getQRCodeBitmap();
                     }
-                    String qrCodeHashed = QRCodeUtils.hashQRCodeData(qrCodeContent);
-                    if (qrCodeHashed != null) {
-                        event.setQRCodeHash(qrCodeHashed);
-                    }
-                    Log.d("FunctionCall", "if3");
-
 
                     eventUtils.createUpdateEvent(context, event, eventId_ -> {
                         if (eventId_ != null) {
