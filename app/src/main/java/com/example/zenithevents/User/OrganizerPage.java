@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,21 +20,29 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.zenithevents.EntrantDashboard.EventsFragment;
 import com.example.zenithevents.Events.CreateEventPage;
+import com.example.zenithevents.Facility.CreateFacility;
+import com.example.zenithevents.Facility.ViewFacility;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 public class OrganizerPage extends AppCompatActivity {
-    Button createEventButton;
+    Button createEventButton, createFacilityButton, viewFacilityButton;
     ArrayList<Event> organizerEvents;
     EventUtils eventUtils = new EventUtils();
+    String deviceId;
 
+    private FirebaseFirestore db;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = FirebaseFirestore.getInstance();
+        deviceId = DeviceUtils.getDeviceID(this);
 
         EdgeToEdge.enable(this);
         setContentView(R.layout.organizer_main);
@@ -41,6 +52,18 @@ public class OrganizerPage extends AppCompatActivity {
             v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        createEventButton = findViewById(R.id.createEventButton);
+        progressBar = findViewById(R.id.progressBar);
+        createFacilityButton = findViewById(R.id.createFacilityButton);
+        viewFacilityButton = findViewById(R.id.viewFacilityButton);
+
+        progressBar.setVisibility(View.VISIBLE);
+        createFacilityButton.setVisibility(View.GONE);
+        viewFacilityButton.setVisibility(View.GONE);
+        createEventButton.setVisibility(View.GONE);
+
+        checkFacilityExists();
 
         createEventButton = findViewById(R.id.createEventButton);
         createEventButton.setOnClickListener(v -> {
@@ -55,6 +78,39 @@ public class OrganizerPage extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putString("type", "organizer");
         loadFragment(new EventsFragment(), args);
+
+        createFacilityButton.setOnClickListener(v -> {
+            Intent intent = new Intent(OrganizerPage.this, CreateFacility.class);
+            startActivity(intent);
+        });
+
+        viewFacilityButton.setOnClickListener(v -> {
+            Intent intent = new Intent(OrganizerPage.this, ViewFacility.class);
+            intent.putExtra("deviceId", deviceId);
+            startActivity(intent);
+        });
+    }
+
+    private void checkFacilityExists() {
+        db.collection("facilities").document(deviceId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    progressBar.setVisibility(View.GONE);
+
+                    if (documentSnapshot.exists()) {
+                        createFacilityButton.setVisibility(View.GONE);
+                        viewFacilityButton.setVisibility(View.VISIBLE);
+                        createEventButton.setVisibility(View.VISIBLE);
+                    } else {
+                        createFacilityButton.setVisibility(View.VISIBLE);
+                        viewFacilityButton.setVisibility(View.GONE);
+                        createEventButton.setVisibility(View.GONE);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(this, "Error checking facility", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void loadFragment(Fragment fragment, Bundle args) {
