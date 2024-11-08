@@ -7,8 +7,11 @@ import org.junit.Test;
 public class FacilityObjectTest {
     @Test
     public void testFacilityObject() {
-        Facility facility = new Facility("Test Facility", "123 Test Street");
-        assert facility.getFacilityName().equals("Test Facility");
-        assert facility.getAddress().equals("123 Test Street");
+        Facility facility = new Facility("Test Facility", "542 232 1232", "johndoe@gmail.com", "231123AVC");
+        assert facility.getNameOfFacility().equals("Test Facility");
+        assert facility.getPhoneOfFacility().equals("542 232 1232");
+        assert facility.getEmailOfFacility().equals("johndoe@gmail.com");
+        assert facility.getDeviceId().equals("231123AVC");
+
     }
 }
