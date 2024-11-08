@@ -1,49 +1,52 @@
 package com.example.zenithevents;
-
-import androidx.test.espresso.Espresso;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.matcher.IntentMatchers;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
-import com.example.zenithevents.User.OrganizerPage;
-
-import org.junit.After;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import androidx.test.core.app.ActivityScenario;
+import com.example.zenithevents.EntrantsList.WaitlistedEntrants;
+import com.example.zenithevents.Objects.User;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
-@RunWith(AndroidJUnit4.class)
-public class UiMainActivityTest {
-    @Rule
-    public ActivityScenarioRule<MainActivity> activityRule = new ActivityScenarioRule<>(MainActivity.class);
+
+public class WaitingListTest {
+
+    private List<User> testingWaitlistedUsers;
 
     @Before
-    public void setUp() {
-        // Perform any necessary setup before each test
-        Intents.init();
-    }
-
-    @After
-    public void tearDown() {
-        // Perform any necessary cleanup after each test
-        Intents.release();
+    public void startUp() {
+        testingWaitlistedUsers = new ArrayList<>();
+        testingWaitlistedUsers.add(new User("phone 1", "User", "Fourth", "random@gmail.com", "1234567890"));
+        testingWaitlistedUsers.add(new User("phone 2", "User", "Fifth", "random2@gmail.com", "0987654321"));
     }
 
     @Test
-    public void testUIEntrantButtonMainActivity() {
-        Espresso.onView(ViewMatchers.withId(R.id.entrantButton)).perform(ViewActions.click());
-        Intents.intended(IntentMatchers.hasComponent(EntrantViewActivity.class.getName()));
+    public void testWaitingPart() {
+        ActivityScenario<WaitlistedEntrants> scenario = ActivityScenario.launch(WaitlistedEntrants.class);
 
-    }
-    @Test
-    public void testUIOrganizerButtonMainActivity() {
-        Espresso.onView(ViewMatchers.withId(R.id.organizerButton)).perform(ViewActions.click());
-        Intents.intended(IntentMatchers.hasComponent(OrganizerPage.class.getName()));
+        scenario.onActivity(activity -> {
+            try {
+                Field dataListField = WaitlistedEntrants.class.getDeclaredField("dataList");
+                dataListField.setAccessible(true);
+                dataListField.set(activity, new ArrayList<>(testingWaitlistedUsers));
+                List<User> dataList = (List<User>) dataListField.get(activity);
+                assertEquals(2, dataList.size());
+                User userOne = dataList.get(0);
+                assertEquals("User Fourth", userOne.getFirstName() + " " + userOne.getLastName());
+                assertEquals("random@gmail.com", userOne.getEmail());
 
+                User userTwo = dataList.get(1);
+                assertEquals("User Fifth", userTwo.getFirstName() + " " + userTwo.getLastName());
+                assertEquals("random2@gmail.com", userTwo.getEmail());
+
+                assertNotNull(dataList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
+
 }

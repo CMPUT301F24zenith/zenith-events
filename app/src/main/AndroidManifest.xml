@@ -28,9 +28,6 @@
             android:name=".admin.ViewEventsAdmin"
             android:exported="false" />
         <activity
-            android:name=".MainActivity007"
-            android:exported="false" />
-        <activity
             android:name=".EntrantsList.SampledEntrants"
             android:exported="false" />
         <activity

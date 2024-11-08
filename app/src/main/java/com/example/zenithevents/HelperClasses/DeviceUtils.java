@@ -37,4 +37,3 @@ public class DeviceUtils {
         return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 }
-

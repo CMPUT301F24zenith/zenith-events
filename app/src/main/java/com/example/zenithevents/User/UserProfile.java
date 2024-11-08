@@ -199,54 +199,50 @@ public class UserProfile extends AppCompatActivity {
             return;
         }
 
+        String updatedProfileImageURL = existingProfileImageURL;
+
+        if (imageUri != null) {
+            Bitmap bitmap = BitmapUtils.getBitmapFromUri(this, imageUri);
+            if (bitmap != null) {
+                updatedProfileImageURL = BitmapUtils.encodeBitmapToBase64(bitmap);  // Encode and update URL
+            } else {
+                Toast.makeText(this, "Failed to encode image.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        updateUserProfile(DeviceUtils.getDeviceID(this), firstName, lastName, email, phoneNumber, updatedProfileImageURL);
+
+    }
+
+
+
+    /**
+     * Updates the user's profile in Firestore with the provided information.
+     * Only non-null fields in the {@link User} object are updated, allowing for partial updates.
+     *
+     * @param deviceID        The unique device ID of the user.
+     * @param firstName       The user's first name.
+     * @param lastName        The user's last name.
+     * @param email           The user's email address.
+     * @param phoneNumber     The user's phone number.
+     * @param profileImageURL The URL of the user's profile image.
+     */
+    private void updateUserProfile(String deviceID, String firstName, String lastName, String email, String phoneNumber, String profileImageURL ){
         User updatedUser = new User();
-        updatedUser.setDeviceID(DeviceUtils.getDeviceID(this));
+        updatedUser.setDeviceID(deviceID);
         updatedUser.setFirstName(firstName);
         updatedUser.setLastName(lastName);
         updatedUser.setEmail(email);
         updatedUser.setPhoneNumber(phoneNumber);
-        updatedUser.setAnonymousAuthID(mAuth.getUid());
-        if (imageUri != null){
-            Bitmap bitmap = BitmapUtils.getBitmapFromUri(this, imageUri);
-            if (bitmap != null) {
-                String encodedImage = BitmapUtils.encodeBitmapToBase64(bitmap);
-                updatedUser.setProfileImageURL(encodedImage);
-            } else {
-                Toast.makeText(this, "Failed to encode image.", Toast.LENGTH_SHORT).show();
-            }
-
-        }else {
-            updatedUser.setProfileImageURL(existingProfileImageURL);
-        }
-
-        updateUserProfile(updatedUser);
-
-    }
-
-    /**
-     * Updates the user's profile in the database and provides feedback on the success or failure of the operation.
-     *
-     * @param user The {@link User} object containing updated profile information.
-     */
-    private void updateUserProfile(User user) {
-        Map<String, Object> userData = UserUtils.convertUserToMap(user);
+        updatedUser.setProfileImageURL(profileImageURL);
+        Map<String, Object> userData = UserUtils.convertUserToMap(updatedUser);
         db.collection("users")
-                .document(user.getDeviceID())
-                .set(userData)
+                .document(deviceID)
+                .update(userData)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
                     finish();
                 });
-
-//        userUtils.createOrUpdateUserProfile(user, success -> {
-//            if (success) {
-//                Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
-//                finish();
-//            } else {
-//                Toast.makeText(this, "Update failed. Try smaller image size", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
     }
 
     /**
