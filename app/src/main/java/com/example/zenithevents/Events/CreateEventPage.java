@@ -38,6 +38,10 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Activity that allows the creation and editing of event details, including uploading a poster image and generating a QR code.
+ * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ */
 public class CreateEventPage extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
 
@@ -50,6 +54,11 @@ public class CreateEventPage extends AppCompatActivity {
     Uri uploadedPosterUri;
     private EventUtils eventUtils;
 
+    /**
+     * Called when the activity is created. Initializes the UI elements and loads the event details if available.
+     *
+     * @param savedInstanceState A Bundle containing the saved instance state of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,6 +213,9 @@ public class CreateEventPage extends AppCompatActivity {
         uploadEventPosterButton.setOnClickListener(v -> checkStoragePermission());
     }
 
+    /**
+     * Opens the device's file picker to select an image.
+     */
     private void openImage() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -211,6 +223,13 @@ public class CreateEventPage extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
     }
 
+    /**
+     * Handles the result of selecting an image from the file picker.
+     *
+     * @param requestCode The request code passed to startActivityForResult.
+     * @param resultCode The result code from the activity.
+     * @param data The data returned from the activity.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -219,6 +238,10 @@ public class CreateEventPage extends AppCompatActivity {
             eventPosterImage.setImageURI(uploadedPosterUri);
         }
     }
+
+    /**
+     * Checks if the app has permission to read images from storage, and requests permission if necessary.
+     */
     private void checkStoragePermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -228,6 +251,13 @@ public class CreateEventPage extends AppCompatActivity {
         }
     }
 
+    /**
+     * Handles the result of requesting permissions.
+     *
+     * @param requestCode The request code passed to requestPermissions.
+     * @param permissions The requested permissions.
+     * @param grantResults The grant results for the corresponding permissions.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
