@@ -49,6 +49,9 @@
             android:name=".EntrantDashboard.EntrantViewActivity"
             android:exported="false" />
         <activity
+            android:name=".Organizer.QRView"
+            android:exported="false" />
+        <activity
             android:name=".User.UserPage"
             android:exported="false" />
         <activity android:name=".User.OrganizerPage" />

@@ -171,6 +171,26 @@ public class EventView extends AppCompatActivity {
 
         // Load event image using Glide
         loadImage(event.getImageUrl(), eventPosterImageView);
+        Log.d("FunctionCall", deviceID);
+        if (Objects.equals(event.getOwnerFacility(), deviceID)) {
+            waitlistButton.setOnClickListener(v -> {
+                Log.d("FunctionCall", deviceID);
+                Intent intent = new Intent(EventView.this, WaitlistedEntrants.class);
+                intent.putExtra("eventId", event.getEventId());
+                startActivity(intent);
+            });
+
+            selectedButton.setOnClickListener(v -> {
+                Intent intent = new Intent(EventView.this, SampledEntrants.class);
+                intent.putExtra("eventId", event.getEventId());
+                startActivity(intent);
+            });
+
+            registeredButton.setOnClickListener(v -> {
+                Intent intent = new Intent(EventView.this, EnrolledEntrants.class);
+                intent.putExtra("eventId", event.getEventId());
+                startActivity(intent);
+            });
 
         if (Objects.equals(event.getOwnerFacility(), deviceID)) {
             setupEntrantNavigation(event.getEventId());
