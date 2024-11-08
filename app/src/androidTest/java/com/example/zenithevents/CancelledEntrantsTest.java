@@ -4,11 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.zenithevents.EntrantsList.CancelledEntrants;
 import com.example.zenithevents.Objects.User;
-import com.example.zenithevents.ArrayAdapters.EntrantArrayAdapter;
+
 
 import org.junit.Before;
 import org.junit.Test;
