@@ -22,6 +22,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Activity that displays a list of enrolled entrants for a specific event.
+ * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ */
 public class EnrolledEntrants extends AppCompatActivity {
 
     private ArrayList<User> dataList;
@@ -30,6 +34,12 @@ public class EnrolledEntrants extends AppCompatActivity {
     private FirebaseFirestore db;
     private String eventId;
     //use button to initialize intent
+
+    /**
+     * Called when the activity is created. Initializes the view and fetches the enrolled entrants for the event.
+     *
+     * @param savedInstanceState A Bundle containing the saved instance state of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +59,9 @@ public class EnrolledEntrants extends AppCompatActivity {
         }
     }
 
+    /**
+     * Fetches the enrolled entrants for the specified event from Firestore and updates the list view.
+     */
     private void showListEnrolled() {
         db.collection("events")
                 .document(this.eventId)
