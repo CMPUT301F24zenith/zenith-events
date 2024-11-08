@@ -30,6 +30,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+/**
+ * OrganizerPage is an Android activity that provides functionality for an event organizer
+ * to manage events and facilities. This page allows organizers to create events, create facilities,
+ * and view facilities, with visibility settings based on the existence of facility data in Firestore.
+ * It uses Firebase Firestore for backend data retrieval and Edge-to-Edge window insets for layout adjustments.
+ *
+ * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ *
+ * @see AppCompatActivity
+ * @see FirebaseFirestore
+ * @see DeviceUtils
+ * @see EventsFragment
+ */
 public class OrganizerPage extends AppCompatActivity {
     Button createEventButton, createFacilityButton, viewFacilityButton;
     ArrayList<Event> organizerEvents;
@@ -38,6 +51,13 @@ public class OrganizerPage extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private ProgressBar progressBar;
+
+    /**
+     * Initializes the activity, sets up Firebase Firestore, and handles button visibility based on
+     * facility existence in Firestore.
+     *
+     * @param savedInstanceState the saved state of the application.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +111,10 @@ public class OrganizerPage extends AppCompatActivity {
         });
     }
 
+    /**
+     * Checks if a facility associated with the device exists in Firestore and updates
+     * button visibility accordingly.
+     */
     private void checkFacilityExists() {
         db.collection("facilities").document(deviceId)
                 .get()
@@ -113,6 +137,12 @@ public class OrganizerPage extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Loads a fragment into the specified container with provided arguments.
+     *
+     * @param fragment the fragment to load.
+     * @param args     the arguments to pass to the fragment.
+     */
     private void loadFragment(Fragment fragment, Bundle args) {
         fragment.setArguments(args);
 
