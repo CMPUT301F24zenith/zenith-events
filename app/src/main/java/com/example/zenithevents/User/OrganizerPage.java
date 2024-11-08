@@ -102,12 +102,14 @@ public class OrganizerPage extends AppCompatActivity {
         createFacilityButton.setOnClickListener(v -> {
             Intent intent = new Intent(OrganizerPage.this, CreateFacility.class);
             startActivity(intent);
+            finish();
         });
 
         viewFacilityButton.setOnClickListener(v -> {
             Intent intent = new Intent(OrganizerPage.this, ViewFacility.class);
             intent.putExtra("deviceId", deviceId);
             startActivity(intent);
+            finish();
         });
     }
 
