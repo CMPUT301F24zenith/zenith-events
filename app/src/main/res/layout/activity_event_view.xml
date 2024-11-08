@@ -43,17 +43,8 @@
         android:id="@+id/eventDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Desctiption"
+        android:text="Description"
         android:textSize="16sp" />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@color/gray"
-        android:scaleType="fitCenter"
-        android:layout_gravity="center"
-        android:layout_margin="16dp"
-        android:id="@+id/eventQR"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -61,6 +52,64 @@
         android:id="@+id/facilityContainer"
         />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/waitlistButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Waitlisted Entrants" />
+
+            <Button
+                android:id="@+id/registeredListButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Registered Entrants"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/selectedListButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Selected Entrants" />
+
+            <Button
+                android:id="@+id/cancelledListButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cancelled Entrants"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/qrCodeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="QR Code" />
 
     <Button
         android:layout_width="match_parent"
