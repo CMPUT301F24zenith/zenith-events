@@ -1,7 +1,9 @@
 package com.example.zenithevents.EntrantDashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 import androidx.activity.EdgeToEdge;
@@ -14,11 +16,18 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.Fragment;
 
 
+import com.example.zenithevents.MainActivity;
+import com.example.zenithevents.QRCodes.QRScannerActivity;
 import com.example.zenithevents.R;
+
+import java.util.List;
 
 public class EntrantViewActivity extends AppCompatActivity {
     private static final String TAG = "EntrantViewActivity";
-    Button events, myEvents;
+    Button scanQRButton;
+    private TextView currentSelection, next, previous;
+    private final String[] options = {"Waitlisted Events", "Registered Events", "Events Invited To", "Cancelled Events"};
+    private int currentIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +41,24 @@ public class EntrantViewActivity extends AppCompatActivity {
             return insets;
         });
 
-        events = findViewById(R.id.btnEvents);
-        myEvents = findViewById(R.id.btnMyEvents);
+        currentSelection = findViewById(R.id.CurrentSelection);
+        scanQRButton = findViewById(R.id.scanQRButton);
+        next = findViewById(R.id.tvNext);
+        previous = findViewById(R.id.tvPrevious);
+
+        currentSelection.setText(options[currentIndex]);
 
         Bundle args = new Bundle();
         args.putString("type", "entrant-waiting");
         loadFragment(new EventsFragment(), args);
 
-        events.setOnClickListener(v -> loadFragment(new EventsFragment(), args));
+        previous.setOnClickListener(v -> moveToPrevious());
+        next.setOnClickListener(v -> moveToNext());
+
+        scanQRButton.setOnClickListener(v -> {
+            Intent intent = new Intent(EntrantViewActivity.this, QRScannerActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void loadFragment(Fragment fragment, Bundle args) {
@@ -50,5 +69,54 @@ public class EntrantViewActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer, fragment);
         fragmentTransaction.commit();
+    }
+
+    private void moveToPrevious() {
+        if (currentIndex > 0) {
+            currentIndex--;
+        } else {
+            currentIndex = options.length - 1;
+        }
+        updateCurrentSelection();
+        loadFragmentBasedOnSelection();
+    }
+
+    private void moveToNext() {
+        if (currentIndex < options.length - 1) {
+            currentIndex++;
+        } else {
+            currentIndex = 0;
+        }
+        updateCurrentSelection();
+        loadFragmentBasedOnSelection();
+    }
+
+    private void updateCurrentSelection() {
+        currentSelection.setText(options[currentIndex]);
+    }
+
+    private void loadFragmentBasedOnSelection() {
+        Fragment selectedFragment;
+        Bundle nArgs = new Bundle();
+
+        switch (currentIndex) {
+            case 0:
+                nArgs.putString("type", "entrant-waiting");
+                break;
+            case 1:
+                nArgs.putString("type", "entrant-registrant");
+                break;
+            case 2:
+                nArgs.putString("type", "entrant-selected");
+                break;
+            case 3:
+                nArgs.putString("type", "entrant-cancelled");
+                break;
+            default:
+                nArgs.putString("type", "entrant-waiting");
+                break;
+        }
+
+        loadFragment(new EventsFragment(), nArgs);
     }
 }

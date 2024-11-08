@@ -50,32 +50,12 @@
         />
 
     <Button
-        android:id="@+id/scanQRButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/square_button"
-        android:text="Scan QR Code"
-        android:layout_gravity="center"
-        />
-
-    <Button
         android:id="@+id/createAProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:background="@drawable/square_button"
         android:text="Create A Profile"
-        android:layout_gravity="center"
-        />
-
-    <Button
-        android:id="@+id/applyEvent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/square_button"
-        android:text="Apply for event"
         android:layout_gravity="center"
         />
 
@@ -88,14 +68,4 @@
         android:text="View Profile"
         android:layout_gravity="center"
         />
-
-    <Button
-        android:id="@+id/testEventView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/square_button"
-        android:layout_marginBottom="10dp"
-        android:text="test event view"
-        />
-
 </LinearLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+
+
+    <EditText
+        android:id="@+id/location_name"
+        android:layout_width="50mm"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:hint="Location Name (REQUIRED)"
+        android:background="@drawable/surrounding_text"
+        android:padding="10dp"/>
+
+    <EditText
+        android:id="@+id/location_email"
+        android:layout_width="50mm"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:hint="Email (REQUIRED)"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/surrounding_text"
+        android:padding="10dp"/>
+
+    <EditText
+        android:id="@+id/location_phone"
+        android:layout_width="50mm"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:hint="Phone Number (OPTIONAL)"
+        android:inputType="phone"
+        android:background="@drawable/surrounding_text"
+        android:padding="10dp"/>
+
+    <Button
+        android:id="@+id/location_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Save"
+        android:layout_gravity="center_horizontal"/>
+</LinearLayout>

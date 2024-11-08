@@ -94,12 +94,20 @@ public class CreateProfileActivity extends AppCompatActivity {
         String email = etEntrantEmail.getText().toString().trim();
 
 
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()) {
+        if (firstName.isEmpty()) {
             etEntrantFirstName.setError("First name is required");
-            etEntrantLastName.setError("Last name is required");
-            etEntrantEmail.setError("Email is required");
             return;
         }
+
+        if (lastName.isEmpty()) {
+            etEntrantFirstName.setError("Last name is required");
+            return;
+        }
+        if (email.isEmpty()) {
+            etEntrantFirstName.setError("Email is required");
+            return;
+        }
+
         if (!ValidationUtils.isValidEmail(email)) {
             etEntrantEmail.setError("Invalid email format");
             return;

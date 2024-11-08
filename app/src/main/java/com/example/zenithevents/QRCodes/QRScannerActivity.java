@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Organizer.EventView;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,22 +41,21 @@ public class QRScannerActivity extends AppCompatActivity {
         }
     }
 
-    private void checkForEvent(String eventId) {
-        db.collection("events").document(eventId).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot documentSnapshot = task.getResult();
-                if (documentSnapshot != null && documentSnapshot.exists()) {
-                    Intent intent = new Intent(QRScannerActivity.this, EventView.class);
-                    intent.putExtra("event_id", eventId);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(QRScannerActivity.this, "Please scan a valid QR code.", Toast.LENGTH_SHORT).show();
-                    barcodeView.resume();
-                }
+    private void checkForEvent(String qrCodeContent) {
+        String qrCodeHashed = QRCodeUtils.hashQRCodeData(qrCodeContent);
+
+        db.collection("events").whereEqualTo("qrcodeHash", qrCodeHashed).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                String eventId = documentSnapshot.getId();
+
+                Intent intent = new Intent(QRScannerActivity.this, EventView.class);
+                intent.putExtra("event_id", eventId);
+                startActivity(intent);
+                finish();
             } else {
-                Toast.makeText(QRScannerActivity.this, "Failed to connect to database.", Toast.LENGTH_SHORT).show();
-                barcodeView.resume();
+                Toast.makeText(QRScannerActivity.this, "Invalid QR code or event not found.", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }

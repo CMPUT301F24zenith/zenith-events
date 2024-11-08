@@ -101,7 +101,13 @@ public class EventsFragment extends Fragment {
                 });
             }
             if (Objects.equals(type, "entrant-waiting"))
-                fetchEntrantWaitingEvents();
+                fetchEntrantWaitingEvents("waitingEvents");
+            if (Objects.equals(type, "entrant-selected"))
+                fetchEntrantWaitingEvents("selectedEvents");
+            if (Objects.equals(type, "entrant-cancelled"))
+                fetchEntrantWaitingEvents("cancelledEvents");
+            if (Objects.equals(type, "entrant-accepted"))
+                fetchEntrantWaitingEvents("registrantsEvents");
         }
         return view;
     }
@@ -111,7 +117,7 @@ public class EventsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void fetchEntrantWaitingEvents() {
+    private void fetchEntrantWaitingEvents(String eventTypes) {
         Context context = getActivity();
         String deviceID = DeviceUtils.getDeviceID(context);
         final int[] counter = {0};
@@ -124,7 +130,7 @@ public class EventsFragment extends Fragment {
                         QuerySnapshot snapshots = task.getResult();
                         if (snapshots != null && !snapshots.isEmpty()) {
                             DocumentSnapshot userDocument = snapshots.getDocuments().get(0);
-                            List<String> waitingEvents = (List<String>) userDocument.get("waitingEvents");
+                            List<String> waitingEvents = (List<String>) userDocument.get(eventTypes);
 
                             if (waitingEvents != null) {
                                 for (String eventId : waitingEvents) {

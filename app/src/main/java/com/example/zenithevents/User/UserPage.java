@@ -19,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.zenithevents.HelperClasses.BitmapUtils;
+import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.HelperClasses.ValidationUtils;
 import com.example.zenithevents.Objects.User;
@@ -134,7 +135,8 @@ public class UserPage extends AppCompatActivity {
      */
     private void fetchUserProfile() {
         progressBar.setVisibility(View.VISIBLE);
-        userUtils.fetchUserProfile(user -> {
+        String deviceID = DeviceUtils.getDeviceID(this);
+        userUtils.fetchUserProfile(deviceID, user -> {
             if (user != null) {
                 editFirstName.setText(user.getFirstName() != null ? user.getFirstName() : "");
                 editLastName.setText(user.getLastName() != null ? user.getLastName() : "");
