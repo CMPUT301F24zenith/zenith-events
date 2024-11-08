@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import java.util.ArrayList;
 
-public class User extends Activity {
+public class User {
 
     private String deviceID;
     private String firstName;

@@ -35,15 +35,16 @@ public class UserPageTest {
     @Test
     public void testSaveProfile() {
 
-//        onView(withId(R.id.editFirstName)).perform(typeText("John"));
-//        onView(withId(R.id.editLastName)).perform(typeText("Doe"));
-//        onView(withId(R.id.editEmail)).perform(typeText("william.henry.harrison@example-pet-store.com"));
-//        onView(withId(R.id.editPhoneNumber)).perform(typeText("1234567890"));
         Espresso.onView(withId(R.id.btnSave)).perform(click());
-
         onView(withId(R.id.btnSave)).check(doesNotExist());
-//        onView(withText("Profile saved successfully!")).check(matches(isDisplayed()));
-
 
     }
+
+    @Test
+    public void testRemoveProfileImg() {
+        Espresso.onView(withId(R.id.btnRemove)).perform(click());
+
+        onView(withId(R.id.btnRemove)).check(doesNotExist());
+    }
+
 }
