@@ -1,6 +1,7 @@
 package com.example.zenithevents.EntrantsList;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -13,10 +14,12 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.zenithevents.ArrayAdapters.EntrantArrayAdapter;
 import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WaitlistedEntrants extends AppCompatActivity {
 
@@ -39,25 +42,42 @@ public class WaitlistedEntrants extends AppCompatActivity {
 
         this.eventId = getIntent().getStringExtra("eventId");
         if (this.eventId != null) {
-            showListEnrolled();
+            showWaitingListEntrants();
         } else {
             Toast.makeText(this, "eventId is missing", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showListEnrolled() {
+    private void showWaitingListEntrants() {
         db.collection("events")
                 .document(this.eventId)
-                .collection("waitingList")
                 .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        dataList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            User entrant = document.toObject(User.class);
-                            dataList.add(entrant);
+                .addOnCompleteListener(documentSnapshotTask -> {
+                    if (documentSnapshotTask.isSuccessful()) {
+                        DocumentSnapshot documentSnapshot = documentSnapshotTask.getResult();
+                        if (documentSnapshot.exists()) {
+                            dataList.clear();
+
+                            List<String> enrolledEntrants = (List<String>) documentSnapshot.get("waitingList");
+                            assert enrolledEntrants != null;
+                            Log.d("FunctionCall", String.valueOf(enrolledEntrants.size()));
+
+                            int totalEntrants = enrolledEntrants.size();
+                            for (String id : enrolledEntrants) {
+                                db.collection("users").document(id)
+                                        .get()
+                                        .addOnSuccessListener(documentSnapshot1 -> {
+                                            if (documentSnapshot1.exists()) {
+                                                User user = documentSnapshot1.toObject(User.class);
+                                                dataList.add(user);
+                                            }
+
+                                            if (dataList.size() == totalEntrants) {
+                                                entrantAdapter.notifyDataSetChanged();
+                                            }
+                                        });
+                            }
                         }
-                        entrantAdapter.notifyDataSetChanged();
                     } else {
                         Toast.makeText(WaitlistedEntrants.this, "Failed to load entrants", Toast.LENGTH_SHORT).show();
                     }
