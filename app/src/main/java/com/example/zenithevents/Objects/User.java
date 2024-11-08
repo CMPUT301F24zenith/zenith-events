@@ -4,16 +4,9 @@ import java.util.ArrayList;
 
 public class User {
 
-    private String deviceID;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phoneNumber;
-    private ArrayList<Event> entrantEvents;
-    private String profileImageURL;
-    private Boolean wantsNotifs;
-    private Boolean isAdmin;
-    private String myFacility;
+    private String deviceID, profileImageURL, firstName, lastName, email, phoneNumber, myFacility;
+    private ArrayList<String> entrantEvents;
+    private Boolean wantsNotifs, isAdmin;
 
     // No-argument constructor required for Firestore
     public User() {}
@@ -46,7 +39,7 @@ public class User {
         return phoneNumber;
     }
 
-    public ArrayList<Event> getEntrantEvents() {
+    public ArrayList<String> getEntrantEvents() {
         return entrantEvents;
     }
 
@@ -96,7 +89,7 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setEntrantEvents(ArrayList<Event> entrantEvents) {
+    public void setEntrantEvents(ArrayList<String> entrantEvents) {
         this.entrantEvents = entrantEvents;
     }
 
@@ -120,12 +113,4 @@ public class User {
     public void sendNotification(String message) {
 
     }
-
-    boolean isSelected(Event event) {
-        return event.getSelected().contains(this);
-    }
-    boolean wantsNotifs() {
-        return wantsNotifs;
-    }
-
 }

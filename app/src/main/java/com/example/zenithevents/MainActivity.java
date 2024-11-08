@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser != null) {
             createAProfile.setEnabled(true);
         } else {
-            viewProfileButton.setEnabled(true);
+            viewProfileButton.setEnabled(false);
         }
 
 

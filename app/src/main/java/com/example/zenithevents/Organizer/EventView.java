@@ -2,6 +2,7 @@ package com.example.zenithevents.Organizer;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -18,12 +19,16 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.zenithevents.HelperClasses.BitmapUtils;
+import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
-import com.example.zenithevents.MainActivity;
 import com.example.zenithevents.Objects.Event;
+import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class EventView extends AppCompatActivity {
 
@@ -31,7 +36,7 @@ public class EventView extends AppCompatActivity {
 
 
     ImageView eventPosterImageView, eventQRImageView;
-    private Button btnJoinWaitingList, btnLeaveWaitingList;
+    private Button btnJoinLeaveWaitingList;
     private TextView QRCodeRequiredText, eventDescription, eventName, facilityName, eventAddress;
     private ProgressBar progressBar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -54,10 +59,9 @@ public class EventView extends AppCompatActivity {
 
     }
 
-
     private void initializeViews() {
         eventPosterImageView = findViewById(R.id.eventImage);
-        btnJoinWaitingList = findViewById(R.id.btnJoinWaitingList);
+        btnJoinLeaveWaitingList = findViewById(R.id.btnJoinWaitingList);
         facilityName = findViewById(R.id.facilityName);
         eventAddress = findViewById(R.id.eventAddress);
         progressBar = findViewById(R.id.progressBar);
@@ -100,24 +104,60 @@ public class EventView extends AppCompatActivity {
     }
 
     private void displayEventDetails(Event event) {
+        Log.d("FunctionCall", "displayingDetails");
+
         // Set event details
         eventName.setText(event.getEventTitle());
         facilityName.setText(event.getOwnerFacility());
         eventAddress.setText(event.getEventAddress());
         eventDescription.setText(event.getEventDescription());
+        UserUtils userUtils = new UserUtils();
+        String deviceID = DeviceUtils.getDeviceID(this);
 
-        btnJoinWaitingList.setOnClickListener(v -> {
-            Context context = this;
+        Log.d("FunctionCall", "deviceID: " + deviceID);
 
-            UserUtils userUtils = new UserUtils();
-            userUtils.applyEvent(context, event.getEventId(), isSuccess -> {
-                if (isSuccess) {
-                    Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
-                }
+        if (event.getWaitingList().contains(deviceID) ||
+                event.getSelected().contains(deviceID) ||
+                event.getCancelledList().contains(deviceID) ||
+                event.getRegistrants().contains(deviceID)
+        ) {
+            btnJoinLeaveWaitingList.setBackgroundColor(Color.RED);
+            btnJoinLeaveWaitingList.setText("Leave Waitinglist");
+
+            btnJoinLeaveWaitingList.setOnClickListener(v -> {
+                Context context = EventView.this;
+
+                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
+                    if (isSuccess) {
+                        Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             });
-        });
+        } else {
+            btnJoinLeaveWaitingList.setBackgroundColor(Color.BLUE);
+            btnJoinLeaveWaitingList.setText("Join Waitinglist");
+
+            btnJoinLeaveWaitingList.setOnClickListener(v -> {
+                Context context = EventView.this;
+
+                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
+                    if (isSuccess) {
+                        Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
+
+            if (event.getNumParticipants() != 0 &&
+                    event.getCancelledList().size() + event.getSelected().size() + event.getRegistrants().size() + event.getWaitingList().size() >= event.getNumParticipants()) {
+                btnJoinLeaveWaitingList.setEnabled(false);
+                btnJoinLeaveWaitingList.setText("Event is full");
+                btnJoinLeaveWaitingList.setBackgroundColor(Color.GRAY);
+            }
+        }
 
         // Load event image using Glide
         loadImage(event.getImageUrl(), eventPosterImageView);
