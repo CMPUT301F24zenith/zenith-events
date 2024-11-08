@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="15.1">
-  <zoom_level>5</zoom_level>
+  <zoom_level>2</zoom_level>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>1180</x>
-      <y>545</y>
-      <w>70</w>
-      <h>20</h>
+      <x>594</x>
+      <y>396</y>
+      <w>28</w>
+      <h>8</h>
     </coordinates>
     <panel_attributes>ArrayAdapters</panel_attributes>
     <additional_attributes/>
@@ -15,10 +15,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1360</x>
-      <y>750</y>
-      <w>155</w>
-      <h>55</h>
+      <x>666</x>
+      <y>478</y>
+      <w>62</w>
+      <h>22</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ArrayAdapter&lt;User&gt;&gt;&gt;
 EntrantArrayAdapter
@@ -32,10 +32,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1360</x>
-      <y>645</y>
-      <w>165</w>
-      <h>95</h>
+      <x>666</x>
+      <y>436</y>
+      <w>66</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ArrayAdapter&lt;Organization&gt;&gt;&gt;
 OrganizationArrayAdapter
@@ -51,10 +51,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1180</x>
-      <y>690</y>
-      <w>165</w>
-      <h>65</h>
+      <x>594</x>
+      <y>454</y>
+      <w>66</w>
+      <h>26</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ArrayAdapter&lt;Event&gt;&gt;&gt;
 EventArrayAdapter
@@ -70,10 +70,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1180</x>
-      <y>585</y>
-      <w>165</w>
-      <h>95</h>
+      <x>594</x>
+      <y>412</y>
+      <w>66</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ArrayAdapter&lt;Facility&gt;&gt;&gt;
 FacilityArrayAdapter
@@ -89,10 +89,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1360</x>
-      <y>585</y>
-      <w>170</w>
-      <h>55</h>
+      <x>666</x>
+      <y>412</y>
+      <w>68</w>
+      <h>22</h>
     </coordinates>
     <panel_attributes>CustomArrayAdapter&lt;T&gt;
 --
@@ -107,10 +107,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>220</x>
-      <y>155</y>
-      <w>70</w>
-      <h>25</h>
+      <x>210</x>
+      <y>240</y>
+      <w>28</w>
+      <h>10</h>
     </coordinates>
     <panel_attributes>CreateProfile</panel_attributes>
     <additional_attributes/>
@@ -118,10 +118,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>220</x>
-      <y>195</y>
-      <w>155</w>
-      <h>100</h>
+      <x>210</x>
+      <y>256</y>
+      <w>62</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 CreateProfileActivity
@@ -141,10 +141,10 @@ etEntrantEmail
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>670</x>
-      <y>250</y>
-      <w>90</w>
-      <h>25</h>
+      <x>390</x>
+      <y>278</y>
+      <w>36</w>
+      <h>10</h>
     </coordinates>
     <panel_attributes>Entrant Dashboard</panel_attributes>
     <additional_attributes/>
@@ -152,10 +152,10 @@ etEntrantEmail
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>670</x>
-      <y>290</y>
-      <w>215</w>
-      <h>65</h>
+      <x>390</x>
+      <y>294</y>
+      <w>86</w>
+      <h>26</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Fragment&gt;&gt;
 EventFragment
@@ -171,10 +171,10 @@ Bundle savedInstanceState)-&gt; void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1000</x>
-      <y>1175</y>
-      <w>180</w>
-      <h>100</h>
+      <x>522</x>
+      <y>648</y>
+      <w>72</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 SampledEntrants
@@ -193,10 +193,10 @@ SampledEntrants
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>670</x>
-      <y>370</y>
-      <w>215</w>
-      <h>60</h>
+      <x>390</x>
+      <y>326</y>
+      <w>86</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompactActivity&gt;&gt;
 EntrantViewActivity
@@ -212,10 +212,10 @@ EntrantViewActivity
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>1000</x>
-      <y>1040</y>
-      <w>55</w>
-      <h>25</h>
+      <x>522</x>
+      <y>594</y>
+      <w>22</w>
+      <h>10</h>
     </coordinates>
     <panel_attributes>EntrantsList</panel_attributes>
     <additional_attributes/>
@@ -223,10 +223,10 @@ EntrantViewActivity
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>905</x>
-      <y>255</y>
-      <w>225</w>
-      <h>185</h>
+      <x>484</x>
+      <y>280</y>
+      <w>90</w>
+      <h>74</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Fragment&gt;&gt;
 EventsFragment
@@ -257,10 +257,10 @@ Bundle savedInstanceState)-&gt; void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1185</x>
-      <y>1075</y>
-      <w>180</w>
-      <h>95</h>
+      <x>596</x>
+      <y>608</y>
+      <w>72</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 EnrolledEntrants
@@ -279,10 +279,10 @@ EnrolledEntrants
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>675</x>
-      <y>105</y>
-      <w>190</w>
-      <h>85</h>
+      <x>392</x>
+      <y>220</y>
+      <w>76</w>
+      <h>34</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 CreationSuccessActivity
@@ -301,10 +301,10 @@ CreationSuccessActivity
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1190</x>
-      <y>1180</y>
-      <w>190</w>
-      <h>85</h>
+      <x>598</x>
+      <y>650</y>
+      <w>76</w>
+      <h>34</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 WaitListedEntrants
@@ -324,10 +324,10 @@ WaitListedEntrants
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>420</x>
-      <y>85</y>
-      <w>60</w>
-      <h>20</h>
+      <x>290</x>
+      <y>212</y>
+      <w>24</w>
+      <h>8</h>
     </coordinates>
     <panel_attributes>Events</panel_attributes>
     <additional_attributes/>
@@ -335,10 +335,10 @@ WaitListedEntrants
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1000</x>
-      <y>1075</y>
-      <w>175</w>
-      <h>90</h>
+      <x>522</x>
+      <y>608</y>
+      <w>70</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 CancelledEntrants
@@ -358,10 +358,10 @@ CancelledEntrants
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>425</x>
-      <y>130</y>
-      <w>235</w>
-      <h>280</h>
+      <x>292</x>
+      <y>230</y>
+      <w>94</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 CreateEventPage
@@ -403,10 +403,10 @@ String[] permissions, int[] grantResults) -&gt; void
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>1175</x>
-      <y>185</y>
-      <w>90</w>
-      <h>30</h>
+      <x>592</x>
+      <y>252</y>
+      <w>36</w>
+      <h>12</h>
     </coordinates>
     <panel_attributes>HelperClasses</panel_attributes>
     <additional_attributes/>
@@ -414,10 +414,10 @@ String[] permissions, int[] grantResults) -&gt; void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1180</x>
-      <y>220</y>
-      <w>180</w>
-      <h>30</h>
+      <x>594</x>
+      <y>266</y>
+      <w>72</w>
+      <h>12</h>
     </coordinates>
     <panel_attributes>DeviceUtils
 --
@@ -429,10 +429,10 @@ String[] permissions, int[] grantResults) -&gt; void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1185</x>
-      <y>260</y>
-      <w>240</w>
-      <h>215</h>
+      <x>596</x>
+      <y>282</y>
+      <w>96</w>
+      <h>86</h>
     </coordinates>
     <panel_attributes>EventUtils
 --
@@ -470,10 +470,10 @@ String userId, EventExistenceCallback callback)-&gt;void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1455</x>
-      <y>275</y>
-      <w>150</w>
-      <h>40</h>
+      <x>704</x>
+      <y>288</y>
+      <w>60</w>
+      <h>16</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 EventUpdateCallback
@@ -484,10 +484,10 @@ EventUpdateCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1455</x>
-      <y>375</y>
-      <w>215</w>
-      <h>40</h>
+      <x>704</x>
+      <y>328</y>
+      <w>86</w>
+      <h>16</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 EventsFetchCallback
@@ -498,10 +498,10 @@ EventsFetchCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1455</x>
-      <y>325</y>
-      <w>175</w>
-      <h>40</h>
+      <x>704</x>
+      <y>308</y>
+      <w>70</w>
+      <h>16</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 EventExistenceCallback
@@ -512,10 +512,10 @@ EventExistenceCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1455</x>
-      <y>430</y>
-      <w>165</w>
-      <h>40</h>
+      <x>704</x>
+      <y>350</y>
+      <w>66</w>
+      <h>16</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 EventFetchCallback
@@ -526,10 +526,10 @@ EventFetchCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1420</x>
-      <y>290</y>
-      <w>45</w>
-      <h>15</h>
+      <x>690</x>
+      <y>294</y>
+      <w>18</w>
+      <h>6</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
@@ -537,10 +537,10 @@ EventFetchCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1420</x>
-      <y>340</y>
-      <w>45</w>
-      <h>15</h>
+      <x>690</x>
+      <y>314</y>
+      <w>18</w>
+      <h>6</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
@@ -548,10 +548,10 @@ EventFetchCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1420</x>
-      <y>395</y>
-      <w>45</w>
-      <h>15</h>
+      <x>690</x>
+      <y>336</y>
+      <w>18</w>
+      <h>6</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
@@ -559,10 +559,10 @@ EventFetchCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1420</x>
-      <y>440</y>
-      <w>45</w>
-      <h>15</h>
+      <x>690</x>
+      <y>354</y>
+      <w>18</w>
+      <h>6</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
@@ -570,10 +570,10 @@ EventFetchCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>65</x>
-      <y>340</y>
-      <w>215</w>
-      <h>65</h>
+      <x>148</x>
+      <y>314</y>
+      <w>86</w>
+      <h>26</h>
     </coordinates>
     <panel_attributes>QRCodeUtils
 --
@@ -589,38 +589,38 @@ EventFetchCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>65</x>
-      <y>420</y>
-      <w>215</w>
-      <h>145</h>
+      <x>148</x>
+      <y>346</y>
+      <w>86</w>
+      <h>58</h>
     </coordinates>
     <panel_attributes>UserUtils
 --
 -db: FirebaseFirestore
 --
 +UserUtils()
-+checkUserExists(UserExistenceCallback callabck)-&gt;void
-+createOrUpdateUserProfile(User user, 
-UserExistenceCallback callback)-&gt; void
-+deleteUserProfile(UserExistenceCallback callback)-&gt;void
-+fetchUserProfile(UserFetchCallback callback)-&gt;void
-+updateUserField(String fieldName, Object value,
-UserExistenceCallback callback)-&gt;void
-+checkAdminStatus(UserExistenceCallback callback)-&gt;void
-+applyEvent(Context context, String eventId,
-UserExistenceCallback callback)-&gt;void
-+_convertUserToMap(User user)_-&gt;Map&lt;String,Object&gt;
-+updateUserFields(Map&lt;String,Object&gt; fieldsToUpdate,
-UserExistenceCallback callback)-&gt;void</panel_attributes>
++checkUserExists(callabck: UserExistenceCallback):void
++createOrUpdateUserProfile(user: User, 
+callback: UserExistenceCallback):void
++deleteUserProfile(callback: UserExistenceCallback):void
++fetchUserProfile(callback: UserFetchCallback):void
++updateUserField(fieldName: String, value: Object,
+callback: UserExistenceCallback):void
++checkAdminStatus(callback: UserExistenceCallback):void
++applyEvent(context: Context, eventId: String,
+callback: UserExistenceCallback):void
++_convertUserToMap(user: User)_:&gt;Map&lt;String,Object&gt;
++updateUserFields(fieldsToUpdate: Map&lt;String, Object&gt;,
+callback: UserExisteneCallback):void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>320</x>
-      <y>420</y>
-      <w>165</w>
-      <h>40</h>
+      <x>250</x>
+      <y>346</y>
+      <w>66</w>
+      <h>16</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 UserExistenceCallback
@@ -631,10 +631,10 @@ UserExistenceCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>275</x>
-      <y>430</y>
-      <w>55</w>
-      <h>15</h>
+      <x>232</x>
+      <y>350</y>
+      <w>22</w>
+      <h>6</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
@@ -642,10 +642,10 @@ UserExistenceCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>320</x>
-      <y>470</y>
-      <w>165</w>
-      <h>40</h>
+      <x>250</x>
+      <y>366</y>
+      <w>66</w>
+      <h>16</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 UserFetchCallback
@@ -656,10 +656,10 @@ UserFetchCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>275</x>
-      <y>455</y>
-      <w>55</w>
-      <h>50</h>
+      <x>232</x>
+      <y>360</y>
+      <w>22</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;40.0;10.0;40.0;80.0;90.0;80.0</additional_attributes>
@@ -667,10 +667,10 @@ UserFetchCallback
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>655</x>
-      <y>460</y>
-      <w>45</w>
-      <h>25</h>
+      <x>384</x>
+      <y>362</y>
+      <w>18</w>
+      <h>10</h>
     </coordinates>
     <panel_attributes>Objects</panel_attributes>
     <additional_attributes/>
@@ -678,10 +678,10 @@ UserFetchCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>655</x>
-      <y>500</y>
-      <w>205</w>
-      <h>380</h>
+      <x>384</x>
+      <y>378</y>
+      <w>82</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Serializable&gt;&gt;
 Event
@@ -752,10 +752,10 @@ recipients: ArrayList&lt;User&gt;):void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>900</x>
-      <y>860</y>
-      <w>145</w>
-      <h>75</h>
+      <x>482</x>
+      <y>522</y>
+      <w>58</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>Organization
 --
@@ -772,10 +772,10 @@ recipients: ArrayList&lt;User&gt;):void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>900</x>
-      <y>740</y>
-      <w>105</w>
-      <h>95</h>
+      <x>482</x>
+      <y>474</y>
+      <w>42</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>Facility
 --
@@ -794,10 +794,10 @@ String address)
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>635</x>
-      <y>920</y>
-      <w>230</w>
-      <h>350</h>
+      <x>376</x>
+      <y>546</y>
+      <w>92</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>User
 --
@@ -847,10 +847,10 @@ String phoneNumber)-&gt; void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>900</x>
-      <y>500</y>
-      <w>190</w>
-      <h>225</h>
+      <x>482</x>
+      <y>378</y>
+      <w>76</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>Organizer
 --
@@ -886,10 +886,10 @@ organizerEvents)-&gt;void
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>365</x>
-      <y>875</y>
-      <w>55</w>
-      <h>20</h>
+      <x>268</x>
+      <y>528</y>
+      <w>22</w>
+      <h>8</h>
     </coordinates>
     <panel_attributes>Organizer</panel_attributes>
     <additional_attributes/>
@@ -897,10 +897,10 @@ organizerEvents)-&gt;void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>365</x>
-      <y>900</y>
-      <w>200</w>
-      <h>135</h>
+      <x>268</x>
+      <y>538</y>
+      <w>80</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 EventView
@@ -923,10 +923,10 @@ EventView
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>1190</x>
-      <y>0</y>
-      <w>90</w>
-      <h>30</h>
+      <x>598</x>
+      <y>178</y>
+      <w>36</w>
+      <h>12</h>
     </coordinates>
     <panel_attributes>QRCodes</panel_attributes>
     <additional_attributes/>
@@ -934,10 +934,10 @@ EventView
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1190</x>
-      <y>50</y>
-      <w>200</w>
-      <h>90</h>
+      <x>598</x>
+      <y>198</y>
+      <w>80</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 QRScannerActivity
@@ -954,10 +954,10 @@ QRScannerActivity
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>400</x>
-      <y>560</y>
-      <w>55</w>
-      <h>20</h>
+      <x>282</x>
+      <y>402</y>
+      <w>22</w>
+      <h>8</h>
     </coordinates>
     <panel_attributes>User</panel_attributes>
     <additional_attributes/>
@@ -965,10 +965,10 @@ QRScannerActivity
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>360</x>
-      <y>1070</y>
-      <w>210</w>
-      <h>55</h>
+      <x>266</x>
+      <y>606</y>
+      <w>84</w>
+      <h>22</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 WaitingList
@@ -981,10 +981,10 @@ WaitingList
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>400</x>
-      <y>595</y>
-      <w>210</w>
-      <h>70</h>
+      <x>282</x>
+      <y>416</y>
+      <w>84</w>
+      <h>28</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 OrganizerPage
@@ -993,17 +993,17 @@ OrganizerPage
 - organizerEvents: ArrayList&lt;Event&gt;
 - eventUtils: eventUtils
 --
-+onCreate(Bundle savedInstanceState):void
-+loadFragment(Fragment fragment, Bundle args):void</panel_attributes>
++onCreate(savedInstanceState: Bundle):void
++loadFragment(fragment: Fragment, args: Bundle):void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>940</x>
-      <y>45</y>
-      <w>210</w>
-      <h>135</h>
+      <x>498</x>
+      <y>196</y>
+      <w>84</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 MainActivity
@@ -1026,10 +1026,10 @@ MainActivity
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>400</x>
-      <y>680</y>
-      <w>210</w>
-      <h>175</h>
+      <x>282</x>
+      <y>450</y>
+      <w>84</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 UserPage
@@ -1058,10 +1058,10 @@ UserPage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>750</x>
-      <y>875</y>
-      <w>25</w>
-      <h>55</h>
+      <x>422</x>
+      <y>528</y>
+      <w>10</w>
+      <h>22</h>
     </coordinates>
     <panel_attributes>
 m1=0..*
@@ -1071,10 +1071,10 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>855</x>
-      <y>630</y>
-      <w>55</w>
-      <h>25</h>
+      <x>464</x>
+      <y>430</y>
+      <w>22</w>
+      <h>10</h>
     </coordinates>
     <panel_attributes>
 m1=0..*
@@ -1084,10 +1084,10 @@ m1=0..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>855</x>
-      <y>780</y>
-      <w>55</w>
-      <h>25</h>
+      <x>464</x>
+      <y>490</y>
+      <w>22</w>
+      <h>10</h>
     </coordinates>
     <panel_attributes>m1=0..*
 </panel_attributes>
@@ -1096,10 +1096,10 @@ m1=0..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>855</x>
-      <y>825</y>
-      <w>55</w>
-      <h>65</h>
+      <x>464</x>
+      <y>508</y>
+      <w>22</w>
+      <h>26</h>
     </coordinates>
     <panel_attributes>m1=0..*
 </panel_attributes>
@@ -1108,10 +1108,10 @@ m1=0..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>860</x>
-      <y>1090</y>
-      <w>150</w>
-      <h>25</h>
+      <x>466</x>
+      <y>614</y>
+      <w>60</w>
+      <h>10</h>
     </coordinates>
     <panel_attributes>m1=0..*
 </panel_attributes>
@@ -1120,10 +1120,10 @@ m1=0..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>860</x>
-      <y>1210</y>
-      <w>150</w>
-      <h>25</h>
+      <x>466</x>
+      <y>662</y>
+      <w>60</w>
+      <h>10</h>
     </coordinates>
     <panel_attributes>m1=0..*
 </panel_attributes>
@@ -1132,10 +1132,10 @@ m1=0..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>835</x>
-      <y>1260</y>
-      <w>390</w>
-      <h>65</h>
+      <x>456</x>
+      <y>682</y>
+      <w>156</w>
+      <h>26</h>
     </coordinates>
     <panel_attributes>m1=0..*
 </panel_attributes>
@@ -1144,10 +1144,10 @@ m1=0..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>860</x>
-      <y>990</y>
-      <w>410</w>
-      <h>95</h>
+      <x>466</x>
+      <y>574</y>
+      <w>164</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>m1=0..*
 </panel_attributes>
@@ -1156,21 +1156,10 @@ m1=0..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>240</x>
-      <y>560</y>
-      <w>170</w>
-      <h>185</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>320.0;350.0;10.0;350.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>605</x>
-      <y>630</y>
-      <w>60</w>
-      <h>20</h>
+      <x>364</x>
+      <y>430</y>
+      <w>24</w>
+      <h>8</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=0..*</panel_attributes>
@@ -1179,10 +1168,10 @@ m1=0..*</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>320</x>
-      <y>1050</y>
-      <w>90</w>
-      <h>15</h>
+      <x>250</x>
+      <y>598</y>
+      <w>36</w>
+      <h>6</h>
     </coordinates>
     <panel_attributes>WaitingListPackage</panel_attributes>
     <additional_attributes/>
@@ -1190,10 +1179,10 @@ m1=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
-      <y>435</y>
-      <w>150</w>
-      <h>75</h>
+      <x>446</x>
+      <y>352</y>
+      <w>60</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=0..*
@@ -1203,10 +1192,10 @@ m1=0..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1125</x>
-      <y>335</y>
-      <w>70</w>
-      <h>20</h>
+      <x>572</x>
+      <y>312</y>
+      <w>28</w>
+      <h>8</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1</panel_attributes>
@@ -1215,10 +1204,10 @@ m1=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1110</x>
-      <y>435</y>
-      <w>80</w>
-      <h>290</h>
+      <x>566</x>
+      <y>352</y>
+      <w>32</w>
+      <h>116</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1</panel_attributes>
@@ -1227,13 +1216,25 @@ m1=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>655</x>
-      <y>210</y>
-      <w>540</w>
-      <h>95</h>
+      <x>384</x>
+      <y>262</y>
+      <w>216</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1</panel_attributes>
     <additional_attributes>1060.0;160.0;990.0;160.0;990.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>196</x>
+      <y>402</y>
+      <w>90</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;310.0;430.0;310.0</additional_attributes>
   </element>
 </diagram>
