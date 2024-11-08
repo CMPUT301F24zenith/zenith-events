@@ -59,7 +59,7 @@ public class CreateEventPage extends AppCompatActivity {
         pageTitle = getIntent().getStringExtra("page_title");
         event = (Event) getIntent().getSerializableExtra("Event");
 
-        assert event != null;
+//        assert event != null;
 
         eventPosterImage = findViewById(R.id.eventPosterImage);
         uploadedPosterString = event.getImageUrl();
