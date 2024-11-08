@@ -25,6 +25,7 @@ import com.example.zenithevents.EntrantsList.CancelledEntrants;
 import com.example.zenithevents.EntrantsList.EnrolledEntrants;
 import com.example.zenithevents.EntrantsList.SampledEntrants;
 import com.example.zenithevents.EntrantsList.WaitlistedEntrants;
+import com.example.zenithevents.Events.CreateEventPage;
 import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.FacilityUtils;
@@ -32,6 +33,7 @@ import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.OrganizerPage;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
@@ -45,9 +47,8 @@ public class EventView extends AppCompatActivity {
     private static final String TAG = "EventView";
 
 
-    ImageView eventPosterImageView, eventQRImageView;
-    private Button btnJoinLeaveWaitingList, qrCodeButton, waitlistButton, cancelledButton;
-    private Button selectedButton, registeredButton;
+    ImageView eventPosterImageView;
+    private Button btnJoinLeaveWaitingList, qrCodeButton, btnEditEvent;
     private TextView eventDescription, eventName, facilityName, eventAddress;
     private ProgressBar progressBar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -85,6 +86,7 @@ public class EventView extends AppCompatActivity {
         eventDescription = findViewById(R.id.eventDescription);
         qrCodeButton = findViewById(R.id.qrCodeButton);
         entrantsSlider = findViewById(R.id.entrantsSlider);
+        btnEditEvent = findViewById(R.id.btnEditEvent);
     }
 
     private void setupRealTimeEventListener(String eventId) {
@@ -188,7 +190,15 @@ public class EventView extends AppCompatActivity {
 
         if (Objects.equals(event.getOwnerFacility(), deviceID)) {
             setupEntrantNavigation(event.getEventId());
+            btnEditEvent.setVisibility(View.VISIBLE);
+            btnEditEvent.setOnClickListener(v -> {
+                Intent intent = new Intent(EventView.this, CreateEventPage.class);
+                intent.putExtra("page_title", "Edit Event");
+                intent.putExtra("Event", (Serializable) event);
+                startActivity(intent);
+            });
         } else {
+            btnEditEvent.setVisibility(View.GONE);
             entrantsSlider.setVisibility(View.GONE);
         }
 
