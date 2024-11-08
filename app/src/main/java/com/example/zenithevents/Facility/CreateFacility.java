@@ -1,26 +1,17 @@
 package com.example.zenithevents.Facility;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 //import com.example.zenithevents.Manifest;
-import android.Manifest;
 
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.ValidationUtils;
@@ -59,10 +50,10 @@ public class CreateFacility extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         deviceId = DeviceUtils.getDeviceID(this);
 
-        facilityName = findViewById(R.id.location_name);
-        facilityPhone = findViewById(R.id.location_phone);
-        facilityEmail = findViewById(R.id.location_email);
-        saveButton = findViewById(R.id.location_save);
+        facilityName = findViewById(R.id.facility_name);
+        facilityPhone = findViewById(R.id.facility_phone);
+        facilityEmail = findViewById(R.id.facility_email);
+        saveButton = findViewById(R.id.facility_save);
 
         loadFacility(deviceId);
 
