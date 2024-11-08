@@ -16,6 +16,13 @@ import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
 import com.google.zxing.qrcode.encoder.QRCode;
 
+/**
+ * CreationSuccessActivity is an activity that is displayed after successfully creating an event.
+ * It shows the event's title, image, and a generated QR code, and allows the user to share the QR code.
+ * <p>
+ * Note: The Javadocs for this class were generated with the assistance of an AI language model.
+ * </p>
+ */
 public class CreationSuccessActivity extends AppCompatActivity {
     private TextView eventNameText;
     private ImageView eventImageView, qrCodeView;
@@ -23,6 +30,14 @@ public class CreationSuccessActivity extends AppCompatActivity {
     Event event;
     Bitmap QRCode, eventImage;
 
+    /**
+     * Called when the activity is first created. Initializes the UI components, retrieves the Event object passed
+     * from the previous activity, and sets up the event name, image, and QR code.
+     * It also sets listeners for the buttons to allow sharing the QR code and exiting the activity.
+     *
+     * @param savedInstanceState A Bundle containing the activity's previously saved state.
+     *                           If the activity has never been created, this will be null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +74,12 @@ public class CreationSuccessActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Shares the QR code bitmap as an image using an intent.
+     * The image is inserted into the device's media store, and an intent is launched to allow the user to share the image.
+     *
+     * @param qrCodeBitmap The Bitmap representation of the QR code to be shared.
+     */
     private void shareQRCode(Bitmap qrCodeBitmap) {
         String path = MediaStore.Images.Media.insertImage(getContentResolver(), qrCodeBitmap, "QR Code", "Event QR Code");
         Uri qrCodeUri = Uri.parse(path);
