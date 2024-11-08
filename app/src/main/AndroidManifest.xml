@@ -25,7 +25,7 @@
         android:theme="@style/Theme.ZenithEvents"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity007"
+            android:name=".admin.ViewEventsAdmin"
             android:exported="false" />
         <activity
             android:name=".EntrantsList.SampledEntrants"
@@ -49,15 +49,15 @@
             android:name=".EntrantDashboard.EntrantViewActivity"
             android:exported="false" />
         <activity
-            android:name=".User.UserPage"
+            android:name=".User.UserProfile"
             android:exported="false" />
         <activity android:name=".User.OrganizerPage" />
         <activity
             android:name=".Events.CreateEventPage"
             android:exported="false" />
         <activity android:name=".Events.CreationSuccessActivity" />
-        <activity android:name=".WaitingListPackage.WaitingList" />
         <activity android:name=".QRCodes.QRScannerActivity" />
+        <activity android:name=".Organizer.QRView" />
         <activity android:name=".Facility.CreateFacility" />
         <activity android:name=".Facility.ViewFacility" />
         <activity

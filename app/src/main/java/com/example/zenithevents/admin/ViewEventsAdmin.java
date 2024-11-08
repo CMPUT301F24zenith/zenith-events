@@ -1,4 +1,4 @@
-package com.example.zenithevents;
+package com.example.zenithevents.admin;
 
 import android.os.Bundle;
 
@@ -8,13 +8,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity007 extends AppCompatActivity {
+import com.example.zenithevents.R;
+
+/**
+ * TODO project part 4
+ */
+public class ViewEventsAdmin extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main007);
+        setContentView(R.layout.activity_view_events_admin);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

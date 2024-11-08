@@ -53,12 +53,14 @@
         />
 
     <LinearLayout
+        android:id="@+id/entrantsSlider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:padding="16dp">
+        android:padding="16dp"
+        >
 
         <TextView
             android:id="@+id/leftArrowButton"
@@ -79,7 +81,9 @@
             android:paddingHorizontal="20dp"
             android:gravity="center"
             android:textStyle="bold"
-            android:textColor="@color/black" />
+            android:textColor="@color/white"
+            android:background="@drawable/square_button"
+        />
 
         <TextView
             android:id="@+id/rightArrowButton"
@@ -91,6 +95,14 @@
             android:gravity="center"
             android:textColor="@color/black" />
     </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Event"
+        android:id="@+id/btnEditEvent"
+        android:visibility="gone"
+        />
 
     <Button
         android:id="@+id/qrCodeButton"

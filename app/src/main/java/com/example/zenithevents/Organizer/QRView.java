@@ -15,6 +15,16 @@ import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
 
+/**
+ * QRView is an activity that displays a QR code for an event, allowing the user to view and share it.
+ * <p>
+ * This activity retrieves an Event object, displays the event title, and generates a QR code that can be shared with others.
+ * It includes a button to share the QR code and a button to close the activity.
+ * </p>
+ * <p>
+ * Note: The Javadocs for this class were generated with the assistance of an AI language model.
+ * </p>
+ */
 public class QRView extends AppCompatActivity {
     private TextView eventTitleText;
     private ImageView qrCodeView;
@@ -22,6 +32,13 @@ public class QRView extends AppCompatActivity {
     Event event;
     Bitmap qrCode;
 
+    /**
+     * Called when the activity is first created. Initializes the UI components, retrieves the Event object passed
+     * from the previous activity, and sets up event handling for the buttons.
+     *
+     * @param savedInstanceState A Bundle containing the activity's previously saved state.
+     *                           If the activity has never been created, this will be null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +67,12 @@ public class QRView extends AppCompatActivity {
         }
     }
 
+    /**
+     * Shares the QR code bitmap as an image using an intent.
+     * The image is inserted into the device's media store, and an intent is launched to allow the user to share the image.
+     *
+     * @param qrCodeBitmap The Bitmap representation of the QR code to be shared.
+     */
     private void shareQRCode(Bitmap qrCodeBitmap) {
         String path = MediaStore.Images.Media.insertImage(getContentResolver(), qrCodeBitmap, "QR Code", "Event QR Code");
         Uri qrCodeUri = Uri.parse(path);

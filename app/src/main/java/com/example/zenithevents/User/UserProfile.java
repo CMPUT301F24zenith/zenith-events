@@ -25,11 +25,13 @@ import com.example.zenithevents.HelperClasses.ValidationUtils;
 import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
- * UserPage handles displaying and updating the user's profile information.
+ * UserProfile handles displaying and updating the user's profile information.
  *
  * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.
  *
@@ -40,7 +42,7 @@ import java.util.Objects;
  *
  * <p>Usage Example:
  * <pre>
- * Intent intent = new Intent(context, UserPage.class);
+ * Intent intent = new Intent(context, UserProfile.class);
  * startActivity(intent);
  * </pre>
  *
@@ -56,7 +58,7 @@ import java.util.Objects;
  * - {@link UserUtils} - Utility class for creating or updating the user's profile in the database.
  * - {@link ValidationUtils} - Utility class for validating user input such as email format.
  */
-public class UserPage extends AppCompatActivity {
+public class UserProfile extends AppCompatActivity {
 
     private EditText editFirstName, editLastName, editEmail, editPhoneNumber;
     private Button btnSave, btnRemove;
@@ -68,6 +70,7 @@ public class UserPage extends AppCompatActivity {
     private ProgressBar progressBar;
     String initials;
     FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     /**
      * Initializes the activity, setting up UI components and loading the user's profile data.
@@ -81,6 +84,7 @@ public class UserPage extends AppCompatActivity {
 
         userUtils = new UserUtils();
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         editFirstName = findViewById(R.id.editFirstName);
         editLastName = findViewById(R.id.editLastName);
@@ -104,11 +108,6 @@ public class UserPage extends AppCompatActivity {
         profileImage.setOnClickListener(v -> openImagePicker());
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Toast.makeText(this, "Profile Did not update", Toast.LENGTH_SHORT).show();
-    }
 
     /**
      * Opens the device's gallery to allow the user to pick an image for their profile picture.
@@ -123,7 +122,7 @@ public class UserPage extends AppCompatActivity {
             result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     imageUri = result.getData().getData();
-                    Log.d("UserPage", "Image URI: " + imageUri);
+                    Log.d("UserProfile", "Image URI: " + imageUri);
                     profileImage.setImageURI(imageUri);
                     initialsTextView.setVisibility(View.GONE);
                 }
@@ -201,11 +200,12 @@ public class UserPage extends AppCompatActivity {
         }
 
         User updatedUser = new User();
-        updatedUser.setDeviceID(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+        updatedUser.setDeviceID(DeviceUtils.getDeviceID(this));
         updatedUser.setFirstName(firstName);
         updatedUser.setLastName(lastName);
         updatedUser.setEmail(email);
         updatedUser.setPhoneNumber(phoneNumber);
+        updatedUser.setAnonymousAuthID(mAuth.getUid());
         if (imageUri != null){
             Bitmap bitmap = BitmapUtils.getBitmapFromUri(this, imageUri);
             if (bitmap != null) {
@@ -229,14 +229,23 @@ public class UserPage extends AppCompatActivity {
      * @param user The {@link User} object containing updated profile information.
      */
     private void updateUserProfile(User user) {
-        userUtils.createOrUpdateUserProfile(user, success -> {
-            if (success) {
-                Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
-                finish();
-            } else {
-                Toast.makeText(this, "Update failed. Try smaller image size", Toast.LENGTH_SHORT).show();
-            }
-        });
+        Map<String, Object> userData = UserUtils.convertUserToMap(user);
+        db.collection("users")
+                .document(user.getDeviceID())
+                .set(userData)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
+                    finish();
+                });
+
+//        userUtils.createOrUpdateUserProfile(user, success -> {
+//            if (success) {
+//                Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
+//                finish();
+//            } else {
+//                Toast.makeText(this, "Update failed. Try smaller image size", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 
