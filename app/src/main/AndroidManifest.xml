@@ -56,7 +56,6 @@
             android:name=".Events.CreateEventPage"
             android:exported="false" />
         <activity android:name=".Events.CreationSuccessActivity" />
-        <activity android:name=".Organizer.QRView"></activity>
         <activity android:name=".WaitingListPackage.WaitingList" />
         <activity android:name=".QRCodes.QRScannerActivity" />
         <activity
