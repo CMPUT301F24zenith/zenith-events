@@ -49,7 +49,7 @@ public class EventView extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ListenerRegistration eventListener;
-    private String[] entrantOptions = {"Waitlisted Entrants", "Selected Entrants", "Registered Entrants", "Cancelled Entrants"};
+    private final String[] entrantOptions = {"Waitlisted Entrants", "Selected Entrants", "Registered Entrants", "Cancelled Entrants"};
     private int currentOptionIndex = 0;
 
     @Override
