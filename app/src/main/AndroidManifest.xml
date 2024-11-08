@@ -61,6 +61,7 @@
         <activity android:name=".Events.CreationSuccessActivity" />
         <activity android:name=".WaitingListPackage.WaitingList" />
         <activity android:name=".QRCodes.QRScannerActivity" />
+        <activity android:name=".Organizer.QRView" />
         <activity android:name=".Facility.CreateFacility" />
         <activity android:name=".Facility.ViewFacility" />
         <activity

@@ -163,7 +163,7 @@ public class UserProfile extends AppCompatActivity {
                 Toast.makeText(this, "User profile not found.", Toast.LENGTH_SHORT).show();
             }
             progressBar.setVisibility(View.GONE);
-        }, DeviceUtils.getDeviceID(this));
+        });
     }
 
     /**
