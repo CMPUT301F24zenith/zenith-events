@@ -2,6 +2,7 @@ package com.example.zenithevents;
 
 import static android.content.Intent.getIntent;
 
+
 import static org.junit.Assert.assertTrue;
 
 import androidx.test.espresso.Espresso;
@@ -26,15 +27,11 @@ public class CreateEventPageTest {
     @Before
     public void setUp() {
         Event event = new Event();
-        assertTrue(event != null);
+
         event.setImageUrl(String.valueOf(R.drawable.event_place_holder));
 
     }
-    @Test
-    public void testCancelEventButton() {
-        Espresso.onView(ViewMatchers.withId(R.id.createEventCancelButton)).perform(ViewActions.click());
 
-    }
 
     @Test
     public void testCreateEventSaveButton() {

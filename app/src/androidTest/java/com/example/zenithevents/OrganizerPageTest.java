@@ -44,6 +44,7 @@ public class OrganizerPageTest {
         Espresso.onView(ViewMatchers.withId(R.id.createEventButton)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(CreateEventPage.class.getName()));
     }
+
     @Test
     public void testInputEventDetails() {
         Espresso.onView(ViewMatchers.withId(R.id.organizerButton)).perform(ViewActions.click());
