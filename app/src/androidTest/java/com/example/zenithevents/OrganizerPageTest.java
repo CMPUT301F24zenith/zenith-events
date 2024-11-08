@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.zenithevents.Events.CreateEventPage;
 import com.example.zenithevents.User.OrganizerPage;
 
 import org.junit.After;
@@ -35,5 +36,12 @@ public class OrganizerPageTest {
     public void testOrganizerButton() {
         Espresso.onView(ViewMatchers.withId(R.id.organizerButton)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(OrganizerPage.class.getName()));
+    }
+
+    @Test
+    public void testCreateEventButton() {
+        Espresso.onView(ViewMatchers.withId(R.id.organizerButton)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.createEventButton)).perform(ViewActions.click());
+        Intents.intended(IntentMatchers.hasComponent(CreateEventPage.class.getName()));
     }
 }

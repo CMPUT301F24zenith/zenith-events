@@ -9,6 +9,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.zenithevents.Events.CreateEventPage;
 import com.example.zenithevents.Organizer.EventView;
 
 import org.junit.After;
@@ -37,6 +38,12 @@ public class EventViewTest {
     public void testEventViewButton(){
         Espresso.onView(withId(R.id.testEventView)).perform(click());
         Intents.intended(IntentMatchers.hasComponent(EventView.class.getName()));
+    }
+    @Test
+    public void testJoinEventButton(){
+        Espresso.onView(withId(R.id.testEventView)).perform(click());
+        Espresso.onView(withId(R.id.btnJoinWaitingList)).perform(click());
+//        Intents.intended(IntentMatchers.hasComponent(CreateEventPage.class.getName()));
     }
 
 }
