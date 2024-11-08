@@ -49,6 +49,7 @@ public class OrganizerPage extends AppCompatActivity {
             intent.putExtra("page_title", "Create Event");
             intent.putExtra("Event", event);
             startActivity(intent);
+            finish();
         });
 
         Bundle args = new Bundle();
