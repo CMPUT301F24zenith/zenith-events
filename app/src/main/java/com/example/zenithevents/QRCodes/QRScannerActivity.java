@@ -55,7 +55,7 @@ public class QRScannerActivity extends AppCompatActivity {
                 finish();
             } else {
                 Toast.makeText(QRScannerActivity.this, "Invalid QR code or event not found.", Toast.LENGTH_SHORT).show();
-                barcodeView.resume();
+                finish();
             }
         });
     }
