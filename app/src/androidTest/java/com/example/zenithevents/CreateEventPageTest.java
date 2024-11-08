@@ -2,6 +2,9 @@ package com.example.zenithevents;
 
 import static android.content.Intent.getIntent;
 
+
+import static org.junit.Assert.assertTrue;
+
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -24,9 +27,11 @@ public class CreateEventPageTest {
     @Before
     public void setUp() {
         Event event = new Event();
+
         event.setImageUrl(String.valueOf(R.drawable.event_place_holder));
 
     }
+
 
     @Test
     public void testCreateEventSaveButton() {

@@ -2,16 +2,12 @@ package com.example.zenithevents.HelperClasses;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.zenithevents.EntrantsList.EnrolledEntrants;
 import com.example.zenithevents.Objects.Event;
-import com.example.zenithevents.Objects.User;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.example.zenithevents.Objects.Event;
@@ -22,40 +18,57 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Utility class for event-related operations.
+ * Utility class for handling event-related operations in Firestore.
+ *
+ * <p>This class provides methods for creating, updating, deleting, and retrieving event data
+ * from Firestore. It also includes methods for managing event waiting lists and updating
+ * specific fields in an event document. The Javadocs for this class was generated with
+ * the assistance of an AI language model and may require review to ensure it meets your coding
+ * standards and project requirements.
  */
 public class EventUtils {
     private FirebaseFirestore db;
 
+    /**
+     * Constructs an EventUtils instance with a Firestore instance.
+     */
     public EventUtils() {
         db = FirebaseFirestore.getInstance();
     }
 
+    /**
+     * Callback interface for updating events.
+     */
     public interface EventUpdateCallback {
         void onEventUpdate(String eventId);
     }
 
-    public interface EventUserListCallback {
-        void onEventsFetchComplete(User user);
-    }
-
-    // Callback interface for event existence check
+    /**
+     * Callback interface for checking event existence.
+     */
     public interface EventExistenceCallback {
         void onEventCheckComplete(boolean exists);
     }
 
-    // Callback interface for fetching event data
+    /**
+     * Callback interface for fetching a single event.
+     */
     public interface EventFetchCallback {
         void onEventFetchComplete(Event event);
     }
 
-    // Callback interface for multiple events
+    /**
+     * Callback interface for fetching multiple events.
+     */
     public interface EventsFetchCallback {
         void onEventsFetchComplete(ArrayList<Event> events);
     }
 
     /**
      * Checks if an event exists in Firestore.
+     *
+     * @param eventId  The unique identifier of the event to check.
+     * @param callback Callback that provides a boolean indicating existence.
      */
     public void checkEventExists(String eventId, EventExistenceCallback callback) {
         db.collection("events").document(eventId).get()
@@ -70,7 +83,14 @@ public class EventUtils {
     }
 
     /**
-     * Creates event if event is not in Firestore otherwise updates the event in Firestore.
+     * Creates a new event or updates an existing event in Firestore.
+     *
+     * <p>If the event ID is null, a new event document is created. Otherwise, the specified
+     * event is updated. If the event is created successfully, its ID is added to the document.
+     *
+     * @param context  The application context used to retrieve device ID.
+     * @param event    The event to create or update in Firestore.
+     * @param callback Callback to return the event ID after creation or update.
      */
     public void createUpdateEvent(Context context, Event event, EventUpdateCallback callback) {
         Log.d("FunctionCall1", "" + event.getSelectedLimit());
@@ -110,10 +130,11 @@ public class EventUtils {
     }
 
     /**
-     * This function fetches all events which are owned by the given deviceId
-     * @param context
-     * @param deviceId
-     * @param callback
+     * Fetches all events created by a specific device (organizer).
+     *
+     * @param context  The application context.
+     * @param deviceId The device ID of the organizer.
+     * @param callback Callback to return a list of the organizer's events.
      */
     public void fetchOrganizerEvents(Context context, String deviceId, EventsFetchCallback callback) {
         db.collection("events")
@@ -139,6 +160,9 @@ public class EventUtils {
 
     /**
      * Deletes an event from Firestore.
+     *
+     * @param eventId  The ID of the event to delete.
+     * @param callback Callback to return success status after deletion.
      */
     public void deleteEvent(String eventId, EventExistenceCallback callback) {
         db.collection("events").document(eventId)
@@ -148,7 +172,10 @@ public class EventUtils {
     }
 
     /**
-     * Fetches an event by its ID from Firestore.
+     * Fetches an event by its unique ID from Firestore.
+     *
+     * @param eventId  The unique identifier of the event.
+     * @param callback Callback to return the fetched event or null if not found.
      */
     public void fetchEventById(String eventId, EventFetchCallback callback) {
         db.collection("events").document(eventId).get()
@@ -164,7 +191,9 @@ public class EventUtils {
     }
 
     /**
-     * Fetches all events from Firestore.
+     * Fetches all events stored in Firestore.
+     *
+     * @param callback Callback to return a list of all events.
      */
     public void fetchAllEvents(EventsFetchCallback callback) {
         db.collection("events").get()
@@ -181,6 +210,11 @@ public class EventUtils {
 
     /**
      * Updates a specific field of an event in Firestore.
+     *
+     * @param eventId   The unique identifier of the event.
+     * @param fieldName The name of the field to update.
+     * @param value     The new value for the specified field.
+     * @param callback  Callback to return success status of the update operation.
      */
     public void updateEventField(String eventId, String fieldName, Object value, EventExistenceCallback callback) {
         db.collection("events").document(eventId)
@@ -191,6 +225,10 @@ public class EventUtils {
 
     /**
      * Updates multiple fields of an event in Firestore.
+     *
+     * @param eventId         The unique identifier of the event.
+     * @param fieldsToUpdate  A map containing field names and their new values.
+     * @param callback        Callback to return success status of the update operation.
      */
     public void updateEventFields(String eventId, Map<String, Object> fieldsToUpdate, EventExistenceCallback callback) {
         db.collection("events").document(eventId)
@@ -201,6 +239,10 @@ public class EventUtils {
 
     /**
      * Adds a user to an event's waiting list in Firestore.
+     *
+     * @param eventId  The unique identifier of the event.
+     * @param userId   The unique identifier of the user.
+     * @param callback Callback to return success status of the operation.
      */
     public void addUserToWaitingList(String eventId, String userId, EventExistenceCallback callback) {
         db.collection("events").document(eventId)
@@ -211,6 +253,10 @@ public class EventUtils {
 
     /**
      * Removes a user from an event's waiting list in Firestore.
+     *
+     * @param eventId  The unique identifier of the event.
+     * @param userId   The unique identifier of the user.
+     * @param callback Callback to return success status of the operation.
      */
     public void removeUserFromWaitingList(String eventId, String userId, EventExistenceCallback callback) {
         db.collection("events").document(eventId)
@@ -220,7 +266,15 @@ public class EventUtils {
     }
 
     /**
-     * Helper method to convert an Event object to a Map for Firestore.
+     * Converts an Event object into a map representation suitable for storage in Firestore.
+     *
+     * <p>This method takes an Event object and maps its properties to a {@link Map}, with each
+     * property represented as a key-value pair. This is useful for adding or updating event
+     * data in Firestore. The method includes the event's ID, title, image URL, participant count,
+     * waiting list, selected participants, registrants, owner facility ID, and the QR code hash.
+     *
+     * @param event The Event object to convert into a map.
+     * @return A map containing the event data, where each key corresponds to a field name in Firestore.
      */
     public static Map<String, Object> convertEventToMap(Event event) {
         Map<String, Object> eventMap = new HashMap<>();
@@ -235,6 +289,5 @@ public class EventUtils {
         eventMap.put("QRCodeURL", event.getQRCodeHash());
         return eventMap;
     }
-
 }
 

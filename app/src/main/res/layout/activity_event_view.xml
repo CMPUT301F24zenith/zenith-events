@@ -97,6 +97,14 @@
     </LinearLayout>
 
     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Event"
+        android:id="@+id/btnEditEvent"
+        android:visibility="gone"
+        />
+
+    <Button
         android:id="@+id/qrCodeButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
