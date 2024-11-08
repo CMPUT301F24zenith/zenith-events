@@ -38,4 +38,19 @@ public class UserProfileTest {
         assertEquals("0987654321", user.getPhoneNumber());
     }
 
+
+    @Test
+    public void testingUploadImage() {
+        String sampleImage = "http://example.com/sample-image.png";
+        user.setProfileImageURL(sampleImage);
+        assertEquals("Profile should have a url", sampleImage, user.getProfileImageURL());
+    }
+
+    @Test
+    public void testingRemoveImage() {
+        String sampleImage = "http://example.com/sample-image.png";
+        user.setProfileImageURL(null);
+        assertNull("Url should be null", user.getProfileImageURL());
+    }
+
 }
