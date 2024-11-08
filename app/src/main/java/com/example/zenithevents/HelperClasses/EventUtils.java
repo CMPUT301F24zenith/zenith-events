@@ -19,6 +19,7 @@ import com.example.zenithevents.Objects.Event;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Utility class for event-related operations.
@@ -69,18 +70,9 @@ public class EventUtils {
     }
 
     /**
-     * Creates or updates an event in Firestore.
+     * Creates event if event is not in Firestore otherwise updates the event in Firestore.
      */
-    public void createOrUpdateEvent(Event event, EventExistenceCallback callback) {
-        String eventId = event.getEventId();
-        Map<String, Object> eventMap = convertEventToMap(event);
-
-        db.collection("events").document(eventId).set(eventMap)
-                .addOnSuccessListener(aVoid -> callback.onEventCheckComplete(true))
-                .addOnFailureListener(e -> callback.onEventCheckComplete(false));
-    }
-
-    public void updateEvent(Context context, Event event, EventUtils.EventUpdateCallback callback) {
+    public void createUpdateEvent(Context context, Event event, EventUpdateCallback callback) {
         Log.d("FunctionCall", "updateEvent");
 
         String deviceID = DeviceUtils.getDeviceID(context);
@@ -90,16 +82,16 @@ public class EventUtils {
             db.collection("events").add(event)
                     .addOnSuccessListener(ref -> {
                         String generatedId = ref.getId();
+                        Log.d("Firestore", "Event added to database");
 
                         ref.update("eventId", generatedId)
                             .addOnSuccessListener(aVoid -> {
+                                Log.d("Firestore", "Id updated");
                                 callback.onEventUpdate(generatedId);
                             }).addOnFailureListener(e -> {
+                                Log.d("Firestore", "Id failed to updated");
                                 callback.onEventUpdate(null);
                             });
-
-                        Log.d("Firestore", "Event added to database");
-                        callback.onEventUpdate(generatedId);
                     }).addOnFailureListener(e -> {
                         Log.w("Firestore", "Couldn't add event to database");
                         callback.onEventUpdate(null);
@@ -109,12 +101,40 @@ public class EventUtils {
             ref.set(event, SetOptions.merge())
                     .addOnSuccessListener(v -> {
                         Log.d("Firestore", "Event updated to database");
-                        callback.onEventUpdate(ref.getId());
+                        callback.onEventUpdate(event.getEventId());
                     }).addOnFailureListener(e -> {
-                        Log.w("Firestrore", "Couldnt find Event Id in the database");
+                        Log.w("Firestore", "Couldn't find Event Id in the database");
                         callback.onEventUpdate(null);
                     });
         }
+    }
+
+    /**
+     * This function fetches all events which are owned by the given deviceId
+     * @param context
+     * @param deviceId
+     * @param callback
+     */
+    public void fetchOrganizerEvents(Context context, String deviceId, EventsFetchCallback callback) {
+        db.collection("events")
+                .whereEqualTo("ownerFacility", deviceId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    ArrayList<Event> organizerEvents = new ArrayList<>();
+
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        Event event = document.toObject(Event.class);
+                        Log.d("FunctionCall", "event fetched");
+                        if (event != null) {
+                            organizerEvents.add(event);
+                        }
+                    }
+
+                    callback.onEventsFetchComplete(organizerEvents);
+                }).addOnFailureListener(e -> {
+                    Log.d("FunctionCall", "failed");
+                    callback.onEventsFetchComplete(null);
+                });
     }
 
     /**
@@ -212,7 +232,7 @@ public class EventUtils {
         eventMap.put("selected", event.getSelected());
         eventMap.put("registrants", event.getRegistrants());
         eventMap.put("ownerFacility", event.getOwnerFacility());
-        eventMap.put("QRCodeURL", event.getQRCodeURL());
+        eventMap.put("QRCodeURL", event.getQRCodeHash());
         return eventMap;
     }
 

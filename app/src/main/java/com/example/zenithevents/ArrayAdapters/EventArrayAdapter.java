@@ -1,6 +1,8 @@
 package com.example.zenithevents.ArrayAdapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.Event;
+import com.example.zenithevents.Organizer.EventView;
 import com.example.zenithevents.R;
 
 import java.util.List;
@@ -23,41 +27,34 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
         Event event = getItem(position);
 
-        // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.events_content, parent, false);
         }
 
-        // Lookup view for data population
         ImageView eventImage = convertView.findViewById(R.id.eventImage);
-        TextView eventIdOrName = convertView.findViewById(R.id.eventIdOrName);
+        TextView eventTitle = convertView.findViewById(R.id.eventTitle);
         TextView facilityName = convertView.findViewById(R.id.facilityName);
 
-
-        // Populate the data into the template view using the data object
         assert event != null;
-        eventIdOrName.setText(event.getEventTitle());
+        eventTitle.setText(event.getEventTitle());
         facilityName.setText(event.getOwnerFacility());
-        // Load image using Glide
-        if (event.getImageUrl() != null && !event.getImageUrl().isEmpty()) {
-            Glide.with(getContext())
-                    .load(event.getImageUrl()) // Load the image URL from the Event object
-                    .apply(new RequestOptions()
-                            .transform(new RoundedCorners(16)) // Apply rounded corners transformation
-                            .placeholder(R.drawable.event_place_holder) // Optional placeholder while loading
+        String imgUrl = event.getImageUrl();
 
-                    )
-                    .into(eventImage); // Load into the ImageView
+        if (imgUrl != null) {
+            Bitmap imgBitMap = QRCodeUtils.decodeBase64ToBitmap(imgUrl);
+            Glide.with(this.getContext()).load(imgBitMap).into(eventImage);
         } else {
-            // Set a default image if no URL is provided
             eventImage.setImageResource(R.drawable.event_place_holder);
-
-
-
         }
+
+        convertView.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), EventView.class);
+            intent.putExtra("event_id", event.getEventId());
+            getContext().startActivity(intent);
+        });
+
         return convertView;
     }
 }

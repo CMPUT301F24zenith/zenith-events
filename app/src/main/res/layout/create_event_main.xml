@@ -34,10 +34,22 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:hint="Event Name (Required)"
-            app:layout_constraintBottom_toTopOf="@+id/eventLocationInput"
+            app:layout_constraintBottom_toTopOf="@+id/eventDescriptionInput"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/createEventTitle"
+            />
+
+        <EditText
+            android:id="@+id/eventDescriptionInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:hint="Event Description (Optional)"
+            app:layout_constraintBottom_toTopOf="@+id/eventLocationInput"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/eventNameInput"
             />
 
         <EditText
@@ -45,11 +57,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:hint="Event Location (Required)"
+            android:hint="Event Location (Optional)"
             app:layout_constraintBottom_toTopOf="@+id/eventLimitInput"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eventNameInput"
+            app:layout_constraintTop_toBottomOf="@+id/eventDescriptionInput"
             />
 
         <EditText

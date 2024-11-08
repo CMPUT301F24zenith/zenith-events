@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-
+    android:clickable="true"
     android:padding="16dp">
-
     <ImageView
         android:id="@+id/eventImage"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:background="@color/gray"
         android:scaleType="fitCenter" />
+
     <TextView
-        android:id="@+id/eventIdOrName"
+        android:id="@+id/eventTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Event Name"
+        android:text="Event Title"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -28,8 +29,4 @@
         android:layout_height="wrap_content"
         android:text="Facility Name"
         android:textSize="16sp" />
-
-
-
-
 </LinearLayout>

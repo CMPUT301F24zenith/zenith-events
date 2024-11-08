@@ -4,16 +4,9 @@ import java.util.ArrayList;
 
 public class User {
 
-    private String deviceID;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phoneNumber;
-    private ArrayList<Event> entrantEvents;
-    private String profileImageURL;
-    private Boolean wantsNotifs;
-    private Boolean isAdmin;
-    private String myFacility;
+    private String deviceID, profileImageURL, firstName, lastName, email, phoneNumber, myFacility;
+    private ArrayList<String> entrantEvents, cancelledEvents, selectedEvents, waitingEvents;
+    private Boolean wantsNotifs, isAdmin;
 
     // No-argument constructor required for Firestore
     public User() {}
@@ -24,6 +17,10 @@ public class User {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.isAdmin = false;
+        this.entrantEvents = new ArrayList<>();
+        this.cancelledEvents = new ArrayList<>();
+        this.selectedEvents = new ArrayList<>();
+        this.waitingEvents = new ArrayList<>();
     }
 
     public String getDeviceID() {
@@ -46,7 +43,7 @@ public class User {
         return phoneNumber;
     }
 
-    public ArrayList<Event> getEntrantEvents() {
+    public ArrayList<String> getEntrantEvents() {
         return entrantEvents;
     }
 
@@ -64,16 +61,6 @@ public class User {
 
     public String getMyFacility() {
         return myFacility;
-    }
-
-//    public void enterWaitingList(Event event) { // TODO
-//        event.getWaitingList().add(this);
-//        entrantEvents.add(event);
-//    }
-
-    public void leaveWaitingList(Event event) {
-        event.getWaitingList().remove(this);
-        entrantEvents.remove(event);
     }
 
     public void setDeviceID(String deviceID) {
@@ -96,7 +83,7 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setEntrantEvents(ArrayList<Event> entrantEvents) {
+    public void setEntrantEvents(ArrayList<String> entrantEvents) {
         this.entrantEvents = entrantEvents;
     }
 
@@ -121,11 +108,27 @@ public class User {
 
     }
 
-    boolean isSelected(Event event) {
-        return event.getSelected().contains(this);
-    }
-    boolean wantsNotifs() {
-        return wantsNotifs;
+    public ArrayList<String> getCancelledEvents() {
+        return cancelledEvents;
     }
 
+    public void setCancelledEvents(ArrayList<String> cancelledEvents) {
+        this.cancelledEvents = cancelledEvents;
+    }
+
+    public ArrayList<String> getSelectedEvents() {
+        return selectedEvents;
+    }
+
+    public void setSelectedEvents(ArrayList<String> selectedEvents) {
+        this.selectedEvents = selectedEvents;
+    }
+
+    public ArrayList<String> getWaitingEvents() {
+        return waitingEvents;
+    }
+
+    public void setWaitingEvents(ArrayList<String> waitingEvents) {
+        this.waitingEvents = waitingEvents;
+    }
 }
