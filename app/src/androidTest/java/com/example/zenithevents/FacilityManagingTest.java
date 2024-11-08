@@ -41,25 +41,29 @@ import org.junit.Test;
 
 public class FacilityManagingTest {
 
+    private static final String TEST_DEVICE_ID = "sampleDeviceId";
+
     @Rule
     public ActivityTestRule<CreateFacility> createFacilityRule =
             new ActivityTestRule<>(CreateFacility.class);
 
     @Test
-    public void testCreateFacility() {
-        // Simulate typing information into text fields
+    public void testCreateFacility() throws InterruptedException {
+        // Enter data in CreateFacility
         onView(withId(R.id.location_name)).perform(typeText("Test Facility Name"));
         onView(withId(R.id.location_phone)).perform(typeText("1234567890"));
         onView(withId(R.id.location_email)).perform(typeText("test@example.com"));
-
-        // Click the save button
         onView(withId(R.id.location_save)).perform(click());
 
-        // Check if it navigates to ViewFacility after saving
+        // Launch ViewFacility with deviceId
         Intent intent = new Intent(createFacilityRule.getActivity(), ViewFacility.class);
+        intent.putExtra("deviceId", "sampleDeviceId");  // Ensure this matches the document in Firebase
         ActivityScenario<ViewFacility> scenario = ActivityScenario.launch(intent);
 
-        // Verify that ViewFacility is launched and displays correct information
+        // Wait for Firebase data to load in ViewFacility
+        Thread.sleep(3000); // Adjust delay if needed
+
+        // Verify the displayed data in ViewFacility
         onView(withId(R.id.namefield)).check(matches(withText("Name: Test Facility Name")));
         onView(withId(R.id.phonefield)).check(matches(withText("Phone: 1234567890")));
         onView(withId(R.id.emailfield)).check(matches(withText("Email: test@example.com")));

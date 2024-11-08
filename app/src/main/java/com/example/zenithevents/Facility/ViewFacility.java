@@ -3,6 +3,7 @@ package com.example.zenithevents.Facility;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -63,6 +64,22 @@ public class ViewFacility extends AppCompatActivity {
 
     }
 
+//    private void showFacilityData(String deviceId) {
+//        DocumentReference facilityRef = db.collection("facilities").document(deviceId);
+//        facilityRef.get().addOnSuccessListener(documentSnapshot -> {
+//            if (documentSnapshot.exists()) {
+//                Facility facility = documentSnapshot.toObject(Facility.class);
+//                if (facility != null) {
+//                    facilityName.setText("Name: " + facility.getNameOfFacility());
+//                    facilityPhone.setText("Phone: " + facility.getPhoneOfFacility());
+//                    facilityEmail.setText("Email: " + facility.getEmailOfFacility());
+//                }
+//            } else {
+//                Toast.makeText(this, "Facility not found", Toast.LENGTH_SHORT).show();
+//            }
+//        }).addOnFailureListener(e -> Toast.makeText(this, "Cannot load Facility", Toast.LENGTH_SHORT).show());
+//    }
+
     private void showFacilityData(String deviceId) {
         DocumentReference facilityRef = db.collection("facilities").document(deviceId);
         facilityRef.get().addOnSuccessListener(documentSnapshot -> {
@@ -72,10 +89,14 @@ public class ViewFacility extends AppCompatActivity {
                     facilityName.setText("Name: " + facility.getNameOfFacility());
                     facilityPhone.setText("Phone: " + facility.getPhoneOfFacility());
                     facilityEmail.setText("Email: " + facility.getEmailOfFacility());
+                } else {
+                    Log.d("ViewFacility", "Facility object is null.");
                 }
             } else {
-                Toast.makeText(this, "Facility not found", Toast.LENGTH_SHORT).show();
+                Log.d("ViewFacility", "Document not found in Firestore.");
             }
-        }).addOnFailureListener(e -> Toast.makeText(this, "Cannot load Facility", Toast.LENGTH_SHORT).show());
+        }).addOnFailureListener(e -> {
+            Log.d("ViewFacility", "Error loading document: ", e);
+        });
     }
 }
