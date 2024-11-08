@@ -32,7 +32,9 @@ import com.example.zenithevents.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class EventView extends AppCompatActivity {
@@ -47,6 +49,8 @@ public class EventView extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ListenerRegistration eventListener;
+    private final String[] entrantOptions = {"Waitlisted Entrants", "Selected Entrants", "Registered Entrants", "Cancelled Entrants"};
+    private int currentOptionIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +77,6 @@ public class EventView extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         eventName = findViewById(R.id.eventName);
         eventDescription = findViewById(R.id.eventDescription);
-        selectedButton = findViewById(R.id.selectedListButton);
-        waitlistButton = findViewById(R.id.waitlistButton);
-        registeredButton = findViewById(R.id.registeredListButton);
-        cancelledButton = findViewById(R.id.cancelledListButton);
         qrCodeButton = findViewById(R.id.qrCodeButton);
     }
 
@@ -171,35 +171,14 @@ public class EventView extends AppCompatActivity {
 
         // Load event image using Glide
         loadImage(event.getImageUrl(), eventPosterImageView);
-        if (event.getOwnerFacility() == deviceID) {
-            waitlistButton.setOnClickListener(v -> {
-                Intent intent = new Intent(EventView.this, WaitlistedEntrants.class);
-                intent.putExtra("eventId", event.getEventId());
-                startActivity(intent);
-            });
 
-            selectedButton.setOnClickListener(v -> {
-                Intent intent = new Intent(EventView.this, SampledEntrants.class);
-                intent.putExtra("eventId", event.getEventId());
-                startActivity(intent);
-            });
-
-            registeredButton.setOnClickListener(v -> {
-                Intent intent = new Intent(EventView.this, EnrolledEntrants.class);
-                intent.putExtra("eventId", event.getEventId());
-                startActivity(intent);
-            });
-
-            cancelledButton.setOnClickListener(v -> {
-                Intent intent = new Intent(EventView.this, CancelledEntrants.class);
-                intent.putExtra("eventId", event.getEventId());
-                startActivity(intent);
-            });
+        if (Objects.equals(event.getOwnerFacility(), deviceID)) {
+            setupEntrantNavigation(event.getEventId());
         }
 
         qrCodeButton.setOnClickListener(v -> {
             Intent intent = new Intent(EventView.this, QRView.class);
-            intent.putExtra("Event", event);
+            intent.putExtra("Event", (Serializable) event);
             startActivity(intent);
         });
     }
@@ -212,6 +191,53 @@ public class EventView extends AppCompatActivity {
         } else {
             placeholder.setImageResource(R.drawable.event_place_holder);
         }
+    }
+
+    private void setupEntrantNavigation(String eventId) {
+        TextView currentOptionText = findViewById(R.id.currentOptionText);
+        TextView leftArrowButton = findViewById(R.id.leftArrowButton);
+        TextView rightArrowButton = findViewById(R.id.rightArrowButton);
+
+        updateDisplay(currentOptionText, eventId);
+
+        leftArrowButton.setOnClickListener(v -> {
+            currentOptionIndex = (currentOptionIndex - 1 + entrantOptions.length) % entrantOptions.length;
+            updateDisplay(currentOptionText, eventId);
+        });
+
+
+        rightArrowButton.setOnClickListener(v -> {
+            currentOptionIndex = (currentOptionIndex + 1) % entrantOptions.length;
+            updateDisplay(currentOptionText, eventId);
+        });
+    }
+
+    private void updateDisplay(TextView currentOptionText, String eventId) {
+        currentOptionText.setText(entrantOptions[currentOptionIndex]);
+
+        currentOptionText.setOnClickListener(v -> {
+            Intent intent;
+
+            switch (entrantOptions[currentOptionIndex]) {
+                case "Waitlisted Entrants":
+                    intent = new Intent(this, WaitlistedEntrants.class);
+                    break;
+                case "Selected Entrants":
+                    intent = new Intent(this, SampledEntrants.class);
+                    break;
+                case "Registered Entrants":
+                    intent = new Intent(this, EnrolledEntrants.class);
+                    break;
+                case "Cancelled Entrants":
+                    intent = new Intent(this, CancelledEntrants.class);
+                    break;
+                default:
+                    return;
+            }
+
+            intent.putExtra("eventId", eventId);
+            startActivity(intent);
+        });
     }
 
     @Override

@@ -69,10 +69,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:hint="Limit (Optional)"
+            android:hint="Waitlist Limit (Optional)"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/eventLocationInput"
+            android:inputType="number"
+            />
+
+        <EditText
+            android:id="@+id/selectedLimitInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:hint="Selected Limit (Optional)"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/eventLimitInput"
             android:inputType="number"
             />
 
@@ -87,7 +99,7 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eventLimitInput" />
+            app:layout_constraintTop_toBottomOf="@+id/selectedLimitInput" />
 
         <Button
             android:id="@+id/createEventSaveButton"
@@ -100,7 +112,7 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/eventLimitInput" />
+            app:layout_constraintTop_toBottomOf="@+id/selectedLimitInput" />
 
         <Button
             android:id="@+id/uploadEventPosterButton"

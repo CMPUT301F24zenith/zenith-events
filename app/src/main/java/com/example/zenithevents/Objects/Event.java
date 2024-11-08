@@ -14,7 +14,7 @@ import java.util.Collections;
 public class Event implements Serializable {
     private ArrayList<String> waitingList, selected, cancelledList, registrants;
     private String ownerFacility, eventId, eventTitle, QRCodeHash, QRCodeBitmap, ImageUrl, eventAddress, eventDescription;
-    private int numParticipants;
+    private int numParticipants, selectedLimit;
 
     public Event(){
         this.waitingList = new ArrayList<>();
@@ -30,6 +30,7 @@ public class Event implements Serializable {
         this.eventId = null;
 
         this.numParticipants = 0;
+        this.selectedLimit = 0;
     }
 
     public Event(String eventId, String eventTitle, String eventImage, String QRCodeHash, String QRCodeBitmap, int numParticipants, String eventAddress){
@@ -162,5 +163,13 @@ public class Event implements Serializable {
 
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
+    }
+
+    public int getSelectedLimit() {
+        return selectedLimit;
+    }
+
+    public void setSelectedLimit(int selectedLimit) {
+        this.selectedLimit = selectedLimit;
     }
 }
