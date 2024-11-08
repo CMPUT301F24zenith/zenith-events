@@ -116,24 +116,13 @@ public class EventView extends AppCompatActivity {
 
         Log.d("FunctionCall", "deviceID: " + deviceID);
 
-        if (event.getNumParticipants() != 0 &&
-                event.getCancelledList().size() + event.getSelected().size() + event.getRegistrants().size() + event.getWaitingList().size() >= event.getNumParticipants()) {
-            btnJoinLeaveWaitingList.setEnabled(false);
-            btnJoinLeaveWaitingList.setText("Event is full");
-            btnJoinLeaveWaitingList.setBackgroundColor(Color.GRAY);
-        }
-        else {
-            if (event.getWaitingList().contains(deviceID) ||
-                    event.getSelected().contains(deviceID) ||
-                    event.getCancelledList().contains(deviceID) ||
-                    event.getRegistrants().contains(deviceID)
-            ) {
-                btnJoinLeaveWaitingList.setBackgroundColor(Color.RED);
-                btnJoinLeaveWaitingList.setText("Leave Waitinglist");
-            } else {
-                btnJoinLeaveWaitingList.setBackgroundColor(Color.BLUE);
-                btnJoinLeaveWaitingList.setText("Join Waitinglist");
-            }
+        if (event.getWaitingList().contains(deviceID) ||
+                event.getSelected().contains(deviceID) ||
+                event.getCancelledList().contains(deviceID) ||
+                event.getRegistrants().contains(deviceID)
+        ) {
+            btnJoinLeaveWaitingList.setBackgroundColor(Color.RED);
+            btnJoinLeaveWaitingList.setText("Leave Waitinglist");
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
                 Context context = EventView.this;
@@ -146,6 +135,28 @@ public class EventView extends AppCompatActivity {
                     }
                 });
             });
+        } else {
+            btnJoinLeaveWaitingList.setBackgroundColor(Color.BLUE);
+            btnJoinLeaveWaitingList.setText("Join Waitinglist");
+
+            btnJoinLeaveWaitingList.setOnClickListener(v -> {
+                Context context = EventView.this;
+
+                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
+                    if (isSuccess) {
+                        Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
+
+            if (event.getNumParticipants() != 0 &&
+                    event.getCancelledList().size() + event.getSelected().size() + event.getRegistrants().size() + event.getWaitingList().size() >= event.getNumParticipants()) {
+                btnJoinLeaveWaitingList.setEnabled(false);
+                btnJoinLeaveWaitingList.setText("Event is full");
+                btnJoinLeaveWaitingList.setBackgroundColor(Color.GRAY);
+            }
         }
 
         // Load event image using Glide
