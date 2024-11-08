@@ -14,7 +14,31 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
+/**
+ * A utility class that provides various methods for handling QR codes and related operations.
+ * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.
+ * <p>
+ * This class includes methods to:
+ * <ul>
+ *     <li>Generate a QR code for a given event ID.</li>
+ *     <li>Convert a BitMatrix (from QR code generation) into a Bitmap.</li>
+ *     <li>Hash QR code content using the SHA-256 hashing algorithm.</li>
+ *     <li>Generate random alphanumeric strings of a specified length.</li>
+ *     <li>Encode a Bitmap image into a Base64 string for storage or transmission.</li>
+ *     <li>Decode a Base64 string back into a Bitmap image.</li>
+ * </ul>
+ * <p>
+ * The methods in this class can be useful in scenarios where QR codes are needed for event registration, authentication,
+ * or sharing event-related data via QR codes.
+ */
 public class QRCodeUtils {
+
+    /**
+     * Generates a QR code as a Bitmap for a given event ID.
+     *
+     * @param eventId The event ID to be encoded in the QR code.
+     * @return A Bitmap representing the generated QR code, or null if an error occurs.
+     */
     public static Bitmap generateQRCode(String eventId) {
         try {
             MultiFormatWriter writer = new MultiFormatWriter();
@@ -26,6 +50,12 @@ public class QRCodeUtils {
         return null;
     }
 
+    /**
+     * Converts a BitMatrix to a Bitmap.
+     *
+     * @param bitMatrix The BitMatrix representation of the QR code.
+     * @return A Bitmap object representing the QR code.
+     */
     private static Bitmap toBitmap(BitMatrix bitMatrix) {
         int width = bitMatrix.getWidth();
         int height = bitMatrix.getHeight();
@@ -40,6 +70,13 @@ public class QRCodeUtils {
         return bitmap;
     }
 
+    /**
+     * Hashes the content of a QR code using the SHA-256 algorithm.
+     *
+     * @param qrCodeContent The content to be hashed (e.g., QR code data).
+     * @return The SHA-256 hash of the QR code content as a hexadecimal string,
+     *         or null if an error occurs.
+     */
     public static String hashQRCodeData(String qrCodeContent) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -57,6 +94,12 @@ public class QRCodeUtils {
         }
     }
 
+    /**
+     * Generates a random alphanumeric string of a specified length.
+     *
+     * @param length The desired length of the random string.
+     * @return A randomly generated alphanumeric string of the specified length.
+     */
     public static String generateRandomString(int length) {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder stringBuilder = new StringBuilder(length);
@@ -69,6 +112,12 @@ public class QRCodeUtils {
         return stringBuilder.toString();
     }
 
+    /**
+     * Encodes a Bitmap as a Base64 string.
+     *
+     * @param bitmap The Bitmap to be encoded.
+     * @return A Base64 encoded string representing the Bitmap.
+     */
     public static String encodeBitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
@@ -76,6 +125,12 @@ public class QRCodeUtils {
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 
+    /**
+     * Decodes a Base64 string into a Bitmap.
+     *
+     * @param base64Str The Base64 encoded string to decode.
+     * @return A Bitmap decoded from the Base64 string.
+     */
     public static Bitmap decodeBase64ToBitmap(String base64Str) {
         byte[] decodedBytes = Base64.decode(base64Str, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
