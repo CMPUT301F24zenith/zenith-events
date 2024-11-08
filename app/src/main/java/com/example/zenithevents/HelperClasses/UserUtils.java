@@ -67,10 +67,8 @@ public class UserUtils {
     }
 
 
-    public void fetchUserProfile(UserFetchCallback callback) {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        db.collection("users").document(userId).get()
+    public void fetchUserProfile(UserFetchCallback callback, String deviceID) {
+        db.collection("users").document(deviceID).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         User user = documentSnapshot.toObject(User.class);
@@ -155,7 +153,7 @@ public class UserUtils {
     // Helper method to convert a User object to a Map for Firestore
     public static Map<String, Object> convertUserToMap(User user) {
         Map<String, Object> userMap = new HashMap<>();
-        userMap.put("userID", user.getDeviceID());
+        userMap.put("deviceID", user.getDeviceID());
         userMap.put("firstName", user.getFirstName());
         userMap.put("lastName", user.getLastName());
         userMap.put("email", user.getEmail());
@@ -165,6 +163,11 @@ public class UserUtils {
         userMap.put("wantsNotifs", user.getWantsNotifs());
         userMap.put("isAdmin", user.getAdmin());
         userMap.put("myFacility", user.getMyFacility());
+        userMap.put("waitingEvents", user.getWaitingEvents());
+        userMap.put("selectedEvents", user.getSelectedEvents());
+        userMap.put("registeredEvents", user.getRegisteredEvents());
+        userMap.put("cancelledEvents", user.getCancelledEvents());
+        userMap.put("anonymousAuthID", user.getAnonymousAuthID());
         return userMap;
     }
 

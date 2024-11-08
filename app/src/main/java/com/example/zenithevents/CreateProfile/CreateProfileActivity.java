@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.HelperClasses.ValidationUtils;
 import com.example.zenithevents.MainActivity;
@@ -130,8 +131,9 @@ public class CreateProfileActivity extends AppCompatActivity {
                         Toast.makeText(CreateProfileActivity.this, "Anonymous authentication successful", Toast.LENGTH_SHORT).show();
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
-                            String userId = user.getUid();
-                            createProfile(userId, firstName, lastName, email, phoneNumber);
+
+                            String deviceId = new DeviceUtils().getDeviceID(CreateProfileActivity.this);;
+                            createProfile(deviceId, firstName, lastName, email, phoneNumber);
                         }
                     } else {
                         Toast.makeText(CreateProfileActivity.this, "Anonymous authentication failed", Toast.LENGTH_SHORT).show();
@@ -149,18 +151,20 @@ public class CreateProfileActivity extends AppCompatActivity {
      * <p><strong>AI-Generated Documentation:</strong> This Javadoc was generated with assistance from a generative AI
      * language model, then refined for clarity and accuracy.
      *
-     * @param userId The ID of the authenticated user.
+     * @param deviceId The ID of the authenticated user.
      * @param firstName The user's first name.
      * @param lastName The user's last name.
      * @param email The user's email address.
      * @param phoneNumber The user's phone number.
      */
-    private void createProfile(String userId, String firstName, String lastName, String email, String phoneNumber) {
-        User userProfile = new User(userId, firstName, lastName, email, phoneNumber);
+    private void createProfile(String deviceId, String firstName, String lastName, String email, String phoneNumber) {
+        // TODO change the function to get the full user object
+        User userProfile = new User(deviceId, firstName, lastName, email, phoneNumber);
+        userProfile.setAnonymousAuthID(mAuth.getUid());
         Map<String, Object> userData = UserUtils.convertUserToMap(userProfile);
-
+        userId = user.getUid();
         db.collection("users")
-                .document(userId)
+                .document(deviceId)
                 .set(userData)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Profile created successfully", Toast.LENGTH_SHORT).show();

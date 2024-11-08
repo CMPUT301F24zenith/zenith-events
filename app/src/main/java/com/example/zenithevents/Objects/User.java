@@ -14,6 +14,11 @@ public class User {
     private Boolean wantsNotifs;
     private Boolean isAdmin;
     private String myFacility;
+    private ArrayList<String> waitingEvents;
+    private ArrayList<String> selectedEvents;
+    private ArrayList<String> registeredEvents;
+    private ArrayList<String> cancelledEvents;
+    private String anonymousAuthID ;
 
     // No-argument constructor required for Firestore
     public User() {}
@@ -126,6 +131,44 @@ public class User {
     }
     boolean wantsNotifs() {
         return wantsNotifs;
+    }
+
+    public ArrayList<String> getCancelledEvents() {
+        return cancelledEvents;
+    }
+
+    public ArrayList<String> getRegisteredEvents() {
+        return registeredEvents;
+    }
+
+    public ArrayList<String> getSelectedEvents() {
+        return selectedEvents;
+    }
+
+    public ArrayList<String> getWaitingEvents() {
+        return waitingEvents;
+    }
+
+    public void setWaitingEvents(ArrayList<String> waitingEvents) {
+        this.waitingEvents = waitingEvents;
+    }
+
+    public void setSelectedEvents(ArrayList<String> selectedEvents) {
+        this.selectedEvents = selectedEvents;
+    }
+
+    public void setRegisteredEvents(ArrayList<String> registeredEvents) {
+        this.registeredEvents = registeredEvents;
+    }
+
+    public void setCancelledEvents(ArrayList<String> cancelledEvents) {
+        this.cancelledEvents = cancelledEvents;
+    }
+    public String getAnonymousAuthID() {
+        return anonymousAuthID;
+    }
+    public void setAnonymousAuthID(String anonymousAuthID) {
+        this.anonymousAuthID = anonymousAuthID;
     }
 
 }

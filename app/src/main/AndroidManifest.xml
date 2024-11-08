@@ -25,6 +25,9 @@
         android:theme="@style/Theme.ZenithEvents"
         tools:targetApi="31">
         <activity
+            android:name=".admin.ViewEventsAdmin"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity007"
             android:exported="false" />
         <activity
@@ -49,7 +52,7 @@
             android:name=".EntrantDashboard.EntrantViewActivity"
             android:exported="false" />
         <activity
-            android:name=".User.UserPage"
+            android:name=".User.UserProfile"
             android:exported="false" />
         <activity android:name=".User.OrganizerPage" />
         <activity
