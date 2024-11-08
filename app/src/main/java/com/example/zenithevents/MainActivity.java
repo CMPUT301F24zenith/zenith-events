@@ -1,10 +1,8 @@
 package com.example.zenithevents;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +13,7 @@ import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Organizer.EventView;
 import com.example.zenithevents.QRCodes.QRScannerActivity;
 import com.example.zenithevents.User.OrganizerPage;
-import com.example.zenithevents.User.UserPage;
+import com.example.zenithevents.User.UserProfile;
 import com.example.zenithevents.WaitingListPackage.WaitingList;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -61,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
         viewProfileButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, UserPage.class);
+            Intent intent = new Intent(MainActivity.this, UserProfile.class);
             startActivity(intent);
         });
         organizerButton.setOnClickListener(v -> {

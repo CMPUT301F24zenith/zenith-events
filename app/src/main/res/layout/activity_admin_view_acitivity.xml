@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".admin.AdminViewAcitivity">
+
+
+  <TextView
+      android:id="@+id/txtAdminDashboard"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="ADMIN DASHBOARD"
+      android:textSize="24sp"
+      android:textStyle="bold"
+
+      />
+
+  <Button
+      android:id="@+id/btnAdminDashboard"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:drawableLeft="@drawable/baseline_person_24"
+      android:text="view users" />
+
+  <Button
+      android:id="@+id/btnViewEvents"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:drawableLeft="@android:drawable/ic_menu_view"
+      android:text="view events" />
+
+  </LinearLayout>

@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
-    tools:context=".User.UserPage">
+    tools:context=".User.UserProfile">
 
     <FrameLayout
         android:layout_width="150dp"
