@@ -42,10 +42,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * This class represents the EventView activity in the application, which displays
+ * the details of an event, allowing users to join/leave the waiting list, view the
+ * event's description and image, and perform various event-related actions.
+ *
+ * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.
+ */
 public class EventView extends AppCompatActivity {
 
     private static final String TAG = "EventView";
-
 
     ImageView eventPosterImageView;
     private Button btnJoinLeaveWaitingList, qrCodeButton, btnEditEvent;
@@ -58,6 +64,11 @@ public class EventView extends AppCompatActivity {
     LinearLayout entrantsSlider;
     FacilityUtils facilityUtils;
 
+    /**
+     * Initializes the activity and its UI components.
+     *
+     * @param savedInstanceState Contains data supplied in onSaveInstanceState.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +87,9 @@ public class EventView extends AppCompatActivity {
 
     }
 
+    /**
+     * Initializes views used in the activity.
+     */
     private void initializeViews() {
         eventPosterImageView = findViewById(R.id.eventImage);
         btnJoinLeaveWaitingList = findViewById(R.id.btnJoinWaitingList);
@@ -89,6 +103,11 @@ public class EventView extends AppCompatActivity {
         btnEditEvent = findViewById(R.id.btnEditEvent);
     }
 
+    /**
+     * Sets up a real-time listener for the event document in Firestore.
+     *
+     * @param eventId The unique identifier of the event.
+     */
     private void setupRealTimeEventListener(String eventId) {
         if (eventId == null) {
             Log.e(TAG, "Event ID not provided in the Intent.");
@@ -122,6 +141,11 @@ public class EventView extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Displays details of the event on the UI.
+     *
+     * @param event The event object containing event details.
+     */
     private void displayEventDetails(Event event) {
         Log.d("FunctionCall", "displayingDetails");
 
@@ -209,6 +233,12 @@ public class EventView extends AppCompatActivity {
         });
     }
 
+    /**
+     * Loads an image from a URL into an ImageView.
+     *
+     * @param imageUrl   The URL of the image.
+     * @param placeholder The ImageView to display the image in.
+     */
     private void loadImage(String imageUrl, ImageView placeholder) {
         BitmapUtils bitmapUtils = new BitmapUtils();
         if (imageUrl != null) {
@@ -219,6 +249,11 @@ public class EventView extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sets up navigation between different entrant lists.
+     *
+     * @param eventId The unique identifier of the event.
+     */
     private void setupEntrantNavigation(String eventId) {
         TextView currentOptionText = findViewById(R.id.currentOptionText);
         TextView leftArrowButton = findViewById(R.id.leftArrowButton);
@@ -238,6 +273,12 @@ public class EventView extends AppCompatActivity {
         });
     }
 
+    /**
+     * Updates the displayed entrant list based on the current option index.
+     *
+     * @param currentOptionText The TextView showing the current option.
+     * @param eventId           The unique identifier of the event.
+     */
     private void updateDisplay(TextView currentOptionText, String eventId) {
         currentOptionText.setText(entrantOptions[currentOptionIndex]);
 
@@ -266,6 +307,9 @@ public class EventView extends AppCompatActivity {
         });
     }
 
+    /**
+     * Cleans up resources when the activity is destroyed.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
