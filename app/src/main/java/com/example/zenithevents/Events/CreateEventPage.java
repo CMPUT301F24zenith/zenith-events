@@ -173,15 +173,10 @@ public class CreateEventPage extends AppCompatActivity {
         });
 
         createEventCancelButton = findViewById(R.id.createEventCancelButton);
-        createEventCancelButton.setOnClickListener(v -> {
-            Intent intent = new Intent(CreateEventPage.this, OrganizerPage.class);
-            startActivity(intent);
-        });
+        createEventCancelButton.setOnClickListener(v -> finish());
 
         uploadEventPosterButton = findViewById(R.id.uploadEventPosterButton);
-        uploadEventPosterButton.setOnClickListener(v -> {
-            checkStoragePermission();
-        });
+        uploadEventPosterButton.setOnClickListener(v -> checkStoragePermission());
     }
 
     private void openImage() {
