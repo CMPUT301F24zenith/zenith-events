@@ -14,11 +14,12 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -32,63 +33,46 @@ public class CancelledEntrantsTest {
     public ActivityTestRule<CancelledEntrants> activityRule = new ActivityTestRule<>(CancelledEntrants.class);
 
     private FirebaseFirestore db;
-    private String generatedEventId;
+    private final String testEventId = "testEvent123"; // Predefined event ID
 
     @Before
     public void setUp() throws InterruptedException {
         db = FirebaseFirestore.getInstance();
 
-        // Configure Firebase for testing
+
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(false) // Disable local persistence
+                .setPersistenceEnabled(false)
                 .build();
         db.setFirestoreSettings(settings);
 
-        // Use CountDownLatch to wait for asynchronous Firestore tasks
-        CountDownLatch latch = new CountDownLatch(3);
 
-        // Create mock users
-        db.collection("users").document("user1")
-                .set(new User("device1", "User", "One", "user1@example.com", "1234567890"))
+        CountDownLatch latch = new CountDownLatch(1);
+
+
+        Map<String, Object> eventData = new HashMap<>();
+        eventData.put("cancelledList", Arrays.asList("user1", "user2"));
+
+        db.collection("events").document(testEventId)
+                .set(eventData)
                 .addOnCompleteListener(task -> latch.countDown());
 
-        db.collection("users").document("user2")
-                .set(new User("device2", "User", "Two", "user2@example.com", "0987654321"))
-                .addOnCompleteListener(task -> latch.countDown());
-
-        // Create an event and get its auto-generated ID
-        db.collection("events")
-                .add(new HashMap<String, Object>() {{
-                    put("cancelledList", Arrays.asList("user1", "user2"));
-                }})
-                .addOnSuccessListener(documentReference -> {
-                    generatedEventId = documentReference.getId(); // Capture the event ID
-                    latch.countDown();
-                });
-
-        // Wait for all Firestore operations to complete before running the test
-        latch.await();
+        latch.await(3, TimeUnit.SECONDS);
     }
 
     @Test
     public void testShowCancelledEntrantsList() {
-        // Launch the CancelledEntrants activity with the dynamically generated eventId
+        // Launch the CancelledEntrants activity with the testEventId
         Intent intent = new Intent(activityRule.getActivity(), CancelledEntrants.class);
-        intent.putExtra("eventId", generatedEventId);
+        intent.putExtra("eventId", testEventId);
 
         try (ActivityScenario<CancelledEntrants> scenario = ActivityScenario.launch(intent)) {
-            scenario.onActivity(activity -> {
-                // Use runOnUiThread to ensure the test does not block the main thread
-                activity.runOnUiThread(() -> {
-                    onData(anything()).inAdapterView(withId(R.id.list_entrants))
-                            .atPosition(0).onChildView(withId(R.id.entrantName))
-                            .check(matches(withText("User One")));
+            onData(anything()).inAdapterView(withId(R.id.list_entrants))
+                    .atPosition(0).onChildView(withId(R.id.entrantName))
+                    .check(matches(withText("User One")));
 
-                    onData(anything()).inAdapterView(withId(R.id.list_entrants))
-                            .atPosition(1).onChildView(withId(R.id.entrantName))
-                            .check(matches(withText("User Two")));
-                });
-            });
+            onData(anything()).inAdapterView(withId(R.id.list_entrants))
+                    .atPosition(1).onChildView(withId(R.id.entrantName))
+                    .check(matches(withText("User Two")));
         }
     }
 }
