@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="15.1">
-  <zoom_level>3</zoom_level>
+  <zoom_level>2</zoom_level>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>213</x>
-      <y>180</y>
-      <w>42</w>
-      <h>15</h>
+      <x>470</x>
+      <y>352</y>
+      <w>28</w>
+      <h>8</h>
     </coordinates>
     <panel_attributes>ArrayAdapters</panel_attributes>
     <additional_attributes/>
@@ -15,10 +15,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>213</x>
-      <y>201</y>
-      <w>93</w>
-      <h>33</h>
+      <x>542</x>
+      <y>434</y>
+      <w>62</w>
+      <h>22</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ArrayAdapter&lt;User&gt;&gt;&gt;
 EntrantArrayAdapter
@@ -32,10 +32,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>321</x>
-      <y>198</y>
-      <w>99</w>
-      <h>57</h>
+      <x>542</x>
+      <y>392</y>
+      <w>66</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ArrayAdapter&lt;Organization&gt;&gt;&gt;
 OrganizationArrayAdapter
@@ -51,10 +51,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>213</x>
-      <y>240</y>
-      <w>99</w>
-      <h>39</h>
+      <x>470</x>
+      <y>410</y>
+      <w>66</w>
+      <h>26</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ArrayAdapter&lt;Event&gt;&gt;&gt;
 EventArrayAdapter
@@ -70,10 +70,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>213</x>
-      <y>285</y>
-      <w>99</w>
-      <h>57</h>
+      <x>470</x>
+      <y>368</y>
+      <w>66</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ArrayAdapter&lt;Facility&gt;&gt;&gt;
 FacilityArrayAdapter
@@ -89,10 +89,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>321</x>
-      <y>261</y>
-      <w>102</w>
-      <h>33</h>
+      <x>542</x>
+      <y>368</y>
+      <w>68</w>
+      <h>22</h>
     </coordinates>
     <panel_attributes>CustomArrayAdapter&lt;T&gt;
 --
@@ -107,10 +107,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>456</x>
-      <y>168</y>
-      <w>42</w>
-      <h>12</h>
+      <x>86</x>
+      <y>196</y>
+      <w>28</w>
+      <h>10</h>
     </coordinates>
     <panel_attributes>CreateProfile</panel_attributes>
     <additional_attributes/>
@@ -118,10 +118,10 @@ ViewGroup parent) -&gt; View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>456</x>
-      <y>189</y>
-      <w>93</w>
-      <h>60</h>
+      <x>86</x>
+      <y>212</y>
+      <w>62</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 CreateProfileActivity
@@ -141,10 +141,10 @@ etEntrantEmail
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>216</x>
-      <y>366</y>
-      <w>54</w>
-      <h>12</h>
+      <x>266</x>
+      <y>234</y>
+      <w>36</w>
+      <h>10</h>
     </coordinates>
     <panel_attributes>Entrant Dashboard</panel_attributes>
     <additional_attributes/>
@@ -152,10 +152,10 @@ etEntrantEmail
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>216</x>
-      <y>426</y>
-      <w>129</w>
-      <h>39</h>
+      <x>266</x>
+      <y>250</y>
+      <w>86</w>
+      <h>26</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Fragment&gt;&gt;
 EventFragment
@@ -171,10 +171,10 @@ Bundle savedInstanceState)-&gt; void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>666</x>
-      <y>513</y>
-      <w>108</w>
-      <h>60</h>
+      <x>398</x>
+      <y>604</y>
+      <w>72</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 SampledEntrants
@@ -193,10 +193,10 @@ SampledEntrants
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>216</x>
-      <y>384</y>
-      <w>129</w>
-      <h>36</h>
+      <x>266</x>
+      <y>282</y>
+      <w>86</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompactActivity&gt;&gt;
 EntrantViewActivity
@@ -212,10 +212,10 @@ EntrantViewActivity
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>552</x>
-      <y>492</y>
-      <w>42</w>
-      <h>15</h>
+      <x>398</x>
+      <y>550</y>
+      <w>22</w>
+      <h>10</h>
     </coordinates>
     <panel_attributes>EntrantsList</panel_attributes>
     <additional_attributes/>
@@ -223,22 +223,24 @@ EntrantViewActivity
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>354</x>
-      <y>384</y>
-      <w>135</w>
-      <h>102</h>
+      <x>360</x>
+      <y>236</y>
+      <w>90</w>
+      <h>74</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Fragment&gt;&gt;
 EventsFragment
 --
--ListView eventListView
--EventArrayAdapter adapter
--List&lt;Event&gt; events, waitingEventsList
--EventUtils eventUtils
--static final String TAG = "EventsFragment"
--FirebaseFirestore db
--CollectionReference eventsRef
--String type, deviceID
+-eventListView: ListView
+-adapter:EventArrayAdapter
+-events: List&lt;Events&gt;
+-waitingEventsList: List&lt;Events&gt;
+-eventUtils: EventUtils
+-_TAG_: String
+-db: FirebaseFirestore
+-eventsRef: CollectionReference
+-type: String
+-deviceID: String
 --
 +EventsFragment()
 +static EventsFragment newInstance(String param1,
@@ -255,10 +257,10 @@ Bundle savedInstanceState)-&gt; void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>552</x>
-      <y>579</y>
-      <w>108</w>
-      <h>57</h>
+      <x>472</x>
+      <y>564</y>
+      <w>72</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 EnrolledEntrants
@@ -277,10 +279,10 @@ EnrolledEntrants
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>630</x>
-      <y>183</y>
-      <w>114</w>
-      <h>51</h>
+      <x>268</x>
+      <y>176</y>
+      <w>76</w>
+      <h>34</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 CreationSuccessActivity
@@ -299,10 +301,10 @@ CreationSuccessActivity
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>666</x>
-      <y>582</y>
-      <w>114</w>
-      <h>51</h>
+      <x>474</x>
+      <y>606</y>
+      <w>76</w>
+      <h>34</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 WaitListedEntrants
@@ -322,10 +324,10 @@ WaitListedEntrants
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>630</x>
-      <y>156</y>
-      <w>42</w>
-      <h>15</h>
+      <x>166</x>
+      <y>168</y>
+      <w>24</w>
+      <h>8</h>
     </coordinates>
     <panel_attributes>Events</panel_attributes>
     <additional_attributes/>
@@ -333,10 +335,10 @@ WaitListedEntrants
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>552</x>
-      <y>516</y>
-      <w>105</w>
-      <h>54</h>
+      <x>398</x>
+      <y>564</y>
+      <w>70</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 CancelledEntrants
@@ -356,27 +358,35 @@ CancelledEntrants
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>630</x>
-      <y>252</y>
-      <w>141</w>
-      <h>126</h>
+      <x>168</x>
+      <y>186</y>
+      <w>94</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 CreateEventPage
 --
--static final int PICK_IMAGE = 1
--Button createEventSaveButton, createEventCancelButton,
-uploadEventPosterButton
--String pageTitle, eventTitle, eventLimitString, 
-numParticipants, uploadedPosterString, eventLocation,
-eventDescription
--TextView pageTitleView
--EditText eventNameView, eventLimitView, eventLocationView,
-eventDescriptionView
--Event event
--ImageView eventPosterImage
--Uri uploadedPosterUri
--EventUtils eventUtils
+-_PICK_IMAGE_:int
+-creatEventButtonSaveButton: Button
+-createEventCancelButton: Button
+-uploadEventPosterButton: Button
+-pageTitle:String
+-eventTitle: String
+-eventLimitString: String
+-numParticipants:String
+-uploadedPosterString:String
+-eventLocation:String
+-eventDescription: String
+-pageTitleView:TextView
+-eventNameView:EditText
+-eventLimitView:EditText
+-eventLocationView:EditText
+-eventDescriptionView:EditText
+-event:Event
+-eventPosterImage:ImageView
+-uploadedPosterUri: Uri
+-eventUtils:EventUtils
+
 --
 +onCreate(Bundle savedInstanceState)-&gt;void
 +openImage()-&gt;void
@@ -393,10 +403,10 @@ String[] permissions, int[] grantResults) -&gt; void
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>201</x>
-      <y>618</y>
-      <w>54</w>
-      <h>18</h>
+      <x>468</x>
+      <y>208</y>
+      <w>36</w>
+      <h>12</h>
     </coordinates>
     <panel_attributes>HelperClasses</panel_attributes>
     <additional_attributes/>
@@ -404,10 +414,10 @@ String[] permissions, int[] grantResults) -&gt; void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>201</x>
-      <y>642</y>
-      <w>108</w>
-      <h>18</h>
+      <x>470</x>
+      <y>222</y>
+      <w>72</w>
+      <h>12</h>
     </coordinates>
     <panel_attributes>DeviceUtils
 --
@@ -419,10 +429,10 @@ String[] permissions, int[] grantResults) -&gt; void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>201</x>
-      <y>666</y>
-      <w>144</w>
-      <h>129</h>
+      <x>472</x>
+      <y>238</y>
+      <w>96</w>
+      <h>86</h>
     </coordinates>
     <panel_attributes>EventUtils
 --
@@ -460,10 +470,10 @@ String userId, EventExistenceCallback callback)-&gt;void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>354</x>
-      <y>675</y>
-      <w>90</w>
-      <h>24</h>
+      <x>580</x>
+      <y>244</y>
+      <w>60</w>
+      <h>16</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 EventUpdateCallback
@@ -474,10 +484,10 @@ EventUpdateCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>354</x>
-      <y>735</y>
-      <w>129</w>
-      <h>24</h>
+      <x>580</x>
+      <y>284</y>
+      <w>86</w>
+      <h>16</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 EventsFetchCallback
@@ -488,10 +498,10 @@ EventsFetchCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>354</x>
-      <y>705</y>
-      <w>105</w>
-      <h>24</h>
+      <x>580</x>
+      <y>264</y>
+      <w>70</w>
+      <h>16</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 EventExistenceCallback
@@ -502,10 +512,10 @@ EventExistenceCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>354</x>
-      <y>768</y>
-      <w>99</w>
-      <h>24</h>
+      <x>580</x>
+      <y>306</y>
+      <w>66</w>
+      <h>16</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 EventFetchCallback
@@ -516,54 +526,54 @@ EventFetchCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>339</x>
-      <y>684</y>
-      <w>21</w>
-      <h>9</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;50.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>339</x>
-      <y>714</y>
-      <w>21</w>
-      <h>9</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;50.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>339</x>
-      <y>747</y>
-      <w>21</w>
-      <h>9</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;50.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>342</x>
-      <y>774</y>
+      <x>566</x>
+      <y>250</y>
       <w>18</w>
-      <h>9</h>
+      <h>6</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;40.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>566</x>
+      <y>270</y>
+      <w>18</w>
+      <h>6</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>566</x>
+      <y>292</y>
+      <w>18</w>
+      <h>6</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>566</x>
+      <y>310</y>
+      <w>18</w>
+      <h>6</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>186</x>
-      <y>813</y>
-      <w>129</w>
-      <h>39</h>
+      <x>24</x>
+      <y>270</y>
+      <w>86</w>
+      <h>26</h>
     </coordinates>
     <panel_attributes>QRCodeUtils
 --
@@ -579,10 +589,10 @@ EventFetchCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>186</x>
-      <y>861</y>
-      <w>129</w>
-      <h>87</h>
+      <x>24</x>
+      <y>302</y>
+      <w>86</w>
+      <h>58</h>
     </coordinates>
     <panel_attributes>UserUtils
 --
@@ -607,10 +617,10 @@ UserExistenceCallback callback)-&gt;void</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>339</x>
-      <y>861</y>
-      <w>99</w>
-      <h>24</h>
+      <x>126</x>
+      <y>302</y>
+      <w>66</w>
+      <h>16</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 UserExistenceCallback
@@ -621,10 +631,10 @@ UserExistenceCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>312</x>
-      <y>867</y>
-      <w>33</w>
-      <h>9</h>
+      <x>108</x>
+      <y>306</y>
+      <w>22</w>
+      <h>6</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
@@ -632,10 +642,10 @@ UserExistenceCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>339</x>
-      <y>891</y>
-      <w>99</w>
-      <h>24</h>
+      <x>126</x>
+      <y>322</y>
+      <w>66</w>
+      <h>16</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 UserFetchCallback
@@ -646,10 +656,10 @@ UserFetchCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>312</x>
-      <y>882</y>
-      <w>33</w>
-      <h>30</h>
+      <x>108</x>
+      <y>316</y>
+      <w>22</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;40.0;10.0;40.0;80.0;90.0;80.0</additional_attributes>
@@ -657,10 +667,10 @@ UserFetchCallback
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>510</x>
-      <y>657</y>
-      <w>27</w>
-      <h>15</h>
+      <x>260</x>
+      <y>318</y>
+      <w>18</w>
+      <h>10</h>
     </coordinates>
     <panel_attributes>Objects</panel_attributes>
     <additional_attributes/>
@@ -668,10 +678,10 @@ UserFetchCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>513</x>
-      <y>681</y>
-      <w>123</w>
-      <h>228</h>
+      <x>260</x>
+      <y>334</y>
+      <w>82</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Serializable&gt;&gt;
 Event
@@ -690,37 +700,37 @@ Event
 -numParticipants: int
 --
 +Event()
-+Event(String eventId, String eventTitle, String
-eventImage, String QRCodeHash, int numParticipants,
-String eventAddress)
-+getEventAddress()-&gt;String
-+setEventAddress(String eventAddress)-&gt;void
-+getWaitingList()-&gt;ArrayList&lt;User&gt;
-+getSelected()-&gt;ArrayList&lt;User&gt;
-+getCancelledList()-&gt;ArrayList&lt;User&gt;
-+getRegistrants()-&gt;ArrayList&lt;User&gt;
-+getEventId()-&gt;String
-+getEventTitle()-&gt;String
-+getNumParticpants()-&gt;int
-+getQRCodeHash()-&gt;String
-+getImageUrl()-&gt;String
-+setEventId(String eventId)-&gt;void
-+setWaitingList(ArrayList&lt;User waitingList)-&gt;void
-+setSelected(ArrayList&lt;User&gt; selected)-&gt;void
-+setRegistrants(ArrayList&lt;User registrants)-&gt;void
-+setCancelledList(ArrayList&lt;User&gt; cancelledList)-&gt;void
-+setEventTitle(String eventTitle)-&gt;void
-+setNumParticpants(int eventLimit)-&gt;void
-+setQRCodeHash(String QRCodeHash)-&gt;void
-+setImageUrl(String eventImage)-&gt;void
-+sendNotifications(String message, 
-ArrayList&lt;User&gt; recipients)-&gt;void
-+getOwnerFacility()-&gt;String
-+setOwnerFacility(StringOwnerFacility)-&gt;void
-+encodeBitmapToBase64(Bitmap bitmap)-&gt;String
-+decodeBase64ToBitmap(String base 64Str)-&gt;Bitmap
-+getEventDescription()-&gt;String
-+setEventDescription(Sring eventDescription)-&gt;void
++Event(eventId: String, eventTitle: String, eventImage:
+String, QRCodeHash: String, numParticipants: int, 
+eventAddress:String)
++getEventAddress():String
++setEventAddress(eventAddress: String):void
++getWaitingList():ArrayList&lt;User&gt;
++getSelected():ArrayList&lt;User&gt;
++getCancelledList():ArrayList&lt;User&gt;
++getRegistrants():ArrayList&lt;User&gt;
++getEventId():String
++getEventTitle():String
++getNumParticpants():int
++getQRCodeHash():String
++getImageUrl():String
++setEventId(eventId: String):void
++setWaitingList(waitingList: ArrayList&lt;User&gt;):void
++setSelected(selected: ArrayList&lt;User&gt;):void
++setRegistrants(registrants: ArrayList&lt;User&gt;):void
++setCancelledList(cancelledList: ArrayList&lt;User&gt;):void
++setEventTitle(eventTitle: String):void
++setNumParticpants(eventLimit: int):void
++setQRCodeHash(QRCodeHash: String):void
++setImageUrl(eventImage: String):void
++sendNotifications(message: String, 
+recipients: ArrayList&lt;User&gt;):void
++getOwnerFacility():String
++setOwnerFacility(OwnerFacility: String):void
++encodeBitmapToBase64(bitmap: Bitmap):String
++decodeBase64ToBitmap(base64Str: String):Bitmap
++getEventDescription():String
++setEventDescription(eventDescription: String):void
 
 
 
@@ -742,10 +752,10 @@ ArrayList&lt;User&gt; recipients)-&gt;void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>648</x>
-      <y>744</y>
-      <w>87</w>
-      <h>45</h>
+      <x>358</x>
+      <y>478</y>
+      <w>58</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>Organization
 --
@@ -762,10 +772,10 @@ ArrayList&lt;User&gt; recipients)-&gt;void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>648</x>
-      <y>681</y>
-      <w>63</w>
-      <h>57</h>
+      <x>358</x>
+      <y>430</y>
+      <w>42</w>
+      <h>38</h>
     </coordinates>
     <panel_attributes>Facility
 --
@@ -784,10 +794,10 @@ String address)
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>501</x>
-      <y>921</y>
-      <w>138</w>
-      <h>210</h>
+      <x>252</x>
+      <y>502</y>
+      <w>92</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>User
 --
@@ -837,10 +847,10 @@ String phoneNumber)-&gt; void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>654</x>
-      <y>801</y>
-      <w>114</w>
-      <h>135</h>
+      <x>358</x>
+      <y>334</y>
+      <w>76</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>Organizer
 --
@@ -872,5 +882,358 @@ organizerEvents)-&gt;void
 +setProfileImageURL(String profileImageURL)-&gt;void
 </panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>144</x>
+      <y>484</y>
+      <w>22</w>
+      <h>8</h>
+    </coordinates>
+    <panel_attributes>Organizer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>144</x>
+      <y>494</y>
+      <w>80</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+EventView
+--
+-_TAG_: String
+-eventPosterImageView: ImageView
+-QRCodeRequiredText: TextView
+-progressBar: ProgressBar
+-db: FirebaseFirestore
+-eventListener: ListenerRegistration
+--
++onCreate(Bundle savedInstanceState)-&gt;void
++initializeViews()-&gt;void
++setupRealTimeEventListener(String eventId)-&gt;void
++displayEventDetails(Event event)-&gt;void
++loadImage(String imageURL)-&gt;void
++onDestroy()-&gt;void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>474</x>
+      <y>134</y>
+      <w>36</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>QRCodes</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>474</x>
+      <y>154</y>
+      <w>80</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+QRScannerActivity
+--
+-barcodeView: DecoratedBar
+-capture:CaptureManager
+--
++onCreate(Bundle savedInstanceState)-&gt;void
++onResume()-&gt;void
++onPause()-&gt;void
++onDestroy()-&gt;void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>158</x>
+      <y>358</y>
+      <w>22</w>
+      <h>8</h>
+    </coordinates>
+    <panel_attributes>User</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>142</x>
+      <y>562</y>
+      <w>84</w>
+      <h>22</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+WaitingList
+--
+-viewMapButton: Button
+--
++onCreate(savedInstanceState: Bundle):void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>158</x>
+      <y>372</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+OrganizerPage
+--
+-createEventButton: Button
+- organizerEvents: ArrayList&lt;Event&gt;
+- eventUtils: eventUtils
+--
++onCreate(Bundle savedInstanceState):void
++loadFragment(Fragment fragment, Bundle args):void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>374</x>
+      <y>152</y>
+      <w>84</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+MainActivity
+--
+-buttonEntrant: Button
+-organizerButton: Button
+-buttonAdmin: Button
+-scanQRButton: Button
+-waitingListButton: Button
+-createAProfile: Button
+-applyEventButton: Button
+-testEventView: Button
+-userUtils: UserUtils
+-viewProfileButton: Button
+-mAuth: FirebaseAuth
+--
++onCreate(savedInstanceState: Bundle): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>158</x>
+      <y>406</y>
+      <w>84</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+UserPage
+--
+-editFirstName: EditText
+-editLastName: EditText
+-editEmail: EditText
+-editPhoneNumber: EditText
+-btnSave: Button
+-btnBack: Button
+-profileImage: ImageView
+-initialsTextView: TextView
+-userUtils: UserUtils
+-imageUri: Uri
+-exitingProfileImageURL: String
+--
++onCreate(Bundle savedInstanceState): void
++openImagePicker():void
++fetchUserProfile():void
++getInitials(firstName: String, lastName: String):String
++saveProfile():void
++uploadImageAndUpdateProfile(updatedUser: User):void
++updateUserProfile(user: User):void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>298</x>
+      <y>484</y>
+      <w>10</w>
+      <h>22</h>
+    </coordinates>
+    <panel_attributes>
+m1=0..*
+m2=0..*</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>386</y>
+      <w>22</w>
+      <h>10</h>
+    </coordinates>
+    <panel_attributes>
+m1=0..*
+</panel_attributes>
+    <additional_attributes>10.0;20.0;90.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>446</y>
+      <w>22</w>
+      <h>10</h>
+    </coordinates>
+    <panel_attributes>m1=0..*
+</panel_attributes>
+    <additional_attributes>10.0;20.0;90.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>464</y>
+      <w>22</w>
+      <h>26</h>
+    </coordinates>
+    <panel_attributes>m1=0..*
+</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;110.0;90.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>342</x>
+      <y>570</y>
+      <w>60</w>
+      <h>10</h>
+    </coordinates>
+    <panel_attributes>m1=0..*
+</panel_attributes>
+    <additional_attributes>10.0;20.0;280.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>342</x>
+      <y>618</y>
+      <w>60</w>
+      <h>10</h>
+    </coordinates>
+    <panel_attributes>m1=0..*
+</panel_attributes>
+    <additional_attributes>10.0;20.0;280.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>332</x>
+      <y>638</y>
+      <w>156</w>
+      <h>26</h>
+    </coordinates>
+    <panel_attributes>m1=0..*
+</panel_attributes>
+    <additional_attributes>10.0;20.0;10.0;110.0;760.0;110.0;760.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>342</x>
+      <y>530</y>
+      <w>164</w>
+      <h>38</h>
+    </coordinates>
+    <panel_attributes>m1=0..*
+</panel_attributes>
+    <additional_attributes>10.0;20.0;800.0;20.0;800.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>94</x>
+      <y>358</y>
+      <w>68</w>
+      <h>74</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>320.0;350.0;10.0;350.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>386</y>
+      <w>24</w>
+      <h>8</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=0..*</panel_attributes>
+    <additional_attributes>100.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>126</x>
+      <y>554</y>
+      <w>36</w>
+      <h>6</h>
+    </coordinates>
+    <panel_attributes>WaitingListPackage</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>322</x>
+      <y>308</y>
+      <w>60</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=0..*
+</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;80.0;280.0;80.0;280.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>448</x>
+      <y>268</y>
+      <w>28</w>
+      <h>8</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>442</x>
+      <y>308</y>
+      <w>32</w>
+      <h>116</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>140.0;550.0;10.0;550.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>260</x>
+      <y>218</y>
+      <w>216</w>
+      <h>38</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>1060.0;160.0;990.0;160.0;990.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
