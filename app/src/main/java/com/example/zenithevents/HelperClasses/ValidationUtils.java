@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
  * <p>This class contains methods to validate various types of data inputs, such as
  * email addresses. It uses regular expressions to perform the validations.</p>
  *
- * <p><strong>Note:</strong> This Javadocs documentation
- *  was created using AI assistance</p>
+ * <p><strong>Note:</strong> The Javadocs documentation
+ *  for this class was created using AI assistance</p>
  */
 public class ValidationUtils {
 
@@ -26,10 +26,6 @@ public class ValidationUtils {
      * @return {@code true} if the email is valid according to the regular expression,
      *         {@code false} otherwise. If the input is {@code null} or empty,
      *         the method will also return {@code false}.
-     *
-     * <p><strong>AI Disclaimer:</strong> This method was generated with the help of
-     * AI tools, and the provided explanation is based on the code's functionality
-     * and typical usage of regular expressions.</p>
      */
     public static boolean isValidEmail(String email) {
         if (email == null || email.isEmpty()) {
