@@ -33,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class EventView extends AppCompatActivity {
@@ -171,8 +172,10 @@ public class EventView extends AppCompatActivity {
 
         // Load event image using Glide
         loadImage(event.getImageUrl(), eventPosterImageView);
-        if (event.getOwnerFacility() == deviceID) {
+        Log.d("FunctionCall", deviceID);
+        if (Objects.equals(event.getOwnerFacility(), deviceID)) {
             waitlistButton.setOnClickListener(v -> {
+                Log.d("FunctionCall", deviceID);
                 Intent intent = new Intent(EventView.this, WaitlistedEntrants.class);
                 intent.putExtra("eventId", event.getEventId());
                 startActivity(intent);
