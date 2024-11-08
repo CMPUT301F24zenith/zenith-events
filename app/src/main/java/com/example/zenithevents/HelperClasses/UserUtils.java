@@ -247,20 +247,21 @@ public class UserUtils {
      */
     public static Map<String, Object> convertUserToMap(User user) {
         Map<String, Object> userMap = new HashMap<>();
-        userMap.put("deviceID", user.getDeviceID());
-        userMap.put("firstName", user.getFirstName());
-        userMap.put("lastName", user.getLastName());
-        userMap.put("email", user.getEmail());
-        userMap.put("phoneNumber", user.getPhoneNumber());
+        if (user.getDeviceID() != null) userMap.put("deviceID", user.getDeviceID());
+        if (user.getFirstName() != null) userMap.put("firstName", user.getFirstName());
+        if (user.getLastName() != null) userMap.put("lastName", user.getLastName());
+        if (user.getEmail() != null) userMap.put("email", user.getEmail());
+        if (user.getPhoneNumber() != null) userMap.put("phoneNumber", user.getPhoneNumber());
         userMap.put("profileImageURL", user.getProfileImageURL());
-        userMap.put("wantsNotifs", user.getWantsNotifs());
-        userMap.put("isAdmin", user.getAdmin());
-        userMap.put("myFacility", user.getMyFacility());
-        userMap.put("waitingEvents", user.getWaitingEvents());
-        userMap.put("selectedEvents", user.getSelectedEvents());
-        userMap.put("registeredEvents", user.getRegisteredEvents());
-        userMap.put("cancelledEvents", user.getCancelledEvents());
-        userMap.put("anonymousAuthID", user.getAnonymousAuthID());
+        if (user.getWantsNotifs() != null) userMap.put("wantsNotifs", user.getWantsNotifs());
+        if (user.getAdmin() != null) userMap.put("isAdmin", user.getAdmin());
+        if (user.getMyFacility() != null) userMap.put("myFacility", user.getMyFacility());
+        if (user.getWaitingEvents() != null) userMap.put("waitingEvents", user.getWaitingEvents());
+        if (user.getSelectedEvents() != null) userMap.put("selectedEvents", user.getSelectedEvents());
+        if (user.getRegisteredEvents() != null) userMap.put("registeredEvents", user.getRegisteredEvents());
+        if (user.getCancelledEvents() != null) userMap.put("cancelledEvents", user.getCancelledEvents());
+        if (user.getAnonymousAuthID() != null) userMap.put("anonymousAuthID", user.getAnonymousAuthID());
+
         return userMap;
     }
 
