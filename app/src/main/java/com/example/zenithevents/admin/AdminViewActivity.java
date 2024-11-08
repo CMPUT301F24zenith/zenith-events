@@ -11,6 +11,7 @@ import com.example.zenithevents.R;
 
 /**
  * TODO project part 4
+ * xml files in progress
  */
 public class AdminViewAcitivity extends AppCompatActivity {
 

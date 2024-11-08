@@ -12,6 +12,7 @@ import com.example.zenithevents.R;
 
 /**
  * TODO project part 4
+ * xml file in progress
  */
 public class ViewEventsAdmin extends AppCompatActivity {
 
