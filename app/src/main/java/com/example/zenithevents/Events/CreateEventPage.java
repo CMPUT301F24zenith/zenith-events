@@ -42,9 +42,9 @@ public class CreateEventPage extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
 
     Button createEventSaveButton, createEventCancelButton, uploadEventPosterButton;
-    String pageTitle, eventTitle, eventLimitString, numParticipants, uploadedPosterString, eventLocation, eventDescription;
+    String pageTitle, eventTitle, selectedLimitString, eventLimitString, numParticipants, uploadedPosterString, eventLocation, eventDescription;
     TextView pageTitleView;
-    EditText eventNameView, eventLimitView, eventLocationView, eventDescriptionView;
+    EditText eventNameView, eventLimitView, eventLocationView, eventDescriptionView, selectedLimitView;
     Event event;
     ImageView eventPosterImage;
     Uri uploadedPosterUri;
@@ -88,102 +88,119 @@ public class CreateEventPage extends AppCompatActivity {
         eventLocationView = findViewById(R.id.eventLocationInput);
         eventLocationView.setText(eventLocation);
 
+        selectedLimitString = event.getSelectedLimit() == 0 ? "" : String.valueOf(event.getSelectedLimit());
+        selectedLimitView = findViewById(R.id.selectedLimitInput);
+        selectedLimitView.setText(selectedLimitString);
 
         createEventSaveButton = findViewById(R.id.createEventSaveButton);
         createEventSaveButton.setOnClickListener(v -> {
             Log.d("FunctionCall", "createEventSaveButton");
 
             eventTitle = eventNameView.getText().toString();
-            numParticipants = String.valueOf(eventLimitView.getText());
+            numParticipants = eventLimitView.getText().toString() ;
             eventLocation = eventLocationView.getText().toString();
             eventDescription = eventDescriptionView.getText().toString();
+            selectedLimitString = selectedLimitView.getText().toString() ;
 
             Context context = CreateEventPage.this;
 
             if (Objects.equals(eventTitle, "")) {
                 eventNameView.setError("Event Name can't be empty");
                 eventNameView.requestFocus();
+                return;
             }
 
             if (Objects.equals(numParticipants, "0")) {
                 eventLimitView.setError("Limit can't be 0");
                 eventLimitView.requestFocus();
+                return;
             }
 
-            if (!Objects.equals(numParticipants, "0") && !Objects.equals(eventTitle, "")) {
-                Log.d("FunctionCall", "if1");
+            if (Objects.equals(selectedLimitString, "0")) {
+                selectedLimitView.setError("Selected Limit can't be 0");
+                selectedLimitView.requestFocus();
+                return;
+            }
 
-                event.setEventTitle(eventTitle);
-                event.setNumParticipants(Objects.equals(numParticipants, "") ? 0 : Integer.parseInt(numParticipants));
-                event.setEventDescription(eventDescription);
-                event.setEventAddress(eventLocation);
+            Log.d("FunctionCall", "if1");
 
-                StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-                StorageReference imageRef = storageRef.child("images/" + UUID.randomUUID().toString());
+            event.setEventTitle(eventTitle);
+            if (!numParticipants.isEmpty()) {
+                event.setNumParticipants(Integer.parseInt(numParticipants));
+            } else {
+                event.setNumParticipants(0);
+            }
 
-                if (uploadedPosterUri != null) {
-                    try {
-                        InputStream inputStream = getContentResolver().openInputStream(uploadedPosterUri);
-                        Log.d("FunctionCall", "inputStream: " + inputStream);
-                        Bitmap image = BitmapFactory.decodeStream(inputStream);
-                        uploadedPosterString = QRCodeUtils.encodeBitmapToBase64(image);
-                        event.setImageUrl(uploadedPosterString);
-                    } catch (FileNotFoundException e) {
-                        Log.d("DEBUG", "Image couldn't be processed");
-                    }
+            event.setEventDescription(eventDescription);
+            event.setEventAddress(eventLocation);
+            if (!selectedLimitString.isEmpty()) {
+                event.setSelectedLimit(Integer.parseInt(selectedLimitString));
+            } else {
+                event.setSelectedLimit(0);
+            }
+
+            Log.d("FunctionCall1", "---" + event.getSelectedLimit());
+
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference imageRef = storageRef.child("images/" + UUID.randomUUID().toString());
+
+            if (uploadedPosterUri != null) {
+                try {
+                    InputStream inputStream = getContentResolver().openInputStream(uploadedPosterUri);
+                    Log.d("FunctionCall", "inputStream: " + inputStream);
+                    Bitmap image = BitmapFactory.decodeStream(inputStream);
+                    uploadedPosterString = QRCodeUtils.encodeBitmapToBase64(image);
+                    event.setImageUrl(uploadedPosterString);
+                } catch (FileNotFoundException e) {
+                    Log.d("DEBUG", "Image couldn't be processed");
                 }
-
-              eventUtils.createUpdateEvent(context, event, eventId -> {
-                    if (eventId != null) {
-                        event.setEventId(eventId);
-                        Log.d("FunctionCall", "if2.5");
-
-                        String qrCodeContent = QRCodeUtils.generateRandomString(16);
-                        Bitmap qrCodeBitmap = QRCodeUtils.generateQRCode(qrCodeContent);
-                        String qrCodeBase64 = QRCodeUtils.encodeBitmapToBase64(qrCodeBitmap);
-                        if (qrCodeBase64 != null) {
-                            event.setQRCodeBitmap(qrCodeBase64);
-                        }
-                        String qrCodeHashed = QRCodeUtils.hashQRCodeData(qrCodeContent);
-                        if (qrCodeHashed != null) {
-                            event.setQRCodeHash(qrCodeHashed);
-                        }
-                        Log.d("FunctionCall", "if3");
-
-
-                        eventUtils.createUpdateEvent(context, event, eventId_ -> {
-                            if (eventId_ != null) {
-                                Log.d("Firestore", "QR code hash updated successfully.");
-                                Toast.makeText(this, "Event was successfully published!", Toast.LENGTH_SHORT).show();
-
-                                Intent intent = new Intent(CreateEventPage.this, CreationSuccessActivity.class);
-                                intent.putExtra("Event", event);
-                                intent.putExtra("qr_code", qrCodeBase64);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                Toast.makeText(this, "There was an error updating the QR code. Please try again!", Toast.LENGTH_SHORT).show();
-                                Log.w("Firestore", "Failed to update QR code hash.");
-                            }
-                        });
-                    } else {
-                        Toast.makeText(context, "There was an error. Please try again!", Toast.LENGTH_SHORT).show();
-                        Log.d("FunctionCall", "if2.6");
-                    }
-                });
             }
+
+          eventUtils.createUpdateEvent(context, event, eventId -> {
+                if (eventId != null) {
+                    event.setEventId(eventId);
+                    Log.d("FunctionCall", "if2.5");
+
+                    String qrCodeContent = QRCodeUtils.generateRandomString(16);
+                    Bitmap qrCodeBitmap = QRCodeUtils.generateQRCode(qrCodeContent);
+                    String qrCodeBase64 = QRCodeUtils.encodeBitmapToBase64(qrCodeBitmap);
+                    if (qrCodeBase64 != null) {
+                        event.setQRCodeBitmap(qrCodeBase64);
+                    }
+                    String qrCodeHashed = QRCodeUtils.hashQRCodeData(qrCodeContent);
+                    if (qrCodeHashed != null) {
+                        event.setQRCodeHash(qrCodeHashed);
+                    }
+                    Log.d("FunctionCall", "if3");
+
+
+                    eventUtils.createUpdateEvent(context, event, eventId_ -> {
+                        if (eventId_ != null) {
+                            Log.d("Firestore", "QR code hash updated successfully.");
+                            Toast.makeText(this, "Event was successfully published!", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(CreateEventPage.this, CreationSuccessActivity.class);
+                            intent.putExtra("Event", event);
+                            intent.putExtra("qr_code", qrCodeBase64);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(this, "There was an error updating the QR code. Please try again!", Toast.LENGTH_SHORT).show();
+                            Log.w("Firestore", "Failed to update QR code hash.");
+                        }
+                    });
+                } else {
+                    Toast.makeText(context, "There was an error. Please try again!", Toast.LENGTH_SHORT).show();
+                    Log.d("FunctionCall", "if2.6");
+                }
+            });
         });
 
         createEventCancelButton = findViewById(R.id.createEventCancelButton);
-        createEventCancelButton.setOnClickListener(v -> {
-            Intent intent = new Intent(CreateEventPage.this, OrganizerPage.class);
-            startActivity(intent);
-        });
+        createEventCancelButton.setOnClickListener(v -> finish());
 
         uploadEventPosterButton = findViewById(R.id.uploadEventPosterButton);
-        uploadEventPosterButton.setOnClickListener(v -> {
-            checkStoragePermission();
-        });
+        uploadEventPosterButton.setOnClickListener(v -> checkStoragePermission());
     }
 
     private void openImage() {

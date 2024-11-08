@@ -1,6 +1,7 @@
 package com.example.zenithevents.ArrayAdapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,8 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
         TextView profileImageView = convertView.findViewById(R.id.profileImage);
 
         // Populate the data into the template view using the data object
+        assert user != null;
+        Log.d("FunctionCall", user.getFirstName());
         nameView.setText(user.getFirstName() + " " + user.getLastName());
         emailView.setText(user.getEmail());
         phoneNumberView.setText(user.getPhoneNumber());

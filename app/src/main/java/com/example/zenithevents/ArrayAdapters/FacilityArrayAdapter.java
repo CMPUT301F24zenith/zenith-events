@@ -32,8 +32,8 @@ public class FacilityArrayAdapter extends ArrayAdapter<Facility> {
         TextView facilityAddress = convertView.findViewById(R.id.facilityAddress);
 
         // Populate the data into the template view using the data object
-        facilityName.setText(facility.getFacilityName());
-        facilityAddress.setText(facility.getAddress());
+        facilityName.setText(facility.getNameOfFacility());
+        facilityAddress.setText(facility.getEmailOfFacility());
 
         // Return the completed view to render on screen
         return convertView;

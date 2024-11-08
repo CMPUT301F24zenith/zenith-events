@@ -134,7 +134,8 @@ public class UserProfile extends AppCompatActivity {
      */
     private void fetchUserProfile() {
         progressBar.setVisibility(View.VISIBLE);
-        userUtils.fetchUserProfile(user -> {
+        String deviceID = DeviceUtils.getDeviceID(this);
+        userUtils.fetchUserProfile(deviceID, user -> {
             if (user != null) {
                 editFirstName.setText(user.getFirstName() != null ? user.getFirstName() : "");
                 editLastName.setText(user.getLastName() != null ? user.getLastName() : "");

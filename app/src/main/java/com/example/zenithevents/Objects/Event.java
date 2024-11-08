@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Event implements Serializable {
-    private ArrayList<User> waitingList, selected, cancelledList, registrants;
+    private ArrayList<String> waitingList, selected, cancelledList, registrants;
     private String ownerFacility, eventId, eventTitle, QRCodeHash, QRCodeBitmap, ImageUrl, eventAddress, eventDescription;
-    private int numParticipants;
+    private int numParticipants, selectedLimit;
 
     public Event(){
         this.waitingList = new ArrayList<>();
@@ -30,6 +30,7 @@ public class Event implements Serializable {
         this.eventId = null;
 
         this.numParticipants = 0;
+        this.selectedLimit = 0;
     }
 
     public Event(String eventId, String eventTitle, String eventImage, String QRCodeHash, String QRCodeBitmap, int numParticipants, String eventAddress){
@@ -56,19 +57,19 @@ public class Event implements Serializable {
         this.eventAddress = eventAddress;
     }
 
-    public ArrayList<User> getWaitingList() {
+    public ArrayList<String> getWaitingList() {
         return this.waitingList;
     }
 
-    public ArrayList<User> getSelected() {
+    public ArrayList<String> getSelected() {
         return this.selected;
     }
 
-    public ArrayList<User> getCancelledList() {
+    public ArrayList<String> getCancelledList() {
         return this.cancelledList;
     }
 
-    public ArrayList<User> getRegistrants() {
+    public ArrayList<String> getRegistrants() {
         return this.registrants;
     }
 
@@ -98,19 +99,19 @@ public class Event implements Serializable {
         this.eventId = eventId;
     }
 
-    public void setWaitingList(ArrayList<User> waitingList) {
+    public void setWaitingList(ArrayList<String> waitingList) {
         this.waitingList = waitingList;
     }
 
-    public void setSelected(ArrayList<User> selected) {
+    public void setSelected(ArrayList<String> selected) {
         this.selected = selected;
     }
 
-    public void setRegistrants(ArrayList<User> registrants) {
+    public void setRegistrants(ArrayList<String> registrants) {
         this.registrants = registrants;
     }
 
-    public void setCancelledList(ArrayList<User> cancelledList) {
+    public void setCancelledList(ArrayList<String> cancelledList) {
         this.cancelledList = cancelledList;
     }
 
@@ -118,8 +119,8 @@ public class Event implements Serializable {
         this.eventTitle = eventTitle;
     }
 
-    public void setNumParticipants(int eventLimit) {
-        this.numParticipants = eventLimit;
+    public void setNumParticipants(int numParticipants) {
+        this.numParticipants = numParticipants;
     }
 
     public void setQRCodeHash(String QRCodeHash) {
@@ -132,21 +133,21 @@ public class Event implements Serializable {
         this.ImageUrl = eventImage;
     }
 
-    public ArrayList<User> drawLottery(ArrayList<User> waitingList, int sampleSize) {
+    public ArrayList<String> drawLottery(ArrayList<String> waitingList, int sampleSize) {
         Collections.shuffle(waitingList);
         int sampleSizeUpdated = Math.min(sampleSize, waitingList.size());
 
-        ArrayList<User> selectedList = new ArrayList<>(waitingList.subList(0, sampleSizeUpdated));
+        ArrayList<String> selectedList = new ArrayList<>(waitingList.subList(0, sampleSizeUpdated));
         return selectedList;
     }
 
-    public void sendNotifications(String message, ArrayList<User> recipients){
-        // Send notifications to recipients
-        for (User recipient : recipients) {
-            if (recipient.wantsNotifs()){
-            recipient.sendNotification(message);}
-        }
-    }
+//    public void sendNotifications(String message, ArrayList<String> recipients){
+//        // Send notifications to recipients
+//        for (String recipient : recipients) {
+//            if (recipient.wantsNotifs()){
+//            recipient.sendNotification(message);}
+//        }
+//    }
 
     public String getOwnerFacility() {
         return ownerFacility;
@@ -162,5 +163,13 @@ public class Event implements Serializable {
 
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
+    }
+
+    public int getSelectedLimit() {
+        return selectedLimit;
+    }
+
+    public void setSelectedLimit(int selectedLimit) {
+        this.selectedLimit = selectedLimit;
     }
 }
