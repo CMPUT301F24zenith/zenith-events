@@ -8,7 +8,7 @@ import com.example.zenithevents.CreateProfile.CreateProfileActivity;
 import com.example.zenithevents.Events.CreateEventPage;
 import com.example.zenithevents.Events.CreationSuccessActivity;
 import com.example.zenithevents.MainActivity;
-import com.example.zenithevents.User.UserPage;
+import com.example.zenithevents.User.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,7 +40,6 @@ public class UserUtils {
         void onUserFetchComplete(User user);
     }
 
-
     public void checkUserExists(UserExistenceCallback callback) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -54,7 +53,6 @@ public class UserUtils {
                     }
                 });
     }
-
 
     public void createOrUpdateUserProfile(User user, UserExistenceCallback callback) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -74,9 +72,7 @@ public class UserUtils {
                 .addOnFailureListener(e -> callback.onUserCheckComplete(false));   // Deletion failed
     }
 
-
     public void fetchUserProfile(String deviceID, UserFetchCallback callback) {
-
         db.collection("users").document(deviceID).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     Log.d("FunctionCall", "displayingDetails2: ");
@@ -94,8 +90,10 @@ public class UserUtils {
     }
 
 
-    public void updateUserField(String deviceId, String fieldName, Object value, UserExistenceCallback callback) {
-        db.collection("users").document(deviceId)
+    public void updateUserField(String fieldName, Object value, UserExistenceCallback callback) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("users").document(userId)
                 .update(fieldName, value)
                 .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))  // Update successful
                 .addOnFailureListener(e -> callback.onUserCheckComplete(false));    // Update failed
@@ -124,7 +122,7 @@ public class UserUtils {
                         List<String> waitingEvents = (List<String>) documentSnapshot.get("waitingEvents");
                         List<String> rejectedEvents = (List<String>) documentSnapshot.get("cancelledEvents");
                         List<String> invitedEvents = (List<String>) documentSnapshot.get("selectedEvents");
-                        List<String> acceptedEvents = (List<String>) documentSnapshot.get("registrantsEvents");
+                        List<String> acceptedEvents = (List<String>) documentSnapshot.get("registeredEvents");
 
                         assert waitingEvents != null || rejectedEvents != null ||
                                 invitedEvents != null || acceptedEvents != null;
@@ -180,16 +178,20 @@ public class UserUtils {
     // Helper method to convert a User object to a Map for Firestore
     public static Map<String, Object> convertUserToMap(User user) {
         Map<String, Object> userMap = new HashMap<>();
-        userMap.put("userID", user.getDeviceID());
+        userMap.put("deviceID", user.getDeviceID());
         userMap.put("firstName", user.getFirstName());
         userMap.put("lastName", user.getLastName());
         userMap.put("email", user.getEmail());
         userMap.put("phoneNumber", user.getPhoneNumber());
-        userMap.put("entrantEvents", user.getEntrantEvents());
         userMap.put("profileImageURL", user.getProfileImageURL());
         userMap.put("wantsNotifs", user.getWantsNotifs());
         userMap.put("isAdmin", user.getAdmin());
         userMap.put("myFacility", user.getMyFacility());
+        userMap.put("waitingEvents", user.getWaitingEvents());
+        userMap.put("selectedEvents", user.getSelectedEvents());
+        userMap.put("registeredEvents", user.getRegisteredEvents());
+        userMap.put("cancelledEvents", user.getCancelledEvents());
+        userMap.put("anonymousAuthID", user.getAnonymousAuthID());
         return userMap;
     }
 

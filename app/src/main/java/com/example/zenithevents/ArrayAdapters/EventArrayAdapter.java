@@ -7,16 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Organizer.EventView;
 import com.example.zenithevents.R;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
@@ -24,10 +27,13 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
     public EventArrayAdapter(Context context, List<Event> events) {
         super(context, 0, events);
     }
+    private FirebaseFirestore db;
+    FacilityUtils facilityUtils;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Event event = getItem(position);
+        facilityUtils = new FacilityUtils();
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.events_content, parent, false);
@@ -37,9 +43,17 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         TextView eventTitle = convertView.findViewById(R.id.eventTitle);
         TextView facilityName = convertView.findViewById(R.id.facilityName);
 
+
         assert event != null;
         eventTitle.setText(event.getEventTitle());
-        facilityName.setText(event.getOwnerFacility());
+        facilityUtils.fetchFacilityName(event.getOwnerFacility(), v -> {
+            if (v != null) {
+                facilityName.setText(v);
+            } else {
+                facilityName.setText("");
+            }
+        });
+
         String imgUrl = event.getImageUrl();
 
         if (imgUrl != null) {
@@ -57,4 +71,5 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
 
         return convertView;
     }
+
 }

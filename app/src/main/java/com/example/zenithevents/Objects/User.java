@@ -6,9 +6,17 @@ import java.util.ArrayList;
 
 public class User {
 
-    private String deviceID, profileImageURL, firstName, lastName, email, phoneNumber, myFacility;
-    private ArrayList<String> entrantEvents, cancelledEvents, selectedEvents, waitingEvents;
-    private Boolean wantsNotifs, isAdmin;
+    private String deviceID, firstName, lastName, email;
+    private String phoneNumber;
+    private String profileImageURL;
+    private Boolean wantsNotifs;
+    private Boolean isAdmin;
+    private String myFacility;
+    private ArrayList<String> waitingEvents;
+    private ArrayList<String> selectedEvents;
+    private ArrayList<String> registeredEvents;
+    private ArrayList<String> cancelledEvents;
+    private String anonymousAuthID ;
 
     // No-argument constructor required for Firestore
     public User() {}
@@ -19,7 +27,7 @@ public class User {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.isAdmin = false;
-        this.entrantEvents = new ArrayList<>();
+        this.registeredEvents = new ArrayList<>();
         this.cancelledEvents = new ArrayList<>();
         this.selectedEvents = new ArrayList<>();
         this.waitingEvents = new ArrayList<>();
@@ -43,10 +51,6 @@ public class User {
 
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public ArrayList<String> getEntrantEvents() {
-        return entrantEvents;
     }
 
     public String getProfileImageURL() {
@@ -85,10 +89,6 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setEntrantEvents(ArrayList<String> entrantEvents) {
-        this.entrantEvents = entrantEvents;
-    }
-
     public void setProfileImageURL(String profileImageURL) {
         this.profileImageURL = profileImageURL;
     }
@@ -110,20 +110,20 @@ public class User {
 
     }
 
+    boolean wantsNotifs() {
+        return wantsNotifs;
+    }
+
     public ArrayList<String> getCancelledEvents() {
         return cancelledEvents;
     }
 
-    public void setCancelledEvents(ArrayList<String> cancelledEvents) {
-        this.cancelledEvents = cancelledEvents;
+    public ArrayList<String> getRegisteredEvents() {
+        return registeredEvents;
     }
 
     public ArrayList<String> getSelectedEvents() {
         return selectedEvents;
-    }
-
-    public void setSelectedEvents(ArrayList<String> selectedEvents) {
-        this.selectedEvents = selectedEvents;
     }
 
     public ArrayList<String> getWaitingEvents() {
@@ -133,4 +133,23 @@ public class User {
     public void setWaitingEvents(ArrayList<String> waitingEvents) {
         this.waitingEvents = waitingEvents;
     }
+
+    public void setSelectedEvents(ArrayList<String> selectedEvents) {
+        this.selectedEvents = selectedEvents;
+    }
+
+    public void setRegisteredEvents(ArrayList<String> registeredEvents) {
+        this.registeredEvents = registeredEvents;
+    }
+
+    public void setCancelledEvents(ArrayList<String> cancelledEvents) {
+        this.cancelledEvents = cancelledEvents;
+    }
+    public String getAnonymousAuthID() {
+        return anonymousAuthID;
+    }
+    public void setAnonymousAuthID(String anonymousAuthID) {
+        this.anonymousAuthID = anonymousAuthID;
+    }
+
 }

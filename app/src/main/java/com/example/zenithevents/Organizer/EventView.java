@@ -6,8 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import com.example.zenithevents.EntrantsList.SampledEntrants;
 import com.example.zenithevents.EntrantsList.WaitlistedEntrants;
 import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
+import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Objects.User;
@@ -51,6 +54,8 @@ public class EventView extends AppCompatActivity {
     private ListenerRegistration eventListener;
     private final String[] entrantOptions = {"Waitlisted Entrants", "Selected Entrants", "Registered Entrants", "Cancelled Entrants"};
     private int currentOptionIndex = 0;
+    LinearLayout entrantsSlider;
+    FacilityUtils facilityUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +69,7 @@ public class EventView extends AppCompatActivity {
         });
 
         String eventId = getIntent().getStringExtra("event_id");
+        facilityUtils = new FacilityUtils();
         initializeViews();
         setupRealTimeEventListener(eventId);
 
@@ -78,6 +84,7 @@ public class EventView extends AppCompatActivity {
         eventName = findViewById(R.id.eventName);
         eventDescription = findViewById(R.id.eventDescription);
         qrCodeButton = findViewById(R.id.qrCodeButton);
+        entrantsSlider = findViewById(R.id.entrantsSlider);
     }
 
     private void setupRealTimeEventListener(String eventId) {
@@ -118,7 +125,14 @@ public class EventView extends AppCompatActivity {
 
         // Set event details
         eventName.setText(event.getEventTitle());
-        facilityName.setText(event.getOwnerFacility());
+        facilityUtils.fetchFacilityName(event.getOwnerFacility(), v -> {
+            if (v != null) {
+                facilityName.setText(v);
+            } else {
+                facilityName.setText("");
+            }
+        });
+
         eventAddress.setText(event.getEventAddress());
         eventDescription.setText(event.getEventDescription());
         UserUtils userUtils = new UserUtils();
@@ -174,6 +188,8 @@ public class EventView extends AppCompatActivity {
 
         if (Objects.equals(event.getOwnerFacility(), deviceID)) {
             setupEntrantNavigation(event.getEventId());
+        } else {
+            entrantsSlider.setVisibility(View.GONE);
         }
 
         qrCodeButton.setOnClickListener(v -> {
