@@ -44,4 +44,16 @@ public class OrganizerPageTest {
         Espresso.onView(ViewMatchers.withId(R.id.createEventButton)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(CreateEventPage.class.getName()));
     }
+
+    @Test
+    public void testInputEventDetails() {
+        Espresso.onView(ViewMatchers.withId(R.id.organizerButton)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.createEventButton)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.eventNameInput)).perform(ViewActions.typeText("Test Event"));
+        Espresso.onView(ViewMatchers.withId(R.id.eventDescriptionInput)).perform(ViewActions.typeText("Test Description"));
+        Espresso.onView(ViewMatchers.withId(R.id.eventLocationInput)).perform(ViewActions.typeText("Test Location"));
+        Espresso.onView(ViewMatchers.withId(R.id.eventLimitInput)).perform(ViewActions.typeText("100"));
+        Espresso.onView(ViewMatchers.withId(R.id.createEventSaveButton)).perform(ViewActions.click());
+
+    }
 }

@@ -30,9 +30,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link EventsFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Fragment that displays a list of events based on the user's role and event type.
+ * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
  */
 public class EventsFragment extends Fragment {
 
@@ -50,15 +49,15 @@ public class EventsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EventsFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
+    /**
+     * Creates a new instance of the EventsFragment.
+     *
+     * @param param1 The first parameter (unused).
+     * @param param2 The second parameter (unused).
+     * @return A new instance of EventsFragment.
+     */
     public static EventsFragment newInstance(String param1, String param2) {
         EventsFragment fragment = new EventsFragment();
         Bundle args = new Bundle();
@@ -67,6 +66,11 @@ public class EventsFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Called when the fragment is created.
+     *
+     * @param savedInstanceState A Bundle containing the saved state of the fragment.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +78,15 @@ public class EventsFragment extends Fragment {
 
     }
 
+    /**
+     * Inflates the fragment's layout and initializes its views.
+     * Based on the event type, it fetches appropriate events from Firestore.
+     *
+     * @param inflater The LayoutInflater used to inflate the view.
+     * @param container The parent container for the view.
+     * @param savedInstanceState A Bundle containing the saved state of the fragment.
+     * @return The inflated view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -112,11 +125,22 @@ public class EventsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Called after the view has been created, can be used for additional setup.
+     *
+     * @param view The view that was created.
+     * @param savedInstanceState A Bundle containing the saved state of the fragment.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    /**
+     * Fetches events for an entrant based on the provided event type (e.g., waiting, selected).
+     *
+     * @param eventTypes The type of events to fetch (e.g., "waitingEvents", "selectedEvents").
+     */
     private void fetchEntrantWaitingEvents(String eventTypes) {
         Context context = getActivity();
         String deviceID = DeviceUtils.getDeviceID(context);
