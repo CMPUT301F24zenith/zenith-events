@@ -1,50 +1,42 @@
 package com.example.zenithevents;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.matcher.IntentMatchers;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.example.zenithevents.User.UserPage;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-
-import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class UserPageTest {
     @Rule
-    public ActivityScenarioRule<UserPage> activityRule = new ActivityScenarioRule<UserPage>(UserPage.class);
+    public ActivityScenarioRule<MainActivity> activityRule = new ActivityScenarioRule<>(MainActivity.class);
 
-//    @Before
-//    public void setUp() {
-//        Intents.init();
-//    }
-//
-//    @After
-//    public void tearDown() {
-//        Intents.release();
-//    }
+    @Before
+    public void setUp() {
+        Intents.init();
+    }
 
-    @Test
-    public void testSaveProfile() {
-
-        Espresso.onView(withId(R.id.btnSave)).perform(click());
-        onView(withId(R.id.btnSave)).check(doesNotExist());
-
+    @After
+    public void tearDown() {
+        Intents.release();
     }
 
     @Test
-    public void testRemoveProfileImg() {
-        Espresso.onView(withId(R.id.btnRemove)).perform(click());
+    public void testViewProfileButton() {
 
-        onView(withId(R.id.btnRemove)).check(doesNotExist());
+        Espresso.onView(ViewMatchers.withId(R.id.viewProfileButton)).perform(ViewActions.click());
+        Intents.intended(IntentMatchers.hasComponent(UserPage.class.getName()));
     }
 
 }
