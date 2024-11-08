@@ -16,18 +16,23 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.Fragment;
 
 
+import com.example.zenithevents.CreateProfile.CreateProfileActivity;
+import com.example.zenithevents.HelperClasses.DeviceUtils;
+import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.MainActivity;
 import com.example.zenithevents.QRCodes.QRScannerActivity;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.UserProfile;
 
 import java.util.List;
 
 public class EntrantViewActivity extends AppCompatActivity {
     private static final String TAG = "EntrantViewActivity";
-    Button scanQRButton;
+    Button scanQRButton, viewProfileButton;
     private TextView currentSelection, next, previous;
     private final String[] options = {"Waitlisted Events", "Registered Events", "Events Invited To", "Cancelled Events"};
     private int currentIndex = 0;
+    private UserUtils userUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,7 @@ public class EntrantViewActivity extends AppCompatActivity {
         previous = findViewById(R.id.tvPrevious);
 
         currentSelection.setText(options[currentIndex]);
+        viewProfileButton = findViewById(R.id.viewProfileButton);
 
         Bundle args = new Bundle();
         args.putString("type", "entrant-waiting");
@@ -58,6 +64,21 @@ public class EntrantViewActivity extends AppCompatActivity {
         scanQRButton.setOnClickListener(v -> {
             Intent intent = new Intent(EntrantViewActivity.this, QRScannerActivity.class);
             startActivity(intent);
+        });
+        userUtils = new UserUtils();
+        String currentUser = DeviceUtils.getDeviceID(this);
+        userUtils.fetchUserProfile(currentUser, v -> {
+            if (v == null) {
+                viewProfileButton.setOnClickListener(v1 -> {
+                    Intent intent = new Intent(EntrantViewActivity.this, CreateProfileActivity.class);
+                    startActivity(intent);
+                });
+            } else {
+                viewProfileButton.setOnClickListener(v1 -> {
+                    Intent intent = new Intent(EntrantViewActivity.this, UserProfile.class);
+                    startActivity(intent);
+                });
+            }
         });
     }
 
