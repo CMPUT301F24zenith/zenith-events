@@ -22,6 +22,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Document;
 
+/**
+ * Activity to view a facility's details.
+ * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ */
 public class ViewFacility extends AppCompatActivity {
 
     private TextView facilityName;
@@ -31,7 +35,11 @@ public class ViewFacility extends AppCompatActivity {
     private FirebaseFirestore db;
     private String deviceId;
 
-
+    /**
+     * Called when the activity is created. Initializes the UI elements and loads the facility data.
+     *
+     * @param savedInstanceState A Bundle containing the saved instance state of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -63,6 +71,11 @@ public class ViewFacility extends AppCompatActivity {
 
     }
 
+    /**
+     * Loads and displays the facility's data from Firestore using the device ID.
+     *
+     * @param deviceId The device ID to fetch the facility details.
+     */
     private void showFacilityData(String deviceId) {
         DocumentReference facilityRef = db.collection("facilities").document(deviceId);
         facilityRef.get().addOnSuccessListener(documentSnapshot -> {
