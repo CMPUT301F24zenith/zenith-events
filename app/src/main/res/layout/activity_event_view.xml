@@ -55,7 +55,6 @@
         android:layout_margin="16dp"
         android:id="@+id/eventQR"/>
 
-    <!--    TODO replace with facility contenet layout-->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
