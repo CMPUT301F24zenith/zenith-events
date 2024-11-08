@@ -1,6 +1,7 @@
 package com.example.zenithevents.Organizer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,6 +19,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.zenithevents.EntrantsList.CancelledEntrants;
+import com.example.zenithevents.EntrantsList.EnrolledEntrants;
+import com.example.zenithevents.EntrantsList.SampledEntrants;
+import com.example.zenithevents.EntrantsList.WaitlistedEntrants;
 import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
@@ -36,8 +41,9 @@ public class EventView extends AppCompatActivity {
 
 
     ImageView eventPosterImageView, eventQRImageView;
-    private Button btnJoinLeaveWaitingList;
-    private TextView QRCodeRequiredText, eventDescription, eventName, facilityName, eventAddress;
+    private Button btnJoinLeaveWaitingList, qrCodeButton, waitlistButton, cancelledButton;
+    private Button selectedButton, registeredButton;
+    private TextView eventDescription, eventName, facilityName, eventAddress;
     private ProgressBar progressBar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ListenerRegistration eventListener;
@@ -67,7 +73,11 @@ public class EventView extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         eventName = findViewById(R.id.eventName);
         eventDescription = findViewById(R.id.eventDescription);
-        eventQRImageView = findViewById(R.id.eventQR);
+        selectedButton = findViewById(R.id.selectedListButton);
+        waitlistButton = findViewById(R.id.waitlistButton);
+        registeredButton = findViewById(R.id.registeredListButton);
+        cancelledButton = findViewById(R.id.cancelledListButton);
+        qrCodeButton = findViewById(R.id.qrCodeButton);
     }
 
     private void setupRealTimeEventListener(String eventId) {
@@ -122,7 +132,7 @@ public class EventView extends AppCompatActivity {
                 event.getRegistrants().contains(deviceID)
         ) {
             btnJoinLeaveWaitingList.setBackgroundColor(Color.RED);
-            btnJoinLeaveWaitingList.setText("Leave Waitinglist");
+            btnJoinLeaveWaitingList.setText("Leave Waiting List");
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
                 Context context = EventView.this;
@@ -137,7 +147,7 @@ public class EventView extends AppCompatActivity {
             });
         } else {
             btnJoinLeaveWaitingList.setBackgroundColor(Color.BLUE);
-            btnJoinLeaveWaitingList.setText("Join Waitinglist");
+            btnJoinLeaveWaitingList.setText("Join Waiting List");
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
                 Context context = EventView.this;
@@ -161,7 +171,31 @@ public class EventView extends AppCompatActivity {
 
         // Load event image using Glide
         loadImage(event.getImageUrl(), eventPosterImageView);
-        loadImage(event.getQRCodeBitmap(), eventQRImageView);
+        if (event.getOwnerFacility() == deviceID) {
+            waitlistButton.setOnClickListener(v -> {
+                Intent intent = new Intent(EventView.this, WaitlistedEntrants.class);
+                intent.putExtra("eventId", event.getEventId());
+                startActivity(intent);
+            });
+
+            selectedButton.setOnClickListener(v -> {
+                Intent intent = new Intent(EventView.this, SampledEntrants.class);
+                intent.putExtra("eventId", event.getEventId());
+                startActivity(intent);
+            });
+
+            registeredButton.setOnClickListener(v -> {
+                Intent intent = new Intent(EventView.this, EnrolledEntrants.class);
+                intent.putExtra("eventId", event.getEventId());
+                startActivity(intent);
+            });
+
+            cancelledButton.setOnClickListener(v -> {
+                Intent intent = new Intent(EventView.this, CancelledEntrants.class);
+                intent.putExtra("eventId", event.getEventId());
+                startActivity(intent);
+            });
+        }
     }
 
     private void loadImage(String imageUrl, ImageView placeholder) {
