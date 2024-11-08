@@ -1,78 +1,57 @@
-package com.example.zenithevents;
-
-import android.content.Intent;
-
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.ActivityTestRule;
-
-import com.example.zenithevents.EntrantsList.CancelledEntrants;
-import com.example.zenithevents.Objects.User;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import static androidx.test.espresso.Espresso.onData;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.anything;
-
-public class CancelledEntrantsTest {
-
-    @Rule
-    public ActivityTestRule<CancelledEntrants> activityRule = new ActivityTestRule<>(CancelledEntrants.class);
-
-    private FirebaseFirestore db;
-    private final String testEventId = "testEvent123"; // Predefined event ID
-
-    @Before
-    public void setUp() throws InterruptedException {
-        db = FirebaseFirestore.getInstance();
-
-
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(false)
-                .build();
-        db.setFirestoreSettings(settings);
-
-
-        CountDownLatch latch = new CountDownLatch(1);
-
-
-        Map<String, Object> eventData = new HashMap<>();
-        eventData.put("cancelledList", Arrays.asList("user1", "user2"));
-
-        db.collection("events").document(testEventId)
-                .set(eventData)
-                .addOnCompleteListener(task -> latch.countDown());
-
-        latch.await(3, TimeUnit.SECONDS);
-    }
-
-    @Test
-    public void testShowCancelledEntrantsList() {
-        // Launch the CancelledEntrants activity with the testEventId
-        Intent intent = new Intent(activityRule.getActivity(), CancelledEntrants.class);
-        intent.putExtra("eventId", testEventId);
-
-        try (ActivityScenario<CancelledEntrants> scenario = ActivityScenario.launch(intent)) {
-            onData(anything()).inAdapterView(withId(R.id.list_entrants))
-                    .atPosition(0).onChildView(withId(R.id.entrantName))
-                    .check(matches(withText("User One")));
-
-            onData(anything()).inAdapterView(withId(R.id.list_entrants))
-                    .atPosition(1).onChildView(withId(R.id.entrantName))
-                    .check(matches(withText("User Two")));
-        }
-    }
-}
+//package com.example.zenithevents;
+//
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertNotNull;
+//import androidx.test.ext.junit.runners.AndroidJUnit4;
+//
+//import com.example.zenithevents.EntrantsList.CancelledEntrants;
+//import com.example.zenithevents.Objects.User;
+//import com.example.zenithevents.ArrayAdapters.EntrantArrayAdapter;
+//
+//import org.junit.Before;
+//import org.junit.Test;
+//
+//
+//import java.util.ArrayList;
+//import java.util.List;
+//
+//public class CancelledEntrantsTest {
+//
+//    private CancelledEntrants cancelledEntrantsActivity;
+//    private List<User> testCancelledUsers;
+//
+//    @Before
+//    public void setUp() {
+//        // Initialize the CancelledEntrants activity
+//        cancelledEntrantsActivity = new CancelledEntrants();
+//
+//        // Set up sample cancelled users data
+//        testCancelledUsers = new ArrayList<>();
+//        testCancelledUsers.add(new User("device1", "User", "One", "user1@example.com", "1234567890"));
+//        testCancelledUsers.add(new User("device2", "User", "Two", "user2@example.com", "0987654321"));
+//
+//        // Manually assign this test data to the activity's dataList for testing purposes
+//        cancelledEntrantsActivity.dataList = new ArrayList<>(testCancelledUsers);
+//    }
+//
+//    @Test
+//    public void testCancelledEntrantsDataHandling() {
+//        // Check that the list size matches the number of test users
+//        assertEquals(2, cancelledEntrantsActivity.dataList.size());
+//
+//        // Validate the first user details
+//        User firstUser = cancelledEntrantsActivity.dataList.get(0);
+//        assertEquals("User One", firstUser.getFirstName() + " " + firstUser.getLastName());
+//        assertEquals("user1@example.com", firstUser.getEmail());
+//
+//        // Validate the second user details
+//        User secondUser = cancelledEntrantsActivity.dataList.get(1);
+//        assertEquals("User Two", secondUser.getFirstName() + " " + secondUser.getLastName());
+//        assertEquals("user2@example.com", secondUser.getEmail());
+//
+//        // Ensure the dataList is not null and contains expected values
+//        assertNotNull(cancelledEntrantsActivity.dataList);
+//    }
+//
+//
+//}

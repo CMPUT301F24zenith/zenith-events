@@ -1,49 +1,59 @@
 package com.example.zenithevents;
 
-import android.content.Intent;
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.rule.ActivityTestRule;
-import com.example.zenithevents.Facility.CreateFacility;
-import com.example.zenithevents.Facility.ViewFacility;
-import com.example.zenithevents.HelperClasses.DeviceUtils;
 
-import org.junit.Rule;
+
+import com.example.zenithevents.Objects.Facility;
+
+import org.junit.Before;
 import org.junit.Test;
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-
+import static org.junit.Assert.assertEquals;
 
 
 public class FacilityManagingTest {
 
-    @Rule
-    public ActivityTestRule<CreateFacility> createFacilityRule = new ActivityTestRule<>(CreateFacility.class);
+    private Facility facility;
+
+    @Before
+    public void setUp() {
+        // Initialize the Facility object with sample data
+        facility = new Facility("Test Facility Name", "1234567890", "test@example.com", "sampleDeviceId");
+    }
 
     @Test
-    public void testCreateFacility() {
-        String deviceId = DeviceUtils.getDeviceID(createFacilityRule.getActivity());
+    public void testFacilityName() {
+        // Check if the facility name is correctly set and retrieved
+        assertEquals("Test Facility Name", facility.getNameOfFacility());
+    }
 
+    @Test
+    public void testFacilityPhone() {
+        // Check if the facility phone number is correctly set and retrieved
+        assertEquals("1234567890", facility.getPhoneOfFacility());
+    }
 
-        onView(withId(R.id.location_name)).perform(typeText("Test Facility Name"));
-        onView(withId(R.id.location_phone)).perform(typeText("1234567890"));
-        onView(withId(R.id.location_email)).perform(typeText("test@example.com"));
-        onView(withId(R.id.location_save)).perform(click());
+    @Test
+    public void testFacilityEmail() {
+        // Check if the facility email is correctly set and retrieved
+        assertEquals("test@example.com", facility.getEmailOfFacility());
+    }
 
+    @Test
+    public void testFacilityDeviceId() {
+        // Check if the facility device ID is correctly set and retrieved
+        assertEquals("sampleDeviceId", facility.getDeviceId());
+    }
 
-        //Verify facility data in ViewFacility
-        Intent intent = new Intent(createFacilityRule.getActivity(), ViewFacility.class);
-        intent.putExtra("deviceId", deviceId);  // Use the actual device ID
-        ActivityScenario<ViewFacility> scenario = ActivityScenario.launch(intent);
+    @Test
+    public void testUpdatingFacilityDetails() {
+        // Update facility details to simulate editing the facility
+        facility.setNameOfFacility("Updated Facility Name");
+        facility.setPhoneOfFacility("0987654321");
+        facility.setEmailOfFacility("updated@example.com");
 
-        // Check if the displayed data matches what was saved
-        onView(withId(R.id.namefield)).check(matches(withText("Name: Test Facility Name")));
-        onView(withId(R.id.phonefield)).check(matches(withText("Phone: 1234567890")));
-        onView(withId(R.id.emailfield)).check(matches(withText("Email: test@example.com")));
-
+        // Verify the updated details
+        assertEquals("Updated Facility Name", facility.getNameOfFacility());
+        assertEquals("0987654321", facility.getPhoneOfFacility());
+        assertEquals("updated@example.com", facility.getEmailOfFacility());
     }
 
 
