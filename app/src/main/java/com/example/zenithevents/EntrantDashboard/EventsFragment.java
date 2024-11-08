@@ -1,7 +1,7 @@
 package com.example.zenithevents.EntrantDashboard;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,19 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.zenithevents.ArrayAdapters.EventArrayAdapter;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.Objects.Event;
+import com.example.zenithevents.Organizer.EventView;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -81,7 +78,7 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_events, container, false);
-        eventListView = view.findViewById(R.id.ListView);
+        eventListView = view.findViewById(R.id.eventsListView);
         events = new ArrayList<>();
         waitingEventsList = new ArrayList<>();
         adapter = new EventArrayAdapter(requireContext(), events);
@@ -104,7 +101,13 @@ public class EventsFragment extends Fragment {
                 });
             }
             if (Objects.equals(type, "entrant-waiting"))
-                fetchEntrantWaitingEvents();
+                fetchEntrantWaitingEvents("waitingEvents");
+            if (Objects.equals(type, "entrant-selected"))
+                fetchEntrantWaitingEvents("selectedEvents");
+            if (Objects.equals(type, "entrant-cancelled"))
+                fetchEntrantWaitingEvents("cancelledEvents");
+            if (Objects.equals(type, "entrant-accepted"))
+                fetchEntrantWaitingEvents("registrantsEvents");
         }
         return view;
     }
@@ -112,11 +115,9 @@ public class EventsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Add your fragment-specific code here
-
     }
 
-    private void fetchEntrantWaitingEvents() {
+    private void fetchEntrantWaitingEvents(String eventTypes) {
         Context context = getActivity();
         String deviceID = DeviceUtils.getDeviceID(context);
         final int[] counter = {0};
@@ -129,7 +130,7 @@ public class EventsFragment extends Fragment {
                         QuerySnapshot snapshots = task.getResult();
                         if (snapshots != null && !snapshots.isEmpty()) {
                             DocumentSnapshot userDocument = snapshots.getDocuments().get(0);
-                            List<String> waitingEvents = (List<String>) userDocument.get("waitingEvents");
+                            List<String> waitingEvents = (List<String>) userDocument.get(eventTypes);
 
                             if (waitingEvents != null) {
                                 for (String eventId : waitingEvents) {

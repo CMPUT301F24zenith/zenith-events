@@ -10,13 +10,6 @@
     android:padding="16dp"
     android:gravity="center"
     tools:context=".User.UserPage">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnBack"
-        android:layout_marginBottom="16dp"
-        android:layout_gravity="left"
-        android:text="Back"/>
 
     <FrameLayout
         android:layout_width="150dp"
@@ -88,5 +81,10 @@
         android:id="@+id/btnSave"
         android:text="Save Profile"/>
 
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"/>
 </LinearLayout>

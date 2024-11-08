@@ -31,52 +31,80 @@
         android:layout_height="wrap_content"
         android:text="Facility Name"
         android:textSize="16sp" />
+
     <TextView
-        android:id="@+id/address"
+        android:id="@+id/eventAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Address"
         android:textSize="16sp" />
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@color/gray"
-        android:scaleType="fitCenter"
-        android:layout_gravity="center"
-        android:layout_margin="16dp"
-        android:id="@+id/QR"/>
 
-    <!--    TODO replace with facility contenet layout-->
+    <TextView
+        android:id="@+id/eventDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textSize="16sp" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/facilityContainer"
         />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/leftArrowButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="◀"
+            android:textSize="24sp"
+            android:padding="16dp"
+            android:gravity="center"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/currentOptionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Waitlisted Entrants"
+            android:textSize="16sp"
+            android:paddingHorizontal="20dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/rightArrowButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="▶"
+            android:textSize="24sp"
+            android:padding="16dp"
+            android:gravity="center"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/qrCodeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="QR Code" />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Join Waiting List"
-        android:enabled="false"
         android:id="@+id/btnJoinWaitingList"
-        />
-
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Leave Waiting List"
-        android:id="@+id/btnLeaveWaitingList"
-        android:visibility="gone"
-        />
-
-    <TextView
-        android:id="@+id/QRCodeRequiredText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="You need a QR code to join the waiting list"
-        android:textColor="@color/red"
-        android:textStyle="bold"
         />
 
     <ProgressBar

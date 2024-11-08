@@ -1,4 +1,4 @@
-package com.example.zenithevents.Events;
+package com.example.zenithevents.Organizer;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,46 +14,37 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
-import com.google.zxing.qrcode.encoder.QRCode;
 
-public class CreationSuccessActivity extends AppCompatActivity {
-    private TextView eventNameText;
-    private ImageView eventImageView, qrCodeView;
-    private Button shareQRButton, exitButton;
+public class QRView extends AppCompatActivity {
+    private TextView eventTitleText;
+    private ImageView qrCodeView;
+    private Button shareQRButton, doneButton;
     Event event;
-    Bitmap QRCode, eventImage;
+    Bitmap qrCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_creation_success);
+        setContentView(R.layout.activity_qr_view);
 
-        eventNameText = findViewById(R.id.eventNameText);
-        eventImageView = findViewById(R.id.eventImageView);
-        qrCodeView = findViewById(R.id.qrCodeView);
-        shareQRButton = findViewById(R.id.shareQRButton);
-        exitButton = findViewById(R.id.exitButton);
+        eventTitleText = findViewById(R.id.eventTitle);
+        qrCodeView = findViewById(R.id.qrCodeImageView);
+        shareQRButton = findViewById(R.id.shareQRCodeButton);
+        doneButton = findViewById(R.id.doneButton);
 
         event = (Event) getIntent().getSerializableExtra("Event");
 
         if (event != null) {
-            eventNameText.setText(event.getEventTitle());
+            eventTitleText.setText(event.getEventTitle());
 
-            if (event.getImageUrl() != null) {
-                eventImage = QRCodeUtils.decodeBase64ToBitmap(event.getImageUrl());
-                eventImageView.setImageBitmap(eventImage);
-            }
-
-            if (getIntent().getStringExtra("qr_code") != null) {
-                QRCode = QRCodeUtils.decodeBase64ToBitmap(getIntent().getStringExtra("qr_code"));
-                qrCodeView.setImageBitmap(QRCode);
-            }
+            qrCode = QRCodeUtils.decodeBase64ToBitmap(event.getQRCodeBitmap());
+            qrCodeView.setImageBitmap(qrCode);
 
             shareQRButton.setOnClickListener(v -> {
-                shareQRCode(QRCode);
+                shareQRCode(qrCode);
             });
 
-            exitButton.setOnClickListener(v -> {
+            doneButton.setOnClickListener(v -> {
                 finish();
             });
         }

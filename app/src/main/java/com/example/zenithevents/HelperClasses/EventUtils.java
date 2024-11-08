@@ -65,7 +65,7 @@ public class EventUtils {
      * Creates event if event is not in Firestore otherwise updates the event in Firestore.
      */
     public void createUpdateEvent(Context context, Event event, EventUpdateCallback callback) {
-        Log.d("FunctionCall", "updateEvent");
+        Log.d("FunctionCall1", "" + event.getSelectedLimit());
 
         String deviceID = DeviceUtils.getDeviceID(context);
         event.setOwnerFacility(deviceID);
