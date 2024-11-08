@@ -26,6 +26,11 @@ import com.example.zenithevents.User.UserProfile;
 
 import java.util.List;
 
+/**
+ * Activity that displays the entrant dashboard, allowing the user to navigate through various
+ * event lists, scan QR codes, and view or create a profile.
+ * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ */
 public class EntrantViewActivity extends AppCompatActivity {
     private static final String TAG = "EntrantViewActivity";
     Button scanQRButton, viewProfileButton;
@@ -34,6 +39,17 @@ public class EntrantViewActivity extends AppCompatActivity {
     private int currentIndex = 0;
     private UserUtils userUtils;
 
+    /**
+     * Initializes the EntrantViewActivity, sets up views, and handles user interactions such as
+     * navigating through event categories and scanning QR codes.
+     * <p>Handles the setup of the view layout, and assigns click listeners to buttons for
+     * navigating through the event categories and scanning QR codes. It also checks if the user has a
+     * profile and allows the user to create or view their profile accordingly.</p>
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down, this Bundle contains the data it most recently supplied
+     *                           in {@link #onSaveInstanceState}. Otherwise, it is {@code null}.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +98,12 @@ public class EntrantViewActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Loads a fragment into the fragment container.
+     *
+     * @param fragment The fragment to be loaded.
+     * @param args The arguments to pass to the fragment.
+     */
     private void loadFragment(Fragment fragment, Bundle args) {
         fragment.setArguments(args);
 
@@ -92,6 +114,10 @@ public class EntrantViewActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    /**
+     * Moves to the previous event category in the selection options.
+     * Updates the current selection and loads the appropriate fragment based on the new selection.
+     */
     private void moveToPrevious() {
         if (currentIndex > 0) {
             currentIndex--;
@@ -102,6 +128,10 @@ public class EntrantViewActivity extends AppCompatActivity {
         loadFragmentBasedOnSelection();
     }
 
+    /**
+     * Moves to the next event category in the selection options.
+     * Updates the current selection and loads the appropriate fragment based on the new selection.
+     */
     private void moveToNext() {
         if (currentIndex < options.length - 1) {
             currentIndex++;
@@ -112,10 +142,16 @@ public class EntrantViewActivity extends AppCompatActivity {
         loadFragmentBasedOnSelection();
     }
 
+    /**
+     * Updates the displayed text to show the current event category.
+     */
     private void updateCurrentSelection() {
         currentSelection.setText(options[currentIndex]);
     }
 
+    /**
+     * Loads the appropriate fragment based on the selected event category.
+     */
     private void loadFragmentBasedOnSelection() {
         Fragment selectedFragment;
         Bundle nArgs = new Bundle();
