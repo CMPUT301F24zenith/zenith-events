@@ -2,16 +2,12 @@ package com.example.zenithevents.HelperClasses;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.zenithevents.EntrantsList.EnrolledEntrants;
 import com.example.zenithevents.Objects.Event;
-import com.example.zenithevents.Objects.User;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.example.zenithevents.Objects.Event;
@@ -293,6 +289,5 @@ public class EventUtils {
         eventMap.put("QRCodeURL", event.getQRCodeHash());
         return eventMap;
     }
-
 }
 
