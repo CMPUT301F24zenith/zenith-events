@@ -5,7 +5,7 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.rule.ActivityTestRule;
 import com.example.zenithevents.Facility.CreateFacility;
 import com.example.zenithevents.Facility.ViewFacility;
-import com.example.zenithevents.HelperClasses.DeviceUtils; /
+import com.example.zenithevents.HelperClasses.DeviceUtils;
 
 import org.junit.Rule;
 import org.junit.Test;
