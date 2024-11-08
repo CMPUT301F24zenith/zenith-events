@@ -67,6 +67,7 @@ public class ViewFacility extends AppCompatActivity {
             Intent editIntent = new Intent(ViewFacility.this, CreateFacility.class);
             editIntent.putExtra("deviceId", deviceId);
             startActivity(editIntent);
+            finish();
         });
 
     }
