@@ -169,6 +169,7 @@ public class EventView extends AppCompatActivity {
             }
         }
 
+
         // Load event image using Glide
         loadImage(event.getImageUrl(), eventPosterImageView);
         Log.d("FunctionCall", deviceID);
@@ -192,15 +193,16 @@ public class EventView extends AppCompatActivity {
                 startActivity(intent);
             });
 
-        if (Objects.equals(event.getOwnerFacility(), deviceID)) {
-            setupEntrantNavigation(event.getEventId());
-        }
+            if (Objects.equals(event.getOwnerFacility(), deviceID)) {
+                setupEntrantNavigation(event.getEventId());
+            }
 
-        qrCodeButton.setOnClickListener(v -> {
-            Intent intent = new Intent(EventView.this, QRView.class);
-            intent.putExtra("Event", (Serializable) event);
-            startActivity(intent);
-        });
+            qrCodeButton.setOnClickListener(v -> {
+                Intent intent = new Intent(EventView.this, QRView.class);
+                intent.putExtra("Event", (Serializable) event);
+                startActivity(intent);
+            });
+        }
     }
 
     private void loadImage(String imageUrl, ImageView placeholder) {
