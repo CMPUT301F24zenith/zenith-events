@@ -30,7 +30,6 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
         // Lookup view for data population
         TextView nameView = convertView.findViewById(R.id.entrantName);
         TextView emailView = convertView.findViewById(R.id.entrantEmail);
-        TextView phoneNumberView = convertView.findViewById(R.id.entrantPhoneNumber);
         TextView profileImageView = convertView.findViewById(R.id.profileImage);
 
         // Populate the data into the template view using the data object
@@ -38,7 +37,6 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
         Log.d("FunctionCall", user.getFirstName());
         nameView.setText(user.getFirstName() + " " + user.getLastName());
         emailView.setText(user.getEmail());
-        phoneNumberView.setText(user.getPhoneNumber());
         profileImageView.setText(user.getProfileImageURL());
 
         // Return the completed view to render on screen
