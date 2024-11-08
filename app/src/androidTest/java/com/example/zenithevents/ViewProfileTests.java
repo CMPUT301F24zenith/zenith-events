@@ -2,6 +2,8 @@ package com.example.zenithevents;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import androidx.test.espresso.Espresso;
@@ -35,5 +37,12 @@ public class ViewProfileTests {
     @Test
     public void testRemoveButton() {
         onView(withId(R.id.btnRemove)).perform(click());
+        onView(withId(R.id.profileImage)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testUploadButton() {
+        onView(withId(R.id.profileImage)).perform(click());
+        onView(withId(R.id.profileImage)).check(matches(isDisplayed()));
     }
 }
