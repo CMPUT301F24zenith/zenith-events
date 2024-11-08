@@ -9,14 +9,11 @@
     tools:context=".EntrantDashboard.EntrantViewActivity">
 
     <Button
-        android:id="@+id/btnEvents"
+        android:id="@+id/btnMyWaitingEvents"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/square_button"
-        android:text="Events Fragment"
+        android:text="My Waiting List"
         app:layout_constraintEnd_toStartOf="@+id/btnMyEvents"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,12 +21,28 @@
         android:id="@+id/btnMyEvents"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/square_button"
-        android:text="MyEvents Fragment"
+        android:text="My Events"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnEvents"
+        app:layout_constraintStart_toEndOf="@+id/btnMyWaitingEvents"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnSelectedEvents"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="Invited List"
+        app:layout_constraintEnd_toStartOf="@+id/btnCancelledEvents"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnMyWaitingEvents" />
+
+    <Button
+        android:id="@+id/btnCancelledEvents"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="My Cancelled List"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnSelectedEvents"
+        app:layout_constraintTop_toBottomOf="@id/btnMyWaitingEvents" />
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
@@ -37,8 +50,18 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEvents" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSelectedEvents" />
+
+    <Button
+        android:id="@+id/scanQRButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:text="Scan QR Code"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
