@@ -196,6 +196,12 @@ public class EventView extends AppCompatActivity {
                 startActivity(intent);
             });
         }
+
+        qrCodeButton.setOnClickListener(v -> {
+            Intent intent = new Intent(EventView.this, QRView.class);
+            intent.putExtra("Event", event);
+            startActivity(intent);
+        });
     }
 
     private void loadImage(String imageUrl, ImageView placeholder) {
