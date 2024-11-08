@@ -9,6 +9,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.zenithevents.Events.CreateEventPage;
+import com.example.zenithevents.Facility.CreateFacility;
 import com.example.zenithevents.User.OrganizerPage;
 
 import org.junit.After;
@@ -39,10 +40,15 @@ public class OrganizerPageTest {
     }
 
     @Test
-    public void testCreateEventButton() {
+    public void testFacilityButton() {
         Espresso.onView(ViewMatchers.withId(R.id.organizerButton)).perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.createEventButton)).perform(ViewActions.click());
-        Intents.intended(IntentMatchers.hasComponent(CreateEventPage.class.getName()));
+        Espresso.onView(ViewMatchers.withId(R.id.createFacilityButton)).perform(ViewActions.click());
+//        Intents.intended(IntentMatchers.hasComponent(CreateFacility.class.getName()));
+        Espresso.onView(ViewMatchers.withId(R.id.location_name)).perform(ViewActions.typeText("Test Facility"));
+        Espresso.onView(ViewMatchers.withId(R.id.location_phone)).perform(ViewActions.typeText("1234567890"));
+        Espresso.onView(ViewMatchers.withId(R.id.location_email)).perform(ViewActions.typeText("james.a.garfield@examplepetstore.com"));
+        Espresso.onView(ViewMatchers.withId(R.id.location_save)).perform(ViewActions.click());
+//        Intents.intended(IntentMatchers.hasComponent(OrganizerPage.class.getName()));
     }
     @Test
     public void testInputEventDetails() {

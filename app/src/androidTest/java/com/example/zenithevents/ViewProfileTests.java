@@ -12,7 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.example.zenithevents.User.UserPage;
+import com.example.zenithevents.User.UserProfile;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class ViewProfileTests {
     @Rule
-    public ActivityScenarioRule<UserPage> activityRule = new ActivityScenarioRule<>(UserPage.class);
+    public ActivityScenarioRule<UserProfile> activityRule = new ActivityScenarioRule<>(UserProfile.class);
 
     @Test
     public void testEditProfile() {

@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.example.zenithevents.Events.CreateEventPage;
-import com.example.zenithevents.User.UserPage;
+import com.example.zenithevents.User.UserProfile;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -36,7 +36,9 @@ public class UserPageTest {
     @Test
     public void testCreateProfileButton() {
 
-        Espresso.onView(ViewMatchers.withId(R.id.createAProfile)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.entrantButton)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.viewProfileButton)).perform(ViewActions.click());
+
 //      Intents.intended(IntentMatchers.hasComponent(CreateEventPage.class.getName()));
 
         Espresso.onView(ViewMatchers.withId(R.id.etEntrantFirstName)).perform(ViewActions.typeText("Test_FirstName"));
