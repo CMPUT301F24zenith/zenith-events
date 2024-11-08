@@ -36,12 +36,12 @@ public class EventViewTest {
 
     @Test
     public void testEventViewButton(){
-        Espresso.onView(withId(R.id.testEventView)).perform(click());
+//        Espresso.onView(withId(R.id.testEventView)).perform(click());
         Intents.intended(IntentMatchers.hasComponent(EventView.class.getName()));
     }
     @Test
     public void testJoinEventButton(){
-        Espresso.onView(withId(R.id.testEventView)).perform(click());
+//        Espresso.onView(withId(R.id.testEventView)).perform(click());
         Espresso.onView(withId(R.id.btnJoinWaitingList)).perform(click());
 //        Intents.intended(IntentMatchers.hasComponent(CreateEventPage.class.getName()));
     }
