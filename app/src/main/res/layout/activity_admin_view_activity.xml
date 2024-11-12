@@ -18,21 +18,20 @@
       android:text="ADMIN DASHBOARD"
       android:textSize="24sp"
       android:textStyle="bold"
-
       />
 
   <Button
-      android:id="@+id/btnAdminDashboard"
+      android:id="@+id/btnViewProfiles"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:drawableLeft="@drawable/baseline_person_24"
-      android:text="view users" />
+      android:text="View Profiles" />
 
   <Button
       android:id="@+id/btnViewEvents"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:drawableLeft="@android:drawable/ic_menu_view"
-      android:text="view events" />
+      android:text="View Events" />
 
   </LinearLayout>
