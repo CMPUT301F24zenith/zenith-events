@@ -1,41 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:padding="16dp">
 
+    <FrameLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_background">
 
-    <TextView
-        android:id="@+id/entrantName"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/profileImage"
+            android:background="@drawable/circle_background"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:clipToOutline="true"
+            android:contentDescription="Profile Picture"
+            android:visibility="visible"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/initials"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@android:color/white"
+            android:visibility="visible"
+            android:textSize="20dp"/>
+
+    </FrameLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Entrant Name"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/entrantName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Entrant Name"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/entrantEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Entrant Email"
+            android:textSize="16sp" />
 
 
-    <TextView
-        android:id="@+id/entrantEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Entrant Email"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/entrantPhoneNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Phone Number"
-        android:textSize="16sp"
-        android:visibility="gone"
-        android:paddingTop="8dp" />
-    <TextView
-        android:id="@+id/profileImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Entrant Profile Image"
-        android:visibility="gone"
-        android:textSize="16sp" />
+        </LinearLayout>
 
 </LinearLayout>

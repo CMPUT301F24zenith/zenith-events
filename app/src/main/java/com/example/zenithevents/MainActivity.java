@@ -13,6 +13,7 @@ import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.User.OrganizerPage;
 import com.example.zenithevents.User.UserProfile;
+import com.example.zenithevents.admin.AdminViewActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -58,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
 
         buttonEntrant.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, EntrantViewActivity.class);
+            startActivity(intent);
+        });
+        buttonAdmin.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AdminViewActivity.class);
             startActivity(intent);
         });
     }

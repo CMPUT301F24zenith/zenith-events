@@ -1,15 +1,21 @@
 package com.example.zenithevents.ArrayAdapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.zenithevents.HelperClasses.InitialsGenerator;
+import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.ProfileDetailActivity;
 
 import java.util.List;
 
@@ -50,25 +56,48 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
         User user = getItem(position);
 
-        // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.entrant_content, parent, false);
         }
 
-        // Lookup view for data population
         TextView nameView = convertView.findViewById(R.id.entrantName);
         TextView emailView = convertView.findViewById(R.id.entrantEmail);
+        TextView initials = convertView.findViewById(R.id.initials);
+        ImageView profileImage = convertView.findViewById(R.id.profileImage);
 
-        // Populate the data into the template view using the data object
-        assert user != null;
-        Log.d("FunctionCall", user.getFirstName());
-        nameView.setText(user.getFirstName() + " " + user.getLastName());
-        emailView.setText(user.getEmail());
+        if (user != null) {
+            String firstName = user.getFirstName() != null ? user.getFirstName() : "No FirstName";
+            String lastName = user.getLastName() != null ? user.getLastName() : "No LastName";
+            String email = user.getEmail() != null ? user.getEmail() : "No Email";
 
-        // Return the completed view to render on screen
+            nameView.setText(firstName + " " + lastName);
+            emailView.setText(email);
+
+            if (user.getProfileImageURL() != null && !user.getProfileImageURL().isEmpty()) {
+                Bitmap imgBitmap = QRCodeUtils.decodeBase64ToBitmap(user.getProfileImageURL());
+                profileImage.setImageBitmap(imgBitmap);
+                initials.setVisibility(View.GONE);
+            } else {
+                profileImage.setImageResource(R.drawable.circle_background);
+                initials.setText(InitialsGenerator.getInitials(firstName, lastName));
+                initials.setVisibility(View.VISIBLE);
+            }
+
+            convertView.setOnClickListener(v -> {
+                if (user.getDeviceID() != null) {
+                    Intent intent = new Intent(getContext(), ProfileDetailActivity.class);
+                    intent.putExtra("userID", user.getDeviceID());
+                    getContext().startActivity(intent);
+                } else {
+                    Log.e("EntrantArrayAdapter", "User device ID is null");
+                }
+            });
+        } else {
+            Log.e("EntrantArrayAdapter", "User object is null at position: " + position);
+        }
+
         return convertView;
     }
 }

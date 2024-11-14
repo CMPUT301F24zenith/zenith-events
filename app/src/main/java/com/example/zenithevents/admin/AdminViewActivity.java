@@ -1,6 +1,9 @@
 package com.example.zenithevents.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,11 +12,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.example.zenithevents.R;
 
+
 /**
  * TODO project part 4
  * xml files in progress - not used in the app
  */
 public class AdminViewActivity extends AppCompatActivity {
+    private static final String TAG = "AdminViewActivity";
+    private Button btnViewProfiles, btnViewEvents;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,5 +32,13 @@ public class AdminViewActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        btnViewProfiles = findViewById(R.id.btnViewProfiles);
+        btnViewEvents = findViewById(R.id.btnViewEvents);
+
+
+        btnViewProfiles.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminViewActivity.this, ViewUsersAdmin.class);
+            startActivity(intent);
+        });
+        }
     }
-}
