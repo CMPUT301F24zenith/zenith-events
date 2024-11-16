@@ -3,6 +3,8 @@ package com.example.zenithevents.CreateProfile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -45,6 +47,7 @@ public class CreateProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private Button  confirmButton;
+    private CheckBox notifsCheckBox;
     private EditText etEntrantFirstName, etEntrantLastName, etEntrantPhoneNumber, etEntrantEmail;
     FirebaseUser user;
     String userId;
@@ -67,13 +70,26 @@ public class CreateProfileActivity extends AppCompatActivity {
         etEntrantPhoneNumber = findViewById(R.id.etEntrantPhoneNumber);
         etEntrantEmail = findViewById(R.id.etEntrantEmail);
         confirmButton = findViewById(R.id.btnEntrantConfirm);
+        notifsCheckBox = findViewById(R.id.notifsCheckBox);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        notifsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(CreateProfileActivity.this, "Notifications enabled", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CreateProfileActivity.this, "Notifications disabled", Toast.LENGTH_SHORT).show();
+                }
 
+            }
+        } -> {
+
+                }
         confirmButton.setOnClickListener(v -> {
             validateAndSignIn();
         });
