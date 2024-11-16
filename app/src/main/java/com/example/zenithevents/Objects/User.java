@@ -48,12 +48,13 @@ public class User {
      * @param email      The email address of the user.
      * @param phoneNumber The phone number of the user.
      */
-    public User(String deviceID, String firstName, String lastName, String email, String phoneNumber) {
+    public User(String deviceID, String firstName, String lastName, String email, String phoneNumber, boolean wantsNotifs) {
         this.deviceID = deviceID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.wantsNotifs = wantsNotifs;
         this.isAdmin = false;
         this.registeredEvents = new ArrayList<>();
         this.cancelledEvents = new ArrayList<>();

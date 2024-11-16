@@ -48,6 +48,7 @@ public class CreateProfileActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private Button  confirmButton;
     private CheckBox notifsCheckBox;
+    private boolean wantsNotifs;
     private EditText etEntrantFirstName, etEntrantLastName, etEntrantPhoneNumber, etEntrantEmail;
     FirebaseUser user;
     String userId;
@@ -81,15 +82,17 @@ public class CreateProfileActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
+                    wantsNotifs = true;
                     Toast.makeText(CreateProfileActivity.this, "Notifications enabled", Toast.LENGTH_SHORT).show();
                 } else {
+                    wantsNotifs = false;
                     Toast.makeText(CreateProfileActivity.this, "Notifications disabled", Toast.LENGTH_SHORT).show();
                 }
 
             }
-        } -> {
+        });
 
-                }
+
         confirmButton.setOnClickListener(v -> {
             validateAndSignIn();
         });
@@ -183,7 +186,7 @@ public class CreateProfileActivity extends AppCompatActivity {
      */
     private void createProfile(String deviceId, String firstName, String lastName, String email, String phoneNumber) {
         // TODO change the function to get the full user object
-        User userProfile = new User(deviceId, firstName, lastName, email, phoneNumber);
+        User userProfile = new User(deviceId, firstName, lastName, email, phoneNumber, wantsNotifs);
         userProfile.setAnonymousAuthID(mAuth.getUid());
         Map<String, Object> userData = UserUtils.convertUserToMap(userProfile);
         userId = user.getUid();
