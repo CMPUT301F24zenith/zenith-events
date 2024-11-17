@@ -261,6 +261,7 @@ public class UserUtils {
         if (user.getRegisteredEvents() != null) userMap.put("registeredEvents", user.getRegisteredEvents());
         if (user.getCancelledEvents() != null) userMap.put("cancelledEvents", user.getCancelledEvents());
         if (user.getAnonymousAuthID() != null) userMap.put("anonymousAuthID", user.getAnonymousAuthID());
+        if (user.getWantsNotifs() != null) userMap.put("wantsNotifs", user.getWantsNotifs());
 
         return userMap;
     }

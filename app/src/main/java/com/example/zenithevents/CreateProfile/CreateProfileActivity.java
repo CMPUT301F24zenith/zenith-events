@@ -186,8 +186,9 @@ public class CreateProfileActivity extends AppCompatActivity {
      */
     private void createProfile(String deviceId, String firstName, String lastName, String email, String phoneNumber) {
         // TODO change the function to get the full user object
-        User userProfile = new User(deviceId, firstName, lastName, email, phoneNumber, wantsNotifs);
+        User userProfile = new User(deviceId, firstName, lastName, email, phoneNumber);
         userProfile.setAnonymousAuthID(mAuth.getUid());
+        userProfile.setWantsNotifs(wantsNotifs);
         Map<String, Object> userData = UserUtils.convertUserToMap(userProfile);
         userId = user.getUid();
         db.collection("users")
