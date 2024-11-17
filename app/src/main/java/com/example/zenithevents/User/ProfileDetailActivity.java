@@ -117,7 +117,7 @@ public class ProfileDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void removeFromLists(String userID, OnCompleteListener<Boolean> callback) {
+    private void removeFromLists(String userID, CustomCallback callback) {
         db.collection("events")
                 .get()
                 .addOnCompleteListener(task-> {
@@ -150,6 +150,12 @@ public class ProfileDetailActivity extends AppCompatActivity {
                     Toast.makeText(ProfileDetailActivity.this, "Failed to delete profile", Toast.LENGTH_SHORT).show();
                 });
     }
+
+
+    public interface CustomCallback {
+        void onComplete(boolean success);
+    }
+
 
 
 
