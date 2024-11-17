@@ -21,7 +21,10 @@ import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.InitialsGenerator;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ProfileDetailActivity extends AppCompatActivity {
@@ -64,6 +67,18 @@ public class ProfileDetailActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         profileImageView = findViewById(R.id.profileImage);
         fetchUserProfile();
+
+        deleteUserButton.setOnClickListener(v->{
+            progressBar.setVisibility(View.VISIBLE);
+            removeFromLists(userID, success-> {
+                if (success) {
+                    deleteProfile(userID);
+                } else {
+                    Toast.makeText(ProfileDetailActivity.this, "Failed to remove user from lists", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+        });
     }
 
     /**
@@ -101,5 +116,41 @@ public class ProfileDetailActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
         });
     }
+
+    private void removeFromLists(String userID, OnCompleteListener<Boolean> callback) {
+        db.collection("events")
+                .get()
+                .addOnCompleteListener(task-> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        for (DocumentSnapshot eventDoc : task.getResult().getDocuments()) {
+                            String eventId = eventDoc.getId();
+                            db.collection("events").document(eventId).update(
+                                    "waitingList", FieldValue.arrayRemove(userID),
+                                    "selected", FieldValue.arrayRemove(userID),
+                                    "registrants", FieldValue.arrayRemove(userID),
+                                    "cancelledList", FieldValue.arrayRemove(userID)
+                            );
+                        }
+                        callback.onComplete(true);
+                    } else {
+                        callback.onComplete(false);
+                    }
+                });
+    }
+
+    private void deleteProfile(String userID) {
+        db.collection("users").document(userID)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(ProfileDetailActivity.this, "Profile deleted", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    finish();
+                })
+                .addOnFailureListener(e-> {
+                    Toast.makeText(ProfileDetailActivity.this, "Failed to delete profile", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
 
 }
