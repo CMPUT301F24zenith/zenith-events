@@ -38,6 +38,11 @@ public class FacilityUtils {
      * @param callback The callback invoked upon completion of the retrieval, with the facility name as the parameter.
      */
     public void fetchFacilityName(String deviceId, FacilityNameCallback callback) {
+        if (deviceId == null) {
+            callback.onUserCheckComplete(null);
+            return;
+        }
+
         db.collection("facilities").document(deviceId).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
