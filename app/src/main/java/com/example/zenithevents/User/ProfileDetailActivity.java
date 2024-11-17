@@ -36,6 +36,7 @@ public class ProfileDetailActivity extends AppCompatActivity {
     private ImageView profileImageView;
     private String initials;
     private String userID;
+    private Button deleteUserButton;
 
 
     @Override
@@ -58,6 +59,7 @@ public class ProfileDetailActivity extends AppCompatActivity {
         btnRomove = findViewById(R.id.btnRemove);
         initialsTextView = findViewById(R.id.initials);
         progressBar = findViewById(R.id.progressBar);
+        deleteUserButton = findViewById(R.id.deleteProfile);
         userUtils = new UserUtils();
         db = FirebaseFirestore.getInstance();
         profileImageView = findViewById(R.id.profileImage);
