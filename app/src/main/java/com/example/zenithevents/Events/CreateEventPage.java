@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,6 +50,8 @@ public class CreateEventPage extends AppCompatActivity {
     String pageTitle, eventTitle, selectedLimitString, eventLimitString, numParticipants, uploadedPosterString, eventLocation, eventDescription;
     TextView pageTitleView;
     EditText eventNameView, eventLimitView, eventLocationView, eventDescriptionView, selectedLimitView;
+    CheckBox geolocationCheck;
+    Boolean isGeolocationChecked;
     Event event;
     ImageView eventPosterImage;
     Uri uploadedPosterUri;
@@ -98,6 +101,9 @@ public class CreateEventPage extends AppCompatActivity {
         selectedLimitString = event.getSelectedLimit() == 0 ? "" : String.valueOf(event.getSelectedLimit());
         selectedLimitView = findViewById(R.id.selectedLimitInput);
         selectedLimitView.setText(selectedLimitString);
+
+        geolocationCheck = findViewById(R.id.geolocationCheckbox);
+        geolocationCheck.setChecked(event.getHasGeolocation());
 
         createEventSaveButton = findViewById(R.id.createEventSaveButton);
         createEventSaveButton.setOnClickListener(v -> {
@@ -162,6 +168,9 @@ public class CreateEventPage extends AppCompatActivity {
                     Log.d("DEBUG", "Image couldn't be processed");
                 }
             }
+
+            isGeolocationChecked = geolocationCheck.isChecked();
+            event.setHasGeolocation(isGeolocationChecked);
 
           eventUtils.createUpdateEvent(context, event, eventId -> {
                 if (eventId != null) {

@@ -88,6 +88,17 @@
             android:inputType="number"
             />
 
+        <CheckBox
+            android:id="@+id/geolocationCheckbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Require Geolocation"
+            app:layout_constraintTop_toBottomOf="@+id/selectedLimitInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
         <Button
             android:id="@+id/createEventCancelButton"
             android:layout_width="wrap_content"
@@ -99,7 +110,7 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/selectedLimitInput" />
+            app:layout_constraintTop_toBottomOf="@+id/geolocationCheckbox" />
 
         <Button
             android:id="@+id/createEventSaveButton"
@@ -112,7 +123,7 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/selectedLimitInput" />
+            app:layout_constraintTop_toBottomOf="@+id/geolocationCheckbox" />
 
         <Button
             android:id="@+id/uploadEventPosterButton"

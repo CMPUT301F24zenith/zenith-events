@@ -20,6 +20,7 @@ import java.util.Collections;
 public class Event implements Serializable {
     private ArrayList<String> waitingList, selected, cancelledList, registrants;
     private String ownerFacility, eventId, eventTitle, QRCodeHash, QRCodeBitmap, ImageUrl, eventAddress, eventDescription;
+    private Boolean hasGeolocation;
     private int numParticipants, selectedLimit;
 
     /**
@@ -40,6 +41,7 @@ public class Event implements Serializable {
         this.QRCodeBitmap = null;
         this.eventAddress = null;
         this.eventId = null;
+        this.hasGeolocation = false;
 
         this.numParticipants = 0;
         this.selectedLimit = 0;
@@ -56,9 +58,10 @@ public class Event implements Serializable {
      * @param QRCodeBitmap    The bitmap representation of the event's QR code.
      * @param numParticipants The number of participants allowed in the event.
      * @param eventAddress    The address where the event is taking place.
+     * @param hasGeolocation  Whether the event will track geolocation
      * <p>Note: The Javadocs for this constructor were generated with the assistance of an AI language model.</p>
      */
-    public Event(String eventId, String eventTitle, String eventImage, String QRCodeHash, String QRCodeBitmap, int numParticipants, String eventAddress){
+    public Event(String eventId, String eventTitle, String eventImage, String QRCodeHash, String QRCodeBitmap, int numParticipants, String eventAddress, Boolean hasGeolocation){
         this.waitingList = new ArrayList<>();
         this.selected = new ArrayList<>();
         this.cancelledList = new ArrayList<>();
@@ -69,6 +72,7 @@ public class Event implements Serializable {
         this.ImageUrl = eventImage;
         this.QRCodeHash = QRCodeHash;
         this.QRCodeBitmap = QRCodeBitmap;
+        this.hasGeolocation = hasGeolocation;
 
         this.numParticipants = numParticipants;
         this.eventAddress = eventAddress;
@@ -373,5 +377,13 @@ public class Event implements Serializable {
      */
     public void setSelectedLimit(int selectedLimit) {
         this.selectedLimit = selectedLimit;
+    }
+
+    public Boolean getHasGeolocation() {
+        return hasGeolocation;
+    }
+
+    public void setHasGeolocation(Boolean hasGeolocation) {
+        this.hasGeolocation = hasGeolocation;
     }
 }
