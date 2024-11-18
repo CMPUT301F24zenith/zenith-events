@@ -3,6 +3,8 @@ package com.example.zenithevents.CreateProfile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -44,7 +46,9 @@ public class CreateProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-    private Button confirmButton;
+    private Button  confirmButton;
+    private CheckBox notifsCheckBox;
+    private boolean wantsNotifs;
     private EditText etEntrantFirstName, etEntrantLastName, etEntrantPhoneNumber, etEntrantEmail;
 
 
@@ -64,12 +68,27 @@ public class CreateProfileActivity extends AppCompatActivity {
         etEntrantPhoneNumber = findViewById(R.id.etEntrantPhoneNumber);
         etEntrantEmail = findViewById(R.id.etEntrantEmail);
         confirmButton = findViewById(R.id.btnEntrantConfirm);
+        notifsCheckBox = findViewById(R.id.notifsCheckBox);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        notifsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    wantsNotifs = true;
+                    Toast.makeText(CreateProfileActivity.this, "Notifications enabled", Toast.LENGTH_SHORT).show();
+                } else {
+                    wantsNotifs = false;
+                    Toast.makeText(CreateProfileActivity.this, "Notifications disabled", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
 
         confirmButton.setOnClickListener(v -> {
             validateAndSignIn();
@@ -118,7 +137,7 @@ public class CreateProfileActivity extends AppCompatActivity {
      * Signs in the user anonymously using Firebase Authentication.
      *
      * <p>This method initiates an anonymous sign-in with Firebase. If successful, it retrieves the user's
-     * unique ID and calls {@link #createProfile(String,String, String, String, String, String)} to store the user’s
+     * unique ID and calls {@link #createProfile(String, String, String, String, String)} to store the user’s
      * profile in Firestore. If sign-in fails, an error message is displayed.
      *
      * <p><strong>AI-Generated Documentation:</strong> This Javadoc was generated with assistance from a generative AI
@@ -166,6 +185,7 @@ public class CreateProfileActivity extends AppCompatActivity {
         // TODO change the function to get the full user object
         User userProfile = new User(deviceId, firstName, lastName, email, phoneNumber);
         userProfile.setAnonymousAuthID(AnonymousAuthID);
+        userProfile.setWantsNotifs(wantsNotifs);
         Map<String, Object> userData = UserUtils.convertUserToMap(userProfile);
         db.collection("users")
                 .document(deviceId)

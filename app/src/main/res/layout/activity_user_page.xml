@@ -74,6 +74,13 @@
         android:layout_height="wrap_content"
         android:hint="Phone Number"
         android:id="@+id/editPhoneNumber" />
+    <CheckBox
+        android:id="@+id/notifsCheckBox"
+        android:layout_width="383dp"
+        android:layout_height="57dp"
+        android:text="Receive Notifications"
+        android:textSize="18dp"
+        />
 
     <Button
         android:layout_width="wrap_content"

@@ -54,6 +54,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.wantsNotifs = false;
         this.isAdmin = false;
         this.registeredEvents = new ArrayList<>();
         this.cancelledEvents = new ArrayList<>();
