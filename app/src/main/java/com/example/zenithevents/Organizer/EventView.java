@@ -34,6 +34,9 @@ import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
 import com.example.zenithevents.User.OrganizerPage;
+import com.example.zenithevents.User.ProfileDetailActivity;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
@@ -61,6 +64,7 @@ public class EventView extends AppCompatActivity {
     private ListenerRegistration eventListener;
     private final String[] entrantOptions = {"Waitlisted Entrants", "Selected Entrants", "Registered Entrants", "Cancelled Entrants"};
     private int currentOptionIndex = 0;
+    private Button deleteEventButton;
     LinearLayout entrantsSlider;
     FacilityUtils facilityUtils;
 
@@ -83,6 +87,18 @@ public class EventView extends AppCompatActivity {
         String eventId = getIntent().getStringExtra("event_id");
         facilityUtils = new FacilityUtils();
         initializeViews();
+        deleteEventButton.setOnClickListener(v-> {
+            progressBar.setVisibility(View.VISIBLE);
+            removeEvent(eventId, success-> {
+                progressBar.setVisibility(View.GONE);
+               if (success) {
+                   Toast.makeText(EventView.this, "Event deleted", Toast.LENGTH_SHORT).show();
+                   finish();
+               } else {
+                   Toast.makeText(EventView.this, "Event did not delete", Toast.LENGTH_SHORT).show();
+               }
+            });
+        });
         setupRealTimeEventListener(eventId);
 
     }
@@ -101,6 +117,7 @@ public class EventView extends AppCompatActivity {
         qrCodeButton = findViewById(R.id.qrCodeButton);
         entrantsSlider = findViewById(R.id.entrantsSlider);
         btnEditEvent = findViewById(R.id.btnEditEvent);
+        deleteEventButton = findViewById(R.id.deleteEvent);
     }
 
     /**
@@ -316,5 +333,30 @@ public class EventView extends AppCompatActivity {
         if (eventListener != null) {
             eventListener.remove(); // Remove the listener to avoid memory leaks
         }
+    }
+
+    private void removeEvent(String eventId, CustomCallback callback) {
+        db.collection("users").get().addOnCompleteListener(task-> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                for (DocumentSnapshot userDoc : task.getResult().getDocuments()) {
+                    db.collection("users").document(userDoc.getId()).update(
+                            "waitingEvents", FieldValue.arrayRemove(eventId),
+                            "selectedEvents", FieldValue.arrayRemove(eventId),
+                            "registeredEvents", FieldValue.arrayRemove(eventId),
+                            "cancelledEvents", FieldValue.arrayRemove(eventId)
+                    );
+                }
+
+                db.collection("events").document(eventId).delete()
+                        .addOnSuccessListener(aVoid->callback.onComplete(true))
+                        .addOnFailureListener(e->callback.onComplete(false));
+            } else {
+                callback.onComplete(false);
+            }
+        });
+    }
+
+    public interface CustomCallback {
+        void onComplete(boolean success);
     }
 }
