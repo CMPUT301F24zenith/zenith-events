@@ -40,5 +40,12 @@ public class AdminViewActivity extends AppCompatActivity {
             Intent intent = new Intent(AdminViewActivity.this, ViewUsersAdmin.class);
             startActivity(intent);
         });
+
+        btnViewEvents.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminViewActivity.this, ViewEventsAdmin.class);
+            startActivity(intent);
+        });
+
         }
+
     }

@@ -50,9 +50,8 @@ public class CreateProfileActivity extends AppCompatActivity {
     private CheckBox notifsCheckBox;
     private boolean wantsNotifs;
     private EditText etEntrantFirstName, etEntrantLastName, etEntrantPhoneNumber, etEntrantEmail;
-    FirebaseUser user;
-    String userId;
-    
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,8 +61,6 @@ public class CreateProfileActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
-         user = mAuth.getCurrentUser();
 
 
         etEntrantFirstName = findViewById(R.id.etEntrantFirstName);
@@ -155,12 +152,12 @@ public class CreateProfileActivity extends AppCompatActivity {
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        FirebaseUser currentUser = mAuth.getCurrentUser();
                         Toast.makeText(CreateProfileActivity.this, "Anonymous authentication successful", Toast.LENGTH_SHORT).show();
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null) {
+                        if (currentUser != null) {
 
                             String deviceId = new DeviceUtils().getDeviceID(CreateProfileActivity.this);;
-                            createProfile(deviceId, firstName, lastName, email, phoneNumber);
+                            createProfile(currentUser.getUid(),deviceId, firstName, lastName, email, phoneNumber);
                         }
                     } else {
                         Toast.makeText(CreateProfileActivity.this, "Anonymous authentication failed", Toast.LENGTH_SHORT).show();
@@ -177,20 +174,19 @@ public class CreateProfileActivity extends AppCompatActivity {
      *
      * <p><strong>AI-Generated Documentation:</strong> This Javadoc was generated with assistance from a generative AI
      * language model, then refined for clarity and accuracy.
-     *
+     * @param AnonymousAuthID The user's unique ID.
      * @param deviceId The ID of the authenticated user.
      * @param firstName The user's first name.
      * @param lastName The user's last name.
      * @param email The user's email address.
      * @param phoneNumber The user's phone number.
      */
-    private void createProfile(String deviceId, String firstName, String lastName, String email, String phoneNumber) {
+    private void createProfile(String AnonymousAuthID,String deviceId, String firstName, String lastName, String email, String phoneNumber) {
         // TODO change the function to get the full user object
         User userProfile = new User(deviceId, firstName, lastName, email, phoneNumber);
-        userProfile.setAnonymousAuthID(mAuth.getUid());
+        userProfile.setAnonymousAuthID(AnonymousAuthID);
         userProfile.setWantsNotifs(wantsNotifs);
         Map<String, Object> userData = UserUtils.convertUserToMap(userProfile);
-        userId = user.getUid();
         db.collection("users")
                 .document(deviceId)
                 .set(userData)
