@@ -172,7 +172,7 @@ public class CreateEventPage extends AppCompatActivity {
             isGeolocationChecked = geolocationCheck.isChecked();
             event.setHasGeolocation(isGeolocationChecked);
 
-          eventUtils.createUpdateEvent(context, event, eventId -> {
+            eventUtils.createUpdateEvent(context, event, eventId -> {
                 if (eventId != null) {
                     event.setEventId(eventId);
                     Log.d("FunctionCall", "if2.5");
