@@ -295,20 +295,27 @@ public class Event implements Serializable {
     }
 
     /**
-     * Draws a lottery from the waiting list and selects a sample of participants.
-     * The sample size is constrained to the size of the waiting list.
+     * Draws a lottery from the waiting list of an event and selects
+     * a sample of participants. The sample size is constrained to
+     * the size of the selected list.
      *
-     * @param waitingList The waiting list of participants.
-     * @param sampleSize  The number of participants to select.
+     * @param event for an event.
      * @return The selected participants.
-     * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
-    public ArrayList<String> drawLottery(ArrayList<String> waitingList, int sampleSize) {
-        Collections.shuffle(waitingList);
-        int sampleSizeUpdated = Math.min(sampleSize, waitingList.size());
+    public ArrayList<String> drawLottery(Event event) {
+        ArrayList<String> sampledList = new ArrayList<>();
+        ArrayList<String> newSelectedList = event.getSelected();
 
-        ArrayList<String> selectedList = new ArrayList<>(waitingList.subList(0, sampleSizeUpdated));
-        return selectedList;
+        Collections.shuffle(event.getWaitingList());
+        if (event.getSelectedLimit() == 0) {
+            sampledList.addAll(waitingList);
+        } else {
+            int sampleSizeUpdated = event.getSelectedLimit() - event.getSelected().size() - event.getRegistrants().size();
+            sampledList.addAll(waitingList.subList(0, sampleSizeUpdated));
+        }
+        newSelectedList.addAll(sampledList);
+        event.setSelected(newSelectedList);
+        return event.getSelected();
     }
 
 //    public void sendNotifications(String message, ArrayList<String> recipients){
