@@ -307,13 +307,21 @@ public class Event implements Serializable {
         return selectedList;
     }
 
-//    public void sendNotifications(String message, ArrayList<String> recipients){
-//        // Send notifications to recipients
-//        for (String recipient : recipients) {
-//            if (recipient.wantsNotifs()){
-//            recipient.sendNotification(message);}
-//        }
-//    }
+    /**
+     * Sends notifications to participants who enabled notifications.
+     *
+     * @param recipients The list of participants.
+     * @param message  The message to send to participants who enabled notifications.
+     * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
+     */
+    public void sendNotifications(String message, ArrayList<User> recipients){
+        // Send notifications to recipients
+        for (User recipient : recipients) {
+            if (recipient.wantsNotifs()){
+            recipient.sendNotification(message);
+            }
+        }
+    }
 
     /**
      * Gets the owner facility of the event.

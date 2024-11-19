@@ -44,8 +44,6 @@ public class NotificationOptingTest {
         CheckBox notifsCheckBox = new CheckBox(getContext());
         notifsCheckBox.setChecked(newUser.getWantsNotifs());
         assertEquals(newUser.getWantsNotifs(), notifsCheckBox.isChecked());
-
-
     }
 
 }
