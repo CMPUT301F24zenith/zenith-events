@@ -1,6 +1,7 @@
 package com.example.zenithevents.ArrayAdapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Objects.Facility;
 import com.example.zenithevents.R;
+import com.example.zenithevents.admin.FacilityDetail;
 
 import java.util.List;
 
@@ -66,6 +68,14 @@ public class FacilityArrayAdapter extends ArrayAdapter<Facility> {
         facilityName.setText(facility.getNameOfFacility());
         facilityAddress.setText(facility.getEmailOfFacility());
 
+        convertView.setOnClickListener(v ->{
+            Intent intent = new Intent(getContext(), FacilityDetail.class);
+            intent.putExtra("facilityID", facility.getDeviceId());
+            intent.putExtra("facilityName", facility.getNameOfFacility());
+            intent.putExtra("facilityEmail", facility.getEmailOfFacility());
+            intent.putExtra("facilityPhoneNumber", facility.getPhoneOfFacility());
+            getContext().startActivity(intent);
+        });
         // Return the completed view to render on screen
         return convertView;
     }
