@@ -86,10 +86,8 @@ public class UserUtils {
      * @param user     The User object containing user profile information.
      * @param callback The callback invoked upon completion with a boolean indicating success.
      */
-    public void createOrUpdateUserProfile(User user, UserExistenceCallback callback) {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        db.collection("users").document(userId).set(user)
+    public void updateUserById(User user, UserExistenceCallback callback) {
+        db.collection("users").document(user.getDeviceID()).set(user)
                 .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))
                 .addOnFailureListener(e -> callback.onUserCheckComplete(false));
     }

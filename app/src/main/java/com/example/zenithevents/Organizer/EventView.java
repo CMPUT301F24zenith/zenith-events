@@ -54,7 +54,7 @@ public class EventView extends AppCompatActivity {
     private static final String TAG = "EventView";
 
     ImageView eventPosterImageView;
-    private Button btnJoinLeaveWaitingList, qrCodeButton, btnEditEvent;
+    private Button btnJoinLeaveWaitingList, qrCodeButton, btnEditEvent, btnSampleUsers;
     private TextView eventDescription, eventName, facilityName, eventAddress;
     private ProgressBar progressBar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -101,6 +101,7 @@ public class EventView extends AppCompatActivity {
         qrCodeButton = findViewById(R.id.qrCodeButton);
         entrantsSlider = findViewById(R.id.entrantsSlider);
         btnEditEvent = findViewById(R.id.btnEditEvent);
+        btnSampleUsers = findViewById(R.id.btnSampleUsers);
     }
 
     /**
@@ -221,6 +222,14 @@ public class EventView extends AppCompatActivity {
                 intent.putExtra("Event", (Serializable) event);
                 startActivity(intent);
             });
+            btnSampleUsers.setVisibility(View.VISIBLE);
+            btnSampleUsers.setOnClickListener(v -> {
+                event.drawLottery();
+                Intent intent = new Intent(this, SampledEntrants.class);
+                intent.putExtra("eventId", event.getEventId());
+                startActivity(intent);
+            });
+
         } else {
             btnEditEvent.setVisibility(View.GONE);
             entrantsSlider.setVisibility(View.GONE);
