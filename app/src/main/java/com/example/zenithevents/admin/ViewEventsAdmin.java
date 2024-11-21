@@ -39,7 +39,7 @@ public class ViewEventsAdmin extends AppCompatActivity {
             return insets;
         });
         eventsListView = findViewById(R.id.eventsListView);
-        adapter = new EventArrayAdapter(this, eventList);
+        adapter = new EventArrayAdapter(this, eventList, "ViewEventsAdmin", null);
         eventsListView.setAdapter(adapter);
 
         // Fetch and display event data

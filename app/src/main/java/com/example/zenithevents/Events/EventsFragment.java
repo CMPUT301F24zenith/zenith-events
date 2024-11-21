@@ -11,13 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.zenithevents.ArrayAdapters.EventArrayAdapter;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
-import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.CollectionReference;
@@ -94,8 +92,6 @@ public class EventsFragment extends Fragment {
         eventListView = view.findViewById(R.id.eventsListView);
         events = new ArrayList<>();
         waitingEventsList = new ArrayList<>();
-        adapter = new EventArrayAdapter(requireContext(), events);
-        eventListView.setAdapter(adapter);
         eventUtils = new EventUtils();
         Context context = getActivity();
         int[] counter = {0};
@@ -108,6 +104,8 @@ public class EventsFragment extends Fragment {
                     if (fetchedOrganizerEvents != null) {
                         events.clear();
                         events.addAll(fetchedOrganizerEvents);
+                        adapter = new EventArrayAdapter(requireContext(), events, "organizer", null);
+                        eventListView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                         Log.d("Firestore", "Fetched: " + waitingEventsList.size());
                     }
