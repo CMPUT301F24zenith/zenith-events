@@ -24,6 +24,7 @@ import com.example.zenithevents.R;
 import com.google.firebase.Firebase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class FacilityDetail extends AppCompatActivity {
     private Button deleteFacilityButton;
     private EventArrayAdapter eventArrayAdapter;
     private List<Event> eventList = new ArrayList<>();
+    private ListenerRegistration eventsListener;
     EventUtils eventUtils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
