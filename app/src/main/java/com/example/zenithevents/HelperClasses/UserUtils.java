@@ -8,6 +8,7 @@ import com.example.zenithevents.CreateProfile.CreateProfileActivity;
 import com.example.zenithevents.Events.CreateEventPage;
 import com.example.zenithevents.Events.CreationSuccessActivity;
 import com.example.zenithevents.MainActivity;
+import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.User.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -86,7 +87,9 @@ public class UserUtils {
      * @param user     The User object containing user profile information.
      * @param callback The callback invoked upon completion with a boolean indicating success.
      */
-    public void updateUserById(User user, UserExistenceCallback callback) {
+    public void updateUserByObject(User user, UserExistenceCallback callback) {
+        Log.d("FunctionCall", "if 1,1");
+
         db.collection("users").document(user.getDeviceID()).set(user)
                 .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))
                 .addOnFailureListener(e -> callback.onUserCheckComplete(false));
@@ -181,47 +184,56 @@ public class UserUtils {
         db.collection("users").document(deviceId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        List<String> waitingEvents = (List<String>) documentSnapshot.get("waitingEvents");
-                        List<String> rejectedEvents = (List<String>) documentSnapshot.get("cancelledEvents");
-                        List<String> invitedEvents = (List<String>) documentSnapshot.get("selectedEvents");
-                        List<String> acceptedEvents = (List<String>) documentSnapshot.get("registeredEvents");
+                        User user = documentSnapshot.toObject(User.class);
 
-                        assert waitingEvents != null || rejectedEvents != null ||
-                                invitedEvents != null || acceptedEvents != null;
+                        assert user.getWaitingEvents() != null && user.getCancelledEvents() != null &&
+                                user.getSelectedEvents() != null && user.getRegisteredEvents() != null;
 
                         Log.d("FunctionCall", "Getting lists");
 
-                        if ((!waitingEvents.contains(eventId) &&
-                                !rejectedEvents.contains(eventId) &&
-                                !invitedEvents.contains(eventId) &&
-                                !acceptedEvents.contains(eventId)
-                        )) {
-                            waitingEvents.add(eventId);
+                        if (!user.getWaitingEvents().contains(eventId) &&
+                                !user.getCancelledEvents().contains(eventId) &&
+                                !user.getSelectedEvents().contains(eventId) &&
+                                !user.getRegisteredEvents().contains(eventId)
+                        ) {
+                            user.getWaitingEvents().add(eventId);
                         } else {
-                            waitingEvents.remove(eventId);
-                            rejectedEvents.remove(eventId);
-                            invitedEvents.remove(eventId);
-                            acceptedEvents.remove(eventId);
+                            user.getWaitingEvents().remove(eventId);
+                            user.getCancelledEvents().remove(eventId);
+                            user.getSelectedEvents().remove(eventId);
+                            user.getRegisteredEvents().remove(eventId);
                         }
 
                         db.collection("users").document(deviceId)
-                                .update("waitingEvents", waitingEvents)
+                                .update(convertUserToMap(user))
                                 .addOnSuccessListener(aVoid -> {
+                                    Log.d("FunctionCall", "1212.1");
                                     db.collection("events").document(eventId).get()
                                             .addOnSuccessListener(documentSnapshot1 -> {
-                                                List<String> waitingList = (List<String>) documentSnapshot1.get("waitingList");
-                                                assert waitingList != null;
+                                                if (documentSnapshot1.exists()) {
+                                                    Event event = documentSnapshot1.toObject(Event.class);
+                                                    assert event.getWaitingList() != null && event.getCancelledList() != null &&
+                                                            event.getSelected() != null && event.getRegistrants() != null;
 
-                                                if (!waitingList.contains(deviceId)) {
-                                                    waitingList.add(deviceId);
-                                                } else {
-                                                    waitingList.remove(deviceId);
+                                                    if (!event.getWaitingList().contains(deviceId) &&
+                                                            !event.getRegistrants().contains(deviceId) &&
+                                                            !event.getCancelledList().contains(deviceId) &&
+                                                            !event.getSelected().contains(deviceId)
+                                                    ) {
+                                                        event.getWaitingList().add(deviceId);
+                                                    } else {
+                                                        event.getWaitingList().remove(deviceId);
+                                                        event.getRegistrants().remove(deviceId);
+                                                        event.getCancelledList().remove(deviceId);
+                                                        event.getSelected().remove(deviceId);
+                                                    }
+
+                                                    EventUtils eventUtils = new EventUtils();
+                                                    db.collection("events").document(eventId)
+                                                            .update(eventUtils.convertEventToMap(event))
+                                                            .addOnSuccessListener(aVoid1 -> callback.onUserCheckComplete(true))
+                                                            .addOnFailureListener(e -> callback.onUserCheckComplete(false));
                                                 }
-
-                                                db.collection("events").document(eventId)
-                                                        .update("waitingList", waitingList)
-                                                        .addOnSuccessListener(aVoid1 -> callback.onUserCheckComplete(true))
-                                                        .addOnFailureListener(e -> callback.onUserCheckComplete(false));
                                             })
                                             .addOnFailureListener(e -> callback.onUserCheckComplete(false));
                                 }).addOnFailureListener(e -> callback.onUserCheckComplete(false));
@@ -235,6 +247,33 @@ public class UserUtils {
                     Log.d("FunctionCall", "Firestore fetch error");
                     callback.onUserCheckComplete(false);
                 });
+    }
+
+    public void acceptEventInvitation(String deviceId, String eventId) {
+        EventUtils eventUtils = new EventUtils();
+        eventUtils.fetchEventById(eventId, event -> {
+            if (event != null) {
+                event.getSelected().remove(deviceId);
+                if (!event.getSelected().contains(deviceId)) event.getRegistrants().add(deviceId);
+                Log.d("FunctionCall", "accepting... selected: " + event.getSelected().size());
+                eventUtils.createUpdateEvent(event, res -> {
+                    if (res != null) {
+                        fetchUserProfile(deviceId, user -> {
+                            if (user != null) {
+                                Log.d("FunctionCall", "accepting... userId fetched: " + user.getDeviceID());
+                                if (!user.getRegisteredEvents().contains(eventId)) user.getRegisteredEvents().add(eventId);
+                                user.getSelectedEvents().remove(eventId);
+                                updateUserByObject(user, updateUserCallback -> {
+                                    if (updateUserCallback) {
+                                        Log.d("FunctionCall", "invite accepted");
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
     /**
@@ -280,7 +319,7 @@ public class UserUtils {
      */
     public void updateUserFields(Map<String, Object> fieldsToUpdate, UserExistenceCallback callback) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
+        Log.d("UserId: ", userId);
         db.collection("users").document(userId)
                 .update(fieldsToUpdate)
                 .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))  // Update successful

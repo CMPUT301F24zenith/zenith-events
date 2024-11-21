@@ -65,11 +65,15 @@ public class CreateEventPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("FunctionCall", "11,2");
         setContentView(R.layout.create_event_main);
+        Log.d("FunctionCall", "11,3");
         eventUtils = new EventUtils();
-
+        Log.d("FunctionCall", "11,4");
         pageTitle = getIntent().getStringExtra("page_title");
+        Log.d("FunctionCall", "11,5");
         event = (Event) getIntent().getSerializableExtra("Event");
+        Log.d("FunctionCall", "11,6");
 
         eventPosterImage = findViewById(R.id.eventPosterImage);
         uploadedPosterString = event.getImageUrl();

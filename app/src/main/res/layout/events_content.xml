@@ -2,37 +2,76 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:padding="16dp">
-    <ImageView
-        android:id="@+id/eventImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/rounded_corners_image"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:clipToOutline="true"/>
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:paddingStart="16dp"
-    android:orientation="vertical">
-    <TextView
-        android:id="@+id/eventTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Event Title"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-    <TextView
-        android:id="@+id/facilityName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Facility"
-        android:textSize="16sp" />
-</LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/eventDetailsContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        >
+        <ImageView
+            android:id="@+id/eventImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_corners_image"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:clipToOutline="true"/>
+
+        <LinearLayout
+            android:id="@+id/eventDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/eventTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event Title"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/facilityName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Facility"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/actionBtns"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/acceptBtn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="#00FF00"
+            android:visibility="visible"
+            app:layout_constraintDimensionRatio="1:1" />
+
+        <Button
+            android:id="@+id/declineBtn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="visible"
+            android:backgroundTint="#FF0000"
+            />
+    </LinearLayout>
 </LinearLayout>
