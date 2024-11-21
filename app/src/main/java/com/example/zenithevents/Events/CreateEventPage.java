@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,6 +50,8 @@ public class CreateEventPage extends AppCompatActivity {
     String pageTitle, eventTitle, selectedLimitString, eventLimitString, numParticipants, uploadedPosterString, eventLocation, eventDescription;
     TextView pageTitleView;
     EditText eventNameView, eventLimitView, eventLocationView, eventDescriptionView, selectedLimitView;
+    CheckBox geolocationCheck;
+    Boolean isGeolocationChecked;
     Event event;
     ImageView eventPosterImage;
     Uri uploadedPosterUri;
@@ -62,11 +65,15 @@ public class CreateEventPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("FunctionCall", "11,2");
         setContentView(R.layout.create_event_main);
+        Log.d("FunctionCall", "11,3");
         eventUtils = new EventUtils();
-
+        Log.d("FunctionCall", "11,4");
         pageTitle = getIntent().getStringExtra("page_title");
+        Log.d("FunctionCall", "11,5");
         event = (Event) getIntent().getSerializableExtra("Event");
+        Log.d("FunctionCall", "11,6");
 
         eventPosterImage = findViewById(R.id.eventPosterImage);
         uploadedPosterString = event.getImageUrl();
@@ -98,6 +105,9 @@ public class CreateEventPage extends AppCompatActivity {
         selectedLimitString = event.getSelectedLimit() == 0 ? "" : String.valueOf(event.getSelectedLimit());
         selectedLimitView = findViewById(R.id.selectedLimitInput);
         selectedLimitView.setText(selectedLimitString);
+
+        geolocationCheck = findViewById(R.id.geolocationCheckbox);
+        geolocationCheck.setChecked(event.getHasGeolocation());
 
         createEventSaveButton = findViewById(R.id.createEventSaveButton);
         createEventSaveButton.setOnClickListener(v -> {
@@ -163,7 +173,10 @@ public class CreateEventPage extends AppCompatActivity {
                 }
             }
 
-          eventUtils.createUpdateEvent(context, event, eventId -> {
+            isGeolocationChecked = geolocationCheck.isChecked();
+            event.setHasGeolocation(isGeolocationChecked);
+
+            eventUtils.createUpdateEvent(context, event, eventId -> {
                 if (eventId != null) {
                     event.setEventId(eventId);
                     Log.d("FunctionCall", "if2.5");

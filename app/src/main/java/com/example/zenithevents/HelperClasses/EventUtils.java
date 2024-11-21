@@ -82,22 +82,23 @@ public class EventUtils {
                 });
     }
 
+    public void createUpdateEvent(Context context, Event event, EventUpdateCallback callback) {
+        Log.d("FunctionCall1", "" + event.getSelectedLimit());
+
+        String deviceID = DeviceUtils.getDeviceID(context);
+        event.setOwnerFacility(deviceID);
+        createUpdateEvent(event, callback);
+    }
     /**
      * Creates a new event or updates an existing event in Firestore.
      *
      * <p>If the event ID is null, a new event document is created. Otherwise, the specified
      * event is updated. If the event is created successfully, its ID is added to the document.
      *
-     * @param context  The application context used to retrieve device ID.
      * @param event    The event to create or update in Firestore.
      * @param callback Callback to return the event ID after creation or update.
      */
-    public void createUpdateEvent(Context context, Event event, EventUpdateCallback callback) {
-        Log.d("FunctionCall1", "" + event.getSelectedLimit());
-
-        String deviceID = DeviceUtils.getDeviceID(context);
-        event.setOwnerFacility(deviceID);
-
+    public void createUpdateEvent(Event event, EventUpdateCallback callback) {
         if (event.getEventId() == null) {
             db.collection("events").add(event)
                     .addOnSuccessListener(ref -> {

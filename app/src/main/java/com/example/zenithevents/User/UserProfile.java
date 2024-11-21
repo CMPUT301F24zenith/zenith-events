@@ -8,6 +8,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -28,7 +30,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * UserProfile handles displaying and updating the user's profile information.
@@ -65,6 +66,8 @@ public class UserProfile extends AppCompatActivity {
     private ImageView profileImage;
     private TextView initialsTextView;
     private UserUtils userUtils;
+    private CheckBox notifsCheckBox;
+    private boolean wantsNotifs;
     private Uri imageUri;
     private String existingProfileImageURL;
     private ProgressBar progressBar;
@@ -80,7 +83,7 @@ public class UserProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_page);
+        setContentView(R.layout.activity_user_profile);
 
         userUtils = new UserUtils();
         mAuth = FirebaseAuth.getInstance();
@@ -95,8 +98,22 @@ public class UserProfile extends AppCompatActivity {
         initialsTextView = findViewById(R.id.initials);
         progressBar = findViewById(R.id.progressBar);
         btnRemove = findViewById(R.id.btnRemove);
+        notifsCheckBox = findViewById(R.id.notifsCheckBox);
 
         fetchUserProfile();
+
+        notifsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    wantsNotifs = true;
+                    Toast.makeText(UserProfile.this, "Notifications enabled", Toast.LENGTH_SHORT).show();
+                } else {
+                    wantsNotifs = false;
+                    Toast.makeText(UserProfile.this, "Notifications disabled", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         btnSave.setOnClickListener(v -> {
             saveProfile();
@@ -141,6 +158,7 @@ public class UserProfile extends AppCompatActivity {
                 editLastName.setText(user.getLastName() != null ? user.getLastName() : "");
                 editEmail.setText(user.getEmail() != null ? user.getEmail() : "");
                 editPhoneNumber.setText(user.getPhoneNumber() != null ? user.getPhoneNumber() : "");
+                notifsCheckBox.setChecked(user.getWantsNotifs() != null ? user.getWantsNotifs() : false);
 
                 existingProfileImageURL = user.getProfileImageURL();
                 String firstName = editFirstName.getText().toString();
@@ -234,6 +252,7 @@ public class UserProfile extends AppCompatActivity {
         updatedUser.setLastName(lastName);
         updatedUser.setEmail(email);
         updatedUser.setPhoneNumber(phoneNumber);
+        updatedUser.setWantsNotifs(wantsNotifs);
         updatedUser.setProfileImageURL(profileImageURL);
         Map<String, Object> userData = UserUtils.convertUserToMap(updatedUser);
         db.collection("users")

@@ -50,6 +50,7 @@ public class SampledEntrants extends AppCompatActivity {
         entrantAdapter = new EntrantArrayAdapter(this, dataList);
         entrantList.setAdapter(entrantAdapter);
 
+
         this.eventId = getIntent().getStringExtra("eventId");
         if (this.eventId != null) {
             showListSampled();
@@ -70,11 +71,11 @@ public class SampledEntrants extends AppCompatActivity {
                         DocumentSnapshot documentSnapshot = documentSnapshotTask.getResult();
                         if (documentSnapshot.exists()) {
                             dataList.clear();
-                            List<String> enrolledEntrants = (List<String>) documentSnapshot.get("selected");
-                            assert enrolledEntrants != null;
-                            Log.d("FunctionCall", String.valueOf(enrolledEntrants.size()));
-                            int totalEntrants = enrolledEntrants.size();
-                            for (String id : enrolledEntrants) {
+                            List<String> selectedEntrants = (List<String>) documentSnapshot.get("selected");
+                            assert selectedEntrants != null;
+                            Log.d("FunctionCall", String.valueOf(selectedEntrants.size()));
+                            int totalEntrants = selectedEntrants.size();
+                            for (String id : selectedEntrants) {
                                 db.collection("users").document(id)
                                         .get()
                                         .addOnSuccessListener(documentSnapshot1 -> {

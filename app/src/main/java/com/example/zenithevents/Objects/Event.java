@@ -1,10 +1,17 @@
 package com.example.zenithevents.Objects;
 
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.example.zenithevents.Events.CreateEventPage;
+import com.example.zenithevents.Events.CreationSuccessActivity;
+import com.example.zenithevents.HelperClasses.EventUtils;
+import com.example.zenithevents.HelperClasses.UserUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
@@ -20,6 +27,7 @@ import java.util.Collections;
 public class Event implements Serializable {
     private ArrayList<String> waitingList, selected, cancelledList, registrants;
     private String ownerFacility, eventId, eventTitle, QRCodeHash, QRCodeBitmap, ImageUrl, eventAddress, eventDescription;
+    private Boolean hasGeolocation;
     private int numParticipants, selectedLimit;
 
     /**
@@ -40,6 +48,7 @@ public class Event implements Serializable {
         this.QRCodeBitmap = null;
         this.eventAddress = null;
         this.eventId = null;
+        this.hasGeolocation = false;
 
         this.numParticipants = 0;
         this.selectedLimit = 0;
@@ -56,9 +65,10 @@ public class Event implements Serializable {
      * @param QRCodeBitmap    The bitmap representation of the event's QR code.
      * @param numParticipants The number of participants allowed in the event.
      * @param eventAddress    The address where the event is taking place.
+     * @param hasGeolocation  Whether the event will track geolocation
      * <p>Note: The Javadocs for this constructor were generated with the assistance of an AI language model.</p>
      */
-    public Event(String eventId, String eventTitle, String eventImage, String QRCodeHash, String QRCodeBitmap, int numParticipants, String eventAddress){
+    public Event(String eventId, String eventTitle, String eventImage, String QRCodeHash, String QRCodeBitmap, int numParticipants, String eventAddress, Boolean hasGeolocation){
         this.waitingList = new ArrayList<>();
         this.selected = new ArrayList<>();
         this.cancelledList = new ArrayList<>();
@@ -69,6 +79,7 @@ public class Event implements Serializable {
         this.ImageUrl = eventImage;
         this.QRCodeHash = QRCodeHash;
         this.QRCodeBitmap = QRCodeBitmap;
+        this.hasGeolocation = hasGeolocation;
 
         this.numParticipants = numParticipants;
         this.eventAddress = eventAddress;
@@ -291,20 +302,54 @@ public class Event implements Serializable {
     }
 
     /**
-     * Draws a lottery from the waiting list and selects a sample of participants.
-     * The sample size is constrained to the size of the waiting list.
-     *
-     * @param waitingList The waiting list of participants.
-     * @param sampleSize  The number of participants to select.
-     * @return The selected participants.
-     * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
+     * Draws a lottery from the waiting list of an event and selects
+     * a sample of participants. The sample size is constrained to
+     * the size of the selected list.
      */
-    public ArrayList<String> drawLottery(ArrayList<String> waitingList, int sampleSize) {
+    public void drawLottery() {
+        ArrayList<String> sampledList = new ArrayList<>();
+        ArrayList<String> newSelectedList = this.getSelected();
+        ArrayList<String> waitingList = this.getWaitingList();
+        ArrayList<String> newWaitingList = this.getWaitingList();
         Collections.shuffle(waitingList);
-        int sampleSizeUpdated = Math.min(sampleSize, waitingList.size());
 
-        ArrayList<String> selectedList = new ArrayList<>(waitingList.subList(0, sampleSizeUpdated));
-        return selectedList;
+        if (this.getSelectedLimit() == 0) {
+            sampledList.addAll(waitingList);
+        } else {
+            int sampleSizeUpdated = this.getSelectedLimit() - this.getSelected().size() - this.getRegistrants().size();
+            sampleSizeUpdated = Math.min(sampleSizeUpdated, this.getWaitingList().size());
+            waitingList = new ArrayList<>(waitingList.subList(0, sampleSizeUpdated));
+            sampledList.addAll(waitingList);
+        }
+        newSelectedList.addAll(sampledList);
+        newWaitingList.removeAll(sampledList);
+
+        this.setSelected(newSelectedList);
+        this.setWaitingList(newWaitingList);
+
+        EventUtils eventUtils = new EventUtils();
+        UserUtils userUtils = new UserUtils();
+
+        eventUtils.createUpdateEvent(this, eventId -> {
+            for (String deviceId : this.getSelected()) {
+                userUtils.fetchUserProfile(deviceId, callback -> {
+                    ArrayList<String> waitingEvents = callback.getWaitingEvents();
+                    waitingEvents.remove(this.eventId);
+                    callback.setWaitingEvents(waitingEvents);
+
+                    ArrayList<String> selectedEvents = callback.getSelectedEvents();
+                    selectedEvents.add(this.eventId);
+                    callback.setSelectedEvents(selectedEvents);
+
+                    userUtils.updateUserByObject(callback, callback2 -> {
+                        Log.d("FunctionCall", "User: " + deviceId + "info updated.");
+                    });
+                });
+            }
+        });
+
+        Log.d("FunctionCall", "4-- " + this.getSelected().size());
+        Log.d("FunctionCall", "5-- " + this.getWaitingList().size());
     }
 
 //    public void sendNotifications(String message, ArrayList<String> recipients){
@@ -373,5 +418,13 @@ public class Event implements Serializable {
      */
     public void setSelectedLimit(int selectedLimit) {
         this.selectedLimit = selectedLimit;
+    }
+
+    public Boolean getHasGeolocation() {
+        return hasGeolocation;
+    }
+
+    public void setHasGeolocation(Boolean hasGeolocation) {
+        this.hasGeolocation = hasGeolocation;
     }
 }

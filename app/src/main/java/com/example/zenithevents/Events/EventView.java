@@ -1,4 +1,4 @@
-package com.example.zenithevents.Organizer;
+package com.example.zenithevents.Events;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,25 +25,17 @@ import com.example.zenithevents.EntrantsList.CancelledEntrants;
 import com.example.zenithevents.EntrantsList.EnrolledEntrants;
 import com.example.zenithevents.EntrantsList.SampledEntrants;
 import com.example.zenithevents.EntrantsList.WaitlistedEntrants;
-import com.example.zenithevents.Events.CreateEventPage;
 import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
-import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
-import com.example.zenithevents.User.OrganizerPage;
-import com.example.zenithevents.User.ProfileDetailActivity;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This class represents the EventView activity in the application, which displays
@@ -57,14 +49,13 @@ public class EventView extends AppCompatActivity {
     private static final String TAG = "EventView";
 
     ImageView eventPosterImageView;
-    private Button btnJoinLeaveWaitingList, qrCodeButton, btnEditEvent;
+    private Button btnJoinLeaveWaitingList, qrCodeButton, btnEditEvent, btnSampleUsers;
     private TextView eventDescription, eventName, facilityName, eventAddress;
     private ProgressBar progressBar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ListenerRegistration eventListener;
     private final String[] entrantOptions = {"Waitlisted Entrants", "Selected Entrants", "Registered Entrants", "Cancelled Entrants"};
     private int currentOptionIndex = 0;
-    private Button deleteEventButton;
     LinearLayout entrantsSlider;
     FacilityUtils facilityUtils;
 
@@ -87,18 +78,6 @@ public class EventView extends AppCompatActivity {
         String eventId = getIntent().getStringExtra("event_id");
         facilityUtils = new FacilityUtils();
         initializeViews();
-        deleteEventButton.setOnClickListener(v-> {
-            progressBar.setVisibility(View.VISIBLE);
-            removeEvent(eventId, success-> {
-                progressBar.setVisibility(View.GONE);
-               if (success) {
-                   Toast.makeText(EventView.this, "Event deleted", Toast.LENGTH_SHORT).show();
-                   finish();
-               } else {
-                   Toast.makeText(EventView.this, "Event did not delete", Toast.LENGTH_SHORT).show();
-               }
-            });
-        });
         setupRealTimeEventListener(eventId);
 
     }
@@ -117,7 +96,6 @@ public class EventView extends AppCompatActivity {
         qrCodeButton = findViewById(R.id.qrCodeButton);
         entrantsSlider = findViewById(R.id.entrantsSlider);
         btnEditEvent = findViewById(R.id.btnEditEvent);
-        deleteEventButton = findViewById(R.id.deleteEvent);
         btnSampleUsers = findViewById(R.id.btnSampleUsers);
     }
 
@@ -165,8 +143,6 @@ public class EventView extends AppCompatActivity {
      * @param event The event object containing event details.
      */
     private void displayEventDetails(Event event) {
-        Log.d("FunctionCall", "displayingDetails");
-
         // Set event details
         eventName.setText(event.getEventTitle());
         facilityUtils.fetchFacilityName(event.getOwnerFacility(), v -> {
@@ -190,7 +166,7 @@ public class EventView extends AppCompatActivity {
                 event.getRegistrants().contains(deviceID)
         ) {
             btnJoinLeaveWaitingList.setBackgroundColor(Color.RED);
-            btnJoinLeaveWaitingList.setText("Leave Waiting List");
+            btnJoinLeaveWaitingList.setText("Leave Event");
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
                 Context context = EventView.this;
@@ -224,6 +200,10 @@ public class EventView extends AppCompatActivity {
                 btnJoinLeaveWaitingList.setEnabled(false);
                 btnJoinLeaveWaitingList.setText("Event is full");
                 btnJoinLeaveWaitingList.setBackgroundColor(Color.GRAY);
+            } else {
+                btnJoinLeaveWaitingList.setEnabled(true);
+                btnJoinLeaveWaitingList.setText("Join Waiting List");
+                btnJoinLeaveWaitingList.setBackgroundColor(Color.BLUE);
             }
         }
 
@@ -342,30 +322,5 @@ public class EventView extends AppCompatActivity {
         if (eventListener != null) {
             eventListener.remove(); // Remove the listener to avoid memory leaks
         }
-    }
-
-    private void removeEvent(String eventId, CustomCallback callback) {
-        db.collection("users").get().addOnCompleteListener(task-> {
-            if (task.isSuccessful() && task.getResult() != null) {
-                for (DocumentSnapshot userDoc : task.getResult().getDocuments()) {
-                    db.collection("users").document(userDoc.getId()).update(
-                            "waitingEvents", FieldValue.arrayRemove(eventId),
-                            "selectedEvents", FieldValue.arrayRemove(eventId),
-                            "registeredEvents", FieldValue.arrayRemove(eventId),
-                            "cancelledEvents", FieldValue.arrayRemove(eventId)
-                    );
-                }
-
-                db.collection("events").document(eventId).delete()
-                        .addOnSuccessListener(aVoid->callback.onComplete(true))
-                        .addOnFailureListener(e->callback.onComplete(false));
-            } else {
-                callback.onComplete(false);
-            }
-        });
-    }
-
-    public interface CustomCallback {
-        void onComplete(boolean success);
     }
 }
