@@ -22,6 +22,7 @@ import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
 import com.google.firebase.Firebase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -87,6 +88,32 @@ public class FacilityDetail extends AppCompatActivity {
         facilityPhoneNumber.setText(intent.getStringExtra("facilityPhoneNumber"));
 
         deleteFacilityButton.setOnClickListener(v-> deleteFacilityConfirmation(deviceId));
+    }
+
+    private void eventsListeners(String facilityId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        eventsListener = db.collection("events")
+                .whereEqualTo("ownerFacility", facilityId)
+                .addSnapshotListener((querySnapshot, e) -> {
+                    if (e != null) {
+                        Toast.makeText(this, "Cannot get events", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (querySnapshot != null) {
+                        eventList.clear();
+                        for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                            Event event = document.toObject(Event.class);
+                            if (event != null) {
+                                eventList.add(event);
+                            }
+                        }
+                        eventArrayAdapter.clear();
+                        eventArrayAdapter.addAll(eventList);
+                        eventArrayAdapter.notifyDataSetChanged();
+                        facilityEventsListView.scheduleLayoutAnimation();
+                    }
+                });
     }
 
     private void deleteFacilityConfirmation(String deviceId) {
