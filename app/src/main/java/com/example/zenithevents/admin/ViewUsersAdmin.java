@@ -35,7 +35,7 @@ public class ViewUsersAdmin extends AppCompatActivity {
             return insets;
         });
         listView = findViewById(R.id.listView);
-        adapter = new EntrantArrayAdapter(this, userList);
+        adapter = new EntrantArrayAdapter(this, userList, "ViewUsersAdmin", null);
         listView.setAdapter(adapter);
 
 

@@ -21,10 +21,7 @@ import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.InitialsGenerator;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.R;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ProfileDetailActivity extends AppCompatActivity {
@@ -39,7 +36,6 @@ public class ProfileDetailActivity extends AppCompatActivity {
     private ImageView profileImageView;
     private String initials;
     private String userID;
-    private Button deleteUserButton;
 
 
     @Override
@@ -62,23 +58,10 @@ public class ProfileDetailActivity extends AppCompatActivity {
         btnRomove = findViewById(R.id.btnRemove);
         initialsTextView = findViewById(R.id.initials);
         progressBar = findViewById(R.id.progressBar);
-        deleteUserButton = findViewById(R.id.deleteProfile);
         userUtils = new UserUtils();
         db = FirebaseFirestore.getInstance();
         profileImageView = findViewById(R.id.profileImage);
         fetchUserProfile();
-
-        deleteUserButton.setOnClickListener(v->{
-            progressBar.setVisibility(View.VISIBLE);
-            removeFromLists(userID, success-> {
-                if (success) {
-                    deleteProfile(userID);
-                } else {
-                    Toast.makeText(ProfileDetailActivity.this, "Failed to remove user from lists", Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
-                }
-            });
-        });
     }
 
     /**
@@ -156,8 +139,5 @@ public class ProfileDetailActivity extends AppCompatActivity {
     public interface CustomCallback {
         void onComplete(boolean success);
     }
-
-
-
 
 }
