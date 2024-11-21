@@ -20,7 +20,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.zenithevents.CreateProfile.CreateProfileActivity;
 import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
@@ -31,7 +30,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * UserProfile handles displaying and updating the user's profile information.
@@ -85,7 +83,7 @@ public class UserProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_page);
+        setContentView(R.layout.activity_user_profile);
 
         userUtils = new UserUtils();
         mAuth = FirebaseAuth.getInstance();
@@ -160,7 +158,7 @@ public class UserProfile extends AppCompatActivity {
                 editLastName.setText(user.getLastName() != null ? user.getLastName() : "");
                 editEmail.setText(user.getEmail() != null ? user.getEmail() : "");
                 editPhoneNumber.setText(user.getPhoneNumber() != null ? user.getPhoneNumber() : "");
-                notifsCheckBox.setChecked(user.getWantsNotifs());
+                notifsCheckBox.setChecked(user.getWantsNotifs() != null ? user.getWantsNotifs() : false);
 
                 existingProfileImageURL = user.getProfileImageURL();
                 String firstName = editFirstName.getText().toString();
