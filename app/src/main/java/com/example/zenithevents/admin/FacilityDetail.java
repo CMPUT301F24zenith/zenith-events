@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.test.espresso.remote.EspressoRemoteMessage;
 
 import com.example.zenithevents.ArrayAdapters.EventArrayAdapter;
+import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
@@ -68,7 +69,7 @@ public class FacilityDetail extends AppCompatActivity {
         Intent intent = getIntent();
         String facilityID = intent.getStringExtra("facilityID");
 
-
+        String deviceId = DeviceUtils.getDeviceID(this);
         eventUtils.fetchOrganizerEvents(this, facilityID, events -> {
             if (events != null) {
                 eventList = events;
@@ -83,47 +84,47 @@ public class FacilityDetail extends AppCompatActivity {
         facilityEmail.setText(intent.getStringExtra("facilityEmail"));
         facilityPhoneNumber.setText(intent.getStringExtra("facilityPhoneNumber"));
 
-//        deleteFacilityButton.setOnClickListener(v-> deleteFacilityConfirmation());
+        deleteFacilityButton.setOnClickListener(v-> deleteFacilityConfirmation(deviceId));
     }
 
-//    private void deleteFacilityConfirmation() {
-//        new AlertDialog.Builder(this)
-//                .setTitle("Delete Facility")
-//                .setMessage("Are you sure you want to delete this facility")
-//                .setPositiveButton("Delete", (dialog, which) -> deleteFacilityAndEvents())
-//                .setNegativeButton("Cancel", null)
-//                .show();
-//    }
+    private void deleteFacilityConfirmation(String deviceId) {
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Facility")
+                .setMessage("Are you sure you want to delete this facility")
+                .setPositiveButton("Delete", (dialog, which) -> deleteFacilityAndEvents(deviceId))
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
 
-//    private void deleteFacilityAndEvents() {
-//        Toast.makeText(this, "Deleting facility and its events", Toast.LENGTH_SHORT).show();
-//        eventUtils.fetchOrganizerEvents(this, , events -> {
-//            if (events != null) {
-//                for (Event event : events) {
-//                    eventUtils.deleteEvent(event.getEventId(), isDelete -> {
-//                        if (!isDeleted) {
-//                            Toast.makeText(FacilityDetail.this, "Failed to delete", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                }
-//            }
-//            deleteFacility();
-//        });
-//
-//    }
+    private void deleteFacilityAndEvents(String deviceId) {
+        Toast.makeText(this, "Deleting facility and its events", Toast.LENGTH_SHORT).show();
+        eventUtils.fetchOrganizerEvents(this, deviceId, events -> {
+            if (events != null) {
+                for (Event event : events) {
+                    eventUtils.deleteEvent(event.getEventId(), isDeleted -> {
+                        if (!isDeleted) {
+                            Toast.makeText(FacilityDetail.this, "Failed to delete", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+            deleteFacility(deviceId);
+        });
 
-//    private void deleteFacility() {
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        db.collection("facilities").document(facilityId)
-//                .delete()
-//                .addOnSuccessListener(aVoid -> {
-//                    Toast.makeText(FacilityDetail.this, "Facility deleted", Toast.LENGTH_SHORT).show();
-//                    finish();
-//                })
-//                .addOnFailureListener(e-> {
-//                    Toast.makeText(FacilityDetail.this, "Facility failed to delete", Toast.LENGTH_SHORT).show();
-//                });
-//    }
+    }
+
+    private void deleteFacility(String deviceId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("facilities").document(deviceId)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(FacilityDetail.this, "Facility deleted", Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .addOnFailureListener(e-> {
+                    Toast.makeText(FacilityDetail.this, "Facility failed to delete", Toast.LENGTH_SHORT).show();
+                });
+    }
 
 
 }
