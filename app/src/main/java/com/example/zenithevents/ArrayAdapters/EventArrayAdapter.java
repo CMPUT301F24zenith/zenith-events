@@ -10,12 +10,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
+import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Organizer.EventView;
 import com.example.zenithevents.R;
@@ -74,7 +77,19 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         ImageView eventImage = convertView.findViewById(R.id.eventImage);
         TextView eventTitle = convertView.findViewById(R.id.eventTitle);
         TextView facilityName = convertView.findViewById(R.id.facilityName);
+        Button acceptBtn = convertView.findViewById(R.id.acceptBtn);
+        Button declineBtn = convertView.findViewById(R.id.declineBtn);
 
+        String deviceId = DeviceUtils.getDeviceID(getContext());
+
+        UserUtils userUtils = new UserUtils();
+
+        acceptBtn.setOnClickListener(v -> userUtils.acceptEventInvitation(deviceId, event.getEventId()));
+        declineBtn.setOnClickListener(v -> userUtils.applyLeaveEvent(getContext(), deviceId, event.getEventId(), callback -> {
+            if (callback) {
+                Toast.makeText(getContext(), "Declined Event Invitation", Toast.LENGTH_SHORT).show();
+            }
+        }));
 
         assert event != null;
         eventTitle.setText(event.getEventTitle());
