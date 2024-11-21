@@ -19,7 +19,7 @@ import com.example.zenithevents.R;
  */
 public class AdminViewActivity extends AppCompatActivity {
     private static final String TAG = "AdminViewActivity";
-    private Button btnViewProfiles, btnViewEvents;
+    private Button btnViewProfiles, btnViewEvents, btnViewFacilities;
 
 
     @Override
@@ -34,6 +34,7 @@ public class AdminViewActivity extends AppCompatActivity {
         });
         btnViewProfiles = findViewById(R.id.btnViewProfiles);
         btnViewEvents = findViewById(R.id.btnViewEvents);
+        btnViewFacilities = findViewById(R.id.btnViewFacilities);
 
 
         btnViewProfiles.setOnClickListener(v -> {
@@ -43,6 +44,10 @@ public class AdminViewActivity extends AppCompatActivity {
 
         btnViewEvents.setOnClickListener(v -> {
             Intent intent = new Intent(AdminViewActivity.this, ViewEventsAdmin.class);
+            startActivity(intent);
+        });
+        btnViewFacilities.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminViewActivity.this, ViewFacilitiesAdmin.class);
             startActivity(intent);
         });
 
