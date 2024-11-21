@@ -69,7 +69,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableLeft="@android:drawable/ic_menu_delete"
-        android:text="Delete Facility" />
+        android:text="Delete Facility"
+        android:id="@+id/deleteFacility"/>
 
 
 
