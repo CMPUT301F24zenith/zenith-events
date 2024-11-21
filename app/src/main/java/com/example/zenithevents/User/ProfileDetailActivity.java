@@ -100,4 +100,44 @@ public class ProfileDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void removeFromLists(String userID, CustomCallback callback) {
+        db.collection("events")
+                .get()
+                .addOnCompleteListener(task-> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        for (DocumentSnapshot eventDoc : task.getResult().getDocuments()) {
+                            String eventId = eventDoc.getId();
+                            db.collection("events").document(eventId).update(
+                                    "waitingList", FieldValue.arrayRemove(userID),
+                                    "selected", FieldValue.arrayRemove(userID),
+                                    "registrants", FieldValue.arrayRemove(userID),
+                                    "cancelledList", FieldValue.arrayRemove(userID)
+                            );
+                        }
+                        callback.onComplete(true);
+                    } else {
+                        callback.onComplete(false);
+                    }
+                });
+
+    }
+
+    private void deleteProfile(String userID) {
+        db.collection("users").document(userID)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(ProfileDetailActivity.this, "Profile deleted", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    finish();
+                })
+                .addOnFailureListener(e-> {
+                    Toast.makeText(ProfileDetailActivity.this, "Failed to delete profile", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
+    public interface CustomCallback {
+        void onComplete(boolean success);
+    }
+
 }
