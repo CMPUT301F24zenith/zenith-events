@@ -59,7 +59,7 @@ public class FacilityDetail extends AppCompatActivity {
         facilityEventsListView = findViewById(R.id.facilityEventsListView);
         deleteFacilityButton = findViewById(R.id.deleteFacility);
 
-        eventArrayAdapter = new EventArrayAdapter(this, eventList);
+        eventArrayAdapter = new EventArrayAdapter(this, eventList, "organizer", null);
         facilityEventsListView.setAdapter(eventArrayAdapter);
 
         facilityEventsListView.setLayoutAnimation(
@@ -83,47 +83,47 @@ public class FacilityDetail extends AppCompatActivity {
         facilityEmail.setText(intent.getStringExtra("facilityEmail"));
         facilityPhoneNumber.setText(intent.getStringExtra("facilityPhoneNumber"));
 
-        deleteFacilityButton.setOnClickListener(v-> deleteFacilityConfirmation());
+//        deleteFacilityButton.setOnClickListener(v-> deleteFacilityConfirmation());
     }
 
-    private void deleteFacilityConfirmation() {
-        new AlertDialog.Builder(this)
-                .setTitle("Delete Facility")
-                .setMessage("Are you sure you want to delete this facility")
-                .setPositiveButton("Delete", (dialog, which) -> deleteFacilityAndEvents())
-                .setNegativeButton("Cancel", null)
-                .show();
-    }
+//    private void deleteFacilityConfirmation() {
+//        new AlertDialog.Builder(this)
+//                .setTitle("Delete Facility")
+//                .setMessage("Are you sure you want to delete this facility")
+//                .setPositiveButton("Delete", (dialog, which) -> deleteFacilityAndEvents())
+//                .setNegativeButton("Cancel", null)
+//                .show();
+//    }
 
-    private void deleteFacilityAndEvents() {
-        Toast.makeText(this, "Deleting facility and its events", Toast.LENGTH_SHORT).show();
-        eventUtils.fetchOrganizerEvents(this, facilityId, events -> {
-            if (events != null) {
-                for (Event event : events) {
-                    eventUtils.deleteEvent(event.getEventId(), isDelete -> {
-                        if (!isDeleted) {
-                            Toast.makeText(FacilityDetail.this, "Failed to delete", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
-            deleteFacility();
-        });
+//    private void deleteFacilityAndEvents() {
+//        Toast.makeText(this, "Deleting facility and its events", Toast.LENGTH_SHORT).show();
+//        eventUtils.fetchOrganizerEvents(this, , events -> {
+//            if (events != null) {
+//                for (Event event : events) {
+//                    eventUtils.deleteEvent(event.getEventId(), isDelete -> {
+//                        if (!isDeleted) {
+//                            Toast.makeText(FacilityDetail.this, "Failed to delete", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                }
+//            }
+//            deleteFacility();
+//        });
+//
+//    }
 
-    }
-
-    private void deleteFacility() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("facilities").document(facilityId)
-                .delete()
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(FacilityDetail.this, "Facility deleted", Toast.LENGTH_SHORT).show();
-                    finish();
-                })
-                .addOnFailureListener(e-> {
-                    Toast.makeText(FacilityDetail.this, "Facility failed to delete", Toast.LENGTH_SHORT).show();
-                });
-    }
+//    private void deleteFacility() {
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection("facilities").document(facilityId)
+//                .delete()
+//                .addOnSuccessListener(aVoid -> {
+//                    Toast.makeText(FacilityDetail.this, "Facility deleted", Toast.LENGTH_SHORT).show();
+//                    finish();
+//                })
+//                .addOnFailureListener(e-> {
+//                    Toast.makeText(FacilityDetail.this, "Facility failed to delete", Toast.LENGTH_SHORT).show();
+//                });
+//    }
 
 
 }

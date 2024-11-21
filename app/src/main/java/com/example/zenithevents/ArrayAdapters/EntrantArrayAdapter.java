@@ -113,7 +113,7 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
                         notifyDataSetChanged();
                     }));
                 } else {
-                    // remove user
+                    // remove user. add logic for delete profile here as well
                 }
             } else {
                 acceptBtn.setVisibility(View.GONE);

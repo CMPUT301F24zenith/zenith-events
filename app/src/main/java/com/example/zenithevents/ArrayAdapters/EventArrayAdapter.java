@@ -91,7 +91,9 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         if (Objects.equals(this.type, "selectedEvents") ||
                 Objects.equals(this.type, "waitingEvents") ||
                 Objects.equals(this.type, "registeredEvents") ||
-                Objects.equals(this.type, "organizer")) {
+                Objects.equals(this.type, "organizer") ||
+                Objects.equals(this.type, "admin")
+        ) {
             declineBtn.setVisibility(View.VISIBLE);
 
             if (Objects.equals(this.type, "selectedEvents")) {
@@ -102,7 +104,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
                     notifyDataSetChanged();
                 });
             }
-            if (!Objects.equals(this.type, "organizer")) {
+            if (!Objects.equals(this.type, "organizer") && !Objects.equals(this.type, "admin")) {
                 declineBtn.setOnClickListener(v -> userUtils.applyLeaveEvent(getContext(), deviceId, event.getEventId(), callback -> {
                     if (callback) {
                         Toast.makeText(getContext(), "Declined Event Invitation", Toast.LENGTH_SHORT).show();
@@ -111,7 +113,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
                     notifyDataSetChanged();
                 }));
             }
-            if (Objects.equals(this.type, "organizer")) {
+            if (Objects.equals(this.type, "organizer") || Objects.equals(this.type, "admin")) {
                 // delete event
             }
 
