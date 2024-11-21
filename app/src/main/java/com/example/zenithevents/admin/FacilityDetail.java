@@ -69,6 +69,8 @@ public class FacilityDetail extends AppCompatActivity {
         Intent intent = getIntent();
         String facilityID = intent.getStringExtra("facilityID");
 
+        eventsListeners(facilityID);
+
         String deviceId = DeviceUtils.getDeviceID(this);
         eventUtils.fetchOrganizerEvents(this, facilityID, events -> {
             if (events != null) {
@@ -124,6 +126,13 @@ public class FacilityDetail extends AppCompatActivity {
                 .addOnFailureListener(e-> {
                     Toast.makeText(FacilityDetail.this, "Facility failed to delete", Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        if (eventsListener != null) {
+            eventsListener.remove();
+        }
     }
 
 
