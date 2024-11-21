@@ -2,7 +2,6 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -49,7 +48,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/actionBtns"
+        android:id="@+id/actionEventBtns"
         style="?android:attr/buttonBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,20 +56,20 @@
         android:gravity="end">
 
         <Button
-            android:id="@+id/acceptBtn"
+            android:id="@+id/acceptEventBtn"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:backgroundTint="#00FF00"
-            android:visibility="visible"
-            app:layout_constraintDimensionRatio="1:1" />
+            android:visibility="gone"
+            />
 
         <Button
-            android:id="@+id/declineBtn"
+            android:id="@+id/declineEventBtn"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:visibility="visible"
+            android:visibility="gone"
             android:backgroundTint="#FF0000"
             />
     </LinearLayout>

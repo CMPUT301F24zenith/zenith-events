@@ -94,8 +94,6 @@ public class EventsFragment extends Fragment {
         eventListView = view.findViewById(R.id.eventsListView);
         events = new ArrayList<>();
         waitingEventsList = new ArrayList<>();
-        adapter = new EventArrayAdapter(requireContext(), events);
-        eventListView.setAdapter(adapter);
         eventUtils = new EventUtils();
         Context context = getActivity();
         int[] counter = {0};
@@ -108,19 +106,33 @@ public class EventsFragment extends Fragment {
                     if (fetchedOrganizerEvents != null) {
                         events.clear();
                         events.addAll(fetchedOrganizerEvents);
+                        adapter = new EventArrayAdapter(requireContext(), events, "organizer", null);
+                        eventListView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                         Log.d("Firestore", "Fetched: " + waitingEventsList.size());
                     }
                 });
             }
-            if (Objects.equals(type, "entrant-waiting"))
+            if (Objects.equals(type, "entrant-waiting")) {
+                adapter = new EventArrayAdapter(requireContext(), events, "waitingEvents", null);
+                eventListView.setAdapter(adapter);
                 fetchEntrantWaitingEvents("waitingEvents");
-            if (Objects.equals(type, "entrant-selected"))
+            }
+            if (Objects.equals(type, "entrant-selected")) {
+                adapter = new EventArrayAdapter(requireContext(), events, "selectedEvents", null);
+                eventListView.setAdapter(adapter);
                 fetchEntrantWaitingEvents("selectedEvents");
-            if (Objects.equals(type, "entrant-cancelled"))
+            }
+            if (Objects.equals(type, "entrant-cancelled")) {
+                adapter = new EventArrayAdapter(requireContext(), events, "cancelledEvents", null);
+                eventListView.setAdapter(adapter);
                 fetchEntrantWaitingEvents("cancelledEvents");
-            if (Objects.equals(type, "entrant-accepted"))
-                fetchEntrantWaitingEvents("registrantsEvents");
+            }
+            if (Objects.equals(type, "entrant-registrant")) {
+                adapter = new EventArrayAdapter(requireContext(), events, "registeredEvents", null);
+                eventListView.setAdapter(adapter);
+                fetchEntrantWaitingEvents("registeredEvents");
+            }
         }
         return view;
     }
