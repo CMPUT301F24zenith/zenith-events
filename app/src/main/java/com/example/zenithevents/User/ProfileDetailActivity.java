@@ -136,6 +136,7 @@ public class ProfileDetailActivity extends AppCompatActivity {
                         callback.onComplete(false);
                     }
                 });
+
     }
 
     private void deleteProfile(String userID) {
