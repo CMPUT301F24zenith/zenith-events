@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,8 +15,11 @@ import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.User.OrganizerPage;
 import com.example.zenithevents.User.UserProfile;
 import com.example.zenithevents.admin.AdminViewActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 /**
  * MainActivity serves as the entry point for the application, providing buttons for users to
@@ -49,6 +53,17 @@ public class MainActivity extends AppCompatActivity {
         buttonEntrant = findViewById(R.id.entrantButton);
         organizerButton = findViewById(R.id.organizerButton);
         buttonAdmin = findViewById(R.id.adminButton);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("news")
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                String msg = "done";
+                                if (!task.isSuccessful()) {
+                                    msg = "failed";
+                                }
+                            }
+                        });
 
 
 
