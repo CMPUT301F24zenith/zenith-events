@@ -345,6 +345,7 @@ public class Event implements Serializable {
                         callback.setSelectedEvents(selectedEvents);
 
                         this.userUtils.updateUserById(callback, callback2 -> {
+                            // call notify user for sampledList
                             Log.d("Firestore", "User: " + deviceId + "info updated.");
                         });
                     }
