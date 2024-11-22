@@ -1,7 +1,6 @@
-package com.example.zenithevents.EntrantDashboard;
+package com.example.zenithevents.Events;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,7 +17,6 @@ import com.example.zenithevents.ArrayAdapters.EventArrayAdapter;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.Objects.Event;
-import com.example.zenithevents.Organizer.EventView;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -113,26 +111,14 @@ public class EventsFragment extends Fragment {
                     }
                 });
             }
-            if (Objects.equals(type, "entrant-waiting")) {
-                adapter = new EventArrayAdapter(requireContext(), events, "waitingEvents", null);
-                eventListView.setAdapter(adapter);
+            if (Objects.equals(type, "entrant-waiting"))
                 fetchEntrantWaitingEvents("waitingEvents");
-            }
-            if (Objects.equals(type, "entrant-selected")) {
-                adapter = new EventArrayAdapter(requireContext(), events, "selectedEvents", null);
-                eventListView.setAdapter(adapter);
+            if (Objects.equals(type, "entrant-selected"))
                 fetchEntrantWaitingEvents("selectedEvents");
-            }
-            if (Objects.equals(type, "entrant-cancelled")) {
-                adapter = new EventArrayAdapter(requireContext(), events, "cancelledEvents", null);
-                eventListView.setAdapter(adapter);
+            if (Objects.equals(type, "entrant-cancelled"))
                 fetchEntrantWaitingEvents("cancelledEvents");
-            }
-            if (Objects.equals(type, "entrant-registrant")) {
-                adapter = new EventArrayAdapter(requireContext(), events, "registeredEvents", null);
-                eventListView.setAdapter(adapter);
-                fetchEntrantWaitingEvents("registeredEvents");
-            }
+            if (Objects.equals(type, "entrant-accepted"))
+                fetchEntrantWaitingEvents("registrantsEvents");
         }
         return view;
     }

@@ -28,6 +28,7 @@ import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -90,7 +91,8 @@ public class OrganizerPage extends AppCompatActivity {
             Event event = new Event();
             Intent intent = new Intent(OrganizerPage.this, CreateEventPage.class);
             intent.putExtra("page_title", "Create Event");
-            intent.putExtra("Event", event);
+            intent.putExtra("Event", (Serializable) event);
+            Log.d("FunctionCall", "11,1");
             startActivity(intent);
             finish();
         });

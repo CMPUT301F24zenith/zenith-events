@@ -10,18 +10,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
+import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
+import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Organizer.EventView;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Custom ArrayAdapter to display a list of {@link Event} objects in a list view.
@@ -34,6 +36,8 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
 
     private FirebaseFirestore db;
     FacilityUtils facilityUtils;
+    String deviceId, type;
+    List<Event> events;
 
     /**
      * Constructor for the EventArrayAdapter.
@@ -45,8 +49,11 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
      * @param context The current context in which the adapter is running.
      * @param events The list of events to be displayed.
      */
-    public EventArrayAdapter(Context context, List<Event> events) {
+    public EventArrayAdapter(Context context, List<Event> events, String type, String deviceId) {
         super(context, 0, events);
+        this.events = events;
+        this.type = type;
+        this.deviceId = deviceId;
     }
 
     /**
@@ -74,7 +81,46 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         ImageView eventImage = convertView.findViewById(R.id.eventImage);
         TextView eventTitle = convertView.findViewById(R.id.eventTitle);
         TextView facilityName = convertView.findViewById(R.id.facilityName);
+        Button acceptBtn = convertView.findViewById(R.id.acceptEventBtn);
+        Button declineBtn = convertView.findViewById(R.id.declineEventBtn);
 
+        String deviceId = DeviceUtils.getDeviceID(getContext());
+
+        UserUtils userUtils = new UserUtils();
+
+        if (Objects.equals(this.type, "selectedEvents") ||
+                Objects.equals(this.type, "waitingEvents") ||
+                Objects.equals(this.type, "registeredEvents") ||
+                Objects.equals(this.type, "organizer") ||
+                Objects.equals(this.type, "admin")
+        ) {
+            declineBtn.setVisibility(View.VISIBLE);
+
+            if (Objects.equals(this.type, "selectedEvents")) {
+                acceptBtn.setVisibility(View.VISIBLE);
+                acceptBtn.setOnClickListener(v -> {
+                    userUtils.acceptEventInvitation(deviceId, event.getEventId());
+                    events.remove(position);
+                    notifyDataSetChanged();
+                });
+            }
+            if (!Objects.equals(this.type, "organizer") && !Objects.equals(this.type, "admin")) {
+                declineBtn.setOnClickListener(v -> userUtils.applyLeaveEvent(getContext(), deviceId, event.getEventId(), callback -> {
+                    if (callback) {
+                        Toast.makeText(getContext(), "Declined Event Invitation", Toast.LENGTH_SHORT).show();
+                    }
+                    events.remove(position);
+                    notifyDataSetChanged();
+                }));
+            }
+            if (Objects.equals(this.type, "organizer") || Objects.equals(this.type, "admin")) {
+                // delete event
+            }
+
+        } else {
+            acceptBtn.setVisibility(View.GONE);
+            declineBtn.setVisibility(View.GONE);
+        }
 
         assert event != null;
         eventTitle.setText(event.getEventTitle());

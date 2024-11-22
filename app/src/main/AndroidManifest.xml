@@ -28,9 +28,16 @@
         android:theme="@style/Theme.ZenithEvents"
         tools:targetApi="31">
         <activity
+            android:name=".admin.FacilityDetail"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ViewFacilitiesAdmin"
+            android:exported="false" />
+        <activity
             android:name=".admin.ViewUsersAdmin"
             android:exported="false" />
-        <activity android:name=".admin.AdminViewActivity"
+        <activity
+            android:name=".admin.AdminViewActivity"
             android:exported="false" />
         <activity
             android:name=".User.ProfileDetailActivity"

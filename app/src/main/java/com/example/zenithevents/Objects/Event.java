@@ -69,8 +69,6 @@ public class Event implements Serializable {
 
         this.numParticipants = 0;
         this.selectedLimit = 0;
-        this.eventUtils = new EventUtils();
-        this.userUtils = new UserUtils();
     }
 
     /**
@@ -346,27 +344,25 @@ public class Event implements Serializable {
         this.setSelected(newSelectedList);
         this.setWaitingList(newWaitingList);
 
-        ArrayList<String> finalWaitingList = waitingList;
-        this.eventUtils.createUpdateEvent(this, eventId -> {
-            finalWaitingList.forEach(deviceId -> {
-                this.userUtils.fetchUserProfile(deviceId, callback -> {
-                    if (callback != null) {
-                        ArrayList<String> waitingEvents = callback.getWaitingEvents();
-                        waitingEvents.remove(this.eventId);
-                        callback.setWaitingEvents(waitingEvents);
+        EventUtils eventUtils = new EventUtils();
+        UserUtils userUtils = new UserUtils();
 
-                        ArrayList<String> selectedEvents = callback.getSelectedEvents();
-                        selectedEvents.add(this.eventId);
-                        callback.setSelectedEvents(selectedEvents);
-                        callback.sendNotification("You have been selected for " + this.getEventTitle());
-                        this.userUtils.updateUserById(callback, callback2 -> {
-                            // call notify user for sampledList
+        eventUtils.createUpdateEvent(this, eventId -> {
+            for (String deviceId : this.getSelected()) {
+                userUtils.fetchUserProfile(deviceId, callback -> {
+                    ArrayList<String> waitingEvents = callback.getWaitingEvents();
+                    waitingEvents.remove(this.eventId);
+                    callback.setWaitingEvents(waitingEvents);
 
-                            Log.d("Firestore", "User: " + deviceId + "info updated.");
-                        });
-                    }
+                    ArrayList<String> selectedEvents = callback.getSelectedEvents();
+                    selectedEvents.add(this.eventId);
+                    callback.setSelectedEvents(selectedEvents);
+                    callback.sendNotification("You have been selected for " + this.getEventTitle());
+                    userUtils.updateUserByObject(callback, callback2 -> {
+                        Log.d("FunctionCall", "User: " + deviceId + "info updated.");
+                    });
                 });
-            });
+            }
         });
 
         Log.d("FunctionCall", "4-- " + this.getSelected().size());
