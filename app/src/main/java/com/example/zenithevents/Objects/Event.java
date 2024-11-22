@@ -1,17 +1,31 @@
 package com.example.zenithevents.Objects;
 
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+import static androidx.core.content.ContextCompat.getSystemService;
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
+
+import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
 import com.example.zenithevents.Events.CreateEventPage;
 import com.example.zenithevents.Events.CreationSuccessActivity;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
+import com.example.zenithevents.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
@@ -31,6 +45,7 @@ public class Event implements Serializable {
     private int numParticipants, selectedLimit;
     private EventUtils eventUtils;
     private UserUtils userUtils;
+    private Context context;
 
     /**
      * Default constructor that initializes all lists and fields to default values.
@@ -343,9 +358,10 @@ public class Event implements Serializable {
                         ArrayList<String> selectedEvents = callback.getSelectedEvents();
                         selectedEvents.add(this.eventId);
                         callback.setSelectedEvents(selectedEvents);
-
+                        callback.sendNotification("You have been selected for " + this.getEventTitle());
                         this.userUtils.updateUserById(callback, callback2 -> {
                             // call notify user for sampledList
+
                             Log.d("Firestore", "User: " + deviceId + "info updated.");
                         });
                     }
@@ -364,14 +380,16 @@ public class Event implements Serializable {
      * @param message  The message to send to participants who enabled notifications.
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
-    public void sendNotifications(String message, ArrayList<User> recipients){
+//    public void sendNotifications(String message, ArrayList<User> recipients){
         // Send notifications to recipients
-        for (User recipient : recipients) {
-            if (recipient.wantsNotifs()){
-            recipient.sendNotification(message);
-            }
-        }
-    }
+//        for (User recipient : recipients) {
+//            if (recipient.wantsNotifs()){
+//            recipient.sendNotification(message);
+//            }
+//        }
+
+
+//    }
 
     /**
      * Gets the owner facility of the event.

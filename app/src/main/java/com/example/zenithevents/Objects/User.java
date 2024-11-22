@@ -1,5 +1,19 @@
 package com.example.zenithevents.Objects;
 
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+
+import androidx.core.app.NotificationCompat;
+
+import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
+import com.example.zenithevents.R;
+
 import java.util.ArrayList;
 
 /**
@@ -33,6 +47,7 @@ public class User {
     private ArrayList<String> registeredEvents;
     private ArrayList<String> cancelledEvents;
     private String anonymousAuthID ;
+    private Context context;
 
     /**
      * No-argument constructor required for Firestore.
@@ -54,7 +69,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.wantsNotifs = false;
+        this.wantsNotifs = true;
         this.isAdmin = false;
         this.registeredEvents = new ArrayList<>();
         this.cancelledEvents = new ArrayList<>();
@@ -230,7 +245,43 @@ public class User {
      * @param message The content of the notification message.
      */
     public void sendNotification(String message) {
-        // TO-DO: IMPLEMENT
+        String channelID = "CHANNEL_ID_NOTIFICATION";
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelID)
+                .setSmallIcon(R.drawable.event_place_holder) // Update with an actual drawable resource
+                .setContentTitle("Notification")
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+// Create an Intent for the action
+        Intent intent = new Intent(getApplicationContext(), EntrantViewActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+// Attach the intent to the notification
+        builder.setContentIntent(pendingIntent);
+
+// Get the NotificationManager
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+// Check for Android O and above to create a notification channel
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            assert notificationManager != null;
+            NotificationChannel channel = notificationManager.getNotificationChannel(channelID);
+            if (channel == null) {
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                channel = new NotificationChannel(channelID, "Notification", importance);
+                channel.setLightColor(Color.GREEN);
+                channel.enableVibration(true);
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+
+// Show the notification
+        if (notificationManager != null) {
+            notificationManager.notify(1, builder.build()); // Use a unique ID for the notification
+        }
+
     }
 
     /**
