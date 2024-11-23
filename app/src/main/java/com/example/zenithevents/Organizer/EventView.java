@@ -2,9 +2,11 @@ package com.example.zenithevents.Organizer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.Manifest;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -34,6 +37,10 @@ import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
 import com.example.zenithevents.User.OrganizerPage;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
@@ -52,6 +59,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class EventView extends AppCompatActivity {
 
     private static final String TAG = "EventView";
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     ImageView eventPosterImageView;
     private Button btnJoinLeaveWaitingList, qrCodeButton, btnEditEvent;
@@ -59,6 +67,7 @@ public class EventView extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ListenerRegistration eventListener;
+    private FusedLocationProviderClient fusedLocationProviderClient;
     private final String[] entrantOptions = {"Waitlisted Entrants", "Selected Entrants", "Registered Entrants", "Cancelled Entrants"};
     private int currentOptionIndex = 0;
     LinearLayout entrantsSlider;
@@ -192,13 +201,31 @@ public class EventView extends AppCompatActivity {
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
                 Context context = EventView.this;
 
-                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
-                    if (isSuccess) {
-                        Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                if (event.getHasGeolocation()) {
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(EventView.this,
+                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                                LOCATION_PERMISSION_REQUEST_CODE);
                     }
-                });
+                    fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+                    fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                            .addOnSuccessListener(location -> {
+                                if (location != null) {
+                                    double latitude = location.getLatitude();
+                                    double longitude = location.getLongitude();
+                                } else {
+                                    Log.d("Location", "Location is null");
+                                }
+                            });
+                } else {
+                    userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
+                        if (isSuccess) {
+                            Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             });
 
             if (event.getNumParticipants() != 0 &&
