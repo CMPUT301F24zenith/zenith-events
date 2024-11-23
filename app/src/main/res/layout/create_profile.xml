@@ -8,49 +8,60 @@
     android:padding="16dp">
 
 
+ <TextView
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:text="Create Your Profile"
+     android:textSize="24sp"
+      />
 
-   <TextView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-      android:text="Create Your Profile"
-      android:textSize="24sp"/>
+ <EditText
+     android:id="@+id/etEntrantFirstName"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:hint="First Name *"
+     android:visibility="visible"
+      />
+
+ <EditText
+     android:id="@+id/etEntrantLastName"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:hint="Last Name *"
+     android:visibility="visible"
+     />
+
+ <EditText
+     android:id="@+id/etEntrantEmail"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:hint="Email *"
+     android:inputType="textEmailAddress"
+     />
+
+ <EditText
+     android:id="@+id/etEntrantPhoneNumber"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:hint="Phone Number "
+     android:inputType="phone"
+      />
 
 
-    <EditText
-        android:id="@+id/etEntrantFirstName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="First Name *"
-        android:visibility="visible"/>
+ <CheckBox
+     android:id="@+id/notifsCheckBox"
+     android:layout_width="383dp"
+     android:layout_height="57dp"
+     android:text="Receive Notifications"
+     android:textSize="18dp"
+      />
 
-    <EditText
-        android:id="@+id/etEntrantLastName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Last Name *"
-        android:visibility="visible"/>
-
-    <EditText
-        android:id="@+id/etEntrantEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email *"
-        android:inputType="textEmailAddress"/>
-
-    <EditText
-        android:id="@+id/etEntrantPhoneNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Phone Number "
-        android:inputType="phone" />
-
-
-    <Button
-        android:id="@+id/btnEntrantConfirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirm"/>
-
+ <Button
+     android:id="@+id/btnEntrantConfirm"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:text="Confirm"
+     />
 
 
 </LinearLayout>

@@ -47,11 +47,11 @@ public class SampledEntrants extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         entrantList = findViewById(R.id.list_entrants);
         dataList = new ArrayList<>();
-        entrantAdapter = new EntrantArrayAdapter(this, dataList);
-        entrantList.setAdapter(entrantAdapter);
 
         this.eventId = getIntent().getStringExtra("eventId");
         if (this.eventId != null) {
+            entrantAdapter = new EntrantArrayAdapter(this, dataList, "SampledEntrants", this.eventId);
+            entrantList.setAdapter(entrantAdapter);
             showListSampled();
         } else {
             Toast.makeText(this, "eventId is missing", Toast.LENGTH_SHORT).show();
@@ -70,11 +70,11 @@ public class SampledEntrants extends AppCompatActivity {
                         DocumentSnapshot documentSnapshot = documentSnapshotTask.getResult();
                         if (documentSnapshot.exists()) {
                             dataList.clear();
-                            List<String> enrolledEntrants = (List<String>) documentSnapshot.get("selected");
-                            assert enrolledEntrants != null;
-                            Log.d("FunctionCall", String.valueOf(enrolledEntrants.size()));
-                            int totalEntrants = enrolledEntrants.size();
-                            for (String id : enrolledEntrants) {
+                            List<String> selectedEntrants = (List<String>) documentSnapshot.get("selected");
+                            assert selectedEntrants != null;
+                            Log.d("FunctionCall", String.valueOf(selectedEntrants.size()));
+                            int totalEntrants = selectedEntrants.size();
+                            for (String id : selectedEntrants) {
                                 db.collection("users").document(id)
                                         .get()
                                         .addOnSuccessListener(documentSnapshot1 -> {

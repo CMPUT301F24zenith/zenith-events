@@ -34,4 +34,10 @@
       android:drawableLeft="@android:drawable/ic_menu_view"
       android:text="View Events" />
 
+  <Button
+      android:id="@+id/btnViewFacilities"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="View Facilities" />
+
   </LinearLayout>

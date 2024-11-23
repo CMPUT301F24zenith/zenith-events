@@ -1,4 +1,4 @@
-package com.example.zenithevents.CreateProfile;
+package com.example.zenithevents.User;
 
 import android.content.Intent;
 import android.os.Bundle;

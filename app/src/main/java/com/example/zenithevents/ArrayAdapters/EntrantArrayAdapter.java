@@ -8,16 +8,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zenithevents.HelperClasses.InitialsGenerator;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
+import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
 import com.example.zenithevents.User.ProfileDetailActivity;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Custom ArrayAdapter to display a list of {@link User} objects in a list view.
@@ -26,6 +30,8 @@ import java.util.List;
  * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
  */
 public class EntrantArrayAdapter extends ArrayAdapter<User> {
+    String type, eventId;
+    List<User> users;
 
     /**
      * Constructor for the EntrantArrayAdapter.
@@ -37,9 +43,14 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
      * @param context The current context in which the adapter is running.
      * @param users The list of users to be displayed.
      */
-    public EntrantArrayAdapter(Context context, List<User> users) {
+
+    public EntrantArrayAdapter(Context context, List<User> users, String type, String eventId) {
         super(context, 0, users);
+        this.type = type;
+        this.eventId = eventId;
+        this.users = users;
     }
+
 
     /**
      * Retrieves the view for a particular list item, inflating the view layout and populating it with data
@@ -66,6 +77,10 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
         TextView emailView = convertView.findViewById(R.id.entrantEmail);
         TextView initials = convertView.findViewById(R.id.initials);
         ImageView profileImage = convertView.findViewById(R.id.profileImage);
+        Button acceptBtn = convertView.findViewById(R.id.acceptEntrantBtn);
+        Button declineBtn = convertView.findViewById(R.id.declineEntrantBtn);
+
+        UserUtils userUtils = new UserUtils();
 
         if (user != null) {
             String firstName = user.getFirstName() != null ? user.getFirstName() : "No FirstName";
@@ -83,6 +98,26 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
                 profileImage.setImageResource(R.drawable.circle_background);
                 initials.setText(InitialsGenerator.getInitials(firstName, lastName));
                 initials.setVisibility(View.VISIBLE);
+            }
+
+            if (Objects.equals(type, "SampledEntrants") || Objects.equals(type, "ViewUsersAdmin")) {
+                declineBtn.setVisibility(View.VISIBLE);
+
+                if (this.eventId != null) {
+                    acceptBtn.setVisibility(View.GONE);
+                    declineBtn.setOnClickListener(v -> userUtils.applyLeaveEvent(getContext(), user.getDeviceID(), this.eventId, callback -> {
+                        if (callback) {
+                            Toast.makeText(getContext(), "Declined Event Invitation", Toast.LENGTH_SHORT).show();
+                        }
+                        users.remove(position);
+                        notifyDataSetChanged();
+                    }));
+                } else {
+                    // remove user. add logic for delete profile here as well
+                }
+            } else {
+                acceptBtn.setVisibility(View.GONE);
+                declineBtn.setVisibility(View.GONE);
             }
 
             convertView.setOnClickListener(v -> {

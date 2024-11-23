@@ -48,11 +48,11 @@ public class EnrolledEntrants extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         entrantList = findViewById(R.id.list_entrants);
         dataList = new ArrayList<>();
-        entrantAdapter = new EntrantArrayAdapter(this, dataList);
-        entrantList.setAdapter(entrantAdapter);
 
         this.eventId = getIntent().getStringExtra("eventId");
         if (this.eventId != null) {
+            entrantAdapter = new EntrantArrayAdapter(this, dataList, "EnrolledEntrants", this.eventId);
+            entrantList.setAdapter(entrantAdapter);
             showListEnrolled();
         } else {
             Toast.makeText(this, "eventId is missing", Toast.LENGTH_SHORT).show();
