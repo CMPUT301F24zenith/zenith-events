@@ -1,12 +1,12 @@
 package com.example.zenithevents.Events;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.Manifest;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,22 +28,30 @@ import com.example.zenithevents.EntrantsList.CancelledEntrants;
 import com.example.zenithevents.EntrantsList.EnrolledEntrants;
 import com.example.zenithevents.EntrantsList.SampledEntrants;
 import com.example.zenithevents.EntrantsList.WaitlistedEntrants;
+import com.example.zenithevents.Events.CreateEventPage;
+import com.example.zenithevents.Events.QRView;
 import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
+import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.OrganizerPage;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
+import com.example.zenithevents.User.ProfileDetailActivity;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This class represents the EventView activity in the application, which displays
@@ -191,41 +199,10 @@ public class EventView extends AppCompatActivity {
                 event.getRegistrants().contains(deviceID)
         ) {
             btnJoinLeaveWaitingList.setBackgroundColor(Color.RED);
-            btnJoinLeaveWaitingList.setText("Leave Event");
+            btnJoinLeaveWaitingList.setText("Leave Waiting List");
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
                 Context context = EventView.this;
-
-                if (event.getHasGeolocation()) {
-                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(EventView.this,
-                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                                LOCATION_PERMISSION_REQUEST_CODE);
-                    }
-                    fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
-                    fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-                            .addOnSuccessListener(location -> {
-                                if (location != null) {
-                                    double latitude = location.getLatitude();
-                                    Log.d(TAG, String.valueOf(latitude));
-                                    double longitude = location.getLongitude();
-                                    Log.d(TAG, String.valueOf(longitude));
-                                    event.updateUserLocation(deviceID, latitude, longitude);
-                                    System.out.println(event.getUserLocations());
-
-                                    db.collection("events").document(event.getEventId())
-                                            .update("userLocations", event.getUserLocations())
-                                            .addOnSuccessListener(aVoid -> {
-                                                Toast.makeText(EventView.this, "User location saved.", Toast.LENGTH_SHORT);
-                                            })
-                                            .addOnFailureListener(e -> {
-                                                Toast.makeText(EventView.this, "Failed to save location.", Toast.LENGTH_SHORT);
-                                            });
-                                } else {
-                                    Log.d("Location", "Location is null");
-                                }
-                            });
-                }
 
                 userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
                     if (isSuccess) {
@@ -242,13 +219,33 @@ public class EventView extends AppCompatActivity {
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
                 Context context = EventView.this;
 
-                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
-                    if (isSuccess) {
-                        Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                if (event.getHasGeolocation()) {
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(EventView.this,
+                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                                LOCATION_PERMISSION_REQUEST_CODE);
                     }
-                });
+                    fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+                    fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                            .addOnSuccessListener(location -> {
+                                if (location != null) {
+                                    double latitude = location.getLatitude();
+                                    Log.d("Coords:", "Latitude" + latitude);
+                                    double longitude = location.getLongitude();
+                                    Log.d("Coords", "Longitude:" + longitude);
+                                } else {
+                                    Log.d("Location", "Location is null");
+                                }
+                            });
+                } else {
+                    userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
+                        if (isSuccess) {
+                            Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             });
 
             if (event.getNumParticipants() != 0 &&
@@ -278,7 +275,6 @@ public class EventView extends AppCompatActivity {
                 intent.putExtra("eventId", event.getEventId());
                 startActivity(intent);
             });
-
         } else {
             btnEditEvent.setVisibility(View.GONE);
             entrantsSlider.setVisibility(View.GONE);
