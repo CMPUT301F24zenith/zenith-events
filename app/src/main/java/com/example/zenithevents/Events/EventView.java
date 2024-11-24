@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -31,6 +32,7 @@ import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.ProfileDetailActivity;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -51,7 +53,7 @@ public class EventView extends AppCompatActivity {
     private static final String TAG = "EventView";
 
     ImageView eventPosterImageView;
-    private Button btnJoinLeaveWaitingList, qrCodeButton, btnEditEvent, btnSampleUsers, deleteEventButton;
+    private Button btnJoinLeaveWaitingList, qrCodeButton, btnEditEvent, btnSampleUsers, deleteEventButton, deleteImageButton;
     private TextView eventDescription, eventName, facilityName, eventAddress;
     private ProgressBar progressBar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -60,6 +62,7 @@ public class EventView extends AppCompatActivity {
     private int currentOptionIndex = 0;
     LinearLayout entrantsSlider;
     FacilityUtils facilityUtils;
+    private String eventId;
 
     /**
      * Initializes the activity and its UI components.
@@ -93,6 +96,9 @@ public class EventView extends AppCompatActivity {
             });
         });
         setupRealTimeEventListener(eventId);
+        deleteImageButton.setOnClickListener(v->{
+            showRemoveProfilePictureDialog();
+        });
 
     }
 
@@ -112,6 +118,7 @@ public class EventView extends AppCompatActivity {
         btnEditEvent = findViewById(R.id.btnEditEvent);
         deleteEventButton = findViewById(R.id.deleteEvent);
         btnSampleUsers = findViewById(R.id.btnSampleUsers);
+        deleteImageButton = findViewById(R.id.deleteImage);
     }
 
     /**
@@ -140,6 +147,8 @@ public class EventView extends AppCompatActivity {
                     if (documentSnapshot != null && documentSnapshot.exists()) {
                         // Convert document snapshot to Event object
                         Event event = documentSnapshot.toObject(Event.class);
+                        this.eventId = event != null ? event.getEventId() : null;
+
                         if (event != null) {
                             displayEventDetails(event);
                         }
@@ -263,8 +272,10 @@ public class EventView extends AppCompatActivity {
         if (imageUrl != null) {
             Bitmap imgBitMap = bitmapUtils.decodeBase64ToBitmap(imageUrl);
             Glide.with(this).load(imgBitMap).into(placeholder);
+            deleteImageButton.setVisibility(View.VISIBLE);
         } else {
             placeholder.setImageResource(R.drawable.event_place_holder);
+            deleteImageButton.setVisibility(View.GONE);
         }
     }
 
@@ -357,5 +368,33 @@ public class EventView extends AppCompatActivity {
     }
     public interface CustomCallback {
         void onComplete(boolean success);
+    }
+
+
+    private void showRemoveProfilePictureDialog() {
+        new AlertDialog.Builder(EventView.this)
+                .setTitle("Remove Event Picture")
+                .setMessage("Are you sure you want to remove the event's poster picture?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    removePicture();
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+
+
+    private void removePicture() {
+        eventPosterImageView.setImageResource(R.drawable.event_place_holder);
+        deleteImageButton.setVisibility(View.GONE);
+        db.collection("events").document(eventId)
+                .update("imageUrl", null)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(EventView.this, "Event picture removed successfully.", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(EventView.this, "Failed to remove event picture.", Toast.LENGTH_SHORT).show();
+
+                });
     }
 }
