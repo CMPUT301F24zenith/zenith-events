@@ -104,10 +104,6 @@ public class EventView extends AppCompatActivity {
         initializeViews();
 
         setupRealTimeEventListener(eventId);
-        deleteImageButton.setOnClickListener(v->{
-            showRemoveProfilePictureDialog();
-        });
-
     }
 
     /**
@@ -277,6 +273,18 @@ public class EventView extends AppCompatActivity {
         Log.d("FunctionCAll", "type:: " + type);
         if (Objects.equals(type, "organizer") || Objects.equals(type, "admin")) {
             setupEntrantNavigation(event.getEventId());
+            if (Objects.equals(type, "admin")) {
+                deleteImageButton.setOnClickListener(v ->
+                        new AlertDialog.Builder(EventView.this)
+                                .setTitle("Remove Event Picture")
+                                .setMessage("Are you sure you want to remove the event's poster picture?")
+                                .setPositiveButton("Yes", (dialog, which) -> {
+                                    removePicture();
+                                })
+                                .setNegativeButton("No", null)
+                                .show()
+                );
+            }
             btnEditEvent.setVisibility(View.VISIBLE);
             btnEditEvent.setOnClickListener(v -> {
                 Intent intent = new Intent(EventView.this, CreateEventPage.class);
@@ -310,6 +318,7 @@ public class EventView extends AppCompatActivity {
             btnEditEvent.setVisibility(View.GONE);
             entrantsSlider.setVisibility(View.GONE);
             deleteEventButton.setVisibility(View.GONE);
+            deleteImageButton.setVisibility(View.GONE);
         }
 
         qrCodeButton.setOnClickListener(v -> {
@@ -418,17 +427,6 @@ public class EventView extends AppCompatActivity {
         if (eventListener != null) {
             eventListener.remove(); // Remove the listener to avoid memory leaks
         }
-    }
-
-    private void showRemoveProfilePictureDialog() {
-        new AlertDialog.Builder(EventView.this)
-                .setTitle("Remove Event Picture")
-                .setMessage("Are you sure you want to remove the event's poster picture?")
-                .setPositiveButton("Yes", (dialog, which) -> {
-                    removePicture();
-                })
-                .setNegativeButton("No", null)
-                .show();
     }
 
     private void removePicture() {
