@@ -99,8 +99,7 @@ public class EventsFragment extends Fragment {
         if (getArguments() != null) {
             type = getArguments().getString("type");
             if (Objects.equals(type, "organizer")) {
-                deviceID = DeviceUtils.getDeviceID(context);
-                eventUtils.fetchOrganizerEvents(context, deviceID, fetchedOrganizerEvents -> {
+                eventUtils.fetchFacilityEvents(deviceID, fetchedOrganizerEvents -> {
                     if (fetchedOrganizerEvents != null) {
                         events.clear();
                         events.addAll(fetchedOrganizerEvents);

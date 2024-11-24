@@ -16,8 +16,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.zenithevents.ArrayAdapters.EventArrayAdapter;
-import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
+import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,6 +36,7 @@ public class FacilityDetail extends AppCompatActivity {
     private List<Event> eventList = new ArrayList<>();
     private ListenerRegistration eventsListener;
     EventUtils eventUtils;
+    FacilityUtils facilityUtils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +53,7 @@ public class FacilityDetail extends AppCompatActivity {
             return insets;
         });
         eventUtils = new EventUtils();
-
-
+        facilityUtils = new FacilityUtils();
 
         facilityName = findViewById(R.id.facilityName);
         facilityEmail = findViewById(R.id.facilityEmail);
@@ -61,19 +61,18 @@ public class FacilityDetail extends AppCompatActivity {
         facilityEventsListView = findViewById(R.id.facilityEventsListView);
         deleteFacilityButton = findViewById(R.id.deleteFacility);
 
-        eventArrayAdapter = new EventArrayAdapter(this, eventList, "organizer", null);
+        eventArrayAdapter = new EventArrayAdapter(this, eventList, "admin", null);
         facilityEventsListView.setAdapter(eventArrayAdapter);
 
         facilityEventsListView.setLayoutAnimation(
                 AnimationUtils.loadLayoutAnimation(this, R.anim.list_layout_animation)
         );
         Intent intent = getIntent();
-        String facilityID = intent.getStringExtra("facilityID");
+        String facilityId = intent.getStringExtra("facilityId");
 
-        eventsListeners(facilityID);
+        eventsListeners(facilityId);
 
-        String deviceId = DeviceUtils.getDeviceID(this);
-        eventUtils.fetchOrganizerEvents(this, facilityID, events -> {
+        eventUtils.fetchFacilityEvents(facilityId, events -> {
             if (events != null) {
                 eventList = events;
                 eventArrayAdapter.clear();
@@ -87,7 +86,14 @@ public class FacilityDetail extends AppCompatActivity {
         facilityEmail.setText(intent.getStringExtra("facilityEmail"));
         facilityPhoneNumber.setText(intent.getStringExtra("facilityPhoneNumber"));
 
-        deleteFacilityButton.setOnClickListener(v-> deleteFacilityConfirmation(deviceId));
+        deleteFacilityButton.setOnClickListener(v-> {
+            new AlertDialog.Builder(this)
+                    .setTitle("Delete Facility")
+                    .setMessage("Are you sure you want to delete this facility")
+                    .setPositiveButton("Delete", (dialog, which) -> facilityUtils.deleteFacility(this, facilityId))
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        });
     }
 
     private void eventsListeners(String facilityId) {
@@ -113,45 +119,6 @@ public class FacilityDetail extends AppCompatActivity {
                         eventArrayAdapter.notifyDataSetChanged();
                         facilityEventsListView.scheduleLayoutAnimation();
                     }
-                });
-    }
-
-    private void deleteFacilityConfirmation(String deviceId) {
-        new AlertDialog.Builder(this)
-                .setTitle("Delete Facility")
-                .setMessage("Are you sure you want to delete this facility")
-                .setPositiveButton("Delete", (dialog, which) -> deleteFacilityAndEvents(deviceId))
-                .setNegativeButton("Cancel", null)
-                .show();
-    }
-
-    private void deleteFacilityAndEvents(String deviceId) {
-        Toast.makeText(this, "Deleting facility and its events", Toast.LENGTH_SHORT).show();
-        eventUtils.fetchOrganizerEvents(this, deviceId, events -> {
-            if (events != null) {
-                for (Event event : events) {
-                    eventUtils.deleteEvent(event.getEventId(), isDeleted -> {
-                        if (!isDeleted) {
-                            Toast.makeText(FacilityDetail.this, "Failed to delete", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
-            deleteFacility(deviceId);
-        });
-
-    }
-
-    private void deleteFacility(String deviceId) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("facilities").document(deviceId)
-                .delete()
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(FacilityDetail.this, "Facility deleted", Toast.LENGTH_SHORT).show();
-                    finish();
-                })
-                .addOnFailureListener(e-> {
-                    Toast.makeText(FacilityDetail.this, "Facility failed to delete", Toast.LENGTH_SHORT).show();
                 });
     }
 
