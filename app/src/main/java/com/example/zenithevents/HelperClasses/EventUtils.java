@@ -9,13 +9,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.example.zenithevents.Objects.Event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Utility class for handling event-related operations in Firestore.
@@ -135,11 +132,10 @@ public class EventUtils {
     /**
      * Fetches all events created by a specific device (organizer).
      *
-     * @param context  The application context.
      * @param deviceId The device ID of the organizer.
      * @param callback Callback to return a list of the organizer's events.
      */
-    public void fetchOrganizerEvents(Context context, String deviceId, EventsFetchCallback callback) {
+    public void fetchFacilityEvents(String deviceId, EventsFetchCallback callback) {
         db.collection("events")
                 .whereEqualTo("ownerFacility", deviceId)
                 .get()
@@ -153,7 +149,7 @@ public class EventUtils {
                             organizerEvents.add(event);
                         }
                     }
-
+                    Log.d("FunctionCall", "SIZE:: " + organizerEvents.size() + ":: ID:: " + deviceId);
                     callback.onEventsFetchComplete(organizerEvents);
                 }).addOnFailureListener(e -> {
                     Log.d("FunctionCall", "failed");
@@ -167,11 +163,24 @@ public class EventUtils {
      * @param eventId  The ID of the event to delete.
      * @param callback Callback to return success status after deletion.
      */
-    public void deleteEvent(String eventId, EventExistenceCallback callback) {
-        db.collection("events").document(eventId)
-                .delete()
-                .addOnSuccessListener(aVoid -> callback.onEventCheckComplete(true))
-                .addOnFailureListener(e -> callback.onEventCheckComplete(false));
+    public void removeEvent(String eventId, EventExistenceCallback callback) {
+        db.collection("users").get().addOnCompleteListener(task-> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                for (DocumentSnapshot userDoc : task.getResult().getDocuments()) {
+                    db.collection("users").document(userDoc.getId()).update(
+                            "waitingEvents", FieldValue.arrayRemove(eventId),
+                            "selectedEvents", FieldValue.arrayRemove(eventId),
+                            "registeredEvents", FieldValue.arrayRemove(eventId),
+                            "cancelledEvents", FieldValue.arrayRemove(eventId)
+                    );
+                }
+                db.collection("events").document(eventId).delete()
+                        .addOnSuccessListener(aVoid->callback.onEventCheckComplete(true))
+                        .addOnFailureListener(e->callback.onEventCheckComplete(false));
+            } else {
+                callback.onEventCheckComplete(false);
+            }
+        });
     }
 
     /**

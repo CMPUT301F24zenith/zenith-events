@@ -70,7 +70,7 @@ public class FacilityArrayAdapter extends ArrayAdapter<Facility> {
 
         convertView.setOnClickListener(v ->{
             Intent intent = new Intent(getContext(), FacilityDetail.class);
-            intent.putExtra("facilityID", facility.getDeviceId());
+            intent.putExtra("facilityId", facility.getDeviceId());
             intent.putExtra("facilityName", facility.getNameOfFacility());
             intent.putExtra("facilityEmail", facility.getEmailOfFacility());
             intent.putExtra("facilityPhoneNumber", facility.getPhoneOfFacility());

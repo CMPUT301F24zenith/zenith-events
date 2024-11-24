@@ -76,7 +76,8 @@ public class EventView extends AppCompatActivity {
     private final String[] entrantOptions = {"Waitlisted Entrants", "Selected Entrants", "Registered Entrants", "Cancelled Entrants"};
     private int currentOptionIndex = 0;
     LinearLayout entrantsSlider;
-    FacilityUtils facilityUtils;
+    FacilityUtils facilityUtils = new FacilityUtils();
+    EventUtils eventUtils = new EventUtils();
 
     /**
      * Initializes the activity and its UI components.
@@ -95,11 +96,10 @@ public class EventView extends AppCompatActivity {
         });
 
         String eventId = getIntent().getStringExtra("event_id");
-        facilityUtils = new FacilityUtils();
         initializeViews();
         deleteEventButton.setOnClickListener(v-> {
             progressBar.setVisibility(View.VISIBLE);
-            removeEvent(eventId, success-> {
+            eventUtils.removeEvent(eventId, success-> {
                 progressBar.setVisibility(View.GONE);
                 if (success) {
                     Toast.makeText(EventView.this, "Event deleted", Toast.LENGTH_SHORT).show();
@@ -200,15 +200,17 @@ public class EventView extends AppCompatActivity {
                 event.getRegistrants().contains(deviceID)
         ) {
             btnJoinLeaveWaitingList.setBackgroundColor(Color.RED);
-            btnJoinLeaveWaitingList.setText("Leave Waiting List");
+            btnJoinLeaveWaitingList.setText("Leave Event");
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
                 Context context = EventView.this;
 
-                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
-                    if (isSuccess) {
+                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), (isSuccess, event_) -> {
+                    if (isSuccess == 1) {
                         Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else if (isSuccess == 0) {
+                        Toast.makeText(context, "Successfully left the event!", Toast.LENGTH_SHORT).show();
+                    } else if (isSuccess == -1) {
                         Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -219,46 +221,47 @@ public class EventView extends AppCompatActivity {
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
                 Context context = EventView.this;
+                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), (isSuccess, event_) -> {
+                    Log.d("FunctionCall", "Applying.." + isSuccess);
+                    if (isSuccess == 1) {
+                        if (event_.getHasGeolocation()) {
+                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(EventView.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                                        LOCATION_PERMISSION_REQUEST_CODE);
+                            }
+                            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+                            fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                                    .addOnSuccessListener(location -> {
+                                        if (location != null) {
+                                            double latitude = location.getLatitude();
+                                            Log.d("FunctionCall", "EVENTID" + event_.getEventId());
 
-                if (event.getHasGeolocation()) {
-                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(EventView.this,
-                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                                LOCATION_PERMISSION_REQUEST_CODE);
-                    }
-                    fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
-                    fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-                            .addOnSuccessListener(location -> {
-                                if (location != null) {
-                                    double latitude = location.getLatitude();
-                                    Log.d("FunctionCall", "EVENTID" + event.getEventId());
+                                            Log.d("FunctionCall", "Latitude" + latitude);
+                                            double longitude = location.getLongitude();
+                                            Log.d("FunctionCall", "Longitude:" + longitude);
+                                            event_.updateUserLocation(deviceID, latitude, longitude);
 
-                                    Log.d("FunctionCall", "Latitude" + latitude);
-                                    double longitude = location.getLongitude();
-                                    Log.d("FunctionCall", "Longitude:" + longitude);
-                                    event.updateUserLocation(deviceID, latitude, longitude);
-
-                                    EventUtils eventUtils = new EventUtils();
-                                    Log.d("FunctionCall", "updatingEvent...");
-                                    eventUtils.createUpdateEvent(event, callback -> {
-                                        if (callback != null) {
-                                            userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
-                                                if (isSuccess) {
-                                                    Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                                            Log.d("FunctionCall", "updatingEvent...");
+                                            eventUtils.createUpdateEvent(event_, callback -> {
+                                                if (callback != null) {
+                                                    Log.d("FunctionCall", "Location added successfully.");
                                                 } else {
-                                                    Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                                                    Log.d("FunctionCall", "Failed to update event.");
                                                 }
                                             });
-                                            Log.d("FunctionCall", "Location added successfully.");
                                         } else {
-                                            Log.d("FunctionCall", "Failed to update event.");
+                                            Log.d("Location", "Location is null");
                                         }
                                     });
-                                } else {
-                                    Log.d("Location", "Location is null");
-                                }
-                            });
-                }
+                        }
+                        Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                    } else if (isSuccess == 0) {
+                        Toast.makeText(context, "Successfully left the event!", Toast.LENGTH_SHORT).show();
+                    } else if (isSuccess == -1) {
+                        Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             });
 
             if (event.getNumParticipants() != 0 &&
@@ -383,27 +386,5 @@ public class EventView extends AppCompatActivity {
         if (eventListener != null) {
             eventListener.remove(); // Remove the listener to avoid memory leaks
         }
-    }
-    private void removeEvent(String eventId, CustomCallback callback) {
-        db.collection("users").get().addOnCompleteListener(task-> {
-            if (task.isSuccessful() && task.getResult() != null) {
-                for (DocumentSnapshot userDoc : task.getResult().getDocuments()) {
-                    db.collection("users").document(userDoc.getId()).update(
-                            "waitingEvents", FieldValue.arrayRemove(eventId),
-                            "selectedEvents", FieldValue.arrayRemove(eventId),
-                            "registeredEvents", FieldValue.arrayRemove(eventId),
-                            "cancelledEvents", FieldValue.arrayRemove(eventId)
-                    );
-                }
-                db.collection("events").document(eventId).delete()
-                        .addOnSuccessListener(aVoid->callback.onComplete(true))
-                        .addOnFailureListener(e->callback.onComplete(false));
-            } else {
-                callback.onComplete(false);
-            }
-        });
-    }
-    public interface CustomCallback {
-        void onComplete(boolean success);
     }
 }
