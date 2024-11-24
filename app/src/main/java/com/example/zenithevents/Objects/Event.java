@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Represents an event in the system.
@@ -31,7 +32,7 @@ public class Event implements Serializable {
     private String ownerFacility, eventId, eventTitle, QRCodeHash, QRCodeBitmap, ImageUrl, eventAddress, eventDescription;
     private Boolean hasGeolocation;
     private int numParticipants, selectedLimit;
-    private Map<String, double[]> userLocations;
+    private Map<String, Object> userLocations;
 
     /**
      * Default constructor that initializes all lists and fields to default values.
@@ -72,7 +73,7 @@ public class Event implements Serializable {
      * @param hasGeolocation  Whether the event will track geolocation
      * <p>Note: The Javadocs for this constructor were generated with the assistance of an AI language model.</p>
      */
-    public Event(String eventId, String eventTitle, String eventImage, String QRCodeHash, String QRCodeBitmap, int numParticipants, String eventAddress, Boolean hasGeolocation, Map<String, double[]> userLocations){
+    public Event(String eventId, String eventTitle, String eventImage, String QRCodeHash, String QRCodeBitmap, int numParticipants, String eventAddress, Boolean hasGeolocation, Map<String, Object> userLocations){
         this.waitingList = new ArrayList<>();
         this.selected = new ArrayList<>();
         this.cancelledList = new ArrayList<>();
@@ -433,17 +434,21 @@ public class Event implements Serializable {
         this.hasGeolocation = hasGeolocation;
     }
 
-    public Map<String, double[]> getUserLocations() {
+    public Map<String, Object> getUserLocations() {
         return userLocations;
     }
 
-    public void setUserLocations(Map<String, double[]> userLocations) {
+    public void setUserLocations(Map<String, Object> userLocations) {
         this.userLocations = userLocations;
     }
 
     public void updateUserLocation(String userId, double latitude, double longitude) {
+        Log.d("FunctionCall", "updating location...");
         if (userLocations != null) {
-            userLocations.put(userId, new double[]{latitude, longitude});
+            Map<String, Object> locationMap = new HashMap<>();
+            locationMap.put("latitude", latitude);
+            locationMap.put("longitude", longitude);
+            userLocations.put(userId, locationMap);
         }
     }
 }

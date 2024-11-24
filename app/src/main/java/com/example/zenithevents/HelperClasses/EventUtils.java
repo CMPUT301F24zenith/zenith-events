@@ -99,6 +99,8 @@ public class EventUtils {
      * @param callback Callback to return the event ID after creation or update.
      */
     public void createUpdateEvent(Event event, EventUpdateCallback callback) {
+        Log.d("FunctionCall", "updatingEvent1...");
+
         if (event.getEventId() == null) {
             db.collection("events").add(event)
                     .addOnSuccessListener(ref -> {
@@ -288,6 +290,7 @@ public class EventUtils {
         eventMap.put("registrants", event.getRegistrants());
         eventMap.put("ownerFacility", event.getOwnerFacility());
         eventMap.put("QRCodeURL", event.getQRCodeHash());
+        eventMap.put("userLocations", event.getUserLocations());
         return eventMap;
     }
 }

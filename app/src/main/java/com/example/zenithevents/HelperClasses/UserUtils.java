@@ -220,6 +220,7 @@ public class UserUtils {
                                                         event.getRegistrants().remove(deviceId);
                                                         event.getCancelledList().remove(deviceId);
                                                         event.getSelected().remove(deviceId);
+                                                        event.getUserLocations().remove(deviceId);
                                                     }
 
                                                     EventUtils eventUtils = new EventUtils();

@@ -231,14 +231,24 @@ public class EventView extends AppCompatActivity {
                             .addOnSuccessListener(location -> {
                                 if (location != null) {
                                     double latitude = location.getLatitude();
-                                    Log.d("Coords:", "Latitude" + latitude);
+                                    Log.d("FunctionCall", "EVENTID" + event.getEventId());
+
+                                    Log.d("FunctionCall", "Latitude" + latitude);
                                     double longitude = location.getLongitude();
-                                    Log.d("Coords", "Longitude:" + longitude);
+                                    Log.d("FunctionCall", "Longitude:" + longitude);
                                     event.updateUserLocation(deviceID, latitude, longitude);
 
                                     EventUtils eventUtils = new EventUtils();
+                                    Log.d("FunctionCall", "updatingEvent...");
                                     eventUtils.createUpdateEvent(event, callback -> {
                                         if (callback != null) {
+                                            userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
+                                                if (isSuccess) {
+                                                    Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
                                             Log.d("FunctionCall", "Location added successfully.");
                                         } else {
                                             Log.d("FunctionCall", "Failed to update event.");
@@ -249,13 +259,6 @@ public class EventView extends AppCompatActivity {
                                 }
                             });
                 }
-                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
-                    if (isSuccess) {
-                        Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
-                    }
-                });
             });
 
             if (event.getNumParticipants() != 0 &&
