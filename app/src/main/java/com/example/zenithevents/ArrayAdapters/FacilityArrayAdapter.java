@@ -8,10 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Objects.Facility;
 import com.example.zenithevents.R;
-import com.example.zenithevents.admin.FacilityDetail;
+import com.example.zenithevents.Admin.FacilityDetail;
 
 import java.util.List;
 

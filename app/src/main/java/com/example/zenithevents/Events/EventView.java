@@ -25,6 +25,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.zenithevents.Admin.QRViewAdmin;
 import com.example.zenithevents.EntrantsList.CancelledEntrants;
 import com.example.zenithevents.EntrantsList.EnrolledEntrants;
 import com.example.zenithevents.EntrantsList.SampledEntrants;
@@ -39,6 +40,7 @@ import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
+import com.google.firebase.firestore.DocumentReference;
 import com.example.zenithevents.User.OrganizerPage;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -305,9 +307,23 @@ public class EventView extends AppCompatActivity {
         }
 
         qrCodeButton.setOnClickListener(v -> {
-            Intent intent = new Intent(EventView.this, QRView.class);
-            intent.putExtra("Event", (Serializable) event);
-            startActivity(intent);
+            DocumentReference userRef = db.collection("users").document(deviceID);
+            userRef.get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
+                            if (Boolean.TRUE.equals(isAdmin)) {
+                                Intent intent = new Intent(EventView.this, QRViewAdmin.class);
+                                intent.putExtra("Event", (Serializable) event);
+                                startActivity(intent);
+                            } else {
+                                Intent intent = new Intent(EventView.this, QRView.class);
+                                intent.putExtra("Event", (Serializable) event);
+                                startActivity(intent);
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> Log.e("Firestore", "Can't find document", e));
         });
     }
 

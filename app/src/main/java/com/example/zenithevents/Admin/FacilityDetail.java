@@ -1,4 +1,4 @@
-package com.example.zenithevents.admin;
+package com.example.zenithevents.Admin;
 
 import android.app.AlertDialog;
 import android.content.Intent;

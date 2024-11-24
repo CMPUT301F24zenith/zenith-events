@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".admin.AdminViewActivity">
+    tools:context=".Admin.AdminViewActivity">
 
 
   <TextView
