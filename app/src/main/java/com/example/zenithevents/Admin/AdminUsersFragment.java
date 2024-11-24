@@ -45,12 +45,10 @@ public class AdminUsersFragment extends Fragment {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-<<<<<<<< HEAD:app/src/main/java/com/example/zenithevents/Admin/AdminUsersFragment.java
-========
-        listView = findViewById(R.id.listView);
-        adapter = new EntrantArrayAdapter(this, userList, "admin", null);
+        listView = view.findViewById(R.id.listView);
+        adapter = new EntrantArrayAdapter(requireContext(), userList, "admin", null);
         listView.setAdapter(adapter);
->>>>>>>> origin:app/src/main/java/com/example/zenithevents/Admin/ViewUsersAdmin.java
+
 
         // Initialize the ListView and adapter
         listView = view.findViewById(R.id.listView);
