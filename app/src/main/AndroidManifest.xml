@@ -40,22 +40,22 @@
         </service>
 
         <activity
-            android:name=".admin.FacilityDetail"
+            android:name=".Admin.FacilityDetail"
             android:exported="false" />
         <activity
-            android:name=".admin.ViewFacilitiesAdmin"
+            android:name=".Admin.ViewFacilitiesAdmin"
             android:exported="false" />
         <activity
-            android:name=".admin.ViewUsersAdmin"
+            android:name=".Admin.ViewUsersAdmin"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminViewActivity"
+            android:name=".Admin.AdminViewActivity"
             android:exported="false" />
         <activity
             android:name=".User.ProfileDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.ViewEventsAdmin"
+            android:name=".Admin.ViewEventsAdmin"
             android:exported="false" />
         <activity
             android:name=".EntrantsList.SampledEntrants"
@@ -70,10 +70,10 @@
             android:name=".EntrantsList.EnrolledEntrants"
             android:exported="false" />
         <activity
-            android:name=".Organizer.EventView"
+            android:name=".Events.EventView"
             android:exported="false" />
         <activity
-            android:name=".CreateProfile.CreateProfileActivity"
+            android:name=".EntrantDashboard.CreateProfileActivity"
             android:exported="false" />
         <activity
             android:name=".EntrantDashboard.EntrantViewActivity"
@@ -86,10 +86,11 @@
             android:name=".Events.CreateEventPage"
             android:exported="false" />
         <activity android:name=".Events.CreationSuccessActivity" />
-        <activity android:name=".QRCodes.QRScannerActivity" />
-        <activity android:name=".Organizer.QRView" />
-        <activity android:name=".Facility.CreateFacility" />
-        <activity android:name=".Facility.ViewFacility" />
+        <activity android:name=".Events.QRScannerActivity" />
+        <activity android:name=".Events.QRView" />
+        <activity android:name=".Admin.QRViewAdmin" />
+        <activity android:name=".User.CreateFacility" />
+        <activity android:name=".User.ViewFacility" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

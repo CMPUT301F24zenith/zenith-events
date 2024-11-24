@@ -1,16 +1,21 @@
-package com.example.zenithevents.Organizer;
+package com.example.zenithevents.Admin;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.zenithevents.Events.CreateEventPage;
+import com.example.zenithevents.Events.CreationSuccessActivity;
+import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
@@ -25,12 +30,13 @@ import com.example.zenithevents.R;
  * Note: The Javadocs for this class were generated with the assistance of an AI language model.
  * </p>
  */
-public class QRView extends AppCompatActivity {
+public class QRViewAdmin extends AppCompatActivity {
     private TextView eventTitleText;
     private ImageView qrCodeView;
-    private Button shareQRButton, doneButton;
+    private Button shareQRButton, doneButton, deleteButton;
     Event event;
     Bitmap qrCode;
+    EventUtils eventUtils = new EventUtils();
 
     /**
      * Called when the activity is first created. Initializes the UI components, retrieves the Event object passed
@@ -42,12 +48,13 @@ public class QRView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qr_view);
+        setContentView(R.layout.admin_qr_view);
 
         eventTitleText = findViewById(R.id.eventTitle);
         qrCodeView = findViewById(R.id.qrCodeImageView);
         shareQRButton = findViewById(R.id.shareQRCodeButton);
         doneButton = findViewById(R.id.doneButton);
+        deleteButton = findViewById(R.id.deleteQRCodeButton);
 
         event = (Event) getIntent().getSerializableExtra("Event");
 
@@ -62,6 +69,27 @@ public class QRView extends AppCompatActivity {
             });
 
             doneButton.setOnClickListener(v -> {
+                finish();
+            });
+
+            deleteButton.setOnClickListener(v -> {
+                String newQRContent = QRCodeUtils.generateRandomString(16);
+                Bitmap newQRBitmap = QRCodeUtils.generateQRCode(newQRContent);
+                String qrCodeBase64 = QRCodeUtils.encodeBitmapToBase64(newQRBitmap);
+                event.setQRCodeBitmap(qrCodeBase64);
+                String qrCodeHashed = QRCodeUtils.hashQRCodeData(newQRContent);
+                event.setQRCodeHash(qrCodeHashed);
+
+                eventUtils.createUpdateEvent(QRViewAdmin.this, event, eventId_ -> {
+                    if (eventId_ != null) {
+                        Log.d("Firestore", "QR code hash updated successfully.");
+                        Toast.makeText(this, "QR Code was successfully deleted!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "There was an error updating the QR code. Please try again!", Toast.LENGTH_SHORT).show();
+                        Log.w("Firestore", "Failed to update QR code hash.");
+                    }
+                });
+
                 finish();
             });
         }

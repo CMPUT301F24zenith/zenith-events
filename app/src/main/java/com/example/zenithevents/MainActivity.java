@@ -8,14 +8,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.zenithevents.CreateProfile.CreateProfileActivity;
 import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
-import com.example.zenithevents.HelperClasses.DeviceUtils;
-import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.User.OrganizerPage;
+import com.example.zenithevents.Admin.AdminViewActivity;
 import com.example.zenithevents.User.UserProfile;
-import com.example.zenithevents.admin.AdminViewActivity;
+//import com.example.zenithevents.admin.AdminViewActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

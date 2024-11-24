@@ -4,20 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.example.zenithevents.CreateProfile.CreateProfileActivity;
-import com.example.zenithevents.Events.CreateEventPage;
-import com.example.zenithevents.Events.CreationSuccessActivity;
-import com.example.zenithevents.MainActivity;
+import com.example.zenithevents.EntrantDashboard.CreateProfileActivity;
 import com.example.zenithevents.Objects.Event;
-import com.example.zenithevents.User.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.example.zenithevents.Objects.User;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,6 +42,15 @@ public class UserUtils {
          * @param exists {@code true} if the user exists; {@code false} otherwise.
          */
         void onUserCheckComplete(boolean exists);
+    }
+
+    public interface joinEventCallback {
+        /**
+         * Invoked when the user existence check completes.
+         *
+         * @param exists {@code true} if the user exists; {@code false} otherwise.
+         */
+        void onUserJoinComplete(int exists, Event event);
     }
 
     /**
@@ -180,7 +183,7 @@ public class UserUtils {
      * @param eventId   The ID of the event to apply or leave.
      * @param callback  The callback invoked upon completion with a boolean indicating success.
      */
-    public void applyLeaveEvent(Context context, String deviceId, String eventId, UserExistenceCallback callback) {
+    public void applyLeaveEvent(Context context, String deviceId, String eventId, joinEventCallback callback) {
         db.collection("users").document(deviceId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
@@ -212,6 +215,8 @@ public class UserUtils {
                                             .addOnSuccessListener(documentSnapshot1 -> {
                                                 if (documentSnapshot1.exists()) {
                                                     Event event = documentSnapshot1.toObject(Event.class);
+                                                    EventUtils eventUtils = new EventUtils();
+
                                                     assert event.getWaitingList() != null && event.getCancelledList() != null &&
                                                             event.getSelected() != null && event.getRegistrants() != null;
 
@@ -221,31 +226,38 @@ public class UserUtils {
                                                             !event.getSelected().contains(deviceId)
                                                     ) {
                                                         event.getWaitingList().add(deviceId);
+
+                                                        db.collection("events").document(eventId)
+                                                                .update(eventUtils.convertEventToMap(event))
+                                                                .addOnSuccessListener(aVoid1 -> callback.onUserJoinComplete(1, event))
+                                                                .addOnFailureListener(e -> callback.onUserJoinComplete(-1, null));
+
                                                     } else {
                                                         event.getWaitingList().remove(deviceId);
                                                         event.getRegistrants().remove(deviceId);
                                                         event.getCancelledList().remove(deviceId);
                                                         event.getSelected().remove(deviceId);
-                                                    }
+                                                        event.getUserLocations().remove(deviceId);
 
-                                                    EventUtils eventUtils = new EventUtils();
-                                                    db.collection("events").document(eventId)
-                                                            .update(eventUtils.convertEventToMap(event))
-                                                            .addOnSuccessListener(aVoid1 -> callback.onUserCheckComplete(true))
-                                                            .addOnFailureListener(e -> callback.onUserCheckComplete(false));
+                                                        db.collection("events").document(eventId)
+                                                                .update(eventUtils.convertEventToMap(event))
+                                                                .addOnSuccessListener(aVoid1 -> callback.onUserJoinComplete(0, event))
+                                                                .addOnFailureListener(e -> callback.onUserJoinComplete(-1, null));
+
+                                                    }
                                                 }
                                             })
-                                            .addOnFailureListener(e -> callback.onUserCheckComplete(false));
-                                }).addOnFailureListener(e -> callback.onUserCheckComplete(false));
+                                            .addOnFailureListener(e -> callback.onUserJoinComplete(-1, null));
+                                }).addOnFailureListener(e -> callback.onUserJoinComplete(-1, null));
                     } else {
                         Log.d("FunctionCall", "aaa");
                         Intent intent = new Intent(context, CreateProfileActivity.class);
                         context.startActivity(intent);
-                        callback.onUserCheckComplete(false);
+                        callback.onUserJoinComplete(-1, null);
                     }
                 }).addOnFailureListener(e -> {
                     Log.d("FunctionCall", "Firestore fetch error");
-                    callback.onUserCheckComplete(false);
+                    callback.onUserJoinComplete(-1, null);
                 });
     }
 

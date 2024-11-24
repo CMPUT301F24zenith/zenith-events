@@ -1,4 +1,4 @@
-package com.example.zenithevents.QRCodes;
+package com.example.zenithevents.Events;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.zenithevents.Events.EventView;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
-import com.example.zenithevents.Organizer.EventView;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -79,6 +79,7 @@ public class QRScannerActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(QRScannerActivity.this, EventView.class);
                 intent.putExtra("event_id", eventId);
+                intent.putExtra("type", "waitingEvents");
                 startActivity(intent);
                 finish();
             } else {

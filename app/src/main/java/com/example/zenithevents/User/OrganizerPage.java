@@ -1,6 +1,5 @@
 package com.example.zenithevents.User;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,12 +19,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.zenithevents.EntrantDashboard.EventsFragment;
 import com.example.zenithevents.Events.CreateEventPage;
-import com.example.zenithevents.Facility.CreateFacility;
-import com.example.zenithevents.Facility.ViewFacility;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
@@ -78,6 +76,11 @@ public class OrganizerPage extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         createFacilityButton = findViewById(R.id.createFacilityButton);
         viewFacilityButton = findViewById(R.id.viewFacilityButton);
+
+//        FloatingActionButton sendNotifsButton = findViewById(R.id.sendNotifsButton);
+//        sendNotifsButton.setOnClickListener(v -> {
+//            Toast.makeText(this, "Notifications sent", Toast.LENGTH_SHORT).show();
+//        });
 
         progressBar.setVisibility(View.VISIBLE);
         createFacilityButton.setVisibility(View.GONE);
