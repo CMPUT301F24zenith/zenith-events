@@ -79,6 +79,7 @@ public class QRScannerActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(QRScannerActivity.this, EventView.class);
                 intent.putExtra("event_id", eventId);
+                intent.putExtra("type", "waitingEvents");
                 startActivity(intent);
                 finish();
             } else {
