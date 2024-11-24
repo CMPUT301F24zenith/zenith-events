@@ -57,7 +57,10 @@
             android:name=".EntrantsList.EnrolledEntrants"
             android:exported="false" />
         <activity
-            android:name=".CreateProfile.CreateProfileActivity"
+            android:name=".Events.EventView"
+            android:exported="false" />
+        <activity
+            android:name=".EntrantDashboard.CreateProfileActivity"
             android:exported="false" />
         <activity
             android:name=".EntrantDashboard.EntrantViewActivity"
@@ -70,10 +73,10 @@
             android:name=".Events.CreateEventPage"
             android:exported="false" />
         <activity android:name=".Events.CreationSuccessActivity" />
-        <activity android:name=".QRCodes.QRScannerActivity" />
-        <activity android:name=".Organizer.QRView" />
-        <activity android:name=".Facility.CreateFacility" />
-        <activity android:name=".Facility.ViewFacility" />
+        <activity android:name=".Events.QRScannerActivity" />
+        <activity android:name=".Events.QRView" />
+        <activity android:name=".User.CreateFacility" />
+        <activity android:name=".User.ViewFacility" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

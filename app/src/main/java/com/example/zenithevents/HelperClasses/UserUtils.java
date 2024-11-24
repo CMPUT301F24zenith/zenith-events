@@ -4,20 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.example.zenithevents.CreateProfile.CreateProfileActivity;
-import com.example.zenithevents.Events.CreateEventPage;
-import com.example.zenithevents.Events.CreationSuccessActivity;
-import com.example.zenithevents.MainActivity;
+import com.example.zenithevents.EntrantDashboard.CreateProfileActivity;
 import com.example.zenithevents.Objects.Event;
-import com.example.zenithevents.User.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.example.zenithevents.Objects.User;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

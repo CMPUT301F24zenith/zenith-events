@@ -1,4 +1,4 @@
-package com.example.zenithevents.QRCodes;
+package com.example.zenithevents.Events;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;

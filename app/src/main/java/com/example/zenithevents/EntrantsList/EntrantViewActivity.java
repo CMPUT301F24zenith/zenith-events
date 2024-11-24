@@ -20,7 +20,7 @@ import com.example.zenithevents.Events.EventsFragment;
 import com.example.zenithevents.User.CreateProfileActivity;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
-import com.example.zenithevents.QRCodes.QRScannerActivity;
+import com.example.zenithevents.Events.QRScannerActivity;
 import com.example.zenithevents.R;
 import com.example.zenithevents.User.UserProfile;
 

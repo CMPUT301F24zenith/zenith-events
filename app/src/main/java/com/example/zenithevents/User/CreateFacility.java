@@ -1,4 +1,4 @@
-package com.example.zenithevents.Facility;
+package com.example.zenithevents.User;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -17,7 +17,6 @@ import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.ValidationUtils;
 import com.example.zenithevents.Objects.Facility;
 import com.example.zenithevents.R;
-import com.example.zenithevents.User.OrganizerPage;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
