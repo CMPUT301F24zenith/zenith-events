@@ -1,4 +1,4 @@
-package com.example.zenithevents.admin;
+package com.example.zenithevents.Admin;
 
 import android.content.Intent;
 import android.os.Bundle;

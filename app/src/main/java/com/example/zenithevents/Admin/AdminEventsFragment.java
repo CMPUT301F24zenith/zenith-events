@@ -1,4 +1,4 @@
-package com.example.zenithevents.admin;
+package com.example.zenithevents.Admin;
 
 import android.os.Bundle;
 import android.util.Log;

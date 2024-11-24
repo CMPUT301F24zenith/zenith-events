@@ -2,9 +2,11 @@ package com.example.zenithevents.Events;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.Manifest;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,21 +19,33 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.zenithevents.Admin.QRViewAdmin;
 import com.example.zenithevents.EntrantsList.CancelledEntrants;
 import com.example.zenithevents.EntrantsList.EnrolledEntrants;
 import com.example.zenithevents.EntrantsList.SampledEntrants;
 import com.example.zenithevents.EntrantsList.WaitlistedEntrants;
+import com.example.zenithevents.Events.CreateEventPage;
+import com.example.zenithevents.Events.QRView;
 import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
+import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
+import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
+import com.google.firebase.firestore.DocumentReference;
+import com.example.zenithevents.User.OrganizerPage;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.example.zenithevents.User.ProfileDetailActivity;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -39,7 +53,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This class represents the EventView activity in the application, which displays
@@ -51,6 +67,7 @@ import java.util.Objects;
 public class EventView extends AppCompatActivity {
 
     private static final String TAG = "EventView";
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     ImageView eventPosterImageView;
     private Button btnJoinLeaveWaitingList, qrCodeButton, btnEditEvent, btnSampleUsers, deleteEventButton, deleteImageButton;
@@ -58,10 +75,12 @@ public class EventView extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ListenerRegistration eventListener;
+    private FusedLocationProviderClient fusedLocationProviderClient;
     private final String[] entrantOptions = {"Waitlisted Entrants", "Selected Entrants", "Registered Entrants", "Cancelled Entrants"};
     private int currentOptionIndex = 0;
     LinearLayout entrantsSlider;
-    FacilityUtils facilityUtils;
+    FacilityUtils facilityUtils = new FacilityUtils();
+    EventUtils eventUtils = new EventUtils();
     private String eventId;
 
     /**
@@ -73,7 +92,7 @@ public class EventView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_event_view);
+        setContentView(R.layout.activity_event_details);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -81,11 +100,10 @@ public class EventView extends AppCompatActivity {
         });
 
         String eventId = getIntent().getStringExtra("event_id");
-        facilityUtils = new FacilityUtils();
         initializeViews();
         deleteEventButton.setOnClickListener(v-> {
             progressBar.setVisibility(View.VISIBLE);
-            removeEvent(eventId, success-> {
+            eventUtils.removeEvent(eventId, success-> {
                 progressBar.setVisibility(View.GONE);
                 if (success) {
                     Toast.makeText(EventView.this, "Event deleted", Toast.LENGTH_SHORT).show();
@@ -192,15 +210,17 @@ public class EventView extends AppCompatActivity {
                 event.getRegistrants().contains(deviceID)
         ) {
             btnJoinLeaveWaitingList.setBackgroundColor(Color.RED);
-            btnJoinLeaveWaitingList.setText("Leave Waiting List");
+            btnJoinLeaveWaitingList.setText("Leave Event");
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
                 Context context = EventView.this;
 
-                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
-                    if (isSuccess) {
+                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), (isSuccess, event_) -> {
+                    if (isSuccess == 1) {
                         Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else if (isSuccess == 0) {
+                        Toast.makeText(context, "Successfully left the event!", Toast.LENGTH_SHORT).show();
+                    } else if (isSuccess == -1) {
                         Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -211,11 +231,44 @@ public class EventView extends AppCompatActivity {
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
                 Context context = EventView.this;
+                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), (isSuccess, event_) -> {
+                    Log.d("FunctionCall", "Applying.." + isSuccess);
+                    if (isSuccess == 1) {
+                        if (event_.getHasGeolocation()) {
+                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(EventView.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                                        LOCATION_PERMISSION_REQUEST_CODE);
+                            }
+                            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+                            fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                                    .addOnSuccessListener(location -> {
+                                        if (location != null) {
+                                            double latitude = location.getLatitude();
+                                            Log.d("FunctionCall", "EVENTID" + event_.getEventId());
 
-                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
-                    if (isSuccess) {
+                                            Log.d("FunctionCall", "Latitude" + latitude);
+                                            double longitude = location.getLongitude();
+                                            Log.d("FunctionCall", "Longitude:" + longitude);
+                                            event_.updateUserLocation(deviceID, latitude, longitude);
+
+                                            Log.d("FunctionCall", "updatingEvent...");
+                                            eventUtils.createUpdateEvent(event_, callback -> {
+                                                if (callback != null) {
+                                                    Log.d("FunctionCall", "Location added successfully.");
+                                                } else {
+                                                    Log.d("FunctionCall", "Failed to update event.");
+                                                }
+                                            });
+                                        } else {
+                                            Log.d("Location", "Location is null");
+                                        }
+                                    });
+                        }
                         Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else if (isSuccess == 0) {
+                        Toast.makeText(context, "Successfully left the event!", Toast.LENGTH_SHORT).show();
+                    } else if (isSuccess == -1) {
                         Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -248,16 +301,29 @@ public class EventView extends AppCompatActivity {
                 intent.putExtra("eventId", event.getEventId());
                 startActivity(intent);
             });
-
         } else {
             btnEditEvent.setVisibility(View.GONE);
             entrantsSlider.setVisibility(View.GONE);
         }
 
         qrCodeButton.setOnClickListener(v -> {
-            Intent intent = new Intent(EventView.this, QRView.class);
-            intent.putExtra("Event", (Serializable) event);
-            startActivity(intent);
+            DocumentReference userRef = db.collection("users").document(deviceID);
+            userRef.get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
+                            if (Boolean.TRUE.equals(isAdmin)) {
+                                Intent intent = new Intent(EventView.this, QRViewAdmin.class);
+                                intent.putExtra("Event", (Serializable) event);
+                                startActivity(intent);
+                            } else {
+                                Intent intent = new Intent(EventView.this, QRView.class);
+                                intent.putExtra("Event", (Serializable) event);
+                                startActivity(intent);
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> Log.e("Firestore", "Can't find document", e));
         });
     }
 
@@ -347,29 +413,6 @@ public class EventView extends AppCompatActivity {
             eventListener.remove(); // Remove the listener to avoid memory leaks
         }
     }
-    private void removeEvent(String eventId, CustomCallback callback) {
-        db.collection("users").get().addOnCompleteListener(task-> {
-            if (task.isSuccessful() && task.getResult() != null) {
-                for (DocumentSnapshot userDoc : task.getResult().getDocuments()) {
-                    db.collection("users").document(userDoc.getId()).update(
-                            "waitingEvents", FieldValue.arrayRemove(eventId),
-                            "selectedEvents", FieldValue.arrayRemove(eventId),
-                            "registeredEvents", FieldValue.arrayRemove(eventId),
-                            "cancelledEvents", FieldValue.arrayRemove(eventId)
-                    );
-                }
-                db.collection("events").document(eventId).delete()
-                        .addOnSuccessListener(aVoid->callback.onComplete(true))
-                        .addOnFailureListener(e->callback.onComplete(false));
-            } else {
-                callback.onComplete(false);
-            }
-        });
-    }
-    public interface CustomCallback {
-        void onComplete(boolean success);
-    }
-
 
     private void showRemoveProfilePictureDialog() {
         new AlertDialog.Builder(EventView.this)
@@ -381,8 +424,6 @@ public class EventView extends AppCompatActivity {
                 .setNegativeButton("No", null)
                 .show();
     }
-
-
 
     private void removePicture() {
         eventPosterImageView.setImageResource(R.drawable.event_place_holder);

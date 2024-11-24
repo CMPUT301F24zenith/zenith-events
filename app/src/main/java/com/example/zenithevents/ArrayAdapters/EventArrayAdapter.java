@@ -9,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
+import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
@@ -36,6 +38,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
 
     private FirebaseFirestore db;
     FacilityUtils facilityUtils;
+    EventUtils eventUtils;
     String deviceId, type;
     List<Event> events;
 
@@ -73,6 +76,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
     public View getView(int position, View convertView, ViewGroup parent) {
         Event event = getItem(position);
         facilityUtils = new FacilityUtils();
+        eventUtils = new EventUtils();
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.events_content, parent, false);
@@ -83,6 +87,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         TextView facilityName = convertView.findViewById(R.id.facilityName);
         Button acceptBtn = convertView.findViewById(R.id.acceptEventBtn);
         Button declineBtn = convertView.findViewById(R.id.declineEventBtn);
+        ProgressBar progressBar = convertView.findViewById(R.id.progressBar);
 
         String deviceId = DeviceUtils.getDeviceID(getContext());
 
@@ -91,8 +96,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         if (Objects.equals(this.type, "selectedEvents") ||
                 Objects.equals(this.type, "waitingEvents") ||
                 Objects.equals(this.type, "registeredEvents") ||
-                Objects.equals(this.type, "organizer") ||
-                Objects.equals(this.type, "admin")
+                Objects.equals(this.type, "organizer")
         ) {
             declineBtn.setVisibility(View.VISIBLE);
 
@@ -105,16 +109,28 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
                 });
             }
             if (!Objects.equals(this.type, "organizer") && !Objects.equals(this.type, "admin")) {
-                declineBtn.setOnClickListener(v -> userUtils.applyLeaveEvent(getContext(), deviceId, event.getEventId(), callback -> {
-                    if (callback) {
+                declineBtn.setOnClickListener(v -> userUtils.applyLeaveEvent(getContext(), deviceId, event.getEventId(), (isSuccess, event_) -> {
+                    if (isSuccess == 0) {
                         Toast.makeText(getContext(), "Declined Event Invitation", Toast.LENGTH_SHORT).show();
                     }
                     events.remove(position);
                     notifyDataSetChanged();
                 }));
             }
-            if (Objects.equals(this.type, "organizer") || Objects.equals(this.type, "admin")) {
-                // delete event
+            if (Objects.equals(this.type, "organizer")) {
+                declineBtn.setOnClickListener(v-> {
+                    progressBar.setVisibility(View.VISIBLE);
+                    eventUtils.removeEvent(event.getEventId(), success-> {
+                        progressBar.setVisibility(View.GONE);
+                        events.remove(position);
+                        notifyDataSetChanged();
+                        if (success) {
+                            Toast.makeText(getContext(), "Event deleted", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Event did not delete", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                });
             }
 
         } else {

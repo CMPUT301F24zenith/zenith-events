@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
 import com.example.zenithevents.User.OrganizerPage;
-import com.example.zenithevents.admin.AdminViewActivity;
+import com.example.zenithevents.Admin.AdminViewActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
