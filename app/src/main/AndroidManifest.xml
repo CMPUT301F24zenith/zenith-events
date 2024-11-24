@@ -57,9 +57,6 @@
             android:name=".EntrantsList.EnrolledEntrants"
             android:exported="false" />
         <activity
-            android:name=".Organizer.EventView"
-            android:exported="false" />
-        <activity
             android:name=".CreateProfile.CreateProfileActivity"
             android:exported="false" />
         <activity

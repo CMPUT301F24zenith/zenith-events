@@ -17,6 +17,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents an event in the system.
@@ -29,6 +31,7 @@ public class Event implements Serializable {
     private String ownerFacility, eventId, eventTitle, QRCodeHash, QRCodeBitmap, ImageUrl, eventAddress, eventDescription;
     private Boolean hasGeolocation;
     private int numParticipants, selectedLimit;
+    private Map<String, double[]> userLocations;
 
     /**
      * Default constructor that initializes all lists and fields to default values.
@@ -52,6 +55,7 @@ public class Event implements Serializable {
 
         this.numParticipants = 0;
         this.selectedLimit = 0;
+        this.userLocations = new HashMap<>();
     }
 
     /**
@@ -68,7 +72,7 @@ public class Event implements Serializable {
      * @param hasGeolocation  Whether the event will track geolocation
      * <p>Note: The Javadocs for this constructor were generated with the assistance of an AI language model.</p>
      */
-    public Event(String eventId, String eventTitle, String eventImage, String QRCodeHash, String QRCodeBitmap, int numParticipants, String eventAddress, Boolean hasGeolocation){
+    public Event(String eventId, String eventTitle, String eventImage, String QRCodeHash, String QRCodeBitmap, int numParticipants, String eventAddress, Boolean hasGeolocation, Map<String, double[]> userLocations){
         this.waitingList = new ArrayList<>();
         this.selected = new ArrayList<>();
         this.cancelledList = new ArrayList<>();
@@ -83,6 +87,7 @@ public class Event implements Serializable {
 
         this.numParticipants = numParticipants;
         this.eventAddress = eventAddress;
+        this.userLocations = userLocations;
     }
 
     /**
@@ -426,5 +431,19 @@ public class Event implements Serializable {
 
     public void setHasGeolocation(Boolean hasGeolocation) {
         this.hasGeolocation = hasGeolocation;
+    }
+
+    public Map<String, double[]> getUserLocations() {
+        return userLocations;
+    }
+
+    public void setUserLocations(Map<String, double[]> userLocations) {
+        this.userLocations = userLocations;
+    }
+
+    public void updateUserLocation(String userId, double latitude, double longitude) {
+        if (userLocations != null) {
+            userLocations.put(userId, new double[]{latitude, longitude});
+        }
     }
 }
