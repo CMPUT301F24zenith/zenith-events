@@ -160,6 +160,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         convertView.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), EventView.class);
             intent.putExtra("event_id", event.getEventId());
+            intent.putExtra("type", type);
             getContext().startActivity(intent);
         });
 

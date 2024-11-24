@@ -81,7 +81,7 @@ public class EventView extends AppCompatActivity {
     LinearLayout entrantsSlider;
     FacilityUtils facilityUtils = new FacilityUtils();
     EventUtils eventUtils = new EventUtils();
-    private String eventId;
+    private String eventId, type;
 
     /**
      * Initializes the activity and its UI components.
@@ -99,20 +99,10 @@ public class EventView extends AppCompatActivity {
             return insets;
         });
 
-        String eventId = getIntent().getStringExtra("event_id");
+        eventId = getIntent().getStringExtra("event_id");
+        type = getIntent().getStringExtra("type");
         initializeViews();
-        deleteEventButton.setOnClickListener(v-> {
-            progressBar.setVisibility(View.VISIBLE);
-            eventUtils.removeEvent(eventId, success-> {
-                progressBar.setVisibility(View.GONE);
-                if (success) {
-                    Toast.makeText(EventView.this, "Event deleted", Toast.LENGTH_SHORT).show();
-                    finish();
-                } else {
-                    Toast.makeText(EventView.this, "Event did not delete", Toast.LENGTH_SHORT).show();
-                }
-            });
-        });
+
         setupRealTimeEventListener(eventId);
         deleteImageButton.setOnClickListener(v->{
             showRemoveProfilePictureDialog();
@@ -284,8 +274,8 @@ public class EventView extends AppCompatActivity {
 
         // Load event image using Glide
         loadImage(event.getImageUrl(), eventPosterImageView);
-
-        if (Objects.equals(event.getOwnerFacility(), deviceID)) {
+        Log.d("FunctionCAll", "type:: " + type);
+        if (Objects.equals(type, "organizer") || Objects.equals(type, "admin")) {
             setupEntrantNavigation(event.getEventId());
             btnEditEvent.setVisibility(View.VISIBLE);
             btnEditEvent.setOnClickListener(v -> {
@@ -294,6 +284,7 @@ public class EventView extends AppCompatActivity {
                 intent.putExtra("Event", (Serializable) event);
                 startActivity(intent);
             });
+
             btnSampleUsers.setVisibility(View.VISIBLE);
             btnSampleUsers.setOnClickListener(v -> {
                 event.drawLottery();
@@ -301,9 +292,24 @@ public class EventView extends AppCompatActivity {
                 intent.putExtra("eventId", event.getEventId());
                 startActivity(intent);
             });
+
+            deleteEventButton.setVisibility(View.VISIBLE);
+            deleteEventButton.setOnClickListener(v-> {
+                progressBar.setVisibility(View.VISIBLE);
+                eventUtils.removeEvent(eventId, success-> {
+                    progressBar.setVisibility(View.GONE);
+                    if (success) {
+                        Toast.makeText(EventView.this, "Event deleted", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(EventView.this, "Event did not delete", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
         } else {
             btnEditEvent.setVisibility(View.GONE);
             entrantsSlider.setVisibility(View.GONE);
+            deleteEventButton.setVisibility(View.GONE);
         }
 
         qrCodeButton.setOnClickListener(v -> {
