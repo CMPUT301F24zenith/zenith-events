@@ -1,4 +1,4 @@
-package com.example.zenithevents.admin;
+package com.example.zenithevents.Admin;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -14,14 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.test.espresso.remote.EspressoRemoteMessage;
 
 import com.example.zenithevents.ArrayAdapters.EventArrayAdapter;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
-import com.google.firebase.Firebase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
