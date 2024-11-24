@@ -32,6 +32,7 @@ import com.example.zenithevents.Events.CreateEventPage;
 import com.example.zenithevents.Events.QRView;
 import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
+import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
@@ -233,19 +234,28 @@ public class EventView extends AppCompatActivity {
                                     Log.d("Coords:", "Latitude" + latitude);
                                     double longitude = location.getLongitude();
                                     Log.d("Coords", "Longitude:" + longitude);
+                                    event.updateUserLocation(deviceID, latitude, longitude);
+
+                                    EventUtils eventUtils = new EventUtils();
+                                    eventUtils.createUpdateEvent(event, callback -> {
+                                        if (callback != null) {
+                                            Log.d("FunctionCall", "Location added successfully.");
+                                        } else {
+                                            Log.d("FunctionCall", "Failed to update event.");
+                                        }
+                                    });
                                 } else {
                                     Log.d("Location", "Location is null");
                                 }
                             });
-                } else {
-                    userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
-                        if (isSuccess) {
-                            Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
                 }
+                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
+                    if (isSuccess) {
+                        Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             });
 
             if (event.getNumParticipants() != 0 &&
