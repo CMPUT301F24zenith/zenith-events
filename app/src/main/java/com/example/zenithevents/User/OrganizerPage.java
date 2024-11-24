@@ -1,6 +1,5 @@
 package com.example.zenithevents.User;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,8 +19,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.zenithevents.EntrantDashboard.EventsFragment;
 import com.example.zenithevents.Events.CreateEventPage;
-import com.example.zenithevents.Facility.CreateFacility;
-import com.example.zenithevents.Facility.ViewFacility;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.Objects.Event;

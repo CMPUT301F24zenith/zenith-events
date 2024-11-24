@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="start"
-    tools:context=".Organizer.EventView"
+    tools:context=".Events.EventView"
     android:padding="16dp"
     >
 

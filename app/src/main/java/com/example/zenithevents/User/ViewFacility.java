@@ -1,26 +1,17 @@
-package com.example.zenithevents.Facility;
+package com.example.zenithevents.User;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.Objects.Facility;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Document;
 
 /**
  * Activity to view a facility's details.
