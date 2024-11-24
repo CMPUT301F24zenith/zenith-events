@@ -112,6 +112,14 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Waitlist Geolocations"
+        android:id="@+id/mapButton"
+        android:visibility="gone"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Sample Users"
         android:id="@+id/btnSampleUsers"
         android:visibility="gone"
