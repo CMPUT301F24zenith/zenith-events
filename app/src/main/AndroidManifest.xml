@@ -75,6 +75,7 @@
         <activity android:name=".Events.CreationSuccessActivity" />
         <activity android:name=".Events.QRScannerActivity" />
         <activity android:name=".Events.QRView" />
+        <activity android:name=".Admin.QRViewAdmin" />
         <activity android:name=".User.CreateFacility" />
         <activity android:name=".User.ViewFacility" />
         <activity

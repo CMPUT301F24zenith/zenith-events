@@ -83,7 +83,7 @@ public class QRViewAdmin extends AppCompatActivity {
                 eventUtils.createUpdateEvent(QRViewAdmin.this, event, eventId_ -> {
                     if (eventId_ != null) {
                         Log.d("Firestore", "QR code hash updated successfully.");
-                        Toast.makeText(this, "Event was successfully published!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "QR Code was successfully deleted!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "There was an error updating the QR code. Please try again!", Toast.LENGTH_SHORT).show();
                         Log.w("Firestore", "Failed to update QR code hash.");
