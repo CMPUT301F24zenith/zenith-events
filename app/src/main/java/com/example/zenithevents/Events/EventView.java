@@ -327,7 +327,7 @@ public class EventView extends AppCompatActivity {
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
                             Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
-                            if (Boolean.TRUE.equals(isAdmin)) {
+                            if (Boolean.TRUE.equals(isAdmin) && Objects.equals(type, "admin")) {
                                 Intent intent = new Intent(EventView.this, QRViewAdmin.class);
                                 intent.putExtra("Event", (Serializable) event);
                                 startActivity(intent);
