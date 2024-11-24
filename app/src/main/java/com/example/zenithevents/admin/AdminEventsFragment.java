@@ -2,13 +2,17 @@ package com.example.zenithevents.admin;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 
 import com.example.zenithevents.ArrayAdapters.EventArrayAdapter;
 import com.example.zenithevents.HelperClasses.FirestoreEventsCollection;
@@ -18,33 +22,36 @@ import com.example.zenithevents.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TODO project part 4
- * xml files in progress - not used in the app
- */
-public class ViewEventsAdmin extends AppCompatActivity {
-    private static final String TAG = "ViewEventsAdmin";
-    ListView eventsListView;
+public class AdminEventsFragment extends Fragment {
+    private static final String TAG = "ViewEventsAdminFragment";
+    private ListView eventsListView;
     private EventArrayAdapter adapter;
     private List<Event> eventList = new ArrayList<>();
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_view_events_admin);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_admin_events, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Handle system window insets
+        ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        eventsListView = findViewById(R.id.eventsListView);
-        adapter = new EventArrayAdapter(this, eventList, "admin", null);
+
+
+        eventsListView = view.findViewById(R.id.eventsListView);
+        adapter = new EventArrayAdapter(requireContext(), eventList, "admin", null);
         eventsListView.setAdapter(adapter);
 
-        // Fetch and display event data
         FirestoreEventsCollection.listenForEventChanges(events -> {
-            if(events != null) {
+            if (events != null) {
                 eventList.clear();
                 eventList.addAll(events);
                 adapter.notifyDataSetChanged();
@@ -55,8 +62,8 @@ public class ViewEventsAdmin extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         FirestoreEventsCollection.stopListeningForEventChanges();
     }
 }
