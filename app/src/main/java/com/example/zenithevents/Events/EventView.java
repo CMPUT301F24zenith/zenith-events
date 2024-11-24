@@ -256,8 +256,17 @@ public class EventView extends AppCompatActivity {
                                     });
                                 } else {
                                     Log.d("Location", "Location is null");
+                                    Toast.makeText(context, "Failed to join: event requires location.", Toast.LENGTH_SHORT);
                                 }
                             });
+                } else {
+                    userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), isSuccess -> {
+                        if (isSuccess) {
+                            Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
 
