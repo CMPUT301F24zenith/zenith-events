@@ -4,5 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#BFBFBF</color>
     <color name="red">#FFC10700</color>
+    <color name="activeTextColor">#002BAD</color> <!-- Orange for active -->
+    <color name="inactiveTextColor">#959595</color> <!-- Black for inactive -->
 
 </resources>

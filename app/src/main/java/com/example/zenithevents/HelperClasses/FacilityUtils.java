@@ -1,7 +1,11 @@
 package com.example.zenithevents.HelperClasses;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Objects.Facility;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -18,6 +22,7 @@ import java.util.List;
 public class FacilityUtils {
     private FirebaseFirestore db;
     private static ListenerRegistration listenerRegistration;
+    EventUtils eventUtils = new EventUtils();
 
     /**
      * Constructs a new FacilityUtils instance and initializes the Firestore database reference.
@@ -83,6 +88,38 @@ public class FacilityUtils {
                         }
                     }
                     callback.onCallback(facilityList);
+                });
+    }
+
+    public void deleteFacility(Context context, String deviceId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("facilities").document(deviceId)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("FunctionCall", "DELETING FACILITY:: ID:: " + deviceId);
+
+                    Toast.makeText(context, "Deleting facility and its events", Toast.LENGTH_SHORT).show();
+                    eventUtils.fetchFacilityEvents(deviceId, events -> {
+                        if (events != null) {
+                            if (events.size() == 0) {
+                                ((Activity) context).finish();
+                            }
+
+                            for (Event event : events) {
+                                eventUtils.removeEvent(event.getEventId(), isDeleted -> {
+                                    Toast.makeText(context, "Facility deleted", Toast.LENGTH_SHORT).show();
+                                    ((Activity) context).finish();
+                                    if (!isDeleted) {
+                                        Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        } else {
+                        }
+                    });
+                })
+                .addOnFailureListener(e-> {
+                    Toast.makeText(context, "Facility failed to delete", Toast.LENGTH_SHORT).show();
                 });
     }
 

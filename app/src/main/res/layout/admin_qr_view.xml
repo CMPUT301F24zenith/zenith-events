@@ -31,4 +31,12 @@
         android:layout_height="wrap_content"
         android:text="Done"
         android:layout_marginTop="20dp" />
+
+    <Button
+        android:id="@+id/deleteQRCodeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete QR"
+        android:color="@android:color/holo_red_dark"
+        android:layout_marginTop="10dp" />
 </LinearLayout>

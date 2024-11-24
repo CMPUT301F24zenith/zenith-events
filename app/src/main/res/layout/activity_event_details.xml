@@ -52,6 +52,19 @@
         android:id="@+id/facilityContainer"
         />
 
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:id="@+id/deleteImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:textColor="@color/red"
+        android:text="Delete Event Image"
+        android:visibility="gone"
+        />
+
     <LinearLayout
         android:id="@+id/entrantsSlider"
         android:layout_width="match_parent"
@@ -140,6 +153,8 @@
         android:layout_height="wrap_content"
         android:text="Delete Event"
         android:gravity="center"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
 
 </LinearLayout>

@@ -100,20 +100,17 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
                 initials.setVisibility(View.VISIBLE);
             }
 
-            if (Objects.equals(type, "SampledEntrants") || Objects.equals(type, "ViewUsersAdmin")) {
+            if (Objects.equals(type, "SampledEntrants")) {
                 declineBtn.setVisibility(View.VISIBLE);
-
                 if (this.eventId != null) {
                     acceptBtn.setVisibility(View.GONE);
-                    declineBtn.setOnClickListener(v -> userUtils.applyLeaveEvent(getContext(), user.getDeviceID(), this.eventId, callback -> {
-                        if (callback) {
+                    declineBtn.setOnClickListener(v -> userUtils.applyLeaveEvent(getContext(), user.getDeviceID(), this.eventId, (isSuccess, event) -> {
+                        if (isSuccess == 0) {
                             Toast.makeText(getContext(), "Declined Event Invitation", Toast.LENGTH_SHORT).show();
                         }
                         users.remove(position);
                         notifyDataSetChanged();
                     }));
-                } else {
-                    // remove user. add logic for delete profile here as well
                 }
             } else {
                 acceptBtn.setVisibility(View.GONE);
