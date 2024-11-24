@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "423159022449",
+    "project_id": "zenith-events-50b99",
+    "storage_bucket": "zenith-events-50b99.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423159022449:android:e0e759f0f1e99455cf2cd0",
+        "android_client_info": {
+          "package_name": "com.example.zenithevents"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmAfDw7KzZoyYVX55bb8dbnMiUBdUp4m0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
