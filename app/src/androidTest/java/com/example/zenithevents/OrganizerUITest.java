@@ -9,7 +9,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.zenithevents.Events.CreateEventPage;
-import com.example.zenithevents.Facility.CreateFacility;
+import com.example.zenithevents.User.CreateFacility;
 import com.example.zenithevents.User.OrganizerPage;
 
 import org.junit.After;
@@ -17,7 +17,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.AllTests;
 
 @RunWith(AndroidJUnit4.class)
 public class OrganizerUITest {

@@ -16,15 +16,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.Fragment;
 
 
-import com.example.zenithevents.CreateProfile.CreateProfileActivity;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
-import com.example.zenithevents.MainActivity;
-import com.example.zenithevents.QRCodes.QRScannerActivity;
+import com.example.zenithevents.Events.QRScannerActivity;
 import com.example.zenithevents.R;
 import com.example.zenithevents.User.UserProfile;
-
-import java.util.List;
 
 /**
  * Activity that displays the entrant dashboard, allowing the user to navigate through various

@@ -1,4 +1,4 @@
-package com.example.zenithevents.CreateProfile;
+package com.example.zenithevents.EntrantDashboard;
 
 import android.content.Intent;
 import android.os.Bundle;

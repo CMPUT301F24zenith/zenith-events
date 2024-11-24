@@ -1,7 +1,6 @@
 package com.example.zenithevents.EntrantDashboard;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,7 +17,6 @@ import com.example.zenithevents.ArrayAdapters.EventArrayAdapter;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.Objects.Event;
-import com.example.zenithevents.Organizer.EventView;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
