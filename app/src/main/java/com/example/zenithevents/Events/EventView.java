@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 import com.example.zenithevents.Admin.QRViewAdmin;
 import com.example.zenithevents.EntrantsList.CancelledEntrants;
 import com.example.zenithevents.EntrantsList.EnrolledEntrants;
+import com.example.zenithevents.EntrantsList.MapActivity;
 import com.example.zenithevents.EntrantsList.SampledEntrants;
 import com.example.zenithevents.EntrantsList.WaitlistedEntrants;
 import com.example.zenithevents.Events.CreateEventPage;
@@ -70,7 +71,7 @@ public class EventView extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     ImageView eventPosterImageView;
-    private Button btnJoinLeaveWaitingList, qrCodeButton, btnEditEvent, btnSampleUsers, deleteEventButton, deleteImageButton;
+    private Button btnJoinLeaveWaitingList, qrCodeButton, btnEditEvent, btnSampleUsers, deleteEventButton, deleteImageButton, mapButton;
     private TextView eventDescription, eventName, facilityName, eventAddress;
     private ProgressBar progressBar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -123,6 +124,7 @@ public class EventView extends AppCompatActivity {
         deleteEventButton = findViewById(R.id.deleteEvent);
         btnSampleUsers = findViewById(R.id.btnSampleUsers);
         deleteImageButton = findViewById(R.id.deleteImage);
+        mapButton = findViewById(R.id.mapButton);
     }
 
     /**
@@ -285,6 +287,14 @@ public class EventView extends AppCompatActivity {
                                 .show()
                 );
             }
+
+            mapButton.setVisibility(View.VISIBLE);
+            mapButton.setOnClickListener(v -> {
+                Intent intent = new Intent(EventView.this, MapActivity.class);
+                intent.putExtra("EventID", event.getEventId());
+                startActivity(intent);
+            });
+
             btnEditEvent.setVisibility(View.VISIBLE);
             btnEditEvent.setOnClickListener(v -> {
                 Intent intent = new Intent(EventView.this, CreateEventPage.class);
@@ -327,7 +337,7 @@ public class EventView extends AppCompatActivity {
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
                             Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
-                            if (Boolean.TRUE.equals(isAdmin)) {
+                            if (Boolean.TRUE.equals(isAdmin) && Objects.equals(type, "admin")) {
                                 Intent intent = new Intent(EventView.this, QRViewAdmin.class);
                                 intent.putExtra("Event", (Serializable) event);
                                 startActivity(intent);
