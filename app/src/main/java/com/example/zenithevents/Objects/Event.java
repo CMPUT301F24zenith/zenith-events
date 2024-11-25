@@ -382,17 +382,23 @@ public class Event implements Serializable {
     public void sendNotifications(String message, ArrayList<String> entrants){
 //         Send notifications to recipients
         UserUtils userUtils = new UserUtils();
-        for (String deviceID : entrants) {
-            userUtils.fetchUserProfile(deviceID, entrant -> {
-            if (entrant.wantsNotifs()){
-                entrant.sendNotification(message);
+        try {
+            for (String deviceID : entrants) {
+                Log.d("FunctionCall", "Profile fetched for: " + deviceID);
+                userUtils.fetchUserProfile(deviceID, user -> {
+                    Log.d("FunctionCall", "Profile fetched for: " + deviceID);
+                    if (user.wantsNotifs()) {
+                        user.sendNotification(message);
+                        userUtils.updateUserByObject(user, user2 -> {
+                            Log.d("FunctionCall", "Notification sent to: " + deviceID);
+                        });
+                    }
+                });
             }
-            userUtils.updateUserByObject(entrant, callback -> {
-                Log.d("FunctionCall", "Notification sent to: " + deviceID);
-            });
-        });
+            Toast.makeText(getApplicationContext(), "Notifications sent successfully!", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error sending notifications: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(getApplicationContext(), "Notifications sent successfully!", Toast.LENGTH_SHORT).show();
     }
 
     /**

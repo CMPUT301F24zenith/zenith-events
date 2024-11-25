@@ -32,34 +32,25 @@ import com.example.zenithevents.EntrantsList.EnrolledEntrants;
 import com.example.zenithevents.EntrantsList.MapActivity;
 import com.example.zenithevents.EntrantsList.SampledEntrants;
 import com.example.zenithevents.EntrantsList.WaitlistedEntrants;
-import com.example.zenithevents.Events.CreateEventPage;
-import com.example.zenithevents.Events.QRView;
 import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
-import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
-import com.example.zenithevents.User.OrganizerPage;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
-import com.example.zenithevents.User.ProfileDetailActivity;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * This class represents the EventView activity in the application, which displays
@@ -279,6 +270,7 @@ public class EventView extends AppCompatActivity {
         sendNotifsButton.setOnClickListener(v -> {
             String[] options = {"Selected Entrants", "Cancelled Entrants", "Waitlisted Entrants"};
             boolean[] selectedOptions = new boolean[options.length];
+            AtomicBoolean optionSelected = new AtomicBoolean(false);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Send Notifications To");
@@ -287,14 +279,31 @@ public class EventView extends AppCompatActivity {
             });
             builder.setPositiveButton("Next", (dialog, which) -> {
                 ArrayList<String> selectedEntrants = new ArrayList<>();
-                if (selectedOptions[0]) selectedEntrants.addAll(event.getSelected());
-                if (selectedOptions[1]) selectedEntrants.addAll(event.getCancelledList());
-                if (selectedOptions[2]) selectedEntrants.addAll(event.getWaitingList());
-                if (!selectedEntrants.isEmpty()){
-                    showMessageInputDialog(selectedEntrants, event);
+                if (selectedOptions[0]) {
+                    optionSelected.set(true);
+                    if (!event.getSelected().isEmpty())
+                        selectedEntrants.addAll(event.getSelected());
+                    else
+                        Toast.makeText(this, "There are no selected entrants.", Toast.LENGTH_SHORT).show();
                 }
-                else {
+                if (selectedOptions[1]) {
+                        optionSelected.set(true);
+                        if (!event.getCancelledList().isEmpty()) selectedEntrants.addAll(event.getCancelledList());
+                        else
+                            Toast.makeText(this, "There are no cancelled entrants.", Toast.LENGTH_SHORT).show();
+                }
+                if (selectedOptions[2]){
+                    optionSelected.set(true);
+                    if (!event.getWaitingList().isEmpty()) selectedEntrants.addAll(event.getWaitingList());
+                    else
+                        Toast.makeText(this, "There are no waitlisted entrants.", Toast.LENGTH_SHORT).show();
+                }
+
+                if (!optionSelected.get()){
                     Toast.makeText(this, "Please select at least one option.", Toast.LENGTH_SHORT).show();
+                }
+                else if (!selectedEntrants.isEmpty()) {
+                    showMessageInputDialog(selectedEntrants, event);
                 }
                 });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
