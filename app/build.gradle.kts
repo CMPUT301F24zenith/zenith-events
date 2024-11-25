@@ -45,9 +45,14 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-storage:20.2.0")
     implementation("com.google.android.gms:play-services-location:21.3.0")
+<<<<<<< HEAD
 //    implementation("com.google.firebase:firebase-messaging:24.2.0")
 //    implementation("com.google.firebase:firebase-analytics:21.3.0")
 
+=======
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
+    implementation(libs.espresso.intents)
+>>>>>>> b8c1b89fa9b52eaa2e277f1eadf89b9c1746e5e1
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

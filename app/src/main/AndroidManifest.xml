@@ -17,8 +17,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -29,33 +27,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ZenithEvents"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCSWmgmg8UloKdVfABJwD3Lcej7PzR-ZTY" />
 
-        <service
-            android:name="MyFirebaseMessagingService"
-            android:exported="true"
-            tools:ignore="WrongManifestParent">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
+<!--        <service-->
+<!--            android:name="MyFirebaseMessagingService"-->
+<!--            android:exported="true"-->
+<!--            tools:ignore="WrongManifestParent">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>-->
+<!--            </intent-filter>-->
+<!--        </service>-->
 
         <activity
             android:name=".Admin.FacilityDetail"
-            android:exported="false" />
-        <activity
-            android:name=".Admin.ViewFacilitiesAdmin"
-            android:exported="false" />
-        <activity
-            android:name=".Admin.ViewUsersAdmin"
             android:exported="false" />
         <activity
             android:name=".Admin.AdminViewActivity"
             android:exported="false" />
         <activity
             android:name=".User.ProfileDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Admin.ViewEventsAdmin"
             android:exported="false" />
         <activity
             android:name=".EntrantsList.SampledEntrants"
@@ -85,6 +77,7 @@
         <activity
             android:name=".Events.CreateEventPage"
             android:exported="false" />
+        <activity android:name=".EntrantsList.MapActivity" />
         <activity android:name=".Events.CreationSuccessActivity" />
         <activity android:name=".Events.QRScannerActivity" />
         <activity android:name=".Events.QRView" />
