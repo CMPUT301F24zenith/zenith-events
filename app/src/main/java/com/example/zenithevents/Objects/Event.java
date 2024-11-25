@@ -360,7 +360,7 @@ public class Event implements Serializable {
                     ArrayList<String> selectedEvents = callback.getSelectedEvents();
                     selectedEvents.add(this.eventId);
                     callback.setSelectedEvents(selectedEvents);
-                    callback.sendNotification(context, "You have been selected for " + this.getEventTitle());
+                    if (callback.wantsNotifs()) callback.sendNotification(context, "You have been selected for " + this.getEventTitle());
                     userUtils.updateUserByObject(callback, callback2 -> {
                         Log.d("FunctionCall", "User: " + deviceId + "info updated.");
                     });
