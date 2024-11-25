@@ -386,7 +386,7 @@ public class Event implements Serializable {
             for (String deviceID : entrants) {
                 Log.d("FunctionCall", "Profile fetched for: " + deviceID);
                 userUtils.fetchUserProfile(deviceID, user -> {
-                    Log.d("FunctionCall", "Profile fetched for: " + deviceID);
+                    Log.d("FunctionCall", "Profile fetched for: " + user.getDeviceID());
                     if (user.wantsNotifs()) {
                         user.sendNotification(message);
                         userUtils.updateUserByObject(user, user2 -> {
