@@ -256,18 +256,12 @@ public class User {
             Log.e("NotificationError", "Context is null. Cannot send notification.");
             return;
         }
-
-        // Define a notification channel ID
         String channelID = "ZENITH_EVENTS_NOTIFICATION_CHANNEL";
-        // Create a NotificationManager instance
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
         if (notificationManager == null) {
             Log.e("NotificationError", "NotificationManager is null.");
             return;
         }
-
-        // For Android O and above, create a notification channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     channelID,
@@ -281,8 +275,6 @@ public class User {
 
             notificationManager.createNotificationChannel(channel);
         }
-
-        // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelID)
                 .setSmallIcon(R.drawable.event_place_holder) // Replace with your app's notification icon
                 .setContentTitle("Zenith Events Notification")
@@ -290,14 +282,11 @@ public class User {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 
-        // Add an intent to open the app when the notification is tapped
         Intent intent = new Intent(context, EntrantViewActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         builder.setContentIntent(pendingIntent);
-
-        // Show the notification
-        notificationManager.notify(1, builder.build()); // Use a unique ID for each notification
+        notificationManager.notify(1, builder.build());
     }
 
 
