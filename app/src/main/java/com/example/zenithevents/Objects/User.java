@@ -251,7 +251,7 @@ public class User {
      * @param message The content of the notification message.
      */
     public void sendNotification(Context context,String message) {
-//        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+
         if (context == null) {
             Log.e("NotificationError", "Context is null. Cannot send notification.");
             return;
@@ -259,7 +259,7 @@ public class User {
 
         // Define a notification channel ID
         String channelID = "ZENITH_EVENTS_NOTIFICATION_CHANNEL";
-// Create a NotificationManager instance
+        // Create a NotificationManager instance
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (notificationManager == null) {
