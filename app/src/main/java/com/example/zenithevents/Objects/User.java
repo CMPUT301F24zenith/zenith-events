@@ -276,7 +276,7 @@ public class User {
             notificationManager.createNotificationChannel(channel);
         }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelID)
-                .setSmallIcon(R.drawable.event_place_holder) // Replace with your app's notification icon
+                .setSmallIcon(R.drawable.event_place_holder)
                 .setContentTitle("Zenith Events Notification")
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
