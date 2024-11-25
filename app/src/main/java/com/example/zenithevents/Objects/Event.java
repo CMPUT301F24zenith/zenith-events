@@ -1,39 +1,18 @@
 package com.example.zenithevents.Objects;
 
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-import static androidx.core.content.ContextCompat.getSystemService;
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-
-
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.core.app.NotificationCompat;
-
-import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
-import com.example.zenithevents.Events.CreateEventPage;
-import com.example.zenithevents.Events.CreationSuccessActivity;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
-import com.example.zenithevents.R;
 
-import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Represents an event in the system.
