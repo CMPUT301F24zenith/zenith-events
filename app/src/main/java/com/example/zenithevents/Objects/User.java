@@ -1,5 +1,7 @@
 package com.example.zenithevents.Objects;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+import static androidx.test.InstrumentationRegistry.getContext;
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 
 import android.app.NotificationChannel;
@@ -8,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,6 +20,7 @@ import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
 import com.example.zenithevents.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a user of the Zenith Events application, encapsulating details
@@ -49,7 +53,6 @@ public class User {
     private ArrayList<String> registeredEvents;
     private ArrayList<String> cancelledEvents;
     private String anonymousAuthID ;
-    private Context context;
 
     /**
      * No-argument constructor required for Firestore.
@@ -77,6 +80,7 @@ public class User {
         this.cancelledEvents = new ArrayList<>();
         this.selectedEvents = new ArrayList<>();
         this.waitingEvents = new ArrayList<>();
+
     }
 
     /**
@@ -246,46 +250,57 @@ public class User {
      *
      * @param message The content of the notification message.
      */
-    public void sendNotification(String message) {
+    public void sendNotification(Context context,String message) {
 //        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-        String channelID = "CHANNEL_ID_NOTIFICATION";
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelID)
-                .setSmallIcon(R.drawable.event_place_holder) // Update with an actual drawable resource
-                .setContentTitle("Notification")
-                .setContentText(message)
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        if (context == null) {
+            Log.e("NotificationError", "Context is null. Cannot send notification.");
+            return;
+        }
 
-        // Create an Intent for the action
-        Intent intent = new Intent(getApplicationContext(), EntrantViewActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
-        // Attach the intent to the notification
-        builder.setContentIntent(pendingIntent);
-
-        // Get the NotificationManager
+        // Define a notification channel ID
+        String channelID = "ZENITH_EVENTS_NOTIFICATION_CHANNEL";
+// Create a NotificationManager instance
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Check for Android O and above to create a notification channel
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            assert notificationManager != null;
-            NotificationChannel channel = notificationManager.getNotificationChannel(channelID);
-            if (channel == null) {
-                int importance = NotificationManager.IMPORTANCE_HIGH;
-                channel = new NotificationChannel(channelID, "Notification", importance);
-                channel.setLightColor(Color.GREEN);
-                channel.enableVibration(true);
-                notificationManager.createNotificationChannel(channel);
-            }
+        if (notificationManager == null) {
+            Log.e("NotificationError", "NotificationManager is null.");
+            return;
         }
 
-// Show the notification
-        if (notificationManager != null) {
-            notificationManager.notify(1, builder.build()); // Use a unique ID for the notification
+        // For Android O and above, create a notification channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    channelID,
+                    "Zenith Events Notifications",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel.setDescription("Notifications for Zenith Events app");
+            channel.enableLights(true);
+            channel.setLightColor(Color.GREEN);
+            channel.enableVibration(true);
+
+            notificationManager.createNotificationChannel(channel);
         }
 
+        // Build the notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelID)
+                .setSmallIcon(R.drawable.event_place_holder) // Replace with your app's notification icon
+                .setContentTitle("Zenith Events Notification")
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
+
+        // Add an intent to open the app when the notification is tapped
+        Intent intent = new Intent(context, EntrantViewActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        builder.setContentIntent(pendingIntent);
+
+        // Show the notification
+        notificationManager.notify(1, builder.build()); // Use a unique ID for each notification
     }
+
+
 
     /**
      * Checks if user wants notifications

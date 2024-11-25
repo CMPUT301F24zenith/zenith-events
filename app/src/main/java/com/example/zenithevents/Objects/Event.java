@@ -326,7 +326,7 @@ public class Event implements Serializable {
      * a sample of participants. The sample size is constrained to
      * the size of the selected list.
      */
-    public void drawLottery() {
+    public void drawLottery(Context context) {
         ArrayList<String> sampledList = new ArrayList<>();
         ArrayList<String> newSelectedList = this.getSelected();
         ArrayList<String> waitingList = this.getWaitingList();
@@ -360,7 +360,7 @@ public class Event implements Serializable {
                     ArrayList<String> selectedEvents = callback.getSelectedEvents();
                     selectedEvents.add(this.eventId);
                     callback.setSelectedEvents(selectedEvents);
-                    callback.sendNotification("You have been selected for " + this.getEventTitle());
+                    callback.sendNotification(context, "You have been selected for " + this.getEventTitle());
                     userUtils.updateUserByObject(callback, callback2 -> {
                         Log.d("FunctionCall", "User: " + deviceId + "info updated.");
                     });
@@ -379,7 +379,7 @@ public class Event implements Serializable {
      * @param message  The message to send to participants who enabled notifications.
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
-    public void sendNotifications(String message, ArrayList<String> entrants){
+    public void sendNotifications(Context context,String message, ArrayList<String> entrants){
 //         Send notifications to recipients
         UserUtils userUtils = new UserUtils();
         try {
@@ -388,7 +388,7 @@ public class Event implements Serializable {
                 userUtils.fetchUserProfile(deviceID, user -> {
                     Log.d("FunctionCall", "Profile fetched for: " + user.getDeviceID());
                     if (user.wantsNotifs()) {
-                        user.sendNotification(message);
+                        user.sendNotification(context, message);
                         userUtils.updateUserByObject(user, user2 -> {
                             Log.d("FunctionCall", "Notification sent to: " + deviceID);
                         });

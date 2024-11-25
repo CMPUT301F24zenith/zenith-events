@@ -79,6 +79,7 @@ public class EventView extends AppCompatActivity {
     EventUtils eventUtils = new EventUtils();
     private String eventId, type;
 
+
     /**
      * Initializes the activity and its UI components.
      *
@@ -268,6 +269,7 @@ public class EventView extends AppCompatActivity {
         }
 
         sendNotifsButton.setOnClickListener(v -> {
+            Context context = EventView.this;
             String[] options = {"Selected Entrants", "Cancelled Entrants", "Waitlisted Entrants"};
             boolean[] selectedOptions = new boolean[options.length];
             AtomicBoolean optionSelected = new AtomicBoolean(false);
@@ -303,7 +305,7 @@ public class EventView extends AppCompatActivity {
                     Toast.makeText(this, "Please select at least one option.", Toast.LENGTH_SHORT).show();
                 }
                 else if (!selectedEntrants.isEmpty()) {
-                    showMessageInputDialog(selectedEntrants, event);
+                    showMessageInputDialog(context, selectedEntrants, event);
                 }
                 });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -346,7 +348,8 @@ public class EventView extends AppCompatActivity {
 
             btnSampleUsers.setVisibility(View.VISIBLE);
             btnSampleUsers.setOnClickListener(v -> {
-                event.drawLottery();
+                Context context = EventView.this;
+                event.drawLottery(context);
                 Intent intent = new Intent(this, SampledEntrants.class);
                 intent.putExtra("eventId", event.getEventId());
                 startActivity(intent);
@@ -441,7 +444,7 @@ public class EventView extends AppCompatActivity {
      * @param Entrants An array of device IDs representing entrants.
      * @param event    The unique identifier of the event.
      */
-    private void showMessageInputDialog(ArrayList<String> Entrants, Event event) {
+    private void showMessageInputDialog(Context context, ArrayList<String> Entrants, Event event) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Write message");
         builder.setMessage("Enter message");
@@ -451,7 +454,7 @@ public class EventView extends AppCompatActivity {
         builder.setPositiveButton("OK", (dialog, which) -> {
             String message = input.getText().toString().trim();
             if (!message.isEmpty()) {
-                event.sendNotifications(message, Entrants);
+                event.sendNotifications(context, message, Entrants);
             }
             else {
                 Toast.makeText(this, "Please enter a message.", Toast.LENGTH_SHORT).show();
