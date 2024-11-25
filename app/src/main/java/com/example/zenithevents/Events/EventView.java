@@ -416,7 +416,12 @@ public class EventView extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Sets up navigation between different entrant lists.
+     *
+     * @param Entrants An array of device IDs representing entrants.
+     * @param event    The unique identifier of the event.
+     */
     private void showMessageInputDialog(ArrayList<String> Entrants, Event event) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Write message");
