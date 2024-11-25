@@ -284,6 +284,7 @@ public class User {
 
         Intent intent = new Intent(context, EntrantViewActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("type", "entrant-selected");
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         builder.setContentIntent(pendingIntent);
         notificationManager.notify(1, builder.build());
