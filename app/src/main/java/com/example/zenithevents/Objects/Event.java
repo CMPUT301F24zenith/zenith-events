@@ -339,14 +339,23 @@ public class Event implements Serializable {
                     ArrayList<String> selectedEvents = callback.getSelectedEvents();
                     selectedEvents.add(this.eventId);
                     callback.setSelectedEvents(selectedEvents);
-                    if (callback.wantsNotifs()) callback.sendNotification(context, "You have been selected for " + this.getEventTitle());
+                    if (callback.wantsNotifs()) callback.sendNotification(context, "Congratulations! You have been selected for " + this.getEventTitle());
                     userUtils.updateUserByObject(callback, callback2 -> {
                         Log.d("FunctionCall", "User: " + deviceId + "info updated.");
                     });
                 });
             }
+            for (String deviceId : this.getWaitingList()) {
+                userUtils.fetchUserProfile(deviceId, callback -> {
+                    if (callback.wantsNotifs()) {
+                        callback.sendNotification(context, "You have not been selected for " + this.getEventTitle());
+                        userUtils.updateUserByObject(callback, callback2 -> {
+                            Log.d("Notification", "User: " + deviceId + "notified.");
+                        });
+                    }
+                });
+            }
         });
-
         Log.d("FunctionCall", "4-- " + this.getSelected().size());
         Log.d("FunctionCall", "5-- " + this.getWaitingList().size());
     }
