@@ -195,15 +195,13 @@ public class UserUtils {
 
                         Log.d("FunctionCall", "Getting lists");
 
-//                        if (user.getCancelledEvents().contains(eventId)) {
-//                            return;
-//                        }
 
                         if (!user.getWaitingEvents().contains(eventId) &&
                                 !user.getSelectedEvents().contains(eventId) &&
                                 !user.getCancelledEvents().contains(eventId) &&
                                 !user.getRegisteredEvents().contains(eventId)
                         ) {
+                            // implement the geolocation logic here. if user accepts then run the next line otherwise call return;
                             user.getWaitingEvents().add(eventId);
                         } else {
                             user.getWaitingEvents().remove(eventId);
