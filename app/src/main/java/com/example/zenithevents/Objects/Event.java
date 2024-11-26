@@ -226,7 +226,8 @@ public class Event implements Serializable {
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
     public void setWaitingList(ArrayList<String> waitingList) {
-        this.waitingList = waitingList;
+        this.waitingList = new ArrayList<>();
+        this.waitingList.addAll(waitingList);
     }
 
     /**
@@ -236,7 +237,8 @@ public class Event implements Serializable {
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
     public void setSelected(ArrayList<String> selected) {
-        this.selected = selected;
+        this.selected = new ArrayList<>();
+        this.selected.addAll(selected);
     }
 
     /**
@@ -246,7 +248,8 @@ public class Event implements Serializable {
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
     public void setRegistrants(ArrayList<String> registrants) {
-        this.registrants = registrants;
+        this.registrants = new ArrayList<>();
+        this.registrants.addAll(registrants);
     }
 
     /**
@@ -256,7 +259,8 @@ public class Event implements Serializable {
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
     public void setCancelledList(ArrayList<String> cancelledList) {
-        this.cancelledList = cancelledList;
+        this.cancelledList = new ArrayList<>();
+        this.cancelledList.addAll(cancelledList);
     }
 
     /**
@@ -312,7 +316,7 @@ public class Event implements Serializable {
      * a sample of participants. The sample size is constrained to
      * the size of the selected list.
      */
-    public void drawLottery() {
+    public ArrayList<String> drawLottery() {
         ArrayList<String> sampledList = new ArrayList<>();
         ArrayList<String> newSelectedList = this.getSelected();
         ArrayList<String> waitingList = this.getWaitingList();
@@ -356,6 +360,7 @@ public class Event implements Serializable {
 
         Log.d("FunctionCall", "4-- " + this.getSelected().size());
         Log.d("FunctionCall", "5-- " + this.getWaitingList().size());
+        return this.getSelected();
     }
 
 //    public void sendNotifications(String message, ArrayList<String> recipients){

@@ -297,6 +297,7 @@ public class EventUtils {
         eventMap.put("waitingList", event.getWaitingList());
         eventMap.put("selected", event.getSelected());
         eventMap.put("registrants", event.getRegistrants());
+        eventMap.put("cancelledList", event.getCancelledList());
         eventMap.put("ownerFacility", event.getOwnerFacility());
         eventMap.put("QRCodeURL", event.getQRCodeHash());
         eventMap.put("userLocations", event.getUserLocations());

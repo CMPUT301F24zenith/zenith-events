@@ -3,6 +3,7 @@ package com.example.zenithevents.HelperClasses;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.zenithevents.EntrantDashboard.CreateProfileActivity;
 import com.example.zenithevents.Objects.Event;
@@ -194,9 +195,13 @@ public class UserUtils {
 
                         Log.d("FunctionCall", "Getting lists");
 
+//                        if (user.getCancelledEvents().contains(eventId)) {
+//                            return;
+//                        }
+
                         if (!user.getWaitingEvents().contains(eventId) &&
-                                !user.getCancelledEvents().contains(eventId) &&
                                 !user.getSelectedEvents().contains(eventId) &&
+                                !user.getCancelledEvents().contains(eventId) &&
                                 !user.getRegisteredEvents().contains(eventId)
                         ) {
                             user.getWaitingEvents().add(eventId);
@@ -259,6 +264,39 @@ public class UserUtils {
                     Log.d("FunctionCall", "Firestore fetch error");
                     callback.onUserJoinComplete(-1, null);
                 });
+    }
+
+    public void rejectEvent(String deviceId, String eventId, joinEventCallback callback) {
+        EventUtils eventUtils = new EventUtils();
+        fetchUserProfile(deviceId, user -> {
+            if (user == null) {
+                callback.onUserJoinComplete(0, null);
+                return;
+            }
+            user.getSelectedEvents().remove(eventId);
+            user.getCancelledEvents().add(eventId);
+            updateUserByObject(user, task -> {
+                if (!task) {
+                    callback.onUserJoinComplete(0, null);
+                    return;
+                }
+                eventUtils.fetchEventById(eventId, event -> {
+                    if (event == null) {
+                        callback.onUserJoinComplete(0, null);
+                        return;
+                    }
+                    event.getSelected().remove(deviceId);
+                    event.getCancelledList().add(deviceId);
+                    eventUtils.createUpdateEvent(event, task2 -> {
+                        if (task2 == null) {
+                            callback.onUserJoinComplete(0, null);
+                        } else {
+                            callback.onUserJoinComplete(1, event);
+                        }
+                    });
+                });
+            });
+        });
     }
 
     public void acceptEventInvitation(String deviceId, String eventId) {
