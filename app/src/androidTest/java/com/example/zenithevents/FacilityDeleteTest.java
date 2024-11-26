@@ -19,6 +19,7 @@ public class FacilityDeleteTest {
         facilityUtils = new FacilityUtils();
         eventUtils = new EventUtils();
         testingEvents = new ArrayList<>();
+        testingFacilities = new ArrayList<>();
 
         Event eventFirst = new Event();
         eventFirst.setEventId("event1");
@@ -29,5 +30,15 @@ public class FacilityDeleteTest {
         eventSecond.setEventId("event2");
         eventSecond.setEventTitle("Event 2");
         eventSecond.setNumParticipants(200);
+        testingEvents.add(eventFirst);
+        testingEvents.add(eventSecond);
+
+        Facility facility = new Facility();
+        facility.setDeviceId("facility1");
+        facility.setNameOfFacility("Test Facility");
+        facility.setEmailOfFacility("randomfacility123@gmail.com");
+        facility.setPhoneOfFacility("0987654321");
+        testingFacilities.add(facility);
+
     }
 }
