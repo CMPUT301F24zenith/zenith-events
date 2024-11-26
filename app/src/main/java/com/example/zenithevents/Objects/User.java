@@ -266,8 +266,6 @@ public class User {
             return;
         }
 
-        Log.d("FunctionCall", "MESSAGE1: " + message + "info updated.");
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     channelID,
@@ -282,8 +280,6 @@ public class User {
             notificationManager.createNotificationChannel(channel);
         }
 
-        Log.d("FunctionCall", "MESSAGE2: " + message + "info updated.");
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelID)
                 .setSmallIcon(R.drawable.event_place_holder)
                 .setContentTitle("Zenith Events Notification")
@@ -291,19 +287,12 @@ public class User {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 
-        Log.d("FunctionCall", "MESSAGE3: " + message + "info updated.");
-
         Intent intent = new Intent(context, EntrantViewActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        Log.d("FunctionCall", "MESSAGE4: " + message + "info updated.");
-//        intent.putExtra("type", "entrant-selected");
-        Log.d("FunctionCall", "MESSAGE5: " + message + "info updated.");
+        intent.putExtra("type", "entrant-selected");
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-        Log.d("FunctionCall", "MESSAGE6: " + message + "info updated.");
         builder.setContentIntent(pendingIntent);
-        Log.d("FunctionCall", "MESSAGE7: " + message + "info updated.");
         notificationManager.notify(1, builder.build());
-        Log.d("FunctionCall", "MESSAGE8: " + message + "info updated.");
     }
 
     /**
