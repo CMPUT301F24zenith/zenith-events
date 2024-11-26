@@ -78,6 +78,7 @@
             android:name=".Events.CreateEventPage"
             android:exported="false" />
         <activity android:name=".EntrantsList.MapActivity" />
+        <activity android:name=".EntrantsList.ListViewActivity" />
         <activity android:name=".Events.CreationSuccessActivity" />
         <activity android:name=".Events.QRScannerActivity" />
         <activity android:name=".Events.QRView" />

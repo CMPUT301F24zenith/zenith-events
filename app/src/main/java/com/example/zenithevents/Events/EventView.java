@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.example.zenithevents.Admin.QRViewAdmin;
 import com.example.zenithevents.EntrantsList.CancelledEntrants;
 import com.example.zenithevents.EntrantsList.EnrolledEntrants;
+import com.example.zenithevents.EntrantsList.ListViewActivity;
 import com.example.zenithevents.EntrantsList.MapActivity;
 import com.example.zenithevents.EntrantsList.SampledEntrants;
 import com.example.zenithevents.EntrantsList.WaitlistedEntrants;
@@ -498,7 +499,7 @@ public class EventView extends AppCompatActivity {
 
             switch (entrantOptions[currentOptionIndex]) {
                 case "Waitlisted Entrants":
-                    intent = new Intent(this, WaitlistedEntrants.class);
+                    intent = new Intent(this, ListViewActivity.class);
                     break;
                 case "Selected Entrants":
                     intent = new Intent(this, SampledEntrants.class);
