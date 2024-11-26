@@ -99,6 +99,8 @@ public class EventUtils {
         Log.d("FunctionCall", "updatingEvent1...");
 
         if (event.getEventId() == null) {
+            // if event.getList + get list > event.seleclimit
+            // else return;
             db.collection("events").add(event)
                     .addOnSuccessListener(ref -> {
                         String generatedId = ref.getId();
@@ -297,6 +299,7 @@ public class EventUtils {
         eventMap.put("waitingList", event.getWaitingList());
         eventMap.put("selected", event.getSelected());
         eventMap.put("registrants", event.getRegistrants());
+        eventMap.put("cancelledList", event.getCancelledList());
         eventMap.put("ownerFacility", event.getOwnerFacility());
         eventMap.put("QRCodeURL", event.getQRCodeHash());
         eventMap.put("userLocations", event.getUserLocations());

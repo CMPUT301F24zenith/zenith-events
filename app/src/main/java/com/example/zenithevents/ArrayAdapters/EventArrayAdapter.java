@@ -95,7 +95,6 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
 
         if (Objects.equals(this.type, "selectedEvents") ||
                 Objects.equals(this.type, "waitingEvents") ||
-                Objects.equals(this.type, "registeredEvents") ||
                 Objects.equals(this.type, "organizer")
         ) {
             declineBtn.setVisibility(View.VISIBLE);
@@ -108,15 +107,23 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
                     notifyDataSetChanged();
                 });
             }
-            if (!Objects.equals(this.type, "organizer") && !Objects.equals(this.type, "admin")) {
+
+            if (Objects.equals(this.type, "waitingEvents"))
                 declineBtn.setOnClickListener(v -> userUtils.applyLeaveEvent(getContext(), deviceId, event.getEventId(), (isSuccess, event_) -> {
+                    if (isSuccess == 0) {
+                        Toast.makeText(getContext(), "Left Event", Toast.LENGTH_SHORT).show();
+                    }
+                    events.remove(position);
+                    notifyDataSetChanged();
+                }));
+            else if (Objects.equals(this.type, "selectedEvents"))
+                declineBtn.setOnClickListener(v -> userUtils.rejectEvent(deviceId, event.getEventId(), (isSuccess, event_) -> {
                     if (isSuccess == 0) {
                         Toast.makeText(getContext(), "Declined Event Invitation", Toast.LENGTH_SHORT).show();
                     }
                     events.remove(position);
                     notifyDataSetChanged();
                 }));
-            }
             if (Objects.equals(this.type, "organizer")) {
                 declineBtn.setOnClickListener(v-> {
                     progressBar.setVisibility(View.VISIBLE);
