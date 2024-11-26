@@ -1,25 +1,18 @@
 package com.example.zenithevents.Objects;
 
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.zenithevents.Events.CreateEventPage;
-import com.example.zenithevents.Events.CreationSuccessActivity;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Represents an event in the system.
@@ -316,7 +309,7 @@ public class Event implements Serializable {
      * a sample of participants. The sample size is constrained to
      * the size of the selected list.
      */
-    public ArrayList<String> drawLottery() {
+    public ArrayList<String> drawLottery(Context context) {
         ArrayList<String> sampledList = new ArrayList<>();
         ArrayList<String> newSelectedList = this.getSelected();
         ArrayList<String> waitingList = this.getWaitingList();
@@ -350,26 +343,59 @@ public class Event implements Serializable {
                     ArrayList<String> selectedEvents = callback.getSelectedEvents();
                     selectedEvents.add(this.eventId);
                     callback.setSelectedEvents(selectedEvents);
-
+                    if (callback.getWantsNotifs()) {
+                        Log.d("FunctionCall", "wants notifs");
+                        callback.sendNotification(context, "Congratulations! You have been selected for " + this.getEventTitle());
+                    }
                     userUtils.updateUserByObject(callback, callback2 -> {
                         Log.d("FunctionCall", "User: " + deviceId + "info updated.");
                     });
                 });
             }
+            for (String deviceId : this.getWaitingList()) {
+                userUtils.fetchUserProfile(deviceId, callback -> {
+                    if (callback.getWantsNotifs()) {
+                        callback.sendNotification(context, "You have not been selected for " + this.getEventTitle());
+                        userUtils.updateUserByObject(callback, callback2 -> {
+                            Log.d("Notification", "User: " + deviceId + "notified.");
+                        });
+                    }
+                });
+            }
         });
-
         Log.d("FunctionCall", "4-- " + this.getSelected().size());
         Log.d("FunctionCall", "5-- " + this.getWaitingList().size());
         return this.getSelected();
     }
 
-//    public void sendNotifications(String message, ArrayList<String> recipients){
-//        // Send notifications to recipients
-//        for (String recipient : recipients) {
-//            if (recipient.wantsNotifs()){
-//            recipient.sendNotification(message);}
-//        }
-//    }
+    /**
+     * Sends notifications to participants who enabled notifications.
+     *
+     * @param entrants The list of participants.
+     * @param message  The message to send to participants who enabled notifications.
+     * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
+     */
+    public void sendNotifications(Context context,String message, ArrayList<String> entrants){
+//         Send notifications to recipients
+        UserUtils userUtils = new UserUtils();
+        try {
+            for (String deviceID : entrants) {
+                Log.d("FunctionCall", "Profile fetched for: " + deviceID);
+                userUtils.fetchUserProfile(deviceID, user -> {
+                    Log.d("FunctionCall", "Profile fetched for: " + user.getDeviceID());
+                    if (user.getWantsNotifs()) {
+                        user.sendNotification(context, message);
+                        userUtils.updateUserByObject(user, user2 -> {
+                            Log.d("FunctionCall", "Notification sent to: " + deviceID);
+                        });
+                    }
+                });
+            }
+            Toast.makeText(context, "Notifications sent successfully!", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(context, "Error sending notifications: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
 
     /**
      * Gets the owner facility of the event.

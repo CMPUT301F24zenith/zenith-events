@@ -23,6 +23,7 @@ import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
@@ -75,6 +76,11 @@ public class OrganizerPage extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         createFacilityButton = findViewById(R.id.createFacilityButton);
         viewFacilityButton = findViewById(R.id.viewFacilityButton);
+
+//        FloatingActionButton sendNotifsButton = findViewById(R.id.sendNotifsButton);
+//        sendNotifsButton.setOnClickListener(v -> {
+//            Toast.makeText(this, "Notifications sent", Toast.LENGTH_SHORT).show();
+//        });
 
         progressBar.setVisibility(View.VISIBLE);
         createFacilityButton.setVisibility(View.GONE);

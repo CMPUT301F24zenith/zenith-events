@@ -3,6 +3,7 @@ package com.example.zenithevents.User;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,6 +29,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 public class ProfileDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "ProfileDetailActivity";
@@ -38,7 +41,7 @@ public class ProfileDetailActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private ImageView profileImageView;
     private String initials;
-    private String userID;
+    private String userID, type;
     private Button deleteUserButton, deleteImage;
 
 
@@ -55,6 +58,7 @@ public class ProfileDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         userID = intent.getStringExtra("userID");
+        type = intent.getStringExtra("type");
         FirstNameTextView = findViewById(R.id.viewFirstName);
         LastNameTextView = findViewById(R.id.viewLastName);
         EmailTextView = findViewById(R.id.viewEmail);
@@ -67,22 +71,30 @@ public class ProfileDetailActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         profileImageView = findViewById(R.id.profileImage);
         fetchUserProfile();
-        deleteUserButton.setOnClickListener(v->{
-            progressBar.setVisibility(View.VISIBLE);
-            removeFromLists(userID, success-> {
-                if (success) {
-                    deleteProfile(userID);
-                } else {
-                    Toast.makeText(ProfileDetailActivity.this, "Failed to remove user from lists", Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
-                }
+
+        Log.d("access type", type);
+        if (Objects.equals(type, "admin")) {
+            deleteUserButton.setVisibility(View.VISIBLE);
+            deleteUserButton.setOnClickListener(v -> {
+                progressBar.setVisibility(View.VISIBLE);
+                removeFromLists(userID, success -> {
+                    if (success) {
+                        deleteProfile(userID);
+                    } else {
+                        Toast.makeText(ProfileDetailActivity.this, "Failed to remove user from lists", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
             });
-        });
+            deleteImage.setVisibility(View.VISIBLE);
+            deleteImage.setOnClickListener(v->{
+                showRemoveProfilePictureDialog();
+            });
 
-        deleteImage.setOnClickListener(v->{
-            showRemoveProfilePictureDialog();
-        });
-
+        } else {
+            deleteUserButton.setVisibility(View.GONE);
+            deleteImage.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -108,13 +120,13 @@ public class ProfileDetailActivity extends AppCompatActivity {
                     Bitmap decodedProfileImage = BitmapUtils.decodeBase64ToBitmap(profileImage);
                     profileImageView.setImageBitmap(decodedProfileImage);
                     initialsTextView.setVisibility(View.GONE);
-                    deleteImage.setVisibility(View.VISIBLE);
+                    if (Objects.equals(type, "admin")) deleteImage.setVisibility(View.VISIBLE);
                 } else {
 
                     initialsTextView.setText(initials.toUpperCase());
                     profileImageView.setImageResource(R.drawable.circle_background);
                     initialsTextView.setVisibility(View.VISIBLE);
-                    deleteImage.setVisibility(View.GONE);
+                    if (Objects.equals(type, "admin")) deleteImage.setVisibility(View.GONE);
                 }
             } else {
                 Toast.makeText(this, "User profile not found.", Toast.LENGTH_SHORT).show();

@@ -10,6 +10,7 @@ import android.Manifest;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -32,32 +33,25 @@ import com.example.zenithevents.EntrantsList.EnrolledEntrants;
 import com.example.zenithevents.EntrantsList.MapActivity;
 import com.example.zenithevents.EntrantsList.SampledEntrants;
 import com.example.zenithevents.EntrantsList.WaitlistedEntrants;
-import com.example.zenithevents.Events.CreateEventPage;
-import com.example.zenithevents.Events.QRView;
 import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
-import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
-import com.example.zenithevents.User.OrganizerPage;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
-import com.example.zenithevents.User.ProfileDetailActivity;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * This class represents the EventView activity in the application, which displays
@@ -74,6 +68,7 @@ public class EventView extends AppCompatActivity {
     ImageView eventPosterImageView;
     private Button btnJoinLeaveWaitingList, qrCodeButton, btnEditEvent, btnSampleUsers, deleteEventButton, deleteImageButton, mapButton;
     private TextView eventDescription, eventName, facilityName, eventAddress;
+    private FloatingActionButton sendNotifsButton;
     private ProgressBar progressBar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ListenerRegistration eventListener;
@@ -84,6 +79,7 @@ public class EventView extends AppCompatActivity {
     FacilityUtils facilityUtils = new FacilityUtils();
     EventUtils eventUtils = new EventUtils();
     private String eventId, type;
+
 
     /**
      * Initializes the activity and its UI components.
@@ -126,6 +122,8 @@ public class EventView extends AppCompatActivity {
         btnSampleUsers = findViewById(R.id.btnSampleUsers);
         deleteImageButton = findViewById(R.id.deleteImage);
         mapButton = findViewById(R.id.mapButton);
+        sendNotifsButton = findViewById(R.id.sendNotifsButton);
+
     }
 
     /**
@@ -296,6 +294,51 @@ public class EventView extends AppCompatActivity {
             }
         }
 
+        sendNotifsButton.setOnClickListener(v -> {
+            Context context = EventView.this;
+            String[] options = {"Selected Entrants", "Cancelled Entrants", "Waitlisted Entrants"};
+            boolean[] selectedOptions = new boolean[options.length];
+            AtomicBoolean optionSelected = new AtomicBoolean(false);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Send Notifications To");
+            builder.setMultiChoiceItems(options, selectedOptions, (dialog, which, isChecked) -> {
+                selectedOptions[which] = isChecked;
+            });
+            builder.setPositiveButton("Next", (dialog, which) -> {
+                ArrayList<String> selectedEntrants = new ArrayList<>();
+                if (selectedOptions[0]) {
+                    optionSelected.set(true);
+                    if (!event.getSelected().isEmpty())
+                        selectedEntrants.addAll(event.getSelected());
+                    else
+                        Toast.makeText(this, "There are no selected entrants.", Toast.LENGTH_SHORT).show();
+                }
+                if (selectedOptions[1]) {
+                        optionSelected.set(true);
+                        if (!event.getCancelledList().isEmpty()) selectedEntrants.addAll(event.getCancelledList());
+                        else
+                            Toast.makeText(this, "There are no cancelled entrants.", Toast.LENGTH_SHORT).show();
+                }
+                if (selectedOptions[2]){
+                    optionSelected.set(true);
+                    if (!event.getWaitingList().isEmpty()) selectedEntrants.addAll(event.getWaitingList());
+                    else
+                        Toast.makeText(this, "There are no waitlisted entrants.", Toast.LENGTH_SHORT).show();
+                }
+
+                if (!optionSelected.get()){
+                    Toast.makeText(this, "Please select at least one option.", Toast.LENGTH_SHORT).show();
+                }
+                else if (!selectedEntrants.isEmpty()) {
+                    showMessageInputDialog(context, selectedEntrants, event);
+                }
+                });
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+            builder.create().show();
+
+        });
+
         // Load event image using Glide
         loadImage(event.getImageUrl(), eventPosterImageView);
         Log.d("FunctionCAll", "type:: " + type);
@@ -314,12 +357,16 @@ public class EventView extends AppCompatActivity {
                 );
             }
 
-            mapButton.setVisibility(View.VISIBLE);
-            mapButton.setOnClickListener(v -> {
-                Intent intent = new Intent(this, MapActivity.class);
-                intent.putExtra("EventID", event.getEventId());
-                startActivity(intent);
-            });
+            if (!event.getWaitingList().isEmpty() && event.getHasGeolocation()) {
+                mapButton.setVisibility(View.VISIBLE);
+                mapButton.setOnClickListener(v -> {
+                    Intent intent = new Intent(this, MapActivity.class);
+                    intent.putExtra("EventID", event.getEventId());
+                    startActivity(intent);
+                });
+            } else {
+                mapButton.setVisibility(View.GONE);
+            }
 
             btnEditEvent.setVisibility(View.VISIBLE);
             btnEditEvent.setOnClickListener(v -> {
@@ -331,7 +378,8 @@ public class EventView extends AppCompatActivity {
 
             btnSampleUsers.setVisibility(View.VISIBLE);
             btnSampleUsers.setOnClickListener(v -> {
-                event.drawLottery();
+                Context context = EventView.this;
+                event.drawLottery(context);
                 Intent intent = new Intent(this, SampledEntrants.class);
                 intent.putExtra("eventId", event.getEventId());
                 startActivity(intent);
@@ -418,6 +466,33 @@ public class EventView extends AppCompatActivity {
             currentOptionIndex = (currentOptionIndex + 1) % entrantOptions.length;
             updateDisplay(currentOptionText, eventId);
         });
+    }
+
+    /**
+     * Sets up navigation between different entrant lists.
+     *
+     * @param Entrants An array of device IDs representing entrants.
+     * @param event    The unique identifier of the event.
+     */
+    private void showMessageInputDialog(Context context, ArrayList<String> Entrants, Event event) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Write message");
+        builder.setMessage("Enter message");
+        final EditText input = new EditText(this);
+        input.setHint("Enter Message...");
+        builder.setView(input);
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            String message = input.getText().toString().trim();
+            if (!message.isEmpty()) {
+                event.sendNotifications(context, message, Entrants);
+            }
+            else {
+                Toast.makeText(this, "Please enter a message.", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        builder.create().show();
     }
 
     /**
