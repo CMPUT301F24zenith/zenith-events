@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.InitialsGenerator;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
@@ -20,6 +21,7 @@ import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
 import com.example.zenithevents.User.ProfileDetailActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -100,18 +102,45 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
                 initials.setVisibility(View.VISIBLE);
             }
 
-            if (Objects.equals(type, "SampledEntrants")) {
+            if (Objects.equals(this.type, "SampledEntrants")) {
                 declineBtn.setVisibility(View.VISIBLE);
-                if (this.eventId != null) {
-                    acceptBtn.setVisibility(View.GONE);
-                    declineBtn.setOnClickListener(v -> userUtils.applyLeaveEvent(getContext(), user.getDeviceID(), this.eventId, (isSuccess, event) -> {
-                        if (isSuccess == 0) {
-                            Toast.makeText(getContext(), "Declined Event Invitation", Toast.LENGTH_SHORT).show();
+                declineBtn.setOnClickListener(v -> userUtils.rejectEvent(user.getDeviceID(), this.eventId, (isSuccess, event_) -> {
+                    if (isSuccess == 0) {
+                        Toast.makeText(getContext(), "Declined Event Invitation", Toast.LENGTH_SHORT).show();
+                    }
+                    users.remove(position);
+                    notifyDataSetChanged();
+
+                    EventUtils eventUtils = new EventUtils();
+                    Log.d("FunctionCall", "drawing eventId::" + this.eventId);
+
+                    eventUtils.fetchEventById(this.eventId, event -> {
+                        if (event == null) return;
+                        Log.d("FunctionCall", "drawing eventId not null::" + event.getEventId());
+
+                        ArrayList<String> newSelectedList = event.drawLottery(getContext());
+                        Log.d("FunctionCall", "newSelectedList.size()::" + newSelectedList.size());
+
+                        List<User> fetchedUsers = new ArrayList<>();
+                        int[] remainingUsers = {newSelectedList.size()};
+                        for (String userId : newSelectedList) {
+                            Log.d("FunctionCall", "drawing again::" + userId);
+
+                            userUtils.fetchUserProfile(userId, user_ -> {
+                                Log.d("FunctionCall", "fetched user11::" + user_.getDeviceID());
+                                if (user_ != null) fetchedUsers.add(user_);
+                                remainingUsers[0]--;
+
+                                if (remainingUsers[0] == 0) {
+                                    users.clear();
+                                    users.addAll(fetchedUsers);
+                                    Log.d("FunctionCall", "All users fetched, size: " + users.size());
+                                    notifyDataSetChanged();
+                                }
+                            });
                         }
-                        users.remove(position);
-                        notifyDataSetChanged();
-                    }));
-                }
+                    });
+                }));
             } else {
                 acceptBtn.setVisibility(View.GONE);
                 declineBtn.setVisibility(View.GONE);
@@ -121,6 +150,7 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
                 if (user.getDeviceID() != null) {
                     Intent intent = new Intent(getContext(), ProfileDetailActivity.class);
                     intent.putExtra("userID", user.getDeviceID());
+                    intent.putExtra("type", this.type);
                     getContext().startActivity(intent);
                 } else {
                     Log.e("EntrantArrayAdapter", "User device ID is null");

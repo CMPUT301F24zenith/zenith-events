@@ -21,6 +21,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -190,17 +191,22 @@ public class EventView extends AppCompatActivity {
 
         Log.d("FunctionCall", "deviceID: " + deviceID);
 
-        if (event.getWaitingList().contains(deviceID) ||
-                event.getSelected().contains(deviceID) ||
-                event.getCancelledList().contains(deviceID) ||
-                event.getRegistrants().contains(deviceID)
-        ) {
+        if (event.getCancelledList().contains(deviceID) ||
+                event.getRegistrants().contains(deviceID) ||
+                event.getSelected().contains(deviceID)) {
+            btnJoinLeaveWaitingList.setEnabled(false);
+            btnJoinLeaveWaitingList.setText("Attendance can not be changed");
+            btnJoinLeaveWaitingList.setBackgroundColor(Color.parseColor("#D3D3D3"));
+        }
+
+        if (event.getWaitingList().contains(deviceID)) {
             btnJoinLeaveWaitingList.setBackgroundColor(Color.RED);
+            btnJoinLeaveWaitingList.setTextColor(Color.WHITE);
             btnJoinLeaveWaitingList.setText("Leave Event");
+            btnJoinLeaveWaitingList.setEnabled(true);
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
-                Context context = EventView.this;
-
+                Context context = this;
                 userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), (isSuccess, event_) -> {
                     if (isSuccess == 1) {
                         Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
@@ -211,18 +217,27 @@ public class EventView extends AppCompatActivity {
                     }
                 });
             });
-        } else {
+        }
+
+        if (
+                !event.getWaitingList().contains(deviceID) &&
+                !event.getCancelledList().contains(deviceID) &&
+                !event.getSelected().contains(deviceID) &&
+                !event.getRegistrants().contains(deviceID)
+        ) {
             btnJoinLeaveWaitingList.setBackgroundColor(Color.BLUE);
+            btnJoinLeaveWaitingList.setTextColor(Color.WHITE);
             btnJoinLeaveWaitingList.setText("Join Waiting List");
+            btnJoinLeaveWaitingList.setEnabled(true);
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
-                Context context = EventView.this;
+                Context context = this;
                 userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), (isSuccess, event_) -> {
                     Log.d("FunctionCall", "Applying.." + isSuccess);
                     if (isSuccess == 1) {
                         if (event_.getHasGeolocation()) {
                             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                                ActivityCompat.requestPermissions(EventView.this,
+                                ActivityCompat.requestPermissions(this,
                                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                                         LOCATION_PERMISSION_REQUEST_CODE);
                             }
@@ -320,7 +335,7 @@ public class EventView extends AppCompatActivity {
             setupEntrantNavigation(event.getEventId());
             if (Objects.equals(type, "admin")) {
                 deleteImageButton.setOnClickListener(v ->
-                        new AlertDialog.Builder(EventView.this)
+                        new AlertDialog.Builder(this)
                                 .setTitle("Remove Event Picture")
                                 .setMessage("Are you sure you want to remove the event's poster picture?")
                                 .setPositiveButton("Yes", (dialog, which) -> {
@@ -331,16 +346,20 @@ public class EventView extends AppCompatActivity {
                 );
             }
 
-            mapButton.setVisibility(View.VISIBLE);
-            mapButton.setOnClickListener(v -> {
-                Intent intent = new Intent(EventView.this, MapActivity.class);
-                intent.putExtra("EventID", event.getEventId());
-                startActivity(intent);
-            });
+            if (!event.getWaitingList().isEmpty() && event.getHasGeolocation()) {
+                mapButton.setVisibility(View.VISIBLE);
+                mapButton.setOnClickListener(v -> {
+                    Intent intent = new Intent(this, MapActivity.class);
+                    intent.putExtra("EventID", event.getEventId());
+                    startActivity(intent);
+                });
+            } else {
+                mapButton.setVisibility(View.GONE);
+            }
 
             btnEditEvent.setVisibility(View.VISIBLE);
             btnEditEvent.setOnClickListener(v -> {
-                Intent intent = new Intent(EventView.this, CreateEventPage.class);
+                Intent intent = new Intent(this, CreateEventPage.class);
                 intent.putExtra("page_title", "Edit Event");
                 intent.putExtra("Event", (Serializable) event);
                 startActivity(intent);
@@ -361,10 +380,10 @@ public class EventView extends AppCompatActivity {
                 eventUtils.removeEvent(eventId, success-> {
                     progressBar.setVisibility(View.GONE);
                     if (success) {
-                        Toast.makeText(EventView.this, "Event deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Event deleted", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
-                        Toast.makeText(EventView.this, "Event did not delete", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Event did not delete", Toast.LENGTH_SHORT).show();
                     }
                 });
             });
@@ -382,11 +401,11 @@ public class EventView extends AppCompatActivity {
                         if (documentSnapshot.exists()) {
                             Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
                             if (Boolean.TRUE.equals(isAdmin) && Objects.equals(type, "admin")) {
-                                Intent intent = new Intent(EventView.this, QRViewAdmin.class);
+                                Intent intent = new Intent(this, QRViewAdmin.class);
                                 intent.putExtra("Event", (Serializable) event);
                                 startActivity(intent);
                             } else {
-                                Intent intent = new Intent(EventView.this, QRView.class);
+                                Intent intent = new Intent(this, QRView.class);
                                 intent.putExtra("Event", (Serializable) event);
                                 startActivity(intent);
                             }
@@ -516,10 +535,10 @@ public class EventView extends AppCompatActivity {
         db.collection("events").document(eventId)
                 .update("imageUrl", null)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(EventView.this, "Event picture removed successfully.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Event picture removed successfully.", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(EventView.this, "Failed to remove event picture.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Failed to remove event picture.", Toast.LENGTH_SHORT).show();
 
                 });
     }

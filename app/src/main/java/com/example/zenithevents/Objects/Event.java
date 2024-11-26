@@ -219,7 +219,8 @@ public class Event implements Serializable {
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
     public void setWaitingList(ArrayList<String> waitingList) {
-        this.waitingList = waitingList;
+        this.waitingList = new ArrayList<>();
+        this.waitingList.addAll(waitingList);
     }
 
     /**
@@ -229,7 +230,8 @@ public class Event implements Serializable {
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
     public void setSelected(ArrayList<String> selected) {
-        this.selected = selected;
+        this.selected = new ArrayList<>();
+        this.selected.addAll(selected);
     }
 
     /**
@@ -239,7 +241,8 @@ public class Event implements Serializable {
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
     public void setRegistrants(ArrayList<String> registrants) {
-        this.registrants = registrants;
+        this.registrants = new ArrayList<>();
+        this.registrants.addAll(registrants);
     }
 
     /**
@@ -249,7 +252,8 @@ public class Event implements Serializable {
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
     public void setCancelledList(ArrayList<String> cancelledList) {
-        this.cancelledList = cancelledList;
+        this.cancelledList = new ArrayList<>();
+        this.cancelledList.addAll(cancelledList);
     }
 
     /**
@@ -305,7 +309,7 @@ public class Event implements Serializable {
      * a sample of participants. The sample size is constrained to
      * the size of the selected list.
      */
-    public void drawLottery(Context context) {
+    public ArrayList<String> drawLottery(Context context) {
         ArrayList<String> sampledList = new ArrayList<>();
         ArrayList<String> newSelectedList = this.getSelected();
         ArrayList<String> waitingList = this.getWaitingList();
@@ -339,7 +343,10 @@ public class Event implements Serializable {
                     ArrayList<String> selectedEvents = callback.getSelectedEvents();
                     selectedEvents.add(this.eventId);
                     callback.setSelectedEvents(selectedEvents);
-                    if (callback.wantsNotifs()) callback.sendNotification(context, "Congratulations! You have been selected for " + this.getEventTitle());
+                    if (callback.getWantsNotifs()) {
+                        Log.d("FunctionCall", "wants notifs");
+                        callback.sendNotification(context, "Congratulations! You have been selected for " + this.getEventTitle());
+                    }
                     userUtils.updateUserByObject(callback, callback2 -> {
                         Log.d("FunctionCall", "User: " + deviceId + "info updated.");
                     });
@@ -347,7 +354,7 @@ public class Event implements Serializable {
             }
             for (String deviceId : this.getWaitingList()) {
                 userUtils.fetchUserProfile(deviceId, callback -> {
-                    if (callback.wantsNotifs()) {
+                    if (callback.getWantsNotifs()) {
                         callback.sendNotification(context, "You have not been selected for " + this.getEventTitle());
                         userUtils.updateUserByObject(callback, callback2 -> {
                             Log.d("Notification", "User: " + deviceId + "notified.");
@@ -358,6 +365,7 @@ public class Event implements Serializable {
         });
         Log.d("FunctionCall", "4-- " + this.getSelected().size());
         Log.d("FunctionCall", "5-- " + this.getWaitingList().size());
+        return this.getSelected();
     }
 
     /**
@@ -375,7 +383,7 @@ public class Event implements Serializable {
                 Log.d("FunctionCall", "Profile fetched for: " + deviceID);
                 userUtils.fetchUserProfile(deviceID, user -> {
                     Log.d("FunctionCall", "Profile fetched for: " + user.getDeviceID());
-                    if (user.wantsNotifs()) {
+                    if (user.getWantsNotifs()) {
                         user.sendNotification(context, message);
                         userUtils.updateUserByObject(user, user2 -> {
                             Log.d("FunctionCall", "Notification sent to: " + deviceID);
