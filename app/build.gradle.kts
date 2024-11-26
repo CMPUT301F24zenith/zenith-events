@@ -36,6 +36,8 @@ dependencies {
     implementation("com.google.zxing:core:3.5.3")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.espresso.intents)
+    implementation(libs.firebase.messaging)
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("jp.wasabeef:glide-transformations:4.3.0")
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
@@ -43,6 +45,11 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-storage:20.2.0")
     implementation("com.google.android.gms:play-services-location:21.3.0")
+
+//    implementation("com.google.firebase:firebase-messaging:24.2.0")
+//    implementation("com.google.firebase:firebase-analytics:21.3.0")
+
+
     implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation(libs.espresso.intents)
     implementation(libs.appcompat)

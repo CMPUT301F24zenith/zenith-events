@@ -60,6 +60,7 @@ public class EntrantViewActivity extends AppCompatActivity {
             return insets;
         });
 
+
         currentSelection = findViewById(R.id.CurrentSelection);
         scanQRButton = findViewById(R.id.scanQRButton);
         next = findViewById(R.id.tvNext);
@@ -68,8 +69,10 @@ public class EntrantViewActivity extends AppCompatActivity {
         currentSelection.setText(options[currentIndex]);
         viewProfileButton = findViewById(R.id.viewProfileButton);
 
+        String type = getIntent().getStringExtra("type");
         Bundle args = new Bundle();
-        args.putString("type", "entrant-waiting");
+        if (type != null) args.putString("type", type);  // Doesn't work as expected
+        else args.putString("type", "entrant-waiting");
         loadFragment(new EventsFragment(), args);
 
         previous.setOnClickListener(v -> moveToPrevious());
@@ -94,6 +97,8 @@ public class EntrantViewActivity extends AppCompatActivity {
                 });
             }
         });
+
+
     }
 
     /**
