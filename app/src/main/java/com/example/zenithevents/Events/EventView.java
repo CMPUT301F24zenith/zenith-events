@@ -191,23 +191,12 @@ public class EventView extends AppCompatActivity {
 
         Log.d("FunctionCall", "deviceID: " + deviceID);
 
-        if (event.getCancelledList().contains(deviceID) || event.getRegistrants().contains(deviceID)) {
+        if (event.getCancelledList().contains(deviceID) ||
+                event.getRegistrants().contains(deviceID) ||
+                event.getSelected().contains(deviceID)) {
             btnJoinLeaveWaitingList.setEnabled(false);
             btnJoinLeaveWaitingList.setText("Attendance can not be changed");
             btnJoinLeaveWaitingList.setBackgroundColor(Color.parseColor("#D3D3D3"));
-        }
-
-        if (event.getSelected().contains(deviceID)) {
-            btnJoinLeaveWaitingList.setBackgroundColor(Color.RED);
-            btnJoinLeaveWaitingList.setTextColor(Color.WHITE);
-            btnJoinLeaveWaitingList.setText("Reject Invitation");
-            btnJoinLeaveWaitingList.setEnabled(true);
-
-            btnJoinLeaveWaitingList.setOnClickListener(v -> userUtils.rejectEvent(deviceID, event.getEventId(), (isSuccess, event_) -> {
-                if (isSuccess == 0) {
-                    Toast.makeText(this, "Declined Event Invitation", Toast.LENGTH_SHORT).show();
-                }
-            }));
         }
 
         if (event.getWaitingList().contains(deviceID)) {

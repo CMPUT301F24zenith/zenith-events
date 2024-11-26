@@ -3,7 +3,6 @@ package com.example.zenithevents.HelperClasses;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.zenithevents.EntrantDashboard.CreateProfileActivity;
 import com.example.zenithevents.Objects.Event;
@@ -14,6 +13,7 @@ import com.example.zenithevents.Objects.User;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Utility class for managing user-related operations in the application. This includes methods for checking
@@ -185,6 +185,8 @@ public class UserUtils {
      * @param callback  The callback invoked upon completion with a boolean indicating success.
      */
     public void applyLeaveEvent(Context context, String deviceId, String eventId, joinEventCallback callback) {
+        EventUtils eventUtils = new EventUtils();
+        AtomicInteger flag = new AtomicInteger();
         db.collection("users").document(deviceId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
@@ -195,65 +197,40 @@ public class UserUtils {
 
                         Log.d("FunctionCall", "Getting lists");
 
-//                        if (user.getCancelledEvents().contains(eventId)) {
-//                            return;
-//                        }
 
-                        if (!user.getWaitingEvents().contains(eventId) &&
+                        if (
+                                !user.getWaitingEvents().contains(eventId) &&
                                 !user.getSelectedEvents().contains(eventId) &&
                                 !user.getCancelledEvents().contains(eventId) &&
                                 !user.getRegisteredEvents().contains(eventId)
                         ) {
-                            user.getWaitingEvents().add(eventId);
+                            // implement the geolocation logic here. if user accepts then run the next line otherwise call return;
+                            eventUtils.fetchEventById(eventId, event -> {
+                                if (event.getHasGeolocation()) {
+                                    Log.d("FunctionCall", "1111k.1");
+                                    new android.app.AlertDialog.Builder(context)
+                                            .setTitle("Geolocation Required")
+                                            .setMessage("This event requires geolocation. Do you want to continue?")
+                                            .setPositiveButton("Yes", (dialog, which) -> {
+                                                user.getWaitingEvents().add(eventId);
+                                                updateEventApplyLeave(deviceId, user, eventId, callback);
+                                            })
+                                            .setNegativeButton("No", (dialog, which) ->
+                                                callback.onUserJoinComplete(-1, null)
+                                            )
+                                            .show();
+                                } else {
+                                    user.getWaitingEvents().add(eventId);
+                                    updateEventApplyLeave(deviceId, user, eventId, callback);
+                                }
+                            });
                         } else {
                             user.getWaitingEvents().remove(eventId);
                             user.getCancelledEvents().remove(eventId);
                             user.getSelectedEvents().remove(eventId);
                             user.getRegisteredEvents().remove(eventId);
+                            updateEventApplyLeave(deviceId, user, eventId, callback);
                         }
-
-                        db.collection("users").document(deviceId)
-                                .update(convertUserToMap(user))
-                                .addOnSuccessListener(aVoid -> {
-                                    Log.d("FunctionCall", "1212.1");
-                                    db.collection("events").document(eventId).get()
-                                            .addOnSuccessListener(documentSnapshot1 -> {
-                                                if (documentSnapshot1.exists()) {
-                                                    Event event = documentSnapshot1.toObject(Event.class);
-                                                    EventUtils eventUtils = new EventUtils();
-
-                                                    assert event.getWaitingList() != null && event.getCancelledList() != null &&
-                                                            event.getSelected() != null && event.getRegistrants() != null;
-
-                                                    if (!event.getWaitingList().contains(deviceId) &&
-                                                            !event.getRegistrants().contains(deviceId) &&
-                                                            !event.getCancelledList().contains(deviceId) &&
-                                                            !event.getSelected().contains(deviceId)
-                                                    ) {
-                                                        event.getWaitingList().add(deviceId);
-
-                                                        db.collection("events").document(eventId)
-                                                                .update(eventUtils.convertEventToMap(event))
-                                                                .addOnSuccessListener(aVoid1 -> callback.onUserJoinComplete(1, event))
-                                                                .addOnFailureListener(e -> callback.onUserJoinComplete(-1, null));
-
-                                                    } else {
-                                                        event.getWaitingList().remove(deviceId);
-                                                        event.getRegistrants().remove(deviceId);
-                                                        event.getCancelledList().remove(deviceId);
-                                                        event.getSelected().remove(deviceId);
-                                                        event.getUserLocations().remove(deviceId);
-
-                                                        db.collection("events").document(eventId)
-                                                                .update(eventUtils.convertEventToMap(event))
-                                                                .addOnSuccessListener(aVoid1 -> callback.onUserJoinComplete(0, event))
-                                                                .addOnFailureListener(e -> callback.onUserJoinComplete(-1, null));
-
-                                                    }
-                                                }
-                                            })
-                                            .addOnFailureListener(e -> callback.onUserJoinComplete(-1, null));
-                                }).addOnFailureListener(e -> callback.onUserJoinComplete(-1, null));
                     } else {
                         Log.d("FunctionCall", "aaa");
                         Intent intent = new Intent(context, CreateProfileActivity.class);
@@ -264,6 +241,51 @@ public class UserUtils {
                     Log.d("FunctionCall", "Firestore fetch error");
                     callback.onUserJoinComplete(-1, null);
                 });
+    }
+
+    public void updateEventApplyLeave(String deviceId, User user, String eventId, joinEventCallback callback) {
+        EventUtils eventUtils = new EventUtils();
+        db.collection("users").document(deviceId)
+                .update(convertUserToMap(user))
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("FunctionCall", "1212.1");
+                    db.collection("events").document(eventId).get()
+                            .addOnSuccessListener(documentSnapshot1 -> {
+                                if (documentSnapshot1.exists()) {
+                                    Event event = documentSnapshot1.toObject(Event.class);
+
+                                    assert event.getWaitingList() != null && event.getCancelledList() != null &&
+                                            event.getSelected() != null && event.getRegistrants() != null;
+
+                                    if (!event.getWaitingList().contains(deviceId) &&
+                                            !event.getRegistrants().contains(deviceId) &&
+                                            !event.getCancelledList().contains(deviceId) &&
+                                            !event.getSelected().contains(deviceId)
+                                    ) {
+                                        event.getWaitingList().add(deviceId);
+
+                                        db.collection("events").document(eventId)
+                                                .update(eventUtils.convertEventToMap(event))
+                                                .addOnSuccessListener(aVoid1 -> callback.onUserJoinComplete(1, event))
+                                                .addOnFailureListener(e -> callback.onUserJoinComplete(-1, null));
+
+                                    } else {
+                                        event.getWaitingList().remove(deviceId);
+                                        event.getRegistrants().remove(deviceId);
+                                        event.getCancelledList().remove(deviceId);
+                                        event.getSelected().remove(deviceId);
+                                        event.getUserLocations().remove(deviceId);
+
+                                        db.collection("events").document(eventId)
+                                                .update(eventUtils.convertEventToMap(event))
+                                                .addOnSuccessListener(aVoid1 -> callback.onUserJoinComplete(0, event))
+                                                .addOnFailureListener(e -> callback.onUserJoinComplete(-1, null));
+
+                                    }
+                                }
+                            })
+                            .addOnFailureListener(e -> callback.onUserJoinComplete(-1, null));
+                }).addOnFailureListener(e -> callback.onUserJoinComplete(-1, null));
     }
 
     public void rejectEvent(String deviceId, String eventId, joinEventCallback callback) {
