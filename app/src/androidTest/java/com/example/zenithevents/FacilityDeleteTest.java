@@ -1,9 +1,16 @@
 package com.example.zenithevents;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Objects.Facility;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +22,7 @@ public class FacilityDeleteTest {
     private List<Event> testingEvents;
     private List<Facility> testingFacilities;
 
+    @Before
     public void startingUp() {
         facilityUtils = new FacilityUtils();
         eventUtils = new EventUtils();
@@ -40,5 +48,25 @@ public class FacilityDeleteTest {
         facility.setPhoneOfFacility("0987654321");
         testingFacilities.add(facility);
 
+    }
+    @Test
+    public void testGetEventsOfFacility() {
+        List<Event> expectedEvents = testingEvents;
+        List<Event> actualEvents = runningGettingEvents("facility1");
+        assertNotNull(actualEvents);
+        assertEquals(expectedEvents.size(), actualEvents.size());
+    }
+
+    @Test
+    public void testDeleteEventsOfFacility() {
+        List<Event> eventsDelete = new ArrayList<>(testingEvents);
+        boolean result = runningDeletingEvents(eventsDelete);
+        assertTrue(result);
+        assertTrue(eventsDelete.isEmpty());
+    }
+
+    @Test
+    public void testDeleteFacility() {
+        String facilityId = "facility"
     }
 }
