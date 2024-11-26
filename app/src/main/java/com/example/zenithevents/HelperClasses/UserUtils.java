@@ -202,6 +202,20 @@ public class UserUtils {
                                 !user.getRegisteredEvents().contains(eventId)
                         ) {
                             // implement the geolocation logic here. if user accepts then run the next line otherwise call return;
+                            if (event.getHasGeolocation()) {
+                                new android.app.AlertDialog.Builder(context)
+                                        .setTitle("Geolocation Required")
+                                        .setMessage("This event requires geolocation. Do you want to continue?")
+                                        .setPositiveButton("Yes", (dialog, which) -> {
+                                            user.getWaitingEvents().add(eventId);
+                                        })
+                                        .setNegativeButton("No", (dialog, which) -> {
+                                            callback.onUserJoinComplete(-1, null);
+                                        })
+                                        .show();
+                            } else {
+                                user.getWaitingEvents().add(eventId);
+                            }
                             user.getWaitingEvents().add(eventId);
                         } else {
                             user.getWaitingEvents().remove(eventId);
