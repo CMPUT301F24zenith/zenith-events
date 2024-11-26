@@ -116,10 +116,7 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
 
                     eventUtils.fetchEventById(this.eventId, event -> {
                         if (event == null) return;
-                        Log.d("FunctionCall", "drawing eventId not null::" + event.getEventId());
-
                         ArrayList<String> newSelectedList = event.drawLottery();
-                        Log.d("FunctionCall", "newSelectedList.size()::" + newSelectedList.size());
 
                         List<User> fetchedUsers = new ArrayList<>();
                         int[] remainingUsers = {newSelectedList.size()};
