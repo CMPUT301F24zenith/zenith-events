@@ -99,6 +99,8 @@ public class EventUtils {
         Log.d("FunctionCall", "updatingEvent1...");
 
         if (event.getEventId() == null) {
+            // if event.getList + get list > event.seleclimit
+            // else return;
             db.collection("events").add(event)
                     .addOnSuccessListener(ref -> {
                         String generatedId = ref.getId();

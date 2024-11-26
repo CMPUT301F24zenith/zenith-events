@@ -9,6 +9,7 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -29,6 +30,16 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCSWmgmg8UloKdVfABJwD3Lcej7PzR-ZTY" />
+
+<!--        <service-->
+<!--            android:name="MyFirebaseMessagingService"-->
+<!--            android:exported="true"-->
+<!--            tools:ignore="WrongManifestParent">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>-->
+<!--            </intent-filter>-->
+<!--        </service>-->
+
         <activity
             android:name=".Admin.FacilityDetail"
             android:exported="false" />

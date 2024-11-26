@@ -102,7 +102,7 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
                 initials.setVisibility(View.VISIBLE);
             }
 
-            if (Objects.equals(type, "SampledEntrants")) {
+            if (Objects.equals(this.type, "SampledEntrants")) {
                 declineBtn.setVisibility(View.VISIBLE);
                 declineBtn.setOnClickListener(v -> userUtils.rejectEvent(user.getDeviceID(), this.eventId, (isSuccess, event_) -> {
                     if (isSuccess == 0) {
@@ -116,7 +116,10 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
 
                     eventUtils.fetchEventById(this.eventId, event -> {
                         if (event == null) return;
-                        ArrayList<String> newSelectedList = event.drawLottery();
+                        Log.d("FunctionCall", "drawing eventId not null::" + event.getEventId());
+
+                        ArrayList<String> newSelectedList = event.drawLottery(getContext());
+                        Log.d("FunctionCall", "newSelectedList.size()::" + newSelectedList.size());
 
                         List<User> fetchedUsers = new ArrayList<>();
                         int[] remainingUsers = {newSelectedList.size()};
@@ -147,6 +150,7 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
                 if (user.getDeviceID() != null) {
                     Intent intent = new Intent(getContext(), ProfileDetailActivity.class);
                     intent.putExtra("userID", user.getDeviceID());
+                    intent.putExtra("type", this.type);
                     getContext().startActivity(intent);
                 } else {
                     Log.e("EntrantArrayAdapter", "User device ID is null");

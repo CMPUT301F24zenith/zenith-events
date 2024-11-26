@@ -52,7 +52,7 @@ public class AdminUsersFragment extends Fragment {
 
         // Initialize the ListView and adapter
         listView = view.findViewById(R.id.listView);
-        adapter = new EntrantArrayAdapter(requireContext(), userList, "ViewUsersAdminFragment", null);
+        adapter = new EntrantArrayAdapter(requireContext(), userList, "admin", null);
         listView.setAdapter(adapter);
 
         // Fetch and display user data
