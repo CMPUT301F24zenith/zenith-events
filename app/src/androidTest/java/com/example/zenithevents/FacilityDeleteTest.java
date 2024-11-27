@@ -67,6 +67,25 @@ public class FacilityDeleteTest {
 
     @Test
     public void testDeleteFacility() {
-        String facilityId = "facility"
+        String facilityId = "facility1";
+        List<Event> eventsDelete = runningGettingEvents(facilityId);
+        runningDeletingEvents(eventsDelete);
+        boolean result = runningDeleteFacility(facilityId);
+        assertTrue(result);
     }
+
+    private List<Event> runningGettingEvents(String facilityId) {
+        return testingEvents;
+    }
+
+    private boolean runningDeletingEvents(List<Event> events) {
+        events.clear();
+        return events.isEmpty();
+    }
+
+    private boolean runningDeleteFacility(String facilityId) {
+        return testingFacilities.removeIf(facility -> facility.getDeviceId().equals(facilityId));
+    }
+
+
 }
