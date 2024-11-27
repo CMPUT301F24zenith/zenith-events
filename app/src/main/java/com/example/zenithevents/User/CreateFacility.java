@@ -28,7 +28,7 @@ public class CreateFacility extends AppCompatActivity {
 
     private static final int PICK_IMAGE = 1;
 
-    private Button saveButton;
+    private Button saveButton, saveButtontwo;
     private EditText facilityName;
     private EditText facilityPhone;
     private EditText facilityEmail;
@@ -53,6 +53,7 @@ public class CreateFacility extends AppCompatActivity {
         facilityPhone = findViewById(R.id.facility_phone);
         facilityEmail = findViewById(R.id.facility_email);
         saveButton = findViewById(R.id.facility_save);
+        saveButtontwo = findViewById(R.id.facility_savetwo);
 
         loadFacility(deviceId);
 

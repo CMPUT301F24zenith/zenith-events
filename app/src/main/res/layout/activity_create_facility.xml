@@ -62,4 +62,13 @@
         android:text="Save"
         android:textColor="@color/pasteColor"
         app:strokeColor="@color/pasteColor" />
+
+    <Button
+        android:id="@+id/facility_savetwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/pasteColor"
+        android:padding="10dp"
+        android:text="Save"
+        android:textColor="@color/darkIndigoColor"/>
 </LinearLayout>

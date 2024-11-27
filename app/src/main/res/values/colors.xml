@@ -11,5 +11,9 @@
     <color name="washedBlueColor">#435585</color>
     <color name="lightBlueColor">#818FB4</color>
     <color name="pasteColor">#F5E8C7</color>
+    <color name="lightBulbColor">#F5EDED</color>
+    <color name="lightGreyColor">#E2DAD6</color>
+    <color name="cyanColor">#7FA1C3</color>
+    <color name="navyColor">#64A2AD</color>
 
 </resources>
