@@ -4,7 +4,17 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#BFBFBF</color>
     <color name="red">#FFC10700</color>
-    <color name="activeTextColor">#002BAD</color> <!-- Orange for active -->
-    <color name="inactiveTextColor">#959595</color> <!-- Black for inactive -->
+    <color name="darkRed">#FF0000</color>
+    <color name="gradientLightBlue">#2727B6</color>
+    <color name="gradientDarkBlue">#090926</color>
+    <color name="inputBackgroundColor">#FFFFFF</color>
+    <color name="darkIndigoColor">#04403a</color>
+    <color name="washedBlueColor">#435585</color>
+    <color name="lightBlueColor">#818FB4</color>
+    <color name="pasteColor">#F5E8C7</color>
+    <color name="lightBulbColor">#F5EDED</color>
+    <color name="lightGreyColor">#E2DAD6</color>
+    <color name="cyanColor">#7FA1C3</color>
+    <color name="navyColor">#64A2AD</color>
 
 </resources>

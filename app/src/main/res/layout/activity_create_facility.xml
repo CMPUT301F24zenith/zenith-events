@@ -1,46 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal">
+    android:gravity="center"
+    android:background="@drawable/gradient_background"
+    android:padding="20dp">
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Facility"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/pasteColor"
+        android:layout_marginBottom="20dp"/>
 
     <EditText
         android:id="@+id/facility_name"
-        android:layout_width="50mm"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:hint="Facility Name (REQUIRED)"
-        android:background="@drawable/surrounding_text"
-        android:padding="10dp"/>
+        android:background="@drawable/rounded_input"
+        android:padding="15dp"
+        android:textColor="@color/pasteColor"
+        android:textColorHint="@color/pasteColor"
+        android:layout_marginBottom="15dp"/>
 
     <EditText
         android:id="@+id/facility_email"
-        android:layout_width="50mm"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:hint="Email (REQUIRED)"
         android:inputType="textEmailAddress"
-        android:background="@drawable/surrounding_text"
-        android:padding="10dp"/>
+        android:background="@drawable/rounded_input"
+        android:padding="15dp"
+        android:textColor="@color/pasteColor"
+        android:textColorHint="@color/pasteColor"
+        android:layout_marginBottom="15dp"/>
 
     <EditText
         android:id="@+id/facility_phone"
-        android:layout_width="50mm"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:hint="Phone Number (OPTIONAL)"
         android:inputType="phone"
-        android:background="@drawable/surrounding_text"
-        android:padding="10dp"/>
+        android:background="@drawable/rounded_input"
+        android:padding="15dp"
+        android:textColor="@color/pasteColor"
+        android:textColorHint="@color/pasteColor"
+        android:layout_marginBottom="15dp"/>
 
     <Button
         android:id="@+id/facility_save"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:padding="10dp"
         android:text="Save"
-        android:layout_gravity="center_horizontal"/>
+        android:textColor="#2727B6"
+        android:backgroundTint="@color/pasteColor" />
 </LinearLayout>

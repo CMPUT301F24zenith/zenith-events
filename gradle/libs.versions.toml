@@ -13,6 +13,7 @@ firebaseStorage = "21.0.1"
 kotlin = "1.9.0"
 espressoIntents = "3.6.1"
 firebaseMessaging = "24.1.0"
+materialVersion = "<version>"
 
 [libraries]
 firebase-storage-v2021 = { module = "com.google.firebase:firebase-storage", version.ref = "firebaseStorageVersion" }
@@ -27,6 +28,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "espressoIntents" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
+material-vversion = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version = "8.6.0" }

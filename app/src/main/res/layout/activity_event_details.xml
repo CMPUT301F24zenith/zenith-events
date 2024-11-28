@@ -10,7 +10,6 @@
     android:background="@color/background_color"
     tools:context=".Events.EventView">
 
-    <!-- Image at the top, serving as the background -->
     <ImageView
         android:id="@+id/eventImage"
         android:layout_width="0dp"
@@ -21,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Overlay Layout with rounded corners -->
+
     <LinearLayout
         android:id="@+id/roundedLayout"
         android:layout_width="0dp"
@@ -166,7 +165,7 @@
                 android:paddingHorizontal="20dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+
                 android:background="@drawable/square_button" />
 
             <TextView

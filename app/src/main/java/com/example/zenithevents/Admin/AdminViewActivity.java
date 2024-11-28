@@ -1,6 +1,5 @@
 package com.example.zenithevents.Admin;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -85,14 +84,14 @@ public class AdminViewActivity extends AppCompatActivity {
 
         resetButtonStates();
 
-        activeButton.setTextColor(getResources().getColor(R.color.activeTextColor));
+        activeButton.setTextColor(getResources().getColor(R.color.gradientLightBlue));
     }
 
     private void resetButtonStates() {
         // Set inactive text color for all buttons
-        btnViewProfiles.setTextColor(getResources().getColor(R.color.inactiveTextColor));
-        btnViewEvents.setTextColor(getResources().getColor(R.color.inactiveTextColor));
-        btnViewFacilities.setTextColor(getResources().getColor(R.color.inactiveTextColor));
+        btnViewProfiles.setTextColor(getResources().getColor(R.color.gradientDarkBlue));
+        btnViewEvents.setTextColor(getResources().getColor(R.color.gradientDarkBlue));
+        btnViewFacilities.setTextColor(getResources().getColor(R.color.gradientDarkBlue));
     }
 
 
