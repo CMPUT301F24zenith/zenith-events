@@ -7,7 +7,7 @@
     <color name="activeTextColor">#002BAD</color> <!-- Orange for active -->
     <color name="inactiveTextColor">#959595</color> <!-- Black for inactive -->
     <color name="inputBackgroundColor">#FFFFFF</color>
-    <color name="darkIndigoColor">#363062</color>
+    <color name="darkIndigoColor">#04403a</color>
     <color name="washedBlueColor">#435585</color>
     <color name="lightBlueColor">#818FB4</color>
     <color name="pasteColor">#F5E8C7</color>

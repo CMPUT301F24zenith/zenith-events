@@ -53,7 +53,6 @@ public class CreateFacility extends AppCompatActivity {
         facilityPhone = findViewById(R.id.facility_phone);
         facilityEmail = findViewById(R.id.facility_email);
         saveButton = findViewById(R.id.facility_save);
-        saveButtontwo = findViewById(R.id.facility_savetwo);
 
         loadFacility(deviceId);
 

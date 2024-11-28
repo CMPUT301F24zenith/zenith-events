@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@color/darkIndigoColor"
+    android:background="@drawable/gradient_background"
     android:padding="20dp">
 
 
@@ -25,8 +25,8 @@
         android:hint="Facility Name (REQUIRED)"
         android:background="@drawable/rounded_input"
         android:padding="15dp"
-        android:textColor="@color/darkIndigoColor"
-        android:textColorHint="@color/lightBlueColor"
+        android:textColor="@color/pasteColor"
+        android:textColorHint="@color/pasteColor"
         android:layout_marginBottom="15dp"/>
 
     <EditText
@@ -37,8 +37,8 @@
         android:inputType="textEmailAddress"
         android:background="@drawable/rounded_input"
         android:padding="15dp"
-        android:textColor="@color/darkIndigoColor"
-        android:textColorHint="@color/lightBlueColor"
+        android:textColor="@color/pasteColor"
+        android:textColorHint="@color/pasteColor"
         android:layout_marginBottom="15dp"/>
 
     <EditText
@@ -49,26 +49,17 @@
         android:inputType="phone"
         android:background="@drawable/rounded_input"
         android:padding="15dp"
-        android:textColor="@color/darkIndigoColor"
-        android:textColorHint="@color/lightBlueColor"
+        android:textColor="@color/pasteColor"
+        android:textColorHint="@color/pasteColor"
         android:layout_marginBottom="15dp"/>
 
     <Button
         android:id="@+id/facility_save"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="Save"
-        android:textColor="@color/pasteColor"
-        app:strokeColor="@color/pasteColor" />
-
-    <Button
-        android:id="@+id/facility_savetwo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/pasteColor"
-        android:padding="10dp"
-        android:text="Save"
-        android:textColor="@color/darkIndigoColor"/>
+        android:textColor="#2727B6"
+        android:backgroundTint="@color/pasteColor" />
 </LinearLayout>
