@@ -4,25 +4,29 @@
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>1005</x>
-      <y>378</y>
-      <w>42</w>
+      <x>93</x>
+      <y>666</y>
+      <w>45</w>
       <h>12</h>
     </coordinates>
-    <panel_attributes>ArrayAdapters</panel_attributes>
+    <panel_attributes>ArrayAdapters
+bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1113</x>
-      <y>441</y>
-      <w>93</w>
-      <h>39</h>
+      <x>216</x>
+      <y>744</y>
+      <w>99</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ArrayAdapter&lt;User&gt;&gt;&gt;
 EntrantArrayAdapter
 --
+-eventId: String
+-type: String
+-users: List&lt;Users&gt;
 --
 +EntrantArrayAdapter(context: Context,
 users: List&lt;User&gt;)
@@ -34,16 +38,20 @@ parent: ViewGroup):View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1005</x>
-      <y>402</y>
+      <x>111</x>
+      <y>696</y>
       <w>99</w>
-      <h>45</h>
+      <h>78</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ArrayAdapter&lt;Event&gt;&gt;&gt;
 EventArrayAdapter
 --
 -db: FirebaseFirestore
 -facilityUtils: FacilityUtils
+-eventUtils: EventUtils
+-deviceId: String
+-type: String
+-events: List&lt;Event&gt;
 --
 +EventArrayAdapter(context: Context,
 events: List&lt;Event&gt;)
@@ -55,8 +63,8 @@ parent: ViewGroup):View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1005</x>
-      <y>453</y>
+      <x>111</x>
+      <y>777</y>
       <w>99</w>
       <h>48</h>
     </coordinates>
@@ -74,10 +82,10 @@ parent: ViewGroup): View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1113</x>
-      <y>402</y>
+      <x>213</x>
+      <y>696</y>
       <w>102</w>
-      <h>33</h>
+      <h>39</h>
     </coordinates>
     <panel_attributes>CustomArrayAdapter&lt;T&gt;
 --
@@ -92,8 +100,8 @@ parent: ViewGroup):View
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>402</x>
-      <y>111</y>
+      <x>597</x>
+      <y>33</y>
       <w>42</w>
       <h>15</h>
     </coordinates>
@@ -103,8 +111,8 @@ parent: ViewGroup):View
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>402</x>
-      <y>132</y>
+      <x>597</x>
+      <y>54</y>
       <w>93</w>
       <h>99</h>
     </coordinates>
@@ -132,31 +140,20 @@ email: String, phoneNumber: String):void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLNote</id>
-    <coordinates>
-      <x>651</x>
-      <y>189</y>
-      <w>54</w>
-      <h>15</h>
-    </coordinates>
-    <panel_attributes>Entrant Dashboard</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>897</x>
-      <y>756</y>
+      <x>69</x>
+      <y>1203</y>
       <w>108</w>
-      <h>60</h>
+      <h>54</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 SampledEntrants
 --
 -dataList: ArrayList&lt;User&gt;
--ListView entrantList: ListView
+-entrantList: ListView
 -entrantAdapter: EntrantArrayAdapter
--db:FirebaseFirestore
+-db: FirebaseFirestore
 -eventId: String
 --
 +onCreate(savedInstanceState: Bundle):void
@@ -165,84 +162,22 @@ SampledEntrants
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>714</x>
-      <y>228</y>
-      <w>129</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;AppCompactActivity&gt;&gt;
-EntrantViewActivity
---
--_TAG_:String
--scanQRButton: Button
--viewProfileButton: Button
--next: TextView
--currentSelection: TextView
--previous: TextView
--options: String[]
--currentIndex: int
--userUtils: UserUtils
---
-+onCreate(savedInstance: Bundle):void
-+loadFragment(fragment: Fragment, args: Bundle): void
-+moveToPrevious():void
-+moveToNext():void
-+updateCurrentSelection():void
-+loadFragmentBasedOnSelection():void</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>897</x>
-      <y>675</y>
-      <w>33</w>
-      <h>15</h>
+      <x>72</x>
+      <y>1104</y>
+      <w>51</w>
+      <h>18</h>
     </coordinates>
-    <panel_attributes>EntrantsList</panel_attributes>
+    <panel_attributes>EntrantsList
+bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>846</x>
-      <y>186</y>
-      <w>135</w>
-      <h>111</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;Fragment&gt;&gt;
-EventsFragment
---
--eventListView: ListView
--adapter:EventArrayAdapter
--events: List&lt;Events&gt;
--waitingEventsList: List&lt;Events&gt;
--eventUtils: EventUtils
--_TAG_: String
--db: FirebaseFirestore
--eventsRef: CollectionReference
--type: String
--deviceID: String
---
-+EventsFragment()
-+_newInstance(param1: String, 
-param2: String)_:EventsFragment
-+onCreate(savedInstanceState: Bundle):void
-+onCreateView(inflater:LayoutInflater, container: ViewGroup,
-savedInstanceState:Bundle):View
-+onViewCreated(view:View,
-savedInstanceState:Bundle):void
-+fetchEntrantWaitingEvents(eventTypes: String):void
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1008</x>
-      <y>696</y>
+      <x>186</x>
+      <y>1131</y>
       <w>108</w>
       <h>57</h>
     </coordinates>
@@ -263,34 +198,8 @@ EnrolledEntrants
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>657</x>
-      <y>96</y>
-      <w>114</w>
-      <h>75</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
-CreationSuccessActivity
---
-eventNameText : TextView
-eventImageView : ImageView
-qrCodeView : ImageView
-shareQRButton : Button
-exitButton : Button
-event : Event
-QRCode : Bitmap
-eventImage : Bitmap
-
---
-+onCreate(savedInstanceState : Bundle) : void
-+shareQRCode(qrCodeBitmap : Bitmap) : void
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1011</x>
-      <y>759</y>
+      <x>183</x>
+      <y>1200</y>
       <w>114</w>
       <h>51</h>
     </coordinates>
@@ -310,21 +219,10 @@ WaitListedEntrants
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLNote</id>
-    <coordinates>
-      <x>507</x>
-      <y>102</y>
-      <w>36</w>
-      <h>12</h>
-    </coordinates>
-    <panel_attributes>Events</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>897</x>
-      <y>696</y>
+      <x>69</x>
+      <y>1134</y>
       <w>105</w>
       <h>54</h>
     </coordinates>
@@ -344,53 +242,10 @@ CancelledEntrants
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>501</x>
-      <y>129</y>
-      <w>141</w>
-      <h>168</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
-CreateEventPage
---
-_PICK_IMAGE : int
-createEventButtonSaveButton : Button
-createEventCancelButton : Button
-uploadEventPosterButton : Button
-pageTitle : String
-eventTitle : String
-eventLimitString : String
-numParticipants : String
-uploadedPosterString : String
-eventLocation : String
-eventDescription : String
-pageTitleView : TextView
-eventNameView : EditText
-eventLimitView : EditText
-eventLocationView : EditText
-eventDescriptionView : EditText
-event : Event
-eventPosterImage : ImageView
-uploadedPosterUri : Uri
-eventUtils : EventUtils
-
---
-+onCreate(savedInstanceState : Bundle) : void
-+openImage() : void
-+onActivityResult(requestCode : int, resultCode : int,
-data : Intent) : void
-+checkStoragePermission() : void
-+onRequestPermissionResult(requestCode : int, 
-permissions : String[], grantResults : int[]) : void
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>321</x>
-      <y>228</y>
+      <x>516</x>
+      <y>150</y>
       <w>54</w>
       <h>15</h>
     </coordinates>
@@ -400,8 +255,8 @@ permissions : String[], grantResults : int[]) : void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1005</x>
-      <y>183</y>
+      <x>1200</x>
+      <y>105</y>
       <w>108</w>
       <h>18</h>
     </coordinates>
@@ -415,8 +270,8 @@ permissions : String[], grantResults : int[]) : void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1008</x>
-      <y>207</y>
+      <x>1203</x>
+      <y>129</y>
       <w>144</w>
       <h>129</h>
     </coordinates>
@@ -456,8 +311,8 @@ String userId, EventExistenceCallback callback)-&gt;void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1170</x>
-      <y>216</y>
+      <x>1365</x>
+      <y>138</y>
       <w>90</w>
       <h>24</h>
     </coordinates>
@@ -470,8 +325,8 @@ EventUpdateCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1170</x>
-      <y>276</y>
+      <x>1365</x>
+      <y>198</y>
       <w>129</w>
       <h>24</h>
     </coordinates>
@@ -484,8 +339,8 @@ EventsFetchCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1170</x>
-      <y>246</y>
+      <x>1365</x>
+      <y>168</y>
       <w>105</w>
       <h>24</h>
     </coordinates>
@@ -498,8 +353,8 @@ EventExistenceCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1170</x>
-      <y>309</y>
+      <x>1365</x>
+      <y>231</y>
       <w>99</w>
       <h>24</h>
     </coordinates>
@@ -512,8 +367,8 @@ EventFetchCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1149</x>
-      <y>225</y>
+      <x>1344</x>
+      <y>147</y>
       <w>27</w>
       <h>9</h>
     </coordinates>
@@ -523,8 +378,8 @@ EventFetchCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1149</x>
-      <y>255</y>
+      <x>1344</x>
+      <y>177</y>
       <w>27</w>
       <h>9</h>
     </coordinates>
@@ -534,8 +389,8 @@ EventFetchCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1149</x>
-      <y>288</y>
+      <x>1344</x>
+      <y>210</y>
       <w>27</w>
       <h>9</h>
     </coordinates>
@@ -545,8 +400,8 @@ EventFetchCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1149</x>
-      <y>315</y>
+      <x>1344</x>
+      <y>237</y>
       <w>27</w>
       <h>9</h>
     </coordinates>
@@ -556,8 +411,8 @@ EventFetchCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>336</x>
-      <y>255</y>
+      <x>531</x>
+      <y>177</y>
       <w>129</w>
       <h>39</h>
     </coordinates>
@@ -575,8 +430,8 @@ EventFetchCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>336</x>
-      <y>303</y>
+      <x>531</x>
+      <y>225</y>
       <w>129</w>
       <h>87</h>
     </coordinates>
@@ -603,8 +458,8 @@ callback: UserExisteneCallback):void</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>489</x>
-      <y>303</y>
+      <x>684</x>
+      <y>225</y>
       <w>99</w>
       <h>24</h>
     </coordinates>
@@ -617,8 +472,8 @@ UserExistenceCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>462</x>
-      <y>309</y>
+      <x>657</x>
+      <y>231</y>
       <w>33</w>
       <h>9</h>
     </coordinates>
@@ -628,8 +483,8 @@ UserExistenceCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>489</x>
-      <y>333</y>
+      <x>684</x>
+      <y>255</y>
       <w>99</w>
       <h>24</h>
     </coordinates>
@@ -642,8 +497,8 @@ UserFetchCallback
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>462</x>
-      <y>324</y>
+      <x>657</x>
+      <y>246</y>
       <w>33</w>
       <h>30</h>
     </coordinates>
@@ -653,8 +508,8 @@ UserFetchCallback
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>690</x>
-      <y>327</y>
+      <x>885</x>
+      <y>249</y>
       <w>27</w>
       <h>15</h>
     </coordinates>
@@ -664,8 +519,8 @@ UserFetchCallback
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>690</x>
-      <y>351</y>
+      <x>885</x>
+      <y>273</y>
       <w>123</w>
       <h>228</h>
     </coordinates>
@@ -738,8 +593,8 @@ recipients: ArrayList&lt;User&gt;):void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>837</x>
-      <y>567</y>
+      <x>1032</x>
+      <y>489</y>
       <w>87</w>
       <h>45</h>
     </coordinates>
@@ -758,8 +613,8 @@ recipients: ArrayList&lt;User&gt;):void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>837</x>
-      <y>495</y>
+      <x>1032</x>
+      <y>417</y>
       <w>66</w>
       <h>57</h>
     </coordinates>
@@ -780,8 +635,8 @@ String address)
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>678</x>
-      <y>603</y>
+      <x>873</x>
+      <y>525</y>
       <w>138</w>
       <h>210</h>
     </coordinates>
@@ -833,8 +688,8 @@ String phoneNumber)-&gt; void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>837</x>
-      <y>351</y>
+      <x>1032</x>
+      <y>273</y>
       <w>114</w>
       <h>135</h>
     </coordinates>
@@ -872,8 +727,8 @@ organizerEvents)-&gt;void
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>516</x>
-      <y>576</y>
+      <x>711</x>
+      <y>498</y>
       <w>33</w>
       <h>12</h>
     </coordinates>
@@ -881,67 +736,10 @@ organizerEvents)-&gt;void
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>516</x>
-      <y>591</y>
-      <w>120</w>
-      <h>81</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
-EventView
---
--_TAG_: String
--eventPosterImageView: ImageView
--QRCodeRequiredText: TextView
--progressBar: ProgressBar
--db: FirebaseFirestore
--eventListener: ListenerRegistration
---
-+onCreate(Bundle savedInstanceState)-&gt;void
-+initializeViews()-&gt;void
-+setupRealTimeEventListener(String eventId)-&gt;void
-+displayEventDetails(Event event)-&gt;void
-+loadImage(String imageURL)-&gt;void
-+onDestroy()-&gt;void</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>1011</x>
-      <y>51</y>
-      <w>54</w>
-      <h>18</h>
-    </coordinates>
-    <panel_attributes>QRCodes</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1011</x>
-      <y>81</y>
-      <w>120</w>
-      <h>54</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
-QRScannerActivity
---
--barcodeView: DecoratedBar
--capture:CaptureManager
---
-+onCreate(Bundle savedInstanceState)-&gt;void
-+onResume()-&gt;void
-+onPause()-&gt;void
-+onDestroy()-&gt;void</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLNote</id>
-    <coordinates>
-      <x>537</x>
-      <y>387</y>
+      <x>732</x>
+      <y>309</y>
       <w>33</w>
       <h>12</h>
     </coordinates>
@@ -951,8 +749,8 @@ QRScannerActivity
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>513</x>
-      <y>693</y>
+      <x>708</x>
+      <y>615</y>
       <w>126</w>
       <h>33</h>
     </coordinates>
@@ -967,8 +765,8 @@ WaitingList
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>537</x>
-      <y>408</y>
+      <x>732</x>
+      <y>330</y>
       <w>126</w>
       <h>42</h>
     </coordinates>
@@ -986,8 +784,8 @@ OrganizerPage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>861</x>
-      <y>78</y>
+      <x>1056</x>
+      <y>0</y>
       <w>126</w>
       <h>81</h>
     </coordinates>
@@ -1012,8 +810,8 @@ MainActivity
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>537</x>
-      <y>459</y>
+      <x>732</x>
+      <y>381</y>
       <w>126</w>
       <h>105</h>
     </coordinates>
@@ -1044,8 +842,8 @@ UserPage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>747</x>
-      <y>576</y>
+      <x>942</x>
+      <y>498</y>
       <w>15</w>
       <h>33</h>
     </coordinates>
@@ -1057,8 +855,8 @@ m2=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
-      <y>429</y>
+      <x>1005</x>
+      <y>351</y>
       <w>33</w>
       <h>15</h>
     </coordinates>
@@ -1070,8 +868,8 @@ m1=0..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
-      <y>519</y>
+      <x>1005</x>
+      <y>441</y>
       <w>33</w>
       <h>15</h>
     </coordinates>
@@ -1082,8 +880,8 @@ m1=0..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
-      <y>546</y>
+      <x>1005</x>
+      <y>468</y>
       <w>33</w>
       <h>39</h>
     </coordinates>
@@ -1094,56 +892,8 @@ m1=0..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>813</x>
-      <y>705</y>
-      <w>90</w>
-      <h>15</h>
-    </coordinates>
-    <panel_attributes>m1=0..*
-</panel_attributes>
-    <additional_attributes>10.0;20.0;280.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>813</x>
-      <y>777</y>
-      <w>90</w>
-      <h>15</h>
-    </coordinates>
-    <panel_attributes>m1=0..*
-</panel_attributes>
-    <additional_attributes>10.0;20.0;280.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>798</x>
-      <y>807</y>
-      <w>234</w>
-      <h>39</h>
-    </coordinates>
-    <panel_attributes>m1=0..*
-</panel_attributes>
-    <additional_attributes>10.0;20.0;10.0;110.0;760.0;110.0;760.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>813</x>
-      <y>645</y>
-      <w>246</w>
-      <h>57</h>
-    </coordinates>
-    <panel_attributes>m1=0..*
-</panel_attributes>
-    <additional_attributes>10.0;20.0;800.0;20.0;800.0;170.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>660</x>
-      <y>429</y>
+      <x>855</x>
+      <y>351</y>
       <w>36</w>
       <h>12</h>
     </coordinates>
@@ -1154,8 +904,8 @@ m1=0..*</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>489</x>
-      <y>681</y>
+      <x>684</x>
+      <y>603</y>
       <w>54</w>
       <h>9</h>
     </coordinates>
@@ -1165,21 +915,8 @@ m1=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>783</x>
-      <y>294</y>
-      <w>96</w>
-      <h>63</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1=0..*
-</panel_attributes>
-    <additional_attributes>10.0;190.0;10.0;140.0;300.0;140.0;300.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>978</x>
-      <y>252</y>
+      <x>1173</x>
+      <y>174</y>
       <w>36</w>
       <h>12</h>
     </coordinates>
@@ -1190,32 +927,8 @@ m1=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
-      <y>339</y>
-      <w>201</w>
-      <h>81</h>
-    </coordinates>
-    <panel_attributes>
-m2=0..*</panel_attributes>
-    <additional_attributes>650.0;250.0;530.0;250.0;530.0;20.0;50.0;20.0;50.0;60.0;10.0;60.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>639</x>
-      <y>177</y>
-      <w>375</w>
-      <h>57</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1=1</panel_attributes>
-    <additional_attributes>1230.0;160.0;1160.0;160.0;1160.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>408</x>
-      <y>387</y>
+      <x>603</x>
+      <y>309</y>
       <w>135</w>
       <h>99</h>
     </coordinates>
@@ -1226,19 +939,20 @@ m1=1</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>375</x>
-      <y>486</y>
+      <x>135</x>
+      <y>273</y>
       <w>33</w>
-      <h>9</h>
+      <h>12</h>
     </coordinates>
-    <panel_attributes>Admin</panel_attributes>
+    <panel_attributes>Admin
+bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>342</x>
-      <y>582</y>
+      <x>537</x>
+      <y>504</y>
       <w>111</w>
       <h>78</h>
     </coordinates>
@@ -1261,116 +975,10 @@ CreateFacility
     <additional_attributes/>
   </element>
   <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>813</x>
-      <y>477</y>
-      <w>363</w>
-      <h>162</h>
-    </coordinates>
-    <panel_attributes>m1=0..*</panel_attributes>
-    <additional_attributes>10.0;510.0;1190.0;510.0;1190.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>900</x>
-      <y>474</y>
-      <w>111</w>
-      <h>54</h>
-    </coordinates>
-    <panel_attributes>
-m2=0..*</panel_attributes>
-    <additional_attributes>350.0;10.0;230.0;10.0;230.0;150.0;10.0;150.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>462</x>
-      <y>306</y>
-      <w>258</w>
-      <h>72</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1=1</panel_attributes>
-    <additional_attributes>10.0;210.0;690.0;210.0;690.0;10.0;840.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>975</x>
-      <y>294</y>
-      <w>111</w>
-      <h>114</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1=1</panel_attributes>
-    <additional_attributes>340.0;360.0;340.0;240.0;10.0;240.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>462</x>
-      <y>213</y>
-      <w>390</w>
-      <h>153</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;490.0;660.0;490.0;660.0;10.0;1280.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>972</x>
-      <y>477</y>
-      <w>186</w>
-      <h>225</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1=1</panel_attributes>
-    <additional_attributes>590.0;10.0;590.0;450.0;10.0;450.0;10.0;730.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1113</x>
-      <y>477</y>
-      <w>78</w>
-      <h>237</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1=1</panel_attributes>
-    <additional_attributes>230.0;10.0;230.0;770.0;10.0;770.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1122</x>
-      <y>477</y>
-      <w>78</w>
-      <h>309</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1=1</panel_attributes>
-    <additional_attributes>230.0;10.0;230.0;1010.0;10.0;1010.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>966</x>
-      <y>456</y>
-      <w>270</w>
-      <h>402</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-m1=1</panel_attributes>
-    <additional_attributes>800.0;10.0;870.0;10.0;880.0;1320.0;10.0;1320.0;10.0;1200.0</additional_attributes>
-  </element>
-  <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>342</x>
-      <y>567</y>
+      <x>537</x>
+      <y>489</y>
       <w>33</w>
       <h>9</h>
     </coordinates>
@@ -1380,24 +988,33 @@ m1=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>375</x>
-      <y>501</y>
-      <w>99</w>
-      <h>24</h>
+      <x>240</x>
+      <y>294</y>
+      <w>117</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
 AdminViewActivity
 --
+-_TAG_: String
+-btnViewProfile: Button
+- btnViewEvents: Button
+- btnViewFacilities: Button
+- fragmentContainer: FrameLayout
 --
 +onCreate(savedInstanceState: Bundle):void
++loadFragment(fragment: Fragment,
+tag: String):void
++updateButtonStates(activeButton: Button):void
++resetButtonStates():void
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>342</x>
-      <y>669</y>
+      <x>537</x>
+      <y>591</y>
       <w>99</w>
       <h>60</h>
     </coordinates>
@@ -1419,24 +1036,32 @@ ViewFacility
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>381</x>
-      <y>540</y>
+      <x>135</x>
+      <y>369</y>
       <w>99</w>
-      <h>24</h>
+      <h>69</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
-ViewEventsAdmin
+    <panel_attributes>&lt;&lt;Fragment&gt;&gt;
+AdminFacilitiesFragment
 --
+-_TAG_: String
+-facilitiesListView: ListView
+- adapter: FacilityArrayAdapter
+- facilityList: List&lt;Facility&gt;
 --
-+onCreate(savedInstanceState: Bundle):void
-</panel_attributes>
++onCreate(inflater: LayoutInflater,
+container: ViewGroup, 
+savedInstanceState: Bundle): View
++onViewCreated(view: View, 
+savedInstanceState: Bundle): void
++onDestroyView(): void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>1008</x>
-      <y>168</y>
+      <x>1203</x>
+      <y>90</y>
       <w>54</w>
       <h>18</h>
     </coordinates>
@@ -1446,8 +1071,8 @@ ViewEventsAdmin
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>201</x>
-      <y>309</y>
+      <x>396</x>
+      <y>231</y>
       <w>129</w>
       <h>21</h>
     </coordinates>
@@ -1460,8 +1085,8 @@ ViewEventsAdmin
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>207</x>
-      <y>261</y>
+      <x>402</x>
+      <y>183</y>
       <w>129</w>
       <h>39</h>
     </coordinates>
@@ -1471,6 +1096,583 @@ ViewEventsAdmin
 +_encodeBitmapToBase64(bitmap: Bitmap)_:String
 +_decodeBase64ToBitmap(base64Str: String)_:Bitmap
 +_getBitmapFromUri_(context: Context, uri: Uri)_:Bitmap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>135</x>
+      <y>294</y>
+      <w>99</w>
+      <h>69</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Fragment&gt;&gt;
+AdminEventsFragment
+--
+-_TAG_: String
+-eventListView: ListView
+- adapter: EventArrayAdapter
+- eventList: List&lt;Event&gt;
+--
++onCreate(inflater: LayoutInflater,
+container: ViewGroup, 
+savedInstanceState: Bundle): View
++onViewCreated(view: View, 
+savedInstanceState: Bundle): void
++onDestroyView(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>138</x>
+      <y>444</y>
+      <w>99</w>
+      <h>69</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Fragment&gt;&gt;
+AdminUsersFragment
+--
+-_TAG_: String
+-listView: ListView
+- adapter: EntrantArrayAdapter
+- userList: List&lt;User&gt;
+--
++onCreate(inflater: LayoutInflater,
+container: ViewGroup, 
+savedInstanceState: Bundle): View
++onViewCreated(view: View, 
+savedInstanceState: Bundle): void
++onDestroyView(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>243</x>
+      <y>369</y>
+      <w>117</w>
+      <h>87</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+FacilityDetail
+--
+-_TAG_: String
+-facilityName: TextView
+-facilityEmail: TextView
+-facilityPhoneNumber: TextView
+-facilityEventsListView: ListView
+-deleteFacilityButton: Button
+-eventArrayAdapter: EventArrayAdapter
+-eventList: List&lt;Event&gt;
+-eventsListneer: ListenerRegistration
+eventUtils: EventUtils 
+facilityUtils: FacilityUtils
+--
++onCreate(savedInstanceState: Bundle):void
++eventsListener(facilityId: String):eventsListener
++onDestroy():void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>243</x>
+      <y>462</y>
+      <w>141</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;FirebaseMessagingService&gt;&gt;
+MyFirebaseMessagingService
+--
+-_TAG_: String
+--
++onMessageRecieved(remoteMessage: RemoteMessage):void 
++sendNotification(title: String, body: String): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>246</x>
+      <y>504</y>
+      <w>102</w>
+      <h>69</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+QRViewAdmin
+--
+-eventTitleText: TextView
+-qrCodeView: ImageView
+- shareQRButton: Button
+- doneButton: Button
+- deleteButton: Button
+event: Event
+qrCode: Bitmap
+eventUtils: EventUtils
+--
++onCreate(savedInstance: Bundle)
++shareQRCode(qrCodeBitmap: Bitmap): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>297</x>
+      <y>687</y>
+      <w>27</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>Not used
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>375</x>
+      <y>453</y>
+      <w>36</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>Tag not used
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>96</x>
+      <y>687</y>
+      <w>33</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>db Not used
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>90</x>
+      <y>840</y>
+      <w>45</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>EntrantDashboard
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>90</x>
+      <y>855</y>
+      <w>99</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+CreateProfileActivity
+--
+-mAuth: FirebaseAuth
+-db: FirebaseFirestore
+-confirmButton: Button
+-notifsCheckBox: Checkbox
+-wantsNotifs: boolean
+-etEntrantsFirstName: EditText
+-etEntrantLastName: EditText
+-etEntrantPhoneNumber: EditText
+-etEntrantEmail: EditText
+--
++onCreate(savedInstanceState:Bundle):void
++validateAndSignIn():void
++signInAnonymously(firstName: Stirng,
+lastName: Stiring, email: String,
+phoneNumber: String):void 
++createProfile(AnonymousAuthID: String,
+deviceId: String, firstName: String,
+lastName: String, email: String, 
+phoneNumber: String): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>195</x>
+      <y>855</y>
+      <w>99</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+EntrantViewActivity
+--
+-_TAG_: String
+-scanQRBu-tton: ImageButton
+-viewProfileButton: ImageButton
+-currentSelection: TextView
+-next: TextView
+-previous: TextView
+-options: String[]
+-currentIndex: int
+-userUtils: UserUtils
+--
++onCreate(savedInstanceState:Bundle):void
++loadFragment(fragment: Fragment,
+args: Bundle):void
++moveToPrevious():void
++moveToNext():void
++updateCurrentSelection():void
++loadFragmentBasedOnSelection():void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>87</x>
+      <y>969</y>
+      <w>120</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Fragment&gt;&gt;
+EventsFragment
+--
+-eventListView: ListView
+-adapter: EventArrayAdapter
+-events: List&lt;Event&gt;
+-waitingEventsList: List&lt;Event&gt;
+-eventUtils: EventUtils
+-_TAG_: String
+-db: FirebaseFirestore
+-eventsRef: CollectionReference
+-type: String
+-deviceId: String
+--
++EventsFragment()
++_newInstance(param1: String, 
+param2:String): EventsFragment_
++onCreate(savedInstanceState: Bundle):void
++onCreateView(inflater: LayoutInflater,
+container: ViewGroup, 
+savedInstanceState: Bundle):View
++onViewCreate(view: View, 
+savedInstanceState: Bundle): void
++fetchEntrantWaitingEvents(eventTypes: String): void
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>36</x>
+      <y>963</y>
+      <w>60</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>TAG, eventsRef, 
+newInstance() Not used
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>66</x>
+      <y>1272</y>
+      <w>129</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompactActivity&gt;&gt;
+EntrantViewActivity
+--
+-_TAG_:String
+-scanQRButton: Button
+-viewProfileButton: Button
+-next: TextView
+-currentSelection: TextView
+-previous: TextView
+-options: String[]
+-currentIndex: int
+-userUtils: UserUtils
+--
++onCreate(savedInstance: Bundle):void
++loadFragment(fragment: Fragment, args: Bundle): void
++moveToPrevious():void
++moveToNext():void
++updateCurrentSelection():void
++loadFragmentBasedOnSelection():void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>45</x>
+      <y>1266</y>
+      <w>39</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>duplicate
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>204</x>
+      <y>1269</y>
+      <w>129</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;FragmentActivity&gt;&gt;
+&lt;&lt;OnMapReadyCallback&gt;&gt;
+MapActivity
+--
+-nMap: GoogleMap
+-eventId: String
+-db: FirebaseFirestore
+-progressBar: ProgressBar
+--
++onCreate(savedInstance: Bundle):void
++onMapReady(googleMap: GoogleMap):void
++displayMarkersOnMap(userLocations: HashMap&lt;String,
+Map&lt;String, Object&gt;&gt;):void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>186</x>
+      <y>1260</y>
+      <w>60</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>onMapReady() is not used
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>66</x>
+      <y>1383</y>
+      <w>36</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>Events
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>69</x>
+      <y>1410</y>
+      <w>141</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+CreateEventPage
+--
+-_PICK_IMAGE_: int
+createEventButtonSaveButton : Button
+createEventCancelButton : Button
+uploadEventPosterButton : Button
+pageTitle : String
+eventTitle : String
+eventLimitString : String
+numParticipants : String
+uploadedPosterString : String
+eventLocation : String
+eventDescription : String
+pageTitleView : TextView
+eventNameView : EditText
+eventLimitView : EditText
+eventLocationView : EditText
+eventDescriptionView : EditText
+event : Event
+eventPosterImage : ImageView
+uploadedPosterUri : Uri
+-eventUtils : EventUtils
+
+--
++onCreate(savedInstanceState : Bundle) : void
++openImage() : void
++onActivityResult(requestCode : int, resultCode : int,
+data : Intent) : void
++checkStoragePermission() : void
++onRequestPermissionResult(requestCode : int, 
+permissions : String[], grantResults : int[]) : void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>222</x>
+      <y>1413</y>
+      <w>114</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+CreationSuccessActivity
+--
+eventNameText : TextView
+eventImageView : ImageView
+qrCodeView : ImageView
+shareQRButton : Button
+exitButton : Button
+event : Event
+QRCode : Bitmap
+eventImage : Bitmap
+
+--
++onCreate(savedInstanceState : Bundle) : void
++shareQRCode(qrCodeBitmap : Bitmap) : void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>219</x>
+      <y>1494</y>
+      <w>120</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Fragment&gt;&gt;
+EventsFragment
+--
+-eventListView: ListView
+-adapter: EventArrayAdapter
+-events: List&lt;Event&gt;
+-waitingEventsList: List&lt;Event&gt;
+-eventUtils: EventUtils
+-_TAG_: String
+-db: FirebaseFirestore
+-eventsRef: CollectionReference
+-type: String
+-deviceId: String
+--
++EventsFragment()
++_newInstance(param1: String, 
+param2:String): EventsFragment_
++onCreate(savedInstanceState: Bundle):void
++onCreateView(inflater: LayoutInflater,
+container: ViewGroup, 
+savedInstanceState: Bundle):View
++onViewCreate(view: View, 
+savedInstanceState: Bundle): void
++fetchEntrantWaitingEvents(eventTypes: String): void
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>210</x>
+      <y>1488</y>
+      <w>45</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>Duplicate
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>1584</y>
+      <w>150</w>
+      <h>195</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+EventView
+--
+-_TAG_: String
+-_LOCATION_PERMISSION_REQUEST_COEDE_:int
+eventPosterImageView: ImageView
+-btnJoinLeaveWaitingList: Button
+-btnSamplesUsers, deleteEventButton: Button
+-deleteImageButton: Button
+-eventDescription: TextView
+-eventName: TextView
+-facilityName: TextView
+-eventAddress: TextView
+-sendNotifsButton: ImageButton
+-mapButton: ImageButton
+-btnEditEvent: ImageButton
+-qrCodeButton: ImageButton
+-progressBar: ProgressBar
+-db: FirebaseFirestore
+-eventListener: ListenerRegistration
+-fusedLocationProviderClient: FusedLocationProviderClient
+-entrantOptions: String[]
+-currentOptionIndex: int
+entrantsSlider: LinearLayout
+facilityUtils: FacilityUtils
+eventUtils: EventUtils
+-eventId: String
+-type: String
+--
++onCreate(savedInstanceState: Bundle): void
++initializeiews():void
++setupRealTimeEventListener(eventId: String):void
++displayEventDetails(event: Event):void
++loadImage(imageUrl: String, placeholder:ImageView):void
+setupEntrantNavigation(eventId: String):void
++showMessageInputDialog(context: Context,
+Entrants: ArrayList&lt;String&gt;,event:Event):void
++updateDisplay(currentOptionText: TextView, eventId: String):void
++onDestroy():void
++removePicture:void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>216</x>
+      <y>1623</y>
+      <w>120</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+QRScannerActivity
+--
+-barcodeView: DecoratedBar
+-capture:CaptureManager
+--
++onCreate(savedInstanceState: Bundle):void
++onResume():void
++onPause():void
++initializeScanner():void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>216</x>
+      <y>1680</y>
+      <w>120</w>
+      <h>57</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;AppCompatActivity&gt;&gt;
+QRView
+--
+-eventTitleText: TextView
+-qrCodeView: ImageView
+-shareQButton: Button
+-doneButton: Button
+event:Event
+qrCode:Bitmap
+--
++onCreate(savedInstanceState: Bundle):void
+-shareQRCode(qrCodeBitmap: Bitmap):void</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
