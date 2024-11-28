@@ -2,6 +2,8 @@ package com.example.zenithevents;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
 import com.example.zenithevents.User.OrganizerPage;
 import com.example.zenithevents.Admin.AdminViewActivity;
+import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.User.UserProfile;
 //import com.example.zenithevents.admin.AdminViewActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 /**
@@ -34,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonEntrant;
     Button organizerButton;
     Button buttonAdmin;
-
-    private FirebaseAuth mAuth;
+    String deviceID = DeviceUtils.getDeviceID(this);
 
     /**
      * Initializes the activity, sets up button click listeners for navigation
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         buttonEntrant = findViewById(R.id.entrantButton);
         organizerButton = findViewById(R.id.organizerButton);
@@ -75,9 +78,26 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, EntrantViewActivity.class);
             startActivity(intent);
         });
-        buttonAdmin.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AdminViewActivity.class);
-            startActivity(intent);
-        });
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(deviceID)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
+                        if (isAdmin) {
+                            buttonAdmin.setVisibility(View.VISIBLE);
+                            buttonAdmin.setOnClickListener(v -> {
+                                Intent intent = new Intent(MainActivity.this, AdminViewActivity.class);
+                                startActivity(intent);
+                            });
+                        }
+                    } else {
+                        Log.d("UserClass", "No isAdmin field");
+                    }
+                })
+                .addOnFailureListener(v -> {
+                    Log.d("Firebase", "Error retrieving user document");
+                });
     }
 }
