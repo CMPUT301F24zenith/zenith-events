@@ -1,8 +1,10 @@
 package com.example.zenithevents.EntrantDashboard;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 
@@ -29,7 +31,7 @@ import com.example.zenithevents.User.UserProfile;
  */
 public class EntrantViewActivity extends AppCompatActivity {
     private static final String TAG = "EntrantViewActivity";
-    Button scanQRButton, viewProfileButton;
+    ImageButton scanQRButton, viewProfileButton;
     private TextView currentSelection, next, previous;
     private final String[] options = {"Waitlisted Events", "Registered Events", "Events Invited To", "Cancelled Events"};
     private int currentIndex = 0;
