@@ -5,4 +5,6 @@
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
     <color name="text_background">#373737</color>
+    <color name="background_color">#363062</color>
+    <color name="container_background">#435585</color>
 </resources>
