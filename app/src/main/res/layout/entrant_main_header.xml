@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:gravity="start"
+    android:orientation="horizontal"
+    >
+
+    <ImageButton
+        android:id="@+id/viewProfileButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="start"
+        android:background="@drawable/circle_background"
+        android:backgroundTint="@color/pasteColor"
+        android:contentDescription="View Profile"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintEnd_toStartOf="@id/tvPrevious"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/gradientLightBlue" />
+
+    <TextView
+        android:id="@+id/tvPrevious"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="38dp"
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        android:text="◀"
+        android:textColor="@color/pasteColor"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/CurrentSelection"
+        app:layout_constraintStart_toEndOf="@id/viewProfileButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/CurrentSelection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:gravity="center"
+        android:text="My Waiting List"
+        android:textColor="@color/pasteColor"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/tvPrevious"
+        app:layout_constraintEnd_toStartOf="@id/tvNext"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tvNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="▶"
+        android:textColor="@color/pasteColor"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@id/scanQRButton"
+        app:layout_constraintStart_toEndOf="@+id/CurrentSelection"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <ImageButton
+        android:id="@+id/scanQRButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:background="@drawable/square_button"
+        android:backgroundTint="@color/pasteColor"
+        android:contentDescription="Scan QR"
+        android:scaleType="centerInside"
+        android:src="@drawable/qr_code_svgrepo_com"
+        app:tint="@color/gradientLightBlue"
+        app:layout_constraintStart_toEndOf="@+id/tvNext"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
