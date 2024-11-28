@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:contentDescription="QRCODE"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:src="@drawable/baseline_qr_code_24" />
         </LinearLayout>
         <LinearLayout
