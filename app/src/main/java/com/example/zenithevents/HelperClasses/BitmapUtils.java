@@ -55,7 +55,7 @@ public class BitmapUtils {
      * This method loads an image from a content URI, such as from the gallery or file system.
      *
      * @param context The context used to access the content resolver.
-     * @param uri The URI pointing to the image to be loaded.
+     * @param uri     The URI pointing to the image to be loaded.
      * @return A Bitmap object representing the image at the given URI, or null if an error occurs.
      */
     public static Bitmap getBitmapFromUri(Context context, Uri uri) {
@@ -67,5 +67,26 @@ public class BitmapUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static Bitmap compressBitmapToMaxSize(Bitmap bitmap, int maxSizeKB) {
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            int quality = 100; // Start with maximum quality
+
+            // Compress the Bitmap while its size is larger than the max size
+            do {
+                outputStream.reset(); // Clear the stream
+                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+                quality -= 5; // Reduce quality incrementally
+            } while (outputStream.size() / 1024 > maxSizeKB && quality > 0);
+
+            byte[] compressedBytes = outputStream.toByteArray();
+            return BitmapFactory.decodeByteArray(compressedBytes, 0, compressedBytes.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return bitmap; // Return the original Bitmap if compression fails
+        }
+
     }
 }

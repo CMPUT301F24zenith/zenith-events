@@ -363,7 +363,7 @@ public class UserUtils {
         if (user.getPhoneNumber() != null) userMap.put("phoneNumber", user.getPhoneNumber());
         userMap.put("profileImageURL", user.getProfileImageURL());
         if (user.getWantsNotifs() != null) userMap.put("wantsNotifs", user.getWantsNotifs());
-        if (user.getAdmin() != null) userMap.put("isAdmin", user.getAdmin());
+        if (user.getIsAdmin() != null) userMap.put("isAdmin", user.getIsAdmin());
         if (user.getMyFacility() != null) userMap.put("myFacility", user.getMyFacility());
         if (user.getWaitingEvents() != null) userMap.put("waitingEvents", user.getWaitingEvents());
         if (user.getSelectedEvents() != null) userMap.put("selectedEvents", user.getSelectedEvents());
