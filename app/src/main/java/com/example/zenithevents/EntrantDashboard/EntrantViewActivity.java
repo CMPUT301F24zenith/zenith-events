@@ -1,8 +1,10 @@
 package com.example.zenithevents.EntrantDashboard;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 
@@ -29,9 +31,9 @@ import com.example.zenithevents.User.UserProfile;
  */
 public class EntrantViewActivity extends AppCompatActivity {
     private static final String TAG = "EntrantViewActivity";
-    Button scanQRButton, viewProfileButton;
+    ImageButton scanQRButton, viewProfileButton;
     private TextView currentSelection, next, previous;
-    private final String[] options = {"Waitlisted Events", "Registered Events", "Events Invited To", "Cancelled Events"};
+    private final String[] options = {"Waitlisted Events", "Events Invited To", "Registered Events", "Cancelled Events"};
     private int currentIndex = 0;
     private UserUtils userUtils;
 
@@ -152,17 +154,17 @@ public class EntrantViewActivity extends AppCompatActivity {
         Fragment selectedFragment;
         Bundle nArgs = new Bundle();
 
-        switch (currentIndex) {
-            case 0:
+        switch (options[currentIndex]) {
+            case "Waitlisted Events":
                 nArgs.putString("type", "entrant-waiting");
                 break;
-            case 1:
+            case "Registered Events":
                 nArgs.putString("type", "entrant-registrant");
                 break;
-            case 2:
+            case "Events Invited To":
                 nArgs.putString("type", "entrant-selected");
                 break;
-            case 3:
+            case "Cancelled Events":
                 nArgs.putString("type", "entrant-cancelled");
                 break;
             default:

@@ -1,78 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background">
+    android:background="@drawable/gradient_background"
+    >
 
     <TextView
         android:id="@+id/myEventsTitle"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="My Events"
         android:textAlignment="center"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:layout_marginTop="50dp"
         android:textColor="@color/pasteColor"
-        app:layout_constraintBottom_toTopOf="@+id/myEventsFragment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toEndOf="@+id/viewFacilityButton"
+        app:layout_constraintEnd_toStartOf="@+id/createEventButton"
         />
 
     <FrameLayout
         android:id="@+id/myEventsFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myEventsTitle" >
-
+        app:layout_constraintTop_toBottomOf="@+id/viewFacilityButton" >
     </FrameLayout>
 
-    <Button
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/createFacilityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create Facility"
-        android:textColor="#2727B6"
-        android:backgroundTint="@color/pasteColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/gradientLightBlue"
+        android:drawableTop="@drawable/building_svgrepo_com"
+        android:drawableTint="@color/gradientLightBlue"
+        app:cornerRadius="10dp"
+        app:backgroundTint="@color/pasteColor"
+        app:layout_constraintTop_toBottomOf="@id/myEventsTitle"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="100dp"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+    <ImageButton
         android:id="@+id/viewFacilityButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Facility"
-        android:textColor="#2727B6"
+        android:background="@drawable/circle_background"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:backgroundTint="@color/pasteColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/createEventButton"
+        android:contentDescription="Manage Facility"
+        android:src="@drawable/building_svgrepo_com"
+        android:layout_marginTop="50dp"
+        app:tint="@color/gradientLightBlue"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="100dp"
+        app:layout_constraintEnd_toStartOf="@+id/myEventsTitle"
+        android:layout_gravity="start"
         />
 
-    <Button
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+    <ImageButton
         android:id="@+id/createEventButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create Event"
-        android:textColor="#2727B6"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/circle_background"
+        android:src="@android:drawable/ic_input_add"
+        android:layout_gravity="end"
         android:backgroundTint="@color/pasteColor"
-        android:layout_marginBottom="100dp"
+        app:tint="@color/gradientLightBlue"
+        app:layout_constraintStart_toEndOf="@+id/myEventsTitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/viewFacilityButton"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/viewFacilityButton"
+        app:layout_constraintBottom_toBottomOf="@+id/viewFacilityButton"
         />
 <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
 <!--        android:id="@+id/sendNotifsButton"-->
