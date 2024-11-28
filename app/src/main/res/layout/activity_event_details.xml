@@ -14,15 +14,76 @@
     <ImageView
         android:id="@+id/eventImage"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@color/gray"
-        android:scaleType="fitCenter" />
+        android:layout_height="200dp"
+        android:scaleType="fitXY" />
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:id="@+id/deleteImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/red"
+        android:text="Delete Event Image"
+        android:visibility="gone"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageButton
+            style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sendNotifsButton"
+            android:layout_margin="4dp"
+            android:visibility="gone"
+            android:contentDescription="notification_button"
+            android:src="@drawable/baseline_notification_add_24"/>
+        <ImageButton
+            style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:contentDescription="Edit event"
+            android:id="@+id/btnEditEvent"
+            android:visibility="gone"
+            android:src="@drawable/baseline_edit_24"/>
+        <ImageButton
+            style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:contentDescription="Map"
+            android:id="@+id/mapButton"
+            android:visibility="gone"
+            android:src="@drawable/baseline_map_24"/>
+        <ImageButton
+            style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:contentDescription="QRCODE"
+            android:id="@+id/qrCodeButton"
+            android:src="@drawable/baseline_qr_code_24"
+            android:visibility="gone"/>
+
+
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="start"
+    android:padding="5dp">
+
     <TextView
         android:id="@+id/eventName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Event Name"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textStyle="bold" />
 
     <TextView
@@ -30,21 +91,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Facility Name"
-        android:textSize="16sp" />
+        android:textStyle="italic"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/eventAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Address"
-        android:textSize="16sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/eventDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Description"
-        android:textSize="16sp" />
+        android:textStyle="italic"
+        android:textSize="16dp" />
+
+</LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -52,18 +117,7 @@
         android:id="@+id/facilityContainer"
         />
 
-    <com.google.android.material.button.MaterialButton
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:id="@+id/deleteImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_gravity="center"
-        android:textColor="@color/red"
-        android:text="Delete Event Image"
-        android:visibility="gone"
-        />
+
 
     <LinearLayout
         android:id="@+id/entrantsSlider"
@@ -72,7 +126,7 @@
         android:layout_marginTop="5dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:padding="16dp"
+        android:padding="5dp"
         >
 
         <TextView
@@ -109,15 +163,10 @@
             android:textColor="@color/black" />
     </LinearLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Waitlist Geolocations"
-        android:id="@+id/mapButton"
-        android:visibility="gone"
-        />
+
 
     <Button
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sample Users"
@@ -125,29 +174,28 @@
         android:visibility="gone"
         />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Edit Event"
-        android:id="@+id/btnEditEvent"
-        android:visibility="gone"
-        />
+
+
+
 
     <Button
-        android:id="@+id/qrCodeButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:text="QR Code" />
-
-    <Button
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Join Waiting List"
         android:id="@+id/btnJoinWaitingList"
         />
-
+    <Button
+        android:id="@+id/deleteEvent"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Event"
+        android:gravity="center"
+        android:textColor="@color/red"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -155,24 +203,8 @@
         android:layout_height="wrap_content"
         android:indeterminate="true"/>
 
-    <Button
-        android:id="@+id/deleteEvent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete Event"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/sendNotifsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:text="Send Notifications"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
+
 
 </LinearLayout>

@@ -23,6 +23,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import android.Manifest;
 import com.example.zenithevents.Objects.Event;

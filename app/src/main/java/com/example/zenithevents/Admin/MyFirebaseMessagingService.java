@@ -25,10 +25,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // TODO(developer): Handle FCM messages here.
 
         if (remoteMessage.getNotification()!=null){
-            // Show the notification
             String notificationBody = remoteMessage.getNotification().getBody();
             String notificationTitle = remoteMessage.getNotification().getTitle();
-
             sendNotification (notificationTitle, notificationBody);
 
         }
