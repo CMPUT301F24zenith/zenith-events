@@ -88,7 +88,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         Button acceptBtn = convertView.findViewById(R.id.acceptEventBtn);
         Button declineBtn = convertView.findViewById(R.id.declineEventBtn);
         ProgressBar progressBar = convertView.findViewById(R.id.progressBar);
-
+        androidx.cardview.widget.CardView viewCard = convertView.findViewById(R.id.viewCard);
         String deviceId = DeviceUtils.getDeviceID(getContext());
 
         UserUtils userUtils = new UserUtils();
@@ -165,6 +165,13 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         }
 
         convertView.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), EventView.class);
+            intent.putExtra("event_id", event.getEventId());
+            intent.putExtra("type", type);
+            getContext().startActivity(intent);
+        });
+
+        viewCard.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), EventView.class);
             intent.putExtra("event_id", event.getEventId());
             intent.putExtra("type", type);
