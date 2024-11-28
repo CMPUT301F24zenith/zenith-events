@@ -75,6 +75,14 @@
 
     </androidx.cardview.widget.CardView>
 
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:pieChart_drawHole="true"
+        app:pieChart_holeRadius="40%" />
+
+
     <!-- Edit Button -->
     <Button
         android:id="@+id/editbuttonfield"
