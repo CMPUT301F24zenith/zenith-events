@@ -1,82 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:gravity="center_horizontal"
-    android:clipToPadding="true"
-    tools:context=".Admin.FacilityDetail"
-    android:background="@drawable/gradient_background">
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:gravity="center"
-
-    android:layout_marginBottom="10dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:id="@+id/facilityName"
-        android:text="Facility Name"
-        android:textColor="@color/pasteColor"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="italic"
-        android:textSize="15dp"
-        android:id="@+id/facilityEmail"
-        android:textColor="@color/pasteColor"
-        android:text="Email"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="italic"
-        android:textSize="15dp"
-        android:id="@+id/facilityPhoneNumber"
-        android:textColor="@color/pasteColor"
-        android:text="Phone Number"/>
-</LinearLayout>
+    android:fillViewport="true"
+    android:background="@drawable/gradient_background"
+    tools:context=".Admin.FacilityDetail">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/surrounding_text"
-        android:gravity="center"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:gravity="center_horizontal"
+        android:clipToPadding="true">
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Facility Events"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <ListView
-            android:id="@+id/facilityEventsListView"
+        <!-- Facility Information -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/facilityName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:text="Facility Name"
+                android:textColor="@color/pasteColor" />
+
+            <TextView
+                android:id="@+id/facilityEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:textSize="15dp"
+                android:textColor="@color/pasteColor"
+                android:text="Email" />
+
+            <TextView
+                android:id="@+id/facilityPhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:textSize="15dp"
+                android:textColor="@color/pasteColor"
+                android:text="Phone Number" />
+            <Button
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:id="@+id/deleteFacility"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkRed"
+                android:text="Delete Facility" />
+        </LinearLayout>
+
+
+        <!-- Facility Events -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/surrounding_text"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Facility Events"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+
+            <ListView
+                android:id="@+id/facilityEventsListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
+
+
     </LinearLayout>
 
-    <Button
-        android:layout_marginTop="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@android:drawable/ic_menu_delete"
-        android:text="Delete Facility"
-        android:id="@+id/deleteFacility"/>
-
-
-
-</LinearLayout>
+</ScrollView>
