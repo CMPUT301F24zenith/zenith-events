@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     Button buttonEntrant;
     Button organizerButton;
     Button buttonAdmin;
-    String deviceID = DeviceUtils.getDeviceID(this);
 
     /**
      * Initializes the activity, sets up button click listeners for navigation
@@ -79,13 +78,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        String deviceID = DeviceUtils.getDeviceID(this);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users").document(deviceID)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
-                        if (isAdmin) {
+                        if (Boolean.TRUE.equals(isAdmin)) {
                             buttonAdmin.setVisibility(View.VISIBLE);
                             buttonAdmin.setOnClickListener(v -> {
                                 Intent intent = new Intent(MainActivity.this, AdminViewActivity.class);
@@ -93,11 +93,13 @@ public class MainActivity extends AppCompatActivity {
                             });
                         }
                     } else {
+                        buttonAdmin.setVisibility(View.GONE);
                         Log.d("UserClass", "No isAdmin field");
                     }
                 })
-                .addOnFailureListener(v -> {
-                    Log.d("Firebase", "Error retrieving user document");
+                .addOnFailureListener(exception -> {
+                    buttonAdmin.setVisibility(View.GONE);
+                    Log.d("Firebase", "Error retrieving user document", exception);
                 });
     }
 }
