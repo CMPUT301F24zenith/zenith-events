@@ -13,12 +13,6 @@ import com.example.zenithevents.Objects.Facility;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.github.mikephil.charting.charts.PieChart;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
 
@@ -34,7 +28,6 @@ public class ViewFacility extends AppCompatActivity {
     private Button editButton;
     private FirebaseFirestore db;
     private String deviceId;
-    private BarChart eventBarChart;
 
     /**
      * Called when the activity is created. Initializes the UI elements and loads the facility data.
@@ -54,11 +47,9 @@ public class ViewFacility extends AppCompatActivity {
         facilityPhone = findViewById(R.id.phonefield);
         facilityEmail = findViewById(R.id.emailfield);
         editButton = findViewById(R.id.editbuttonfield);
-        eventBarChart = findViewById(R.id.eventBarChart);
 
         if (deviceId != null) {
             showFacilityData(deviceId);
-            loadEventData(deviceId);
         } else {
             Toast.makeText(this, "Error in getting Facility", Toast.LENGTH_SHORT).show();
             finish();
@@ -86,9 +77,9 @@ public class ViewFacility extends AppCompatActivity {
             if (documentSnapshot.exists()) {
                 Facility facility = documentSnapshot.toObject(Facility.class);
                 if (facility != null) {
-                    facilityName.setText("Name: " + facility.getNameOfFacility());
-                    facilityPhone.setText("Phone: " + facility.getPhoneOfFacility());
-                    facilityEmail.setText("Email: " + facility.getEmailOfFacility());
+                    facilityName.setText(facility.getNameOfFacility());
+                    facilityPhone.setText(facility.getPhoneOfFacility());
+                    facilityEmail.setText(facility.getEmailOfFacility());
                 }
             } else {
                 Toast.makeText(this, "Facility not found", Toast.LENGTH_SHORT).show();
@@ -129,31 +120,6 @@ public class ViewFacility extends AppCompatActivity {
 //        eventBarChart.invalidate(); // Refresh the chart
 //    }
 
-    PieChart pieChart = findViewById(R.id.pieChart);
 
-    // Create a list of Pie Entries (one for each event)
-    List<PieEntry> entries = new ArrayList<>();
-entries.add(new PieEntry(30f, "Event 1"));
-entries.add(new PieEntry(50f, "Event 2"));
-entries.add(new PieEntry(20f, "Event 3"));
-
-    // Create a PieDataSet with the entries
-    PieDataSet dataSet = new PieDataSet(entries, "Event Participation");
-
-// Customize the colors of the chart
-dataSet.setColors(Color.RED, Color.GREEN, Color.BLUE);
-
-    // Create PieData object and assign it to the chart
-    PieData pieData = new PieData(dataSet);
-pieChart.setData(pieData);
-
-// Customize chart appearance
-pieChart.setUsePercentValues(true);
-pieChart.getDescription().setEnabled(false);
-pieChart.setCenterText("Events");
-pieChart.setCenterTextSize(20f);
-
-// Refresh chart
-pieChart.invalidate();
 
 }
