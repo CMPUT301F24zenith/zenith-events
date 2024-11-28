@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -66,9 +67,9 @@ public class EventView extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     ImageView eventPosterImageView;
-    private Button btnJoinLeaveWaitingList, qrCodeButton, btnEditEvent, btnSampleUsers, deleteEventButton, deleteImageButton, mapButton;
+    private Button btnJoinLeaveWaitingList, btnSampleUsers, deleteEventButton, deleteImageButton;
     private TextView eventDescription, eventName, facilityName, eventAddress;
-    private FloatingActionButton sendNotifsButton;
+    private ImageButton sendNotifsButton,mapButton, btnEditEvent, qrCodeButton;
     private ProgressBar progressBar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ListenerRegistration eventListener;
@@ -183,6 +184,16 @@ public class EventView extends AppCompatActivity {
                 facilityName.setText("");
             }
         });
+        // Check if imageUrl is null or empty
+        if (event.getImageUrl() == null || event.getImageUrl().isEmpty()) {
+            Log.d("ImageCheck", "No image available for this event.");
+            deleteImageButton.setVisibility(View.GONE); // Hide delete button if no image
+            eventPosterImageView.setImageResource(R.drawable.event_place_holder); // Set placeholder image
+        } else {
+            Log.d("ImageCheck", "Image available. Showing delete button.");
+            if(Objects.equals(type, "admin")) deleteImageButton.setVisibility(View.VISIBLE); // Show delete button if image exists
+            loadImage(event.getImageUrl(), eventPosterImageView); // Load the actual image
+        }
 
         eventAddress.setText(event.getEventAddress());
         eventDescription.setText(event.getEventDescription());
@@ -328,12 +339,13 @@ public class EventView extends AppCompatActivity {
 
         });
 
-        // Load event image using Glide
+
         loadImage(event.getImageUrl(), eventPosterImageView);
         Log.d("FunctionCAll", "type:: " + type);
         if (Objects.equals(type, "organizer") || Objects.equals(type, "admin")) {
             setupEntrantNavigation(event.getEventId());
             if (Objects.equals(type, "admin")) {
+
                 deleteImageButton.setOnClickListener(v ->
                         new AlertDialog.Builder(this)
                                 .setTitle("Remove Event Picture")
@@ -357,7 +369,8 @@ public class EventView extends AppCompatActivity {
                 mapButton.setVisibility(View.GONE);
             }
 
-            btnEditEvent.setVisibility(View.VISIBLE);
+            if (Objects.equals(type, "organizer")) btnEditEvent.setVisibility(View.VISIBLE);
+            if (Objects.equals(type, "organizer")) sendNotifsButton.setVisibility(View.VISIBLE);
             btnEditEvent.setOnClickListener(v -> {
                 Intent intent = new Intent(this, CreateEventPage.class);
                 intent.putExtra("page_title", "Edit Event");
@@ -365,7 +378,7 @@ public class EventView extends AppCompatActivity {
                 startActivity(intent);
             });
 
-            btnSampleUsers.setVisibility(View.VISIBLE);
+            if(Objects.equals(type, "organizer")) btnSampleUsers.setVisibility(View.VISIBLE);
             btnSampleUsers.setOnClickListener(v -> {
                 Context context = EventView.this;
                 event.drawLottery(context);
@@ -423,10 +436,10 @@ public class EventView extends AppCompatActivity {
      */
     private void loadImage(String imageUrl, ImageView placeholder) {
         BitmapUtils bitmapUtils = new BitmapUtils();
-        if (imageUrl != null) {
+        if (imageUrl != null ) {
             Bitmap imgBitMap = bitmapUtils.decodeBase64ToBitmap(imageUrl);
             Glide.with(this).load(imgBitMap).into(placeholder);
-            deleteImageButton.setVisibility(View.VISIBLE);
+            if(type == "admin") deleteImageButton.setVisibility(View.VISIBLE);
         } else {
             placeholder.setImageResource(R.drawable.event_place_holder);
             deleteImageButton.setVisibility(View.GONE);

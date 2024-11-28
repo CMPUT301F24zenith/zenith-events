@@ -78,7 +78,7 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:drawableLeft="@drawable/baseline_check_24"
+                android:drawableLeft="@drawable/green_check"
                 android:text=""
                 android:visibility="gone" />
 
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@android:drawable/ic_delete"
                 android:text=""
-                android:visibility="visible" />
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
         <LinearLayout
