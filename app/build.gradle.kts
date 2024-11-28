@@ -45,6 +45,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-storage:20.2.0")
     implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation("androidx.cardview:cardview:1.0.0")
 
 //    implementation("com.google.firebase:firebase-messaging:24.2.0")
 //    implementation("com.google.firebase:firebase-analytics:21.3.0")

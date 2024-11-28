@@ -28,7 +28,7 @@ public class CreateFacility extends AppCompatActivity {
 
     private static final int PICK_IMAGE = 1;
 
-    private Button saveButton;
+    private Button saveButton, saveButtontwo;
     private EditText facilityName;
     private EditText facilityPhone;
     private EditText facilityEmail;
