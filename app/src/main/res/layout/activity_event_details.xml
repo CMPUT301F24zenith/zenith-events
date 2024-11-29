@@ -1,210 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="start"
-    tools:context=".Events.EventView"
-    android:padding="16dp"
-    >
+    android:background="@color/background_color"
+    tools:context=".Events.EventView">
 
     <ImageView
         android:id="@+id/eventImage"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="fitXY" />
-    <com.google.android.material.button.MaterialButton
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:id="@+id/deleteImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/red"
-        android:text="Delete Event Image"
-        android:visibility="gone"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <ImageButton
-            style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sendNotifsButton"
-            android:layout_margin="4dp"
-            android:visibility="gone"
-            android:contentDescription="notification_button"
-            android:src="@drawable/baseline_notification_add_24"/>
-        <ImageButton
-            style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:contentDescription="Edit event"
-            android:id="@+id/btnEditEvent"
-            android:visibility="gone"
-            android:src="@drawable/baseline_edit_24"/>
-        <ImageButton
-            style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:contentDescription="Map"
-            android:id="@+id/mapButton"
-            android:visibility="gone"
-            android:src="@drawable/baseline_map_24"/>
-        <ImageButton
-            style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:contentDescription="QRCODE"
-            android:id="@+id/qrCodeButton"
-            android:src="@drawable/baseline_qr_code_24"
-            android:visibility="gone"/>
-
-
-    </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="start"
-    android:padding="5dp">
-
-    <TextView
-        android:id="@+id/eventName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Event Name"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/facilityName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Facility Name"
-        android:textStyle="italic"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/eventAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Address"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/eventDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description"
-        android:textStyle="italic"
-        android:textSize="16dp" />
-
-</LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/facilityContainer"
-        />
-
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
     <LinearLayout
-        android:id="@+id/entrantsSlider"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="5dp"
-        >
+        android:id="@+id/roundedLayout"
+        android:layout_width="0dp"
+        android:layout_height="600dp"
+        android:background="@drawable/top_corner_radius"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintTop_toBottomOf="@id/eventImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
-            android:id="@+id/leftArrowButton"
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:id="@+id/deleteImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="◀"
-            android:textSize="24sp"
-            android:padding="16dp"
-            android:gravity="center"
-            android:textColor="@color/black" />
+            android:layout_gravity="center"
+            android:textColor="@color/red"
+            android:text="Delete Event Image"
+            android:visibility="gone" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/currentOptionText"
+            <ImageButton
+                style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
+                android:id="@+id/sendNotifsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:visibility="gone"
+                android:contentDescription="notification_button"
+                android:src="@drawable/baseline_notification_add_24" />
+
+            <ImageButton
+                style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
+                android:id="@+id/btnEditEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:contentDescription="Edit event"
+                android:visibility="gone"
+                android:src="@drawable/baseline_edit_24" />
+
+            <ImageButton
+                style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
+                android:id="@+id/mapButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:contentDescription="Map"
+                android:visibility="gone"
+                android:src="@drawable/baseline_map_24" />
+
+            <ImageButton
+                style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
+                android:id="@+id/qrCodeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:contentDescription="QRCODE"
+                android:visibility="visible"
+                android:src="@drawable/baseline_qr_code_24" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/eventName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
+                android:text="Event Name"
+                android:textSize="25sp"
+                android:textFontWeight="700" />
+
+            <TextView
+                android:id="@+id/facilityName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_home_work_24"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/inter_italic"
+                android:text="Facility Name"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/eventAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_location_on_24"
+                android:text="Location"
+                android:fontFamily="@font/inter"
+                android:drawablePadding="8dp"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/eventDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Description"
+                android:fontFamily="@font/inter_italic"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/entrantsSlider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/leftArrowButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="◀"
+                android:textSize="24sp"
+                android:padding="16dp"
+                android:gravity="center"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/currentOptionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Waitlisted Entrants"
+                android:fontFamily="@font/inter"
+                android:textSize="16sp"
+                android:paddingHorizontal="20dp"
+                android:gravity="center"
+                android:background="@drawable/square_button" />
+
+            <TextView
+                android:id="@+id/rightArrowButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="▶"
+                android:textSize="24sp"
+                android:padding="16dp"
+                android:gravity="center"
+                android:textColor="@color/black" />
+        </LinearLayout>
+        <Button
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:id="@+id/btnSampleUsers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sample Users"
+            android:textFontWeight="700"
+            android:fontFamily="@font/inter"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnJoinWaitingList"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Join Waiting List"
+            android:textFontWeight="700"
+            android:fontFamily="@font/inter" />
+
+        <Button
+            android:id="@+id/deleteEvent"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Waitlisted Entrants"
-            android:textSize="16sp"
-            android:paddingHorizontal="20dp"
+            android:text="Delete Event"
+            android:textFontWeight="700"
             android:gravity="center"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:background="@drawable/square_button"
-            />
+            android:textColor="@color/red"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:fontFamily="@font/inter" />
 
-        <TextView
-            android:id="@+id/rightArrowButton"
-            android:layout_width="wrap_content"
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="▶"
-            android:textSize="24sp"
-            android:padding="16dp"
-            android:gravity="center"
-            android:textColor="@color/black" />
+            android:indeterminate="true" />
     </LinearLayout>
 
-
-
-    <Button
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sample Users"
-        android:id="@+id/btnSampleUsers"
-        android:visibility="gone"
-        />
-
-
-
-
-
-    <Button
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Join Waiting List"
-        android:id="@+id/btnJoinWaitingList"
-        />
-    <Button
-        android:id="@+id/deleteEvent"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete Event"
-        android:gravity="center"
-        android:textColor="@color/red"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        />
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"/>
-
-
-
-
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
