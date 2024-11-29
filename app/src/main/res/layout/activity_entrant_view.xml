@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EntrantDashboard.EntrantViewActivity"
-    android:background="@drawable/gradient_background"
+    android:background="@color/container_background"
     >
 
         <ImageButton
@@ -17,15 +17,13 @@
             android:layout_marginTop="16dp"
             android:layout_gravity="start"
             android:background="@drawable/circle_background"
-            android:backgroundTint="@color/pasteColor"
             android:contentDescription="View Profile"
             android:src="@drawable/baseline_person_24"
             app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvPrevious"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/fragmentContainer"
-            app:tint="@color/gradientLightBlue" />
+            app:layout_constraintBottom_toTopOf="@+id/fragmentContainer" />
 
         <TextView
             android:id="@+id/tvPrevious"
@@ -33,7 +31,6 @@
             android:layout_marginTop="16dp"
             android:layout_height="wrap_content"
             android:text="◀"
-            android:textColor="@color/pasteColor"
             android:textSize="24sp"
             app:layout_constraintEnd_toStartOf="@+id/CurrentSelection"
             app:layout_constraintStart_toEndOf="@id/viewProfileButton"
@@ -47,9 +44,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="My Waiting List"
-            android:textColor="@color/pasteColor"
             android:textSize="18sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/inter"
+            android:textFontWeight="700"
             android:gravity="center"
             app:layout_constraintStart_toEndOf="@+id/tvPrevious"
             app:layout_constraintEnd_toStartOf="@id/tvNext"
@@ -63,7 +60,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="▶"
-            android:textColor="@color/pasteColor"
             android:textSize="24sp"
             app:layout_constraintEnd_toStartOf="@id/scanQRButton"
             app:layout_constraintStart_toEndOf="@+id/CurrentSelection"
@@ -78,11 +74,10 @@
             android:layout_marginTop="16dp"
             android:layout_gravity="end"
             android:background="@drawable/square_button"
-            android:backgroundTint="@color/pasteColor"
+            android:backgroundTint="@color/lightGreyColor"
             android:contentDescription="Scan QR"
             android:scaleType="centerInside"
             android:src="@drawable/qr_code_svgrepo_com"
-            app:tint="@color/gradientLightBlue"
             app:layout_constraintStart_toEndOf="@+id/tvNext"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
