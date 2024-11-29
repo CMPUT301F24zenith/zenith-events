@@ -81,6 +81,8 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
         ImageView profileImage = convertView.findViewById(R.id.profileImage);
         Button acceptBtn = convertView.findViewById(R.id.acceptEntrantBtn);
         Button declineBtn = convertView.findViewById(R.id.declineEntrantBtn);
+        androidx.cardview.widget.CardView viewCard = convertView.findViewById(R.id.viewEntrantCard);
+//        viewCard.setBackgroundResource(R.drawable.space_image);
 
         UserUtils userUtils = new UserUtils();
 
@@ -146,7 +148,7 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
                 declineBtn.setVisibility(View.GONE);
             }
 
-            convertView.setOnClickListener(v -> {
+            viewCard.setOnClickListener(v -> {
                 if (user.getDeviceID() != null) {
                     Intent intent = new Intent(getContext(), ProfileDetailActivity.class);
                     intent.putExtra("userID", user.getDeviceID());
