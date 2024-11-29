@@ -2,10 +2,12 @@ package com.example.zenithevents.Events;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
+import com.github.jinatonic.confetti.CommonConfetti;
+import com.github.jinatonic.confetti.ConfettiView;
 import com.google.zxing.qrcode.encoder.QRCode;
+
+import java.util.Arrays;
+
 
 /**
  * CreationSuccessActivity is an activity that is displayed after successfully creating an event.
@@ -29,6 +36,8 @@ public class CreationSuccessActivity extends AppCompatActivity {
     private Button shareQRButton, exitButton;
     Event event;
     Bitmap QRCode, eventImage;
+    ConfettiView confettiView;
+    FrameLayout confettiLayout;
 
     /**
      * Called when the activity is first created. Initializes the UI components, retrieves the Event object passed
@@ -48,8 +57,15 @@ public class CreationSuccessActivity extends AppCompatActivity {
         qrCodeView = findViewById(R.id.qrCodeView);
         shareQRButton = findViewById(R.id.shareQRButton);
         exitButton = findViewById(R.id.exitButton);
+        confettiView = findViewById(R.id.confettiView);
+        confettiLayout = findViewById(R.id.confettiLayout);
 
         event = (Event) getIntent().getSerializableExtra("Event");
+
+        CommonConfetti.rainingConfetti(
+                confettiLayout,
+                new int[]{Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW}
+        ).stream(3000);
 
         if (event != null) {
             eventNameText.setText(event.getEventTitle());
