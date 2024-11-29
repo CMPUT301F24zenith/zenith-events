@@ -1,5 +1,6 @@
 package com.example.zenithevents.EntrantsList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.ProfileDetailActivity;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,6 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -52,9 +55,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         db = FirebaseFirestore.getInstance();
-        DocumentReference eventRef = db.collection("events").document(eventID);
         progressBar = findViewById(R.id.progressBar);
 
+        DocumentReference eventRef = db.collection("events").document(eventID);
         eventRef.get().addOnSuccessListener(documentSnapshot -> {
             progressBar.setVisibility(View.GONE);
             if (documentSnapshot.exists()) {
@@ -77,6 +80,15 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             progressBar.setVisibility(View.GONE);
             Log.e("FirestoreError", "Failed to retrieve event", e);
         });
+
+        mMap.setOnMarkerClickListener(marker -> {
+            String userID = (String) marker.getTag();
+            Intent intent = new Intent(MapActivity.this, ProfileDetailActivity.class);
+            intent.putExtra("userID", userID);
+            intent.putExtra("type", "organizer");
+            startActivity(intent);
+            return true;
+        });
     }
 
     private void displayMarkersOnMap(HashMap<String, Map<String, Object>> userLocations) {
@@ -90,9 +102,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
                 if (latitude != null && longitude != null) {
                     LatLng userLatLng = new LatLng(latitude, longitude);
-                    mMap.addMarker(new MarkerOptions()
-                            .position(userLatLng)
-                            .title("User: " + userId));
+                    MarkerOptions markerOptions = new MarkerOptions()
+                            .position(userLatLng);
+                    mMap.addMarker(markerOptions).setTag(userId);
                     boundsBuilder.include(userLatLng);
                 }
             }
