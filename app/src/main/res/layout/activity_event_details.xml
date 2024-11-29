@@ -101,7 +101,7 @@
                 android:fontFamily="@font/inter"
                 android:text="Event Name"
                 android:textSize="25sp"
-                android:textStyle="bold" />
+                android:textFontWeight="700" />
 
             <TextView
                 android:id="@+id/facilityName"
@@ -127,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:text="Description:"
                 android:layout_marginTop="10dp"
-                android:textStyle="bold"
+                android:textFontWeight="700"
                 android:fontFamily="@font/inter"
                 android:textSize="16sp" />
             <TextView
@@ -167,8 +167,6 @@
                 android:textSize="16sp"
                 android:paddingHorizontal="20dp"
                 android:gravity="center"
-                android:textStyle="bold"
-
                 android:background="@drawable/square_button" />
 
             <TextView
@@ -187,6 +185,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sample Users"
+            android:textFontWeight="700"
             android:fontFamily="@font/inter"
             android:visibility="gone" />
 
@@ -196,6 +195,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Join Waiting List"
+            android:textFontWeight="700"
             android:fontFamily="@font/inter" />
 
         <Button
@@ -204,6 +204,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delete Event"
+            android:textFontWeight="700"
             android:gravity="center"
             android:textColor="@color/red"
             android:layout_gravity="center"
