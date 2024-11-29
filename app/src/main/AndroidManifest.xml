@@ -30,8 +30,11 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCSWmgmg8UloKdVfABJwD3Lcej7PzR-ZTY" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
-<!--        <service-->
+        <!--        <service-->
 <!--            android:name="MyFirebaseMessagingService"-->
 <!--            android:exported="true"-->
 <!--            tools:ignore="WrongManifestParent">-->

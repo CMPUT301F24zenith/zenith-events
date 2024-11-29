@@ -98,6 +98,7 @@
                 android:id="@+id/eventName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
                 android:text="Event Name"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -106,10 +107,10 @@
                 android:id="@+id/facilityName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Facility Name"
-                android:textStyle="italic"
-                android:drawablePadding="8dp"
                 android:drawableLeft="@drawable/baseline_home_work_24"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/inter_italic"
+                android:text="Facility Name"
                 android:textSize="15sp" />
 
             <TextView
@@ -117,7 +118,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/baseline_location_on_24"
-                android:text="Address"
+                android:text="Location"
+                android:fontFamily="@font/inter"
                 android:drawablePadding="8dp"
                 android:textSize="15sp" />
             <TextView
@@ -126,6 +128,7 @@
                 android:text="Description:"
                 android:layout_marginTop="10dp"
                 android:textStyle="bold"
+                android:fontFamily="@font/inter"
                 android:textSize="16sp" />
             <TextView
                 android:id="@+id/eventDescription"
@@ -133,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="Description"
-                android:textStyle="italic"
+                android:fontFamily="@font/inter_italic"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -160,6 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Waitlisted Entrants"
+                android:fontFamily="@font/inter"
                 android:textSize="16sp"
                 android:paddingHorizontal="20dp"
                 android:gravity="center"
@@ -183,6 +187,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sample Users"
+            android:fontFamily="@font/inter"
             android:visibility="gone" />
 
         <Button
@@ -190,7 +195,8 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Join Waiting List" />
+            android:text="Join Waiting List"
+            android:fontFamily="@font/inter" />
 
         <Button
             android:id="@+id/deleteEvent"
@@ -201,7 +207,8 @@
             android:gravity="center"
             android:textColor="@color/red"
             android:layout_gravity="center"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:fontFamily="@font/inter" />
 
         <ProgressBar
             android:id="@+id/progressBar"
