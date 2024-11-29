@@ -10,77 +10,96 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/viewEntrantCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:clickable="true"
         android:focusable="true"
         android:padding="0dp"
         app:cardCornerRadius="30dp"
-        app:cardElevation="4dp">
+        app:cardElevation="4dp"
+        android:clipChildren="true"
+        android:clipToOutline="true">
 
 
-    <LinearLayout
-        android:id="@+id/entrantDetailsContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:layout_marginTop="15dp">
+        <!-- FrameLayout to hold the background image -->
         <FrameLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:background="@drawable/circle_background"
-            android:layout_marginBottom="1dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="0dp">
 
-
+            <!-- Full-size background image -->
             <ImageView
+                android:id="@+id/backgroundImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/profileImage"
-                android:background="@drawable/circle_background"
                 android:scaleType="centerCrop"
-                android:adjustViewBounds="true"
-                android:clipToOutline="true"
-                android:contentDescription="Profile Picture"
-                android:visibility="visible"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/initials"
-                android:gravity="center"
-                android:text=""
-                android:textColor="@android:color/white"
-                android:visibility="visible"
-                android:textSize="20dp"/>
-
-        </FrameLayout>
+                android:src="@drawable/translucent_background"
+                android:contentDescription="Card Background Image"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/entrantDetailsContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:gravity="center">
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="25dp"
+            android:layout_marginTop="15dp">
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/circle_background"
+                android:clipChildren="true"
+                android:clipToOutline="true">
 
-            <TextView
-                android:id="@+id/entrantName"
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/profileImage"
+                    android:background="@drawable/circle_background"
+                    android:scaleType="centerCrop"
+                    android:clipToOutline="true"
+                    android:contentDescription="Profile Picture"
+                    android:visibility="visible"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/initials"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:visibility="visible"
+                    android:textSize="30dp"/>
+
+            </FrameLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Entrant Name"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                android:padding="25dp"
+                android:gravity="center">
 
-            <TextView
-                android:id="@+id/entrantEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Entrant Email"
-                android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/entrantName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entrant Name"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/entrantEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entrant Email"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+        </FrameLayout>
     </androidx.cardview.widget.CardView>
 
     <LinearLayout

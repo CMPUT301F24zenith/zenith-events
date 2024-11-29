@@ -82,6 +82,8 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
         Button acceptBtn = convertView.findViewById(R.id.acceptEntrantBtn);
         Button declineBtn = convertView.findViewById(R.id.declineEntrantBtn);
         androidx.cardview.widget.CardView viewCard = convertView.findViewById(R.id.viewEntrantCard);
+//        viewCard.setBackgroundResource(R.drawable.space_image);
+
         UserUtils userUtils = new UserUtils();
 
         if (user != null) {
