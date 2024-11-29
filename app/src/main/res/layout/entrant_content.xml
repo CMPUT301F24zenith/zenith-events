@@ -5,15 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:padding="16dp">
+    android:padding="10dp">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/viewCard"
+        android:id="@+id/viewEntrantCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:focusable="true"
         android:padding="0dp"
-        app:cardBackgroundColor="@color/lightBlueColor">
+        app:cardCornerRadius="30dp"
+        app:cardElevation="4dp">
 
 
     <LinearLayout
@@ -23,14 +25,13 @@
         android:orientation="vertical"
         android:layout_weight="1"
         android:gravity="center"
-        android:padding="30dp"
-        >
+        android:layout_marginTop="15dp">
         <FrameLayout
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/circle_background"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="1dp">
 
 
             <ImageView
