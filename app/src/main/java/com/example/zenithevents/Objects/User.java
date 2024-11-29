@@ -13,7 +13,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 
 import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
-import com.example.zenithevents.Manifest;
+//import com.example.zenithevents.Manifest;
 import com.example.zenithevents.R;
 
 import java.util.ArrayList;
