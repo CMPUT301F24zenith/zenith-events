@@ -71,7 +71,6 @@ public class QRViewAdmin extends AppCompatActivity {
             doneButton.setOnClickListener(v -> {
                 finish();
             });
-
             deleteButton.setOnClickListener(v -> {
                 String newQRContent = QRCodeUtils.generateRandomString(16);
                 Bitmap newQRBitmap = QRCodeUtils.generateQRCode(newQRContent);
@@ -92,6 +91,7 @@ public class QRViewAdmin extends AppCompatActivity {
 
                 finish();
             });
+
         }
     }
 
