@@ -49,19 +49,20 @@
                     android:paddingLeft="20dp"
                     android:gravity="left">
 
-                    >
                     <TextView
                         android:id="@+id/eventTitle"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:text="Event Title"
+                        android:fontFamily="@font/inter"
                         android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textFontWeight="900" />
                     <TextView
                         android:id="@+id/facilityName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Facility"
+                        android:fontFamily="@font/inter"
                         android:textSize="15sp" />
                 </LinearLayout>
 
