@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:padding="10dp"
-    tools:context=".admin.AdminViewActivity">
+    tools:context=".admin.AdminViewActivity"
+    android:background="@drawable/gradient_background">
 
 
   <TextView
@@ -19,7 +20,8 @@
       android:textSize="24sp"
       android:textStyle="bold"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent" />
+      app:layout_constraintStart_toStartOf="parent"
+      android:textColor="#2727B6"/>
   <FrameLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
@@ -30,7 +32,7 @@
   android:orientation="horizontal"
     app:layout_constraintBottom_toBottomOf="parent"
     android:layout_marginBottom="10dp"
-  android:gravity="center">
+    android:gravity="center">
 
 
 
@@ -40,9 +42,10 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_margin="5dp"
-      android:textColor="@color/gradientDarkBlue"
+      android:textColor="#2727B6"
       android:textSize="18dp"
-      android:text="Users" />
+      android:text="Users"
+      android:backgroundTint="@color/pasteColor"/>
 
 
   <Button
@@ -53,9 +56,10 @@
       android:padding="5dp"
       android:text="Events"
       android:layout_margin="5dp"
-      android:textColor="@color/gradientDarkBlue"
+      android:textColor="#2727B6"
       app:layout_constraintBottom_toBottomOf="parent"
-      android:textSize="18dp" />
+      android:textSize="18dp"
+      android:backgroundTint="@color/pasteColor"/>
   <Button
       android:id="@+id/btnFacilites"
       style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -64,8 +68,9 @@
       android:padding="5dp"
       android:text="Facilites"
       android:layout_margin="5dp"
-      android:textColor="@color/gradientDarkBlue"
-      android:textSize="18dp" />
+      android:textColor="#2727B6"
+      android:textSize="18dp"
+      android:backgroundTint="@color/pasteColor"/>
 </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

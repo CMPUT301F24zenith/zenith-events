@@ -16,5 +16,7 @@
     <color name="lightGreyColor">#E2DAD6</color>
     <color name="cyanColor">#7FA1C3</color>
     <color name="navyColor">#64A2AD</color>
+    <color name="semi_transparent_overlay">#80000000</color>
+
 
 </resources>
