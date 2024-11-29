@@ -1,9 +1,5 @@
 package com.example.zenithevents.Objects;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-import static androidx.test.InstrumentationRegistry.getContext;
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -22,7 +17,6 @@ import com.example.zenithevents.Manifest;
 import com.example.zenithevents.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents a user of the Zenith Events application, encapsulating details
@@ -153,7 +147,7 @@ public class User {
      *
      * @return A boolean indicating if the user is an admin.
      */
-    public Boolean getAdmin() {
+    public Boolean getIsAdmin() {
         return isAdmin;
     }
 
@@ -234,7 +228,7 @@ public class User {
      *
      * @param admin A boolean representing if the user is an admin.
      */
-    public void setAdmin(Boolean admin) {
+    public void setIsAdmin(Boolean admin) {
         isAdmin = admin;
     }
 

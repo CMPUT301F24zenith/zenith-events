@@ -7,4 +7,6 @@
 
     <style name="Theme.ZenithEvents" parent="Base.Theme.ZenithEvents" />
     <color name="text_background">#F5ECFF</color>
+    <color name="background_color">#F5EDED</color>
+    <color name="container_background">#E2DAD6</color>
 </resources>

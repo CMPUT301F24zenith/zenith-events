@@ -2,84 +2,118 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:padding="16dp">
+    android:padding="0dp">
 
-    <LinearLayout
-        android:id="@+id/eventDetailsContainer"
-        android:layout_width="wrap_content"
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/viewCard"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        >
-        <ImageView
-            android:id="@+id/eventImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_corners_image"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:clipToOutline="true"/>
+        android:layout_margin="4dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="4dp"
+        android:clickable="true"
+        android:padding="0dp">
+
 
         <LinearLayout
-            android:id="@+id/eventDetails"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:id="@+id/eventTitle"
-                android:layout_width="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/eventImage"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:clipToOutline="true"/>
+
+            <LinearLayout
+                android:id="@+id/eventDetailsContainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Event Title"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/facilityName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Facility"
-                android:textSize="16sp" />
+                android:orientation="horizontal"
+                android:padding="10dp"
+                >
+                <LinearLayout
+                    android:id="@+id/eventDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:gravity="left">
+
+                    >
+                    <TextView
+                        android:id="@+id/eventTitle"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:text="Event Title"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/facilityName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Facility"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end"
+                    >
+
+                    <Button
+                        android:id="@+id/acceptEventBtn"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:drawableLeft="@drawable/green_check"
+                        android:text=""
+                        android:visibility="gone"
+                        />
+
+                    <ImageButton
+                        android:id="@+id/declineEventBtn"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:contentDescription=""
+                        android:src="@android:drawable/ic_menu_delete"
+                        android:backgroundTint="@color/zxing_transparent"
+                        app:tint="@color/darkRed"
+                        android:visibility="gone"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/actionEventBtns"
+                    style="?android:attr/buttonBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        />
+
+                </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/actionEventBtns"
-        style="?android:attr/buttonBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end">
-
-        <Button
-            android:id="@+id/acceptEventBtn"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:backgroundTint="#00FF00"
-            android:visibility="gone"
-            />
-
-        <Button
-            android:id="@+id/declineEventBtn"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:visibility="gone"
-            android:backgroundTint="#FF0000"
-            />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            />
-
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>
