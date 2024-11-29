@@ -21,7 +21,7 @@
       android:textStyle="bold"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      android:textColor="@color/pasteColor"/>
+      android:textColor="#2727B6"/>
   <FrameLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
