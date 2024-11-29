@@ -196,6 +196,11 @@ public class EventView extends AppCompatActivity {
         }
 
         eventAddress.setText(event.getEventAddress());
+        if (event.getEventAddress().isEmpty()) {
+            eventAddress.setVisibility(View.GONE);
+        } else {
+            eventAddress.setVisibility(View.VISIBLE);
+        }
         eventDescription.setText(event.getEventDescription());
         UserUtils userUtils = new UserUtils();
         String deviceID = DeviceUtils.getDeviceID(this);
