@@ -62,10 +62,12 @@ public class CreationSuccessActivity extends AppCompatActivity {
 
         event = (Event) getIntent().getSerializableExtra("Event");
 
-        CommonConfetti.rainingConfetti(
-                confettiLayout,
-                new int[]{Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW}
-        ).stream(3000);
+        confettiLayout.post(() -> {
+            CommonConfetti.rainingConfetti(
+                    confettiLayout,
+                    new int[]{Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW}
+            ).stream(3000);
+        });
 
         if (event != null) {
             eventNameText.setText(event.getEventTitle());
