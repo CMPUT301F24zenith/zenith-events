@@ -380,6 +380,7 @@ public class EventView extends AppCompatActivity {
                 Intent intent = new Intent(this, CreateEventPage.class);
                 intent.putExtra("page_title", "Edit Event");
                 intent.putExtra("Event", (Serializable) event);
+                intent.putExtra("type", "edit");
                 startActivity(intent);
             });
 

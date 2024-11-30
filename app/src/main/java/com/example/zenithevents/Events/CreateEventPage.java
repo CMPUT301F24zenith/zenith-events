@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -48,7 +49,7 @@ public class CreateEventPage extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
 
     Button createEventSaveButton, createEventCancelButton, uploadEventPosterButton;
-    String pageTitle, eventTitle, selectedLimitString, eventLimitString, numParticipants, uploadedPosterString, eventLocation, eventDescription;
+    String pageTitle, eventTitle, selectedLimitString, eventLimitString, numParticipants, uploadedPosterString, eventLocation, eventDescription, type;
     TextView pageTitleView;
     EditText eventNameView, eventLimitView, eventLocationView, eventDescriptionView, selectedLimitView;
     CheckBox geolocationCheck;
@@ -75,6 +76,7 @@ public class CreateEventPage extends AppCompatActivity {
         Log.d("FunctionCall", "11,5");
         event = (Event) getIntent().getSerializableExtra("Event");
         Log.d("FunctionCall", "11,6");
+        type = getIntent().getStringExtra("type");
 
         eventPosterImage = findViewById(R.id.eventPosterImage);
         uploadedPosterString = event.getImageUrl();
@@ -103,12 +105,19 @@ public class CreateEventPage extends AppCompatActivity {
         eventLocationView = findViewById(R.id.eventLocationInput);
         eventLocationView.setText(eventLocation);
 
+
         selectedLimitString = event.getSelectedLimit() == 0 ? "" : String.valueOf(event.getSelectedLimit());
         selectedLimitView = findViewById(R.id.selectedLimitInput);
         selectedLimitView.setText(selectedLimitString);
 
         geolocationCheck = findViewById(R.id.geolocationCheckbox);
         geolocationCheck.setChecked(event.getHasGeolocation());
+
+        if (Objects.equals(type, "edit")) {
+            geolocationCheck.setVisibility(View.GONE);
+            selectedLimitView.setVisibility(View.GONE);
+            eventLimitView.setVisibility(View.GONE);
+        }
 
         createEventSaveButton = findViewById(R.id.createEventSaveButton);
         createEventSaveButton.setOnClickListener(v -> {
