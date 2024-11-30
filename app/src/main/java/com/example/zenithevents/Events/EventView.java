@@ -252,49 +252,52 @@ public class EventView extends AppCompatActivity {
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
                 Context context = this;
-                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), (isSuccess, event_) -> {
-                    Log.d("FunctionCall", "Applying.." + isSuccess);
-                    if (isSuccess == 1) {
-                        if (event_.getHasGeolocation()) {
-                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                                ActivityCompat.requestPermissions(this,
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                                        LOCATION_PERMISSION_REQUEST_CODE);
+                fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                            LOCATION_PERMISSION_REQUEST_CODE);
+                }
+
+                fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                    .addOnSuccessListener(location -> {
+
+                        userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), (isSuccess, event_) -> {
+                            Log.d("FunctionCall", "Applying.." + isSuccess);
+                            if (isSuccess == 1) {
+                                if (event_.getHasGeolocation()) {
+                                    Log.d("FunctionCall", "location::" + location.toString());
+
+                                    if (location != null) {
+                                        double latitude = location.getLatitude();
+                                        Log.d("FunctionCall", "EVENTID" + event_.getEventId());
+
+                                        Log.d("FunctionCall", "Latitude" + latitude);
+                                        double longitude = location.getLongitude();
+                                        Log.d("FunctionCall", "Longitude:" + longitude);
+                                        event_.updateUserLocation(deviceID, latitude, longitude);
+
+                                        Log.d("FunctionCall", "updatingEvent...");
+                                        eventUtils.createUpdateEvent(event_, callback -> {
+                                            if (callback != null) {
+                                                Log.d("FunctionCall", "Location added successfully.");
+                                            } else {
+                                                Log.d("FunctionCall", "Failed to update event.");
+                                            }
+                                        });
+                                    } else {
+                                        Log.d("Location", "Location is null");
+                                    }
+                                }
+                                Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                            } else if (isSuccess == 0) {
+                                Toast.makeText(context, "Successfully left the event!", Toast.LENGTH_SHORT).show();
+                            } else if (isSuccess == -1) {
+                                Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
                             }
-                            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
-                            fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-                                    .addOnSuccessListener(location -> {
-                                        Log.d("FunctionCall", "location::" + location.toString());
 
-                                        if (location != null) {
-                                            double latitude = location.getLatitude();
-                                            Log.d("FunctionCall", "EVENTID" + event_.getEventId());
-
-                                            Log.d("FunctionCall", "Latitude" + latitude);
-                                            double longitude = location.getLongitude();
-                                            Log.d("FunctionCall", "Longitude:" + longitude);
-                                            event_.updateUserLocation(deviceID, latitude, longitude);
-
-                                            Log.d("FunctionCall", "updatingEvent...");
-                                            eventUtils.createUpdateEvent(event_, callback -> {
-                                                if (callback != null) {
-                                                    Log.d("FunctionCall", "Location added successfully.");
-                                                } else {
-                                                    Log.d("FunctionCall", "Failed to update event.");
-                                                }
-                                            });
-                                        } else {
-                                            Log.d("Location", "Location is null");
-                                        }
-                                    });
-                        }
-                        Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
-                    } else if (isSuccess == 0) {
-                        Toast.makeText(context, "Successfully left the event!", Toast.LENGTH_SHORT).show();
-                    } else if (isSuccess == -1) {
-                        Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        });
+                    });
             });
 
             if (event.getNumParticipants() != 0 &&
