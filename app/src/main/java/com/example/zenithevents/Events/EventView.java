@@ -82,7 +82,7 @@ public class EventView extends AppCompatActivity {
     FacilityUtils facilityUtils = new FacilityUtils();
     EventUtils eventUtils = new EventUtils();
     private String eventId, type;
-    private LottieAnimationView lotteryAnimation, joinEventAnimation, sendNotifAnimation;
+    private LottieAnimationView lotteryAnimation;
 
 
     /**
@@ -128,8 +128,6 @@ public class EventView extends AppCompatActivity {
         mapButton = findViewById(R.id.mapButton);
         sendNotifsButton = findViewById(R.id.sendNotifsButton);
         lotteryAnimation = findViewById(R.id.lotteryAnimation);
-        joinEventAnimation = findViewById(R.id.joinEventAnimation);
-        sendNotifAnimation = findViewById(R.id.sendNotifAnimation);
 
     }
 
@@ -253,81 +251,53 @@ public class EventView extends AppCompatActivity {
             btnJoinLeaveWaitingList.setEnabled(true);
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
-
-
                 Context context = this;
-                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), (isSuccess, event_) -> {
-                    Log.d("FunctionCall", "Applying.." + isSuccess);
-                    if (isSuccess == 1) {
-                        if (event_.getHasGeolocation()) {
-                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                                ActivityCompat.requestPermissions(this,
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                                        LOCATION_PERMISSION_REQUEST_CODE);
+                fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                            LOCATION_PERMISSION_REQUEST_CODE);
+                }
+
+                fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                    .addOnSuccessListener(location -> {
+
+                        userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), (isSuccess, event_) -> {
+                            Log.d("FunctionCall", "Applying.." + isSuccess);
+                            if (isSuccess == 1) {
+                                if (event_.getHasGeolocation()) {
+                                    Log.d("FunctionCall", "location::" + location.toString());
+
+                                    if (location != null) {
+                                        double latitude = location.getLatitude();
+                                        Log.d("FunctionCall", "EVENTID" + event_.getEventId());
+
+                                        Log.d("FunctionCall", "Latitude" + latitude);
+                                        double longitude = location.getLongitude();
+                                        Log.d("FunctionCall", "Longitude:" + longitude);
+                                        event_.updateUserLocation(deviceID, latitude, longitude);
+
+                                        Log.d("FunctionCall", "updatingEvent...");
+                                        eventUtils.createUpdateEvent(event_, callback -> {
+                                            if (callback != null) {
+                                                Log.d("FunctionCall", "Location added successfully.");
+                                            } else {
+                                                Log.d("FunctionCall", "Failed to update event.");
+                                            }
+                                        });
+                                    } else {
+                                        Log.d("Location", "Location is null");
+                                    }
+                                }
+                                Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                            } else if (isSuccess == 0) {
+                                Toast.makeText(context, "Successfully left the event!", Toast.LENGTH_SHORT).show();
+                            } else if (isSuccess == -1) {
+                                Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
                             }
-                            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
-                            fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-                                    .addOnSuccessListener(location -> {
-                                        Log.d("FunctionCall", "location::" + location.toString());
 
-                                        if (location != null) {
-                                            double latitude = location.getLatitude();
-                                            Log.d("FunctionCall", "EVENTID" + event_.getEventId());
-
-                                            Log.d("FunctionCall", "Latitude" + latitude);
-                                            double longitude = location.getLongitude();
-                                            Log.d("FunctionCall", "Longitude:" + longitude);
-                                            event_.updateUserLocation(deviceID, latitude, longitude);
-
-                                            Log.d("FunctionCall", "updatingEvent...");
-                                            eventUtils.createUpdateEvent(event_, callback -> {
-                                                if (callback != null) {
-                                                    Log.d("FunctionCall", "Location added successfully.");
-                                                } else {
-                                                    Log.d("FunctionCall", "Failed to update event.");
-                                                }
-                                            });
-                                        } else {
-                                            Log.d("Location", "Location is null");
-                                        }
-                                    });
-                        }
-                        joinEventAnimation.setVisibility(View.VISIBLE);
-                        joinEventAnimation.setSpeed(0.5f);
-                        joinEventAnimation.playAnimation();
-                        Log.d("EventView", "Successfully joined the event!");
-                    } else if (isSuccess == 0) {
-                        Toast.makeText(context, "Successfully left the event!", Toast.LENGTH_SHORT).show();
-                    } else if (isSuccess == -1) {
-                        Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            });
-
-
-            joinEventAnimation.addAnimatorListener(new Animator.AnimatorListener() {
-                public void onAnimationStart(Animator animation) {
-                    joinEventAnimation.setVisibility(View.VISIBLE);
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-
-                    joinEventAnimation.setVisibility(View.GONE);
-
-
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                    joinEventAnimation.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
+                        });
+                    });
             });
 
             if (event.getNumParticipants() != 0 &&
@@ -433,13 +403,12 @@ public class EventView extends AppCompatActivity {
                 lotteryAnimation.setVisibility(View.VISIBLE);
                 lotteryAnimation.playAnimation();
 
-
             });
-            lotteryAnimation.removeAllAnimatorListeners();
 
 
             lotteryAnimation.addAnimatorListener(new Animator.AnimatorListener() {
                 public void onAnimationStart(Animator animation) {
+                    // Animation started
                     lotteryAnimation.setVisibility(View.VISIBLE);
 
                 }
@@ -456,12 +425,13 @@ public class EventView extends AppCompatActivity {
 
                 @Override
                 public void onAnimationCancel(Animator animation) {
+                    // Animation canceled
                     lotteryAnimation.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onAnimationRepeat(Animator animation) {
-
+                    // No action needed for repeat
                 }
             });
 
@@ -565,32 +535,6 @@ public class EventView extends AppCompatActivity {
             String message = input.getText().toString().trim();
             if (!message.isEmpty()) {
                 event.sendNotifications(context, message, Entrants);
-                sendNotifAnimation.setVisibility(View.VISIBLE);
-                sendNotifAnimation.playAnimation();
-                sendNotifAnimation.addAnimatorListener(new Animator.AnimatorListener() {
-                    public void onAnimationStart(Animator animation) {
-                        sendNotifAnimation.setVisibility(View.VISIBLE);
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-
-                        sendNotifAnimation.setVisibility(View.GONE);
-
-
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-                        sendNotifAnimation.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
             }
             else {
                 Toast.makeText(this, "Please enter a message.", Toast.LENGTH_SHORT).show();
