@@ -221,7 +221,15 @@
             android:layout_gravity="center"
             android:visibility="gone"
             android:fontFamily="@font/inter" />
-
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lotteryAnimation"
+            android:layout_gravity="center"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:lottie_rawRes="@raw/check_mark3"
+            android:visibility="gone"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false" />
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"

@@ -1,5 +1,6 @@
 package com.example.zenithevents.Events;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,6 +28,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.zenithevents.Admin.QRViewAdmin;
 import com.example.zenithevents.EntrantsList.CancelledEntrants;
@@ -80,6 +82,7 @@ public class EventView extends AppCompatActivity {
     FacilityUtils facilityUtils = new FacilityUtils();
     EventUtils eventUtils = new EventUtils();
     private String eventId, type;
+    private LottieAnimationView lotteryAnimation;
 
 
     /**
@@ -124,6 +127,7 @@ public class EventView extends AppCompatActivity {
         deleteImageButton = findViewById(R.id.deleteImage);
         mapButton = findViewById(R.id.mapButton);
         sendNotifsButton = findViewById(R.id.sendNotifsButton);
+        lotteryAnimation = findViewById(R.id.lotteryAnimation);
 
     }
 
@@ -387,9 +391,39 @@ public class EventView extends AppCompatActivity {
             btnSampleUsers.setOnClickListener(v -> {
                 Context context = EventView.this;
                 event.drawLottery(context);
-                Intent intent = new Intent(this, SampledEntrants.class);
-                intent.putExtra("eventId", event.getEventId());
-                startActivity(intent);
+                lotteryAnimation.setVisibility(View.VISIBLE);
+                lotteryAnimation.playAnimation();
+
+            });
+
+
+            lotteryAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+                public void onAnimationStart(Animator animation) {
+                    // Animation started
+                    lotteryAnimation.setVisibility(View.VISIBLE);
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+
+                    lotteryAnimation.setVisibility(View.GONE);
+                    Intent intent = new Intent(EventView.this, SampledEntrants.class);
+                    intent.putExtra("eventId", event.getEventId());
+                    startActivity(intent);
+
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    // Animation canceled
+                    lotteryAnimation.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+                    // No action needed for repeat
+                }
             });
 
             deleteEventButton.setVisibility(View.VISIBLE);

@@ -50,7 +50,7 @@ dependencies {
 //    implementation("com.google.firebase:firebase-messaging:24.2.0")
 //    implementation("com.google.firebase:firebase-analytics:21.3.0")
 
-
+    implementation("com.airbnb.android:lottie:6.0.0")
     implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation(libs.espresso.intents)
     implementation(libs.appcompat)
