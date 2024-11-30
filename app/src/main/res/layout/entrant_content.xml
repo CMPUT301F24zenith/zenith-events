@@ -16,6 +16,7 @@
         android:padding="0dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/container_background"
         android:clipChildren="true"
         android:clipToOutline="true">
 
@@ -41,6 +42,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:paddingTop="25dp"
+
             android:layout_marginTop="10dp">
             <FrameLayout
                 android:layout_width="50dp"
@@ -67,7 +69,7 @@
                     android:id="@+id/initials"
                     android:gravity="center"
                     android:text=""
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/active_button_color"
                     android:visibility="visible"
                     android:textSize="30dp"/>
 

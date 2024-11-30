@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@drawable/gradient_background"
+    android:background="@color/background_color"
     android:padding="20dp">
 
 
@@ -15,7 +15,6 @@
         android:text="Create Facility"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="@color/pasteColor"
         android:layout_marginBottom="20dp"/>
 
     <EditText
@@ -25,8 +24,6 @@
         android:hint="Facility Name (REQUIRED)"
         android:background="@drawable/rounded_input"
         android:padding="15dp"
-        android:textColor="@color/pasteColor"
-        android:textColorHint="@color/pasteColor"
         android:layout_marginBottom="15dp"/>
 
     <EditText
@@ -37,8 +34,6 @@
         android:inputType="textEmailAddress"
         android:background="@drawable/rounded_input"
         android:padding="15dp"
-        android:textColor="@color/pasteColor"
-        android:textColorHint="@color/pasteColor"
         android:layout_marginBottom="15dp"/>
 
     <EditText
@@ -49,8 +44,6 @@
         android:inputType="phone"
         android:background="@drawable/rounded_input"
         android:padding="15dp"
-        android:textColor="@color/pasteColor"
-        android:textColorHint="@color/pasteColor"
         android:layout_marginBottom="15dp"/>
 
     <Button
@@ -60,6 +53,6 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="Save"
-        android:textColor="#2727B6"
-        android:backgroundTint="@color/pasteColor" />
+        android:textColor="@color/active_button_color"
+        android:backgroundTint="@color/container_background" />
 </LinearLayout>

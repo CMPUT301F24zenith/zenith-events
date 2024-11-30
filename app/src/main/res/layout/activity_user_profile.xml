@@ -35,7 +35,7 @@
             android:id="@+id/initials"
             android:gravity="center"
             android:text=""
-            android:textColor="@android:color/white"
+            android:textColor="@color/active_button_color"
             android:visibility="visible"
             android:textSize="35sp"/>
 
