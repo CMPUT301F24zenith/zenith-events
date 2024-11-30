@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
@@ -62,7 +63,8 @@ public class QRView extends AppCompatActivity {
             });
 
             doneButton.setOnClickListener(v -> {
-                finish();
+                Intent intent = new Intent(this, EntrantViewActivity.class);
+                startActivity(intent);
             });
         }
     }

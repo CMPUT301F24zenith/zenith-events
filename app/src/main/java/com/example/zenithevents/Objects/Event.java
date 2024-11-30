@@ -336,14 +336,14 @@ public class Event implements Serializable {
         eventUtils.createUpdateEvent(this, eventId -> {
             for (String deviceId : this.getSelected()) {
                 userUtils.fetchUserProfile(deviceId, callback -> {
-                    ArrayList<String> waitingEvents = callback.getWaitingEvents();
-                    waitingEvents.remove(this.eventId);
-                    callback.setWaitingEvents(waitingEvents);
+                    callback.getWaitingEvents().remove(this.eventId);
 
                     ArrayList<String> selectedEvents = callback.getSelectedEvents();
-                    selectedEvents.add(this.eventId);
+                    if (!selectedEvents.contains(this.eventId))
+                        selectedEvents.add(this.eventId);
                     callback.setSelectedEvents(selectedEvents);
-                    if (callback.getWantsNotifs()) {
+
+                    if (sampledList.contains(deviceId) && callback.getWantsNotifs()) {
                         Log.d("FunctionCall", "wants notifs");
                         callback.sendNotification(context, "Congratulations! You have been selected for " + this.getEventTitle());
                     }
@@ -363,8 +363,7 @@ public class Event implements Serializable {
                 });
             }
         });
-        Log.d("FunctionCall", "4-- " + this.getSelected().size());
-        Log.d("FunctionCall", "5-- " + this.getWaitingList().size());
+
         return this.getSelected();
     }
 
