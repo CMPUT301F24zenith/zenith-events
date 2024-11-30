@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -84,15 +85,20 @@ public class AdminViewActivity extends AppCompatActivity {
 
         resetButtonStates();
 
-        activeButton.setTextColor(getResources().getColor(R.color.active_button_color));
+        btnViewProfiles.setTextColor(ContextCompat.getColor(this, R.color.active_button_color));
+        activeButton.setCompoundDrawableTintList(ContextCompat.getColorStateList(this, R.color.active_button_color));
     }
 
     private void resetButtonStates() {
         // Set inactive text color for all buttons
-        btnViewProfiles.setTextColor(getResources().getColor(R.color.inactive_button_color));
-        btnViewEvents.setTextColor(getResources().getColor(R.color.inactive_button_color));
-        btnViewFacilities.setTextColor(getResources().getColor(R.color.inactive_button_color));
+        btnViewProfiles.setTextColor(ContextCompat.getColor(this, R.color.inactive_button_color));
+        btnViewEvents.setTextColor(ContextCompat.getColor(this, R.color.inactive_button_color));
+        btnViewFacilities.setTextColor(ContextCompat.getColor(this, R.color.inactive_button_color));
+
+        btnViewProfiles.setCompoundDrawableTintList(ContextCompat.getColorStateList(this, R.color.inactive_button_color));
+        btnViewEvents.setCompoundDrawableTintList(ContextCompat.getColorStateList(this, R.color.inactive_button_color));
+        btnViewFacilities.setCompoundDrawableTintList(ContextCompat.getColorStateList(this, R.color.inactive_button_color));
     }
 
 
-    }
+}
