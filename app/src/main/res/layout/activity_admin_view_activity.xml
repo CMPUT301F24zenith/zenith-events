@@ -52,6 +52,7 @@
         android:layout_margin="5dp"
         android:backgroundTint="@color/container_background"
         android:text="Users"
+
         android:textColor="@color/active_button_color"
         android:textSize="18dp" />
 
@@ -64,6 +65,7 @@
         android:backgroundTint="@color/container_background"
         android:padding="5dp"
         android:text="Events"
+
         android:textColor="@color/active_button_color"
         android:textSize="18dp" />
 

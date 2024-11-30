@@ -27,6 +27,7 @@
                 android:layout_height="200dp"
                 android:id="@+id/facilityBackgroundImage"
                 android:scaleType="centerCrop"
+                android:background="@color/container_background"
                 android:src="@drawable/facility_card_background"/>
 
             <LinearLayout
@@ -35,6 +36,7 @@
                 android:gravity="center"
                 android:padding="70dp"
                 android:orientation="vertical"
+
                 android:layout_alignParentBottom="true">
 
                 <TextView
@@ -45,7 +47,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="4dp"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@color/white"/>
 
                 <View
                     android:layout_width="match_parent"
