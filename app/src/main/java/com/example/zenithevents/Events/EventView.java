@@ -264,6 +264,8 @@ public class EventView extends AppCompatActivity {
                             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
                             fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
                                     .addOnSuccessListener(location -> {
+                                        Log.d("FunctionCall", "location::" + location.toString());
+
                                         if (location != null) {
                                             double latitude = location.getLatitude();
                                             Log.d("FunctionCall", "EVENTID" + event_.getEventId());
@@ -305,7 +307,7 @@ public class EventView extends AppCompatActivity {
 
         sendNotifsButton.setOnClickListener(v -> {
             Context context = EventView.this;
-            String[] options = {"Selected Entrants", "Cancelled Entrants", "Waitlisted Entrants"};
+            String[] options = {"Registered Entrants", "Selected Entrants", "Cancelled Entrants", "Waitlisted Entrants"};
             boolean[] selectedOptions = new boolean[options.length];
             AtomicBoolean optionSelected = new AtomicBoolean(false);
 
@@ -318,22 +320,23 @@ public class EventView extends AppCompatActivity {
                 ArrayList<String> selectedEntrants = new ArrayList<>();
                 if (selectedOptions[0]) {
                     optionSelected.set(true);
-                    if (!event.getSelected().isEmpty())
-                        selectedEntrants.addAll(event.getSelected());
-                    else
-                        Toast.makeText(this, "There are no selected entrants.", Toast.LENGTH_SHORT).show();
+                    if (!event.getRegistrants().isEmpty())
+                        selectedEntrants.addAll(event.getRegistrants());
                 }
                 if (selectedOptions[1]) {
-                        optionSelected.set(true);
-                        if (!event.getCancelledList().isEmpty()) selectedEntrants.addAll(event.getCancelledList());
-                        else
-                            Toast.makeText(this, "There are no cancelled entrants.", Toast.LENGTH_SHORT).show();
-                }
-                if (selectedOptions[2]){
                     optionSelected.set(true);
-                    if (!event.getWaitingList().isEmpty()) selectedEntrants.addAll(event.getWaitingList());
-                    else
-                        Toast.makeText(this, "There are no waitlisted entrants.", Toast.LENGTH_SHORT).show();
+                    if (!event.getSelected().isEmpty())
+                        selectedEntrants.addAll(event.getSelected());
+                }
+                if (selectedOptions[2]) {
+                    optionSelected.set(true);
+                    if (!event.getCancelledList().isEmpty())
+                        selectedEntrants.addAll(event.getCancelledList());
+                }
+                if (selectedOptions[3]){
+                    optionSelected.set(true);
+                    if (!event.getWaitingList().isEmpty())
+                        selectedEntrants.addAll(event.getWaitingList());
                 }
 
                 if (!optionSelected.get()){
@@ -342,7 +345,10 @@ public class EventView extends AppCompatActivity {
                 else if (!selectedEntrants.isEmpty()) {
                     showMessageInputDialog(context, selectedEntrants, event);
                 }
-                });
+                else if (selectedEntrants.isEmpty()) {
+                    Toast.makeText(this, "There is no one is the lists you have selected", Toast.LENGTH_SHORT).show();
+                }
+            });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             builder.create().show();
 
@@ -384,13 +390,13 @@ public class EventView extends AppCompatActivity {
                 Intent intent = new Intent(this, CreateEventPage.class);
                 intent.putExtra("page_title", "Edit Event");
                 intent.putExtra("Event", (Serializable) event);
+                intent.putExtra("type", "edit");
                 startActivity(intent);
             });
 
             if(Objects.equals(type, "organizer")) btnSampleUsers.setVisibility(View.VISIBLE);
             btnSampleUsers.setOnClickListener(v -> {
-                Context context = EventView.this;
-                event.drawLottery(context);
+                event.drawLottery(this);
                 lotteryAnimation.setVisibility(View.VISIBLE);
                 lotteryAnimation.playAnimation();
 

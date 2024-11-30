@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+    implementation("com.airbnb.android:lottie:6.0.0")
     implementation("com.google.zxing:core:3.5.3")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation("com.github.jinatonic.confetti:confetti:1.1.2")
@@ -59,10 +60,9 @@ dependencies {
     implementation(libs.material.vversion)
     implementation("com.airbnb.android:lottie:6.0.0")
 }
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
-
-
