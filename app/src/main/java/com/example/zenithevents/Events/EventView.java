@@ -399,7 +399,6 @@ public class EventView extends AppCompatActivity {
 
             lotteryAnimation.addAnimatorListener(new Animator.AnimatorListener() {
                 public void onAnimationStart(Animator animation) {
-                    // Animation started
                     lotteryAnimation.setVisibility(View.VISIBLE);
 
                 }
@@ -416,13 +415,12 @@ public class EventView extends AppCompatActivity {
 
                 @Override
                 public void onAnimationCancel(Animator animation) {
-                    // Animation canceled
                     lotteryAnimation.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onAnimationRepeat(Animator animation) {
-                    // No action needed for repeat
+
                 }
             });
 

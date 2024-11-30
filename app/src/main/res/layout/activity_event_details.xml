@@ -224,9 +224,9 @@
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lotteryAnimation"
             android:layout_gravity="center"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            app:lottie_rawRes="@raw/check_mark3"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_rawRes="@raw/lottery2"
             android:visibility="gone"
             app:lottie_autoPlay="false"
             app:lottie_loop="false" />
