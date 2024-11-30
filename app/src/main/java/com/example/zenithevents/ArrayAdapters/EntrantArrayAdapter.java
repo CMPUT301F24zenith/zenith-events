@@ -112,11 +112,16 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
                     users.remove(position);
                     notifyDataSetChanged();
 
+
                     EventUtils eventUtils = new EventUtils();
                     Log.d("FunctionCall", "drawing eventId::" + this.eventId);
 
                     eventUtils.fetchEventById(this.eventId, event -> {
                         if (event == null) return;
+                        ArrayList<String> entrant_ = new ArrayList<>();
+                        entrant_.add(user.getDeviceID());
+                        event.sendNotifications(getContext(), "You have been declined from the event", entrant_);
+
                         Log.d("FunctionCall", "drawing eventId not null::" + event.getEventId());
 
                         ArrayList<String> newSelectedList = event.drawLottery(getContext());
