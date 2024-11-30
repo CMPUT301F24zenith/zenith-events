@@ -2,13 +2,13 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <bitmap
-            android:src="@drawable/mountain"
+            android:src="@drawable/building"
             android:gravity="center"/>
     </item>
     <item
         android:left="0dp" android:right="0dp" android:top="0dp" android:bottom="0dp">
         <shape>
-            <solid android:color="@color/semiTransparent" />
+            <solid android:color="@color/semiTransparentTwo" />
         </shape>
     </item>
 </layer-list>
