@@ -10,4 +10,10 @@
     <color name="text_color">#6482AD</color>
     <color name="background_color">#F5EDED</color>
     <color name="container_background">#E2DAD6</color>
+    <color name="active_button_color">#2E2E2E</color>
+    <color name="inactive_button_color">#9B9B9B</color>
+    <color name="negative_button_color">#FF1414</color>
+    <color name="positive_button_color">#2DA92D</color>
+
+
 </resources>

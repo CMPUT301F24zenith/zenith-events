@@ -84,14 +84,14 @@ public class AdminViewActivity extends AppCompatActivity {
 
         resetButtonStates();
 
-        activeButton.setTextColor(getResources().getColor(R.color.gradientLightBlue));
+        activeButton.setTextColor(getResources().getColor(R.color.active_button_color));
     }
 
     private void resetButtonStates() {
         // Set inactive text color for all buttons
-        btnViewProfiles.setTextColor(getResources().getColor(R.color.gradientDarkBlue));
-        btnViewEvents.setTextColor(getResources().getColor(R.color.gradientDarkBlue));
-        btnViewFacilities.setTextColor(getResources().getColor(R.color.gradientDarkBlue));
+        btnViewProfiles.setTextColor(getResources().getColor(R.color.inactive_button_color));
+        btnViewEvents.setTextColor(getResources().getColor(R.color.inactive_button_color));
+        btnViewFacilities.setTextColor(getResources().getColor(R.color.inactive_button_color));
     }
 
 

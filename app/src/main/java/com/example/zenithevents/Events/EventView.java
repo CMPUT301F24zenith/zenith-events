@@ -212,11 +212,11 @@ public class EventView extends AppCompatActivity {
                 event.getSelected().contains(deviceID)) {
             btnJoinLeaveWaitingList.setEnabled(false);
             btnJoinLeaveWaitingList.setText("Attendance can not be changed");
-            btnJoinLeaveWaitingList.setBackgroundColor(Color.parseColor("#D3D3D3"));
+            btnJoinLeaveWaitingList.setBackgroundColor(getResources().getColor(R.color.inactive_button_color));
         }
 
         if (event.getWaitingList().contains(deviceID)) {
-            btnJoinLeaveWaitingList.setBackgroundColor(Color.RED);
+            btnJoinLeaveWaitingList.setBackgroundColor(getResources().getColor(R.color.negative_button_color));
             btnJoinLeaveWaitingList.setTextColor(Color.WHITE);
             btnJoinLeaveWaitingList.setText("Leave Event");
             btnJoinLeaveWaitingList.setEnabled(true);
@@ -241,7 +241,7 @@ public class EventView extends AppCompatActivity {
                 !event.getSelected().contains(deviceID) &&
                 !event.getRegistrants().contains(deviceID)
         ) {
-            btnJoinLeaveWaitingList.setBackgroundColor(Color.BLUE);
+            btnJoinLeaveWaitingList.setBackgroundColor(getResources().getColor(R.color.positive_button_color));
             btnJoinLeaveWaitingList.setTextColor(Color.WHITE);
             btnJoinLeaveWaitingList.setText("Join Waiting List");
             btnJoinLeaveWaitingList.setEnabled(true);

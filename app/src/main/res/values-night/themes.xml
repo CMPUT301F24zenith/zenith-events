@@ -5,6 +5,10 @@
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
     <color name="text_background">#373737</color>
-    <color name="background_color">#363062</color>
-    <color name="container_background">#435585</color>
+    <color name="background_color">#082032</color>
+    <color name="container_background">#2C394B</color>
+    <color name="active_button_color">#EBEBEB</color>
+    <color name="inactive_button_color">#7A7A7A</color>
+    <color name="negative_button_color">#FF4E4E</color>
+    <color name="positive_button_color">#81E081</color>
 </resources>
