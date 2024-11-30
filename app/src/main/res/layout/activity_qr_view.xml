@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:text="Event Title"
         android:textSize="24sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/inter"
+        android:textFontWeight="900"
         android:layout_marginBottom="20dp"/>
 
     <ImageView
@@ -23,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Share"
+        android:fontFamily="@font/inter"
         android:layout_marginTop="20dp" />
 
     <Button
@@ -30,5 +32,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Done"
+        android:fontFamily="@font/inter"
         android:layout_marginTop="20dp" />
 </LinearLayout>

@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
+    android:background="@color/background_color"
     tools:context=".User.UserProfile">
 
     <FrameLayout
@@ -33,19 +34,19 @@
             android:layout_height="match_parent"
             android:id="@+id/initials"
             android:gravity="center"
-            android:text="AA"
-            android:textColor="@android:color/white"
+            android:text=""
+            android:textColor="@color/active_button_color"
             android:visibility="visible"
             android:textSize="35sp" />
     </FrameLayout>
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:id="@+id/deleteImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:drawableLeft="@android:drawable/ic_menu_delete"
+        android:textColor="@color/negative_button_color"
         android:text="Delete Image"
         android:visibility="gone"
         />
@@ -102,13 +103,16 @@
         android:layout_height="wrap_content"
         android:indeterminate="true" />
     <Button
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:id="@+id/deleteProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textColor="@color/red"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/negative_button_color"
         android:text="Delete Profile"
         android:visibility="gone"
         />
+
+
 </LinearLayout>

@@ -81,6 +81,7 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
         ImageView profileImage = convertView.findViewById(R.id.profileImage);
         Button acceptBtn = convertView.findViewById(R.id.acceptEntrantBtn);
         Button declineBtn = convertView.findViewById(R.id.declineEntrantBtn);
+        androidx.cardview.widget.CardView viewCard = convertView.findViewById(R.id.viewEntrantCard);
 
         UserUtils userUtils = new UserUtils();
 
@@ -111,11 +112,16 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
                     users.remove(position);
                     notifyDataSetChanged();
 
+
                     EventUtils eventUtils = new EventUtils();
                     Log.d("FunctionCall", "drawing eventId::" + this.eventId);
 
                     eventUtils.fetchEventById(this.eventId, event -> {
                         if (event == null) return;
+                        ArrayList<String> entrant_ = new ArrayList<>();
+                        entrant_.add(user.getDeviceID());
+                        event.sendNotifications(getContext(), "You have been declined from the event", entrant_);
+
                         Log.d("FunctionCall", "drawing eventId not null::" + event.getEventId());
 
                         ArrayList<String> newSelectedList = event.drawLottery(getContext());
@@ -146,7 +152,7 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
                 declineBtn.setVisibility(View.GONE);
             }
 
-            convertView.setOnClickListener(v -> {
+            viewCard.setOnClickListener(v -> {
                 if (user.getDeviceID() != null) {
                     Intent intent = new Intent(getContext(), ProfileDetailActivity.class);
                     intent.putExtra("userID", user.getDeviceID());

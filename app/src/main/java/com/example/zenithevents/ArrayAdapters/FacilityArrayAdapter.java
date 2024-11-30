@@ -62,12 +62,13 @@ public class FacilityArrayAdapter extends ArrayAdapter<Facility> {
         // Lookup view for data population
         TextView facilityName = convertView.findViewById(R.id.facilityName);
         TextView facilityAddress = convertView.findViewById(R.id.facilityAddress);
+        androidx.cardview.widget.CardView viewCard = convertView.findViewById(R.id.viewFacilityCard);
 
         // Populate the data into the template view using the data object
         facilityName.setText(facility.getNameOfFacility());
         facilityAddress.setText(facility.getEmailOfFacility());
 
-        convertView.setOnClickListener(v ->{
+        viewCard.setOnClickListener(v ->{
             Intent intent = new Intent(getContext(), FacilityDetail.class);
             intent.putExtra("facilityId", facility.getDeviceId());
             intent.putExtra("facilityName", facility.getNameOfFacility());

@@ -1,5 +1,6 @@
 package com.example.zenithevents.Events;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,6 +28,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.zenithevents.Admin.QRViewAdmin;
 import com.example.zenithevents.EntrantsList.CancelledEntrants;
@@ -80,6 +82,7 @@ public class EventView extends AppCompatActivity {
     FacilityUtils facilityUtils = new FacilityUtils();
     EventUtils eventUtils = new EventUtils();
     private String eventId, type;
+    private LottieAnimationView lotteryAnimation;
 
 
     /**
@@ -124,6 +127,7 @@ public class EventView extends AppCompatActivity {
         deleteImageButton = findViewById(R.id.deleteImage);
         mapButton = findViewById(R.id.mapButton);
         sendNotifsButton = findViewById(R.id.sendNotifsButton);
+        lotteryAnimation = findViewById(R.id.lotteryAnimation);
 
     }
 
@@ -196,6 +200,11 @@ public class EventView extends AppCompatActivity {
         }
 
         eventAddress.setText(event.getEventAddress());
+        if (event.getEventAddress().isEmpty()) {
+            eventAddress.setVisibility(View.GONE);
+        } else {
+            eventAddress.setVisibility(View.VISIBLE);
+        }
         eventDescription.setText(event.getEventDescription());
         UserUtils userUtils = new UserUtils();
         String deviceID = DeviceUtils.getDeviceID(this);
@@ -207,11 +216,11 @@ public class EventView extends AppCompatActivity {
                 event.getSelected().contains(deviceID)) {
             btnJoinLeaveWaitingList.setEnabled(false);
             btnJoinLeaveWaitingList.setText("Attendance can not be changed");
-            btnJoinLeaveWaitingList.setBackgroundColor(Color.parseColor("#D3D3D3"));
+            btnJoinLeaveWaitingList.setBackgroundColor(getResources().getColor(R.color.inactive_button_color));
         }
 
         if (event.getWaitingList().contains(deviceID)) {
-            btnJoinLeaveWaitingList.setBackgroundColor(Color.RED);
+            btnJoinLeaveWaitingList.setBackgroundColor(getResources().getColor(R.color.negative_button_color));
             btnJoinLeaveWaitingList.setTextColor(Color.WHITE);
             btnJoinLeaveWaitingList.setText("Leave Event");
             btnJoinLeaveWaitingList.setEnabled(true);
@@ -236,54 +245,59 @@ public class EventView extends AppCompatActivity {
                 !event.getSelected().contains(deviceID) &&
                 !event.getRegistrants().contains(deviceID)
         ) {
-            btnJoinLeaveWaitingList.setBackgroundColor(Color.BLUE);
+            btnJoinLeaveWaitingList.setBackgroundColor(getResources().getColor(R.color.positive_button_color));
             btnJoinLeaveWaitingList.setTextColor(Color.WHITE);
             btnJoinLeaveWaitingList.setText("Join Waiting List");
             btnJoinLeaveWaitingList.setEnabled(true);
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
                 Context context = this;
-                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), (isSuccess, event_) -> {
-                    Log.d("FunctionCall", "Applying.." + isSuccess);
-                    if (isSuccess == 1) {
-                        if (event_.getHasGeolocation()) {
-                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                                ActivityCompat.requestPermissions(this,
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                                        LOCATION_PERMISSION_REQUEST_CODE);
+                fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                            LOCATION_PERMISSION_REQUEST_CODE);
+                }
+
+                fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                    .addOnSuccessListener(location -> {
+
+                        userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), (isSuccess, event_) -> {
+                            Log.d("FunctionCall", "Applying.." + isSuccess);
+                            if (isSuccess == 1) {
+                                if (event_.getHasGeolocation()) {
+                                    Log.d("FunctionCall", "location::" + location.toString());
+
+                                    if (location != null) {
+                                        double latitude = location.getLatitude();
+                                        Log.d("FunctionCall", "EVENTID" + event_.getEventId());
+
+                                        Log.d("FunctionCall", "Latitude" + latitude);
+                                        double longitude = location.getLongitude();
+                                        Log.d("FunctionCall", "Longitude:" + longitude);
+                                        event_.updateUserLocation(deviceID, latitude, longitude);
+
+                                        Log.d("FunctionCall", "updatingEvent...");
+                                        eventUtils.createUpdateEvent(event_, callback -> {
+                                            if (callback != null) {
+                                                Log.d("FunctionCall", "Location added successfully.");
+                                            } else {
+                                                Log.d("FunctionCall", "Failed to update event.");
+                                            }
+                                        });
+                                    } else {
+                                        Log.d("Location", "Location is null");
+                                    }
+                                }
+                                Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                            } else if (isSuccess == 0) {
+                                Toast.makeText(context, "Successfully left the event!", Toast.LENGTH_SHORT).show();
+                            } else if (isSuccess == -1) {
+                                Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
                             }
-                            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
-                            fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-                                    .addOnSuccessListener(location -> {
-                                        if (location != null) {
-                                            double latitude = location.getLatitude();
-                                            Log.d("FunctionCall", "EVENTID" + event_.getEventId());
 
-                                            Log.d("FunctionCall", "Latitude" + latitude);
-                                            double longitude = location.getLongitude();
-                                            Log.d("FunctionCall", "Longitude:" + longitude);
-                                            event_.updateUserLocation(deviceID, latitude, longitude);
-
-                                            Log.d("FunctionCall", "updatingEvent...");
-                                            eventUtils.createUpdateEvent(event_, callback -> {
-                                                if (callback != null) {
-                                                    Log.d("FunctionCall", "Location added successfully.");
-                                                } else {
-                                                    Log.d("FunctionCall", "Failed to update event.");
-                                                }
-                                            });
-                                        } else {
-                                            Log.d("Location", "Location is null");
-                                        }
-                                    });
-                        }
-                        Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
-                    } else if (isSuccess == 0) {
-                        Toast.makeText(context, "Successfully left the event!", Toast.LENGTH_SHORT).show();
-                    } else if (isSuccess == -1) {
-                        Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        });
+                    });
             });
 
             if (event.getNumParticipants() != 0 &&
@@ -296,7 +310,7 @@ public class EventView extends AppCompatActivity {
 
         sendNotifsButton.setOnClickListener(v -> {
             Context context = EventView.this;
-            String[] options = {"Selected Entrants", "Cancelled Entrants", "Waitlisted Entrants"};
+            String[] options = {"Registered Entrants", "Selected Entrants", "Cancelled Entrants", "Waitlisted Entrants"};
             boolean[] selectedOptions = new boolean[options.length];
             AtomicBoolean optionSelected = new AtomicBoolean(false);
 
@@ -309,22 +323,23 @@ public class EventView extends AppCompatActivity {
                 ArrayList<String> selectedEntrants = new ArrayList<>();
                 if (selectedOptions[0]) {
                     optionSelected.set(true);
-                    if (!event.getSelected().isEmpty())
-                        selectedEntrants.addAll(event.getSelected());
-                    else
-                        Toast.makeText(this, "There are no selected entrants.", Toast.LENGTH_SHORT).show();
+                    if (!event.getRegistrants().isEmpty())
+                        selectedEntrants.addAll(event.getRegistrants());
                 }
                 if (selectedOptions[1]) {
-                        optionSelected.set(true);
-                        if (!event.getCancelledList().isEmpty()) selectedEntrants.addAll(event.getCancelledList());
-                        else
-                            Toast.makeText(this, "There are no cancelled entrants.", Toast.LENGTH_SHORT).show();
-                }
-                if (selectedOptions[2]){
                     optionSelected.set(true);
-                    if (!event.getWaitingList().isEmpty()) selectedEntrants.addAll(event.getWaitingList());
-                    else
-                        Toast.makeText(this, "There are no waitlisted entrants.", Toast.LENGTH_SHORT).show();
+                    if (!event.getSelected().isEmpty())
+                        selectedEntrants.addAll(event.getSelected());
+                }
+                if (selectedOptions[2]) {
+                    optionSelected.set(true);
+                    if (!event.getCancelledList().isEmpty())
+                        selectedEntrants.addAll(event.getCancelledList());
+                }
+                if (selectedOptions[3]){
+                    optionSelected.set(true);
+                    if (!event.getWaitingList().isEmpty())
+                        selectedEntrants.addAll(event.getWaitingList());
                 }
 
                 if (!optionSelected.get()){
@@ -333,7 +348,10 @@ public class EventView extends AppCompatActivity {
                 else if (!selectedEntrants.isEmpty()) {
                     showMessageInputDialog(context, selectedEntrants, event);
                 }
-                });
+                else if (selectedEntrants.isEmpty()) {
+                    Toast.makeText(this, "There is no one is the lists you have selected", Toast.LENGTH_SHORT).show();
+                }
+            });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             builder.create().show();
 
@@ -375,16 +393,46 @@ public class EventView extends AppCompatActivity {
                 Intent intent = new Intent(this, CreateEventPage.class);
                 intent.putExtra("page_title", "Edit Event");
                 intent.putExtra("Event", (Serializable) event);
+                intent.putExtra("type", "edit");
                 startActivity(intent);
             });
 
             if(Objects.equals(type, "organizer")) btnSampleUsers.setVisibility(View.VISIBLE);
             btnSampleUsers.setOnClickListener(v -> {
-                Context context = EventView.this;
-                event.drawLottery(context);
-                Intent intent = new Intent(this, SampledEntrants.class);
-                intent.putExtra("eventId", event.getEventId());
-                startActivity(intent);
+                event.drawLottery(this);
+                lotteryAnimation.setVisibility(View.VISIBLE);
+                lotteryAnimation.playAnimation();
+
+            });
+
+
+            lotteryAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+                public void onAnimationStart(Animator animation) {
+                    // Animation started
+                    lotteryAnimation.setVisibility(View.VISIBLE);
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+
+                    lotteryAnimation.setVisibility(View.GONE);
+                    Intent intent = new Intent(EventView.this, SampledEntrants.class);
+                    intent.putExtra("eventId", event.getEventId());
+                    startActivity(intent);
+
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    // Animation canceled
+                    lotteryAnimation.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+                    // No action needed for repeat
+                }
             });
 
             deleteEventButton.setVisibility(View.VISIBLE);

@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
+    android:background="@color/background_color"
     android:padding="20dp"
     android:gravity="center">
 
@@ -15,7 +15,6 @@
         android:text="Facility Details"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="@color/pasteColor"
         android:layout_marginBottom="20dp"
         android:layout_gravity="center"/>
 
@@ -25,7 +24,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:textColor="@color/lightBlueColor"
         android:textStyle="bold"
         android:gravity="center"
         android:layout_marginBottom="8dp"
@@ -34,7 +32,7 @@
     <View
         android:layout_width="300dp"
         android:layout_height="2dp"
-        android:background="@color/lightBlueColor"/>
+        android:background="@color/active_button_color"/>
 
     <TextView
         android:id="@+id/emailfield"
@@ -42,7 +40,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:textColor="@color/lightBlueColor"
         android:textStyle="bold"
         android:gravity="center"
         android:layout_marginBottom="8dp"
@@ -51,7 +48,7 @@
     <View
         android:layout_width="300dp"
         android:layout_height="2dp"
-        android:background="@color/lightBlueColor"/>
+        android:background="@color/active_button_color"/>
 
     <TextView
         android:id="@+id/phonefield"
@@ -59,7 +56,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:textColor="@color/lightBlueColor"
         android:textStyle="bold"
         android:gravity="center"
         android:layout_marginBottom="8dp"
@@ -68,7 +64,7 @@
     <View
         android:layout_width="300dp"
         android:layout_height="2dp"
-        android:background="@color/lightBlueColor"/>
+        android:background="@color/active_button_color"/>
 
 
     <Button
@@ -80,8 +76,7 @@
         android:padding="10dp"
         android:text="Edit"
         android:textStyle="bold"
-        android:textColor="#2727B6"
-        android:backgroundTint="@color/pasteColor" />
-
+        android:textColor="@color/active_button_color"
+        android:backgroundTint="@color/container_background" />
 
 </LinearLayout>
