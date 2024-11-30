@@ -8,7 +8,6 @@
     tools:context=".Admin.AdminViewActivity"
     android:background="@color/background_color">
 
-  <!-- Admin Dashboard TextView -->
   <TextView
       android:id="@+id/txtAdminDashboard"
       android:layout_width="match_parent"
