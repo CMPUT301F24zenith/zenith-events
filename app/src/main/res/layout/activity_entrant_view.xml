@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EntrantDashboard.EntrantViewActivity"
-    android:background="@color/container_background"
+    android:background="@color/background_color"
     >
 
         <ImageButton
@@ -19,6 +19,7 @@
             android:background="@drawable/circle_background"
             android:contentDescription="View Profile"
             android:src="@drawable/baseline_person_24"
+            app:tint="@color/active_button_color"
             app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvPrevious"
@@ -73,11 +74,11 @@
             android:layout_height="48dp"
             android:layout_marginTop="16dp"
             android:layout_gravity="end"
-            android:background="@drawable/square_button"
-            android:backgroundTint="@color/lightGreyColor"
+            android:background="@drawable/circle_background"
             android:contentDescription="Scan QR"
             android:scaleType="centerInside"
-            android:src="@drawable/qr_code_svgrepo_com"
+            android:src="@drawable/baseline_qr_code_scanner_24"
+            app:tint="@color/active_button_color"
             app:layout_constraintStart_toEndOf="@+id/tvNext"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/zxing_transparent" />
-    <stroke android:width="2dp" android:color="@color/pasteColor" />
+    <stroke android:width="2dp" android:color="@color/active_button_color" />
     <corners android:radius="8dp" />
 </shape>
