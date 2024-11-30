@@ -390,7 +390,7 @@ public class Event implements Serializable {
                     }
                 });
             }
-            Toast.makeText(context, "Notifications sent successfully!", Toast.LENGTH_SHORT).show();
+            Log.d("SendNotifications.event", "Notifications sent successfully!");
         } catch (Exception e) {
             Toast.makeText(context, "Error sending notifications: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }

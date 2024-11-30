@@ -1,5 +1,5 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,13 +7,26 @@
     android:gravity="center"
     android:padding="16dp">
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+
 
  <TextView
+
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
      android:text="Create Your Profile"
+     android:drawableTop="@drawable/baseline_person_pin_24"
      android:textSize="24sp"
-      />
+     android:textColor="@color/active_button_color"
+     android:layout_marginBottom="30dp"
+     android:drawableTint="@color/active_button_color"
+     />
 
  <EditText
      android:id="@+id/etEntrantFirstName"
@@ -21,7 +34,10 @@
      android:layout_height="wrap_content"
      android:hint="First Name *"
      android:visibility="visible"
-      />
+     android:background="@drawable/rounded_input"
+     android:padding="15dp"
+     android:layout_marginBottom="15dp"
+     />
 
  <EditText
      android:id="@+id/etEntrantLastName"
@@ -29,6 +45,9 @@
      android:layout_height="wrap_content"
      android:hint="Last Name *"
      android:visibility="visible"
+     android:background="@drawable/rounded_input"
+     android:padding="15dp"
+     android:layout_marginBottom="15dp"
      />
 
  <EditText
@@ -37,31 +56,43 @@
      android:layout_height="wrap_content"
      android:hint="Email *"
      android:inputType="textEmailAddress"
+     android:background="@drawable/rounded_input"
+     android:padding="15dp"
+     android:layout_marginBottom="15dp"
      />
 
  <EditText
      android:id="@+id/etEntrantPhoneNumber"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
+     android:background="@drawable/rounded_input"
+     android:padding="15dp"
+     android:layout_marginBottom="15dp"
      android:hint="Phone Number "
      android:inputType="phone"
-      />
+     />
 
 
  <CheckBox
      android:id="@+id/notifsCheckBox"
-     android:layout_width="383dp"
-     android:layout_height="57dp"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
      android:text="Receive Notifications"
      android:textSize="18dp"
-      />
+     android:textColor="@color/active_button_color"
+     app:buttonTint="@color/active_button_color"
+     />
 
  <Button
+     style="@style/Widget.MaterialComponents.Button.TextButton"
+     android:layout_marginTop="30dp"
      android:id="@+id/btnEntrantConfirm"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
+     android:backgroundTint="@color/container_background"
+     android:textColor="@color/active_button_color"
      android:text="Confirm"
      />
 
-
+</LinearLayout>
 </LinearLayout>
