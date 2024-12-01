@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
+    android:padding="16dp"
     android:background="@color/background_color">
 
     <TextView
@@ -22,29 +23,38 @@
 
     <Button
         android:id="@+id/shareQRCodeButton"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Share"
         android:fontFamily="@font/inter"
+        android:backgroundTint="#64B5F6"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:textFontWeight="900"
         android:layout_marginTop="20dp" />
 
     <Button
         android:id="@+id/doneButton"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Done"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:backgroundTint="@color/inactive_button_color"
         android:fontFamily="@font/inter"
-        android:textFontWeight="900"
-        android:layout_marginTop="20dp" />
+        android:textFontWeight="900" />
 
     <Button
         android:id="@+id/deleteQRCodeButton"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete QR"
-        android:color="@android:color/holo_red_dark"
+        android:text="Delete"
+        android:backgroundTint="#FF5252"
         android:fontFamily="@font/inter"
-        android:textFontWeight="900"
-        android:layout_marginTop="10dp" />
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textFontWeight="900" />
 </LinearLayout>
