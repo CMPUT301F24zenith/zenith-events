@@ -108,18 +108,18 @@ public class CreateEventPage extends AppCompatActivity {
                 geolocationCheck.setEnabled(false);
 
                 if (event.getSelectedLimit() == 0) {
-                    selectedLimitView.setVisibility(View.GONE);
+                    selectedLimitView.setText("Waitlist Limit: N/A");
                 } else {
                     selectedLimitView.setText(String.valueOf(event.getSelectedLimit()));
-                    selectedLimitView.setEnabled(false);
                 }
+                selectedLimitView.setEnabled(false);
 
                 if (event.getNumParticipants() == 0) {
-                    eventLimitView.setVisibility(View.GONE);
+                    eventLimitView.setText("Selected Limit: N/A");
                 } else {
                     eventLimitView.setText(String.valueOf(event.getNumParticipants()));
-                    eventLimitView.setEnabled(false);
                 }
+                eventLimitView.setEnabled(false);
             });
         }
 
