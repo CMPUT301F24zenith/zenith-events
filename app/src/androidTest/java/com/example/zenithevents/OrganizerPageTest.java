@@ -34,20 +34,20 @@ public class OrganizerPageTest {
 
     @Test
     public void testOrganizerButton() {
-        Espresso.onView(ViewMatchers.withId(R.id.organizerButton)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.organizerCard)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(OrganizerPage.class.getName()));
     }
 
     @Test
     public void testCreateEventButton() {
-        Espresso.onView(ViewMatchers.withId(R.id.organizerButton)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.organizerCard)).perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.createEventButton)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(CreateEventPage.class.getName()));
     }
 
     @Test
     public void testInputEventDetails() {
-        Espresso.onView(ViewMatchers.withId(R.id.organizerButton)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.organizerCard)).perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.createEventButton)).perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.eventNameInput)).perform(ViewActions.typeText("Test Event"));
         Espresso.onView(ViewMatchers.withId(R.id.eventDescriptionInput)).perform(ViewActions.typeText("Test Description"));

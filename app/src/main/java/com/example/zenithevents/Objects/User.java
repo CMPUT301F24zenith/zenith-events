@@ -77,6 +77,7 @@ public class User {
         this.selectedEvents = new ArrayList<>();
         this.waitingEvents = new ArrayList<>();
 
+
     }
 
     /**
