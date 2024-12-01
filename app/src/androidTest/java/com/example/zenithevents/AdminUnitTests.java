@@ -1,27 +1,15 @@
 package com.example.zenithevents;
 
 
-import androidx.test.espresso.Espresso;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.example.zenithevents.Admin.AdminViewActivity;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Objects.Facility;
 import com.example.zenithevents.Objects.User;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-public class AdminUITests {
+public class AdminUnitTests {
 
     private Event event1, event2, event3;
     private User user1, user2, user3;
