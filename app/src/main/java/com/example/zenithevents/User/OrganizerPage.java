@@ -79,10 +79,7 @@ public class OrganizerPage extends AppCompatActivity {
         createFacilityButton = findViewById(R.id.createFacilityButton);
         viewFacilityButton = findViewById(R.id.viewFacilityButton);
 
-//        FloatingActionButton sendNotifsButton = findViewById(R.id.sendNotifsButton);
-//        sendNotifsButton.setOnClickListener(v -> {
-//            Toast.makeText(this, "Notifications sent", Toast.LENGTH_SHORT).show();
-//        });
+
 
         progressBar.setVisibility(View.VISIBLE);
         createFacilityButton.setVisibility(View.GONE);

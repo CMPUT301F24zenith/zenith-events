@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -46,17 +47,21 @@ public class AdminFacilitiesFragment extends Fragment {
             return insets;
         });
 
-        // Initialize the ListView and adapter
+
         facilitiesListView = view.findViewById(R.id.listView);
         adapter = new FacilityArrayAdapter(requireContext(), facilityList);
         facilitiesListView.setAdapter(adapter);
+        facilitiesListView.setLayoutAnimation(
+                AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.list_layout_animation)
+        );
 
-        // Fetch and display facility data
+
         FacilityUtils.listenForFacilitiesChanges(facilities -> {
             if (facilities != null) {
                 facilityList.clear();
                 facilityList.addAll(facilities);
                 adapter.notifyDataSetChanged();
+                facilitiesListView.scheduleLayoutAnimation();
             } else {
                 Log.e(TAG, "Failed to fetch facilities");
             }

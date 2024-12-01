@@ -88,18 +88,15 @@ public class MainActivity extends AppCompatActivity {
                     if (documentSnapshot != null && documentSnapshot.exists()) {
                         Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
                         if (Boolean.TRUE.equals(isAdmin)) {
-                            // Show admin layout and set click listener
                             adminLayout.setVisibility(View.VISIBLE);
                             buttonAdmin.setOnClickListener(v -> {
                                 Intent intent = new Intent(MainActivity.this, AdminViewActivity.class);
                                 startActivity(intent);
                             });
                         } else {
-                            // Hide admin layout if user is not admin
                             adminLayout.setVisibility(View.GONE);
                         }
                     } else {
-                        // Document doesn't exist, hide admin layout
                         adminLayout.setVisibility(View.GONE);
                         Log.d("UserClass", "No isAdmin field");
                     }

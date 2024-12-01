@@ -1,7 +1,10 @@
 package com.example.zenithevents.EntrantDashboard;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -14,6 +17,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.example.zenithevents.EntrantsList.SampledEntrants;
+import com.example.zenithevents.Events.EventView;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.HelperClasses.ValidationUtils;
@@ -50,6 +56,7 @@ public class CreateProfileActivity extends AppCompatActivity {
     private CheckBox notifsCheckBox;
     private boolean wantsNotifs;
     private EditText etEntrantFirstName, etEntrantLastName, etEntrantPhoneNumber, etEntrantEmail;
+    private LottieAnimationView confirmAnimation;
 
 
     @Override
@@ -69,6 +76,7 @@ public class CreateProfileActivity extends AppCompatActivity {
         etEntrantEmail = findViewById(R.id.etEntrantEmail);
         confirmButton = findViewById(R.id.btnEntrantConfirm);
         notifsCheckBox = findViewById(R.id.notifsCheckBox);
+        confirmAnimation = findViewById(R.id.confirm);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -153,7 +161,7 @@ public class CreateProfileActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser currentUser = mAuth.getCurrentUser();
-                        Toast.makeText(CreateProfileActivity.this, "Anonymous authentication successful", Toast.LENGTH_SHORT).show();
+                        Log.d("ProfileCreation", "Anonymous authentication successful");
                         if (currentUser != null) {
 
                             String deviceId = new DeviceUtils().getDeviceID(CreateProfileActivity.this);;
@@ -191,10 +199,39 @@ public class CreateProfileActivity extends AppCompatActivity {
                 .document(deviceId)
                 .set(userData)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Profile created successfully", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CreateProfileActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish(); // End CreateProfileActivity after success
+                    confirmAnimation.setVisibility(View.VISIBLE);
+                    confirmAnimation.playAnimation();
+                    confirmAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+                        public void onAnimationStart(Animator animation) {
+                            // Animation started
+                            confirmAnimation.setVisibility(View.VISIBLE);
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+
+                            confirmAnimation.setVisibility(View.GONE);
+                            Intent intent = new Intent(CreateProfileActivity.this, MainActivity.class);
+                            startActivity(intent);
+
+
+
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                            confirmAnimation.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+                    Log.d("ProfileCreation", "Profile created successfully");
+
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error creating profile", Toast.LENGTH_SHORT).show());
     }
