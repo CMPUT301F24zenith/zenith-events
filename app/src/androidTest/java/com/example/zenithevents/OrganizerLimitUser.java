@@ -11,7 +11,7 @@ public class OrganizerLimitUser {
     @Test
     public void testOrganizerLimitUser() {
         Event event = new Event();
-        assertNull(event.getNumParticipants());
+        assertEquals(0, event.getNumParticipants());
         event.setNumParticipants(10);
         assertEquals(10, event.getNumParticipants());
     }
