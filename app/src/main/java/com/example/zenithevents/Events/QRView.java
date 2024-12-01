@@ -65,7 +65,6 @@ public class QRView extends AppCompatActivity {
                 eventTitleText.setText(event.getEventName());
 
                 qrCode = QRCodeUtils.decodeBase64ToBitmap(event.getQRCodeBitmap());
-                qrCodeView.setImageBitmap(qrCode);
                 BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), qrCode);
                 Glide.with(this)
                     .load(bitmapDrawable)
