@@ -111,6 +111,8 @@ public class CreateEventPage extends AppCompatActivity {
                 eventLimitView.setText(String.valueOf(event.getNumParticipants()));
                 eventLimitView.setEnabled(false);
             });
+        } else {
+            pageTitleView.setText("Create Event");
         }
 
         createEventSaveButton.setOnClickListener(v -> {
