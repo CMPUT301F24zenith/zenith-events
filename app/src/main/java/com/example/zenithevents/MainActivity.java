@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
 import com.example.zenithevents.User.OrganizerPage;
 import com.example.zenithevents.Admin.AdminViewActivity;
@@ -30,10 +33,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
  * @see FirebaseAuth
  */
 public class MainActivity extends AppCompatActivity {
-    Button buttonEntrant;
-    Button organizerButton;
-    Button buttonAdmin;
-    LinearLayout adminLayout;
+    CardView entrantCard, adminCard, organizerCard;
+    FrameLayout adminLayout;
 
     /**
      * Initializes the activity, sets up button click listeners for navigation
@@ -45,12 +46,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        buttonEntrant = findViewById(R.id.entrantButton);
-        organizerButton = findViewById(R.id.organizerButton);
-        buttonAdmin = findViewById(R.id.adminButton);
-        adminLayout = findViewById(R.id.admin_layout);
+        entrantCard = findViewById(R.id.entrantCard);
+        organizerCard = findViewById(R.id.organizerCard);
+        adminCard = findViewById(R.id.adminCard);
+        adminLayout = findViewById(R.id.adminLayout);
 
         FirebaseMessaging.getInstance().subscribeToTopic("news")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -64,12 +64,12 @@ public class MainActivity extends AppCompatActivity {
                 });
 
 
-        organizerButton.setOnClickListener(v -> {
+        organizerCard.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, OrganizerPage.class);
             startActivity(intent);
         });
 
-        buttonEntrant.setOnClickListener(v -> {
+        entrantCard.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, EntrantViewActivity.class);
             startActivity(intent);
         });
@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         db.collection("users").document(deviceID)
                 .addSnapshotListener((documentSnapshot, error) -> {
                     if (error != null) {
-                        // Handle errors
                         adminLayout.setVisibility(View.GONE);
                         Log.e("Firebase", "Error retrieving user document", error);
                         return;
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                         Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
                         if (Boolean.TRUE.equals(isAdmin)) {
                             adminLayout.setVisibility(View.VISIBLE);
-                            buttonAdmin.setOnClickListener(v -> {
+                            adminCard.setOnClickListener(v -> {
                                 Intent intent = new Intent(MainActivity.this, AdminViewActivity.class);
                                 startActivity(intent);
                             });
