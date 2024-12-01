@@ -18,6 +18,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+
+//doesnt work
 @RunWith(AndroidJUnit4.class)
 public class OrganizerUITest {
     @Rule
