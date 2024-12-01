@@ -26,13 +26,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
  */
 public class CreateFacility extends AppCompatActivity {
 
-    private static final int PICK_IMAGE = 1;
-
-    private Button saveButton, saveButtontwo;
+    private Button saveButton;
     private EditText facilityName;
     private EditText facilityPhone;
     private EditText facilityEmail;
-    private Uri uploadedImageUrl;
     private FirebaseFirestore db;
     private String deviceId;
 
@@ -57,18 +54,14 @@ public class CreateFacility extends AppCompatActivity {
         loadFacility(deviceId);
 
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = facilityName.getText().toString().trim();
-                String phone = facilityPhone.getText().toString().trim();
-                String email = facilityEmail.getText().toString().trim();
+        saveButton.setOnClickListener(view -> {
+            String name = facilityName.getText().toString().trim();
+            String phone = facilityPhone.getText().toString().trim();
+            String email = facilityEmail.getText().toString().trim();
 
-                if (checkFields(name, email)) {
-                    Facility facility = new Facility(name, phone, email, deviceId);
-                    storeFacility(facility);
-                }
-
+            if (checkFields(name, email)) {
+                Facility facility = new Facility(name, phone, email, deviceId);
+                storeFacility(facility);
             }
         });
     }

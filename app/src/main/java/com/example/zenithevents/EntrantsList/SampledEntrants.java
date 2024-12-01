@@ -2,7 +2,9 @@ package com.example.zenithevents.EntrantsList;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -32,7 +34,7 @@ public class SampledEntrants extends AppCompatActivity {
     private EntrantArrayAdapter entrantAdapter;
     private FirebaseFirestore db;
     private String eventId;
-    //use button to initialize intent
+    TextView myEventsTitle, noEventsTextView;
 
     /**
      * Called when the activity is created. Initializes the view and fetches the sampled entrants for the event.
@@ -46,8 +48,12 @@ public class SampledEntrants extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         entrantList = findViewById(R.id.list_entrants);
-        dataList = new ArrayList<>();
+        noEventsTextView = findViewById(R.id.noEvents);
 
+        myEventsTitle = findViewById(R.id.myEventsTitle);
+        myEventsTitle.setText("Sampled Entrants");
+
+        dataList = new ArrayList<>();
         this.eventId = getIntent().getStringExtra("eventId");
         if (this.eventId != null) {
             entrantAdapter = new EntrantArrayAdapter(this, dataList, "SampledEntrants", this.eventId);
@@ -86,6 +92,11 @@ public class SampledEntrants extends AppCompatActivity {
                                                 entrantAdapter.notifyDataSetChanged();
                                             }
                                         });
+                            }
+                            if (totalEntrants == 0) {
+                                noEventsTextView.setVisibility(View.VISIBLE);
+                            } else {
+                                noEventsTextView.setVisibility(View.GONE);
                             }
                         }
                     } else {

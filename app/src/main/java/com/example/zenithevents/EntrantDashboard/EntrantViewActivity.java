@@ -85,7 +85,9 @@ public class EntrantViewActivity extends AppCompatActivity {
             if (v == null) {
                 viewProfileButton.setOnClickListener(v1 -> {
                     Intent intent = new Intent(EntrantViewActivity.this, CreateProfileActivity.class);
+                    intent.putExtra("type", "Create Event");
                     startActivity(intent);
+                    finish();
                 });
             } else {
                 viewProfileButton.setOnClickListener(v1 -> {
