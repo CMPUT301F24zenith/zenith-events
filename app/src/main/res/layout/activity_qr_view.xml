@@ -2,6 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/background_color"
     android:gravity="center">
 
     <TextView
@@ -21,17 +23,28 @@
 
     <Button
         android:id="@+id/shareQRCodeButton"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Share"
         android:fontFamily="@font/inter"
+        android:backgroundTint="#64B5F6"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/black"
+        android:textFontWeight="900"
         android:layout_marginTop="20dp" />
 
     <Button
         android:id="@+id/doneButton"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/inactive_button_color"
+        android:textFontWeight="900"
         android:text="Done"
-        android:fontFamily="@font/inter"
-        android:layout_marginTop="20dp" />
+        android:fontFamily="@font/inter" />
 </LinearLayout>
