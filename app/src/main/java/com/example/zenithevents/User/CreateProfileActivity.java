@@ -1,7 +1,13 @@
 package com.example.zenithevents.User;
 
+import static android.app.PendingIntent.getActivity;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -10,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -18,6 +26,7 @@ import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.HelperClasses.ValidationUtils;
 import com.example.zenithevents.MainActivity;
+import android.Manifest;
 import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,6 +59,7 @@ public class CreateProfileActivity extends AppCompatActivity {
     private CheckBox notifsCheckBox;
     private boolean wantsNotifs;
     private EditText etEntrantFirstName, etEntrantLastName, etEntrantPhoneNumber, etEntrantEmail;
+    private Context context;
 
 
     @Override
@@ -61,6 +71,7 @@ public class CreateProfileActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        context = this;
 
 
         etEntrantFirstName = findViewById(R.id.etEntrantFirstName);
@@ -79,6 +90,14 @@ public class CreateProfileActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        Log.d("FunctionCall", "Requesting permission");
+                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(CreateProfileActivity.this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+                        }
+                    }
+                    Log.d("FunctionCall", "No Requesting permission");
                     wantsNotifs = true;
                     Toast.makeText(CreateProfileActivity.this, "Notifications enabled", Toast.LENGTH_SHORT).show();
                 } else {
