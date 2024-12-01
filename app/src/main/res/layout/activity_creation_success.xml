@@ -50,7 +50,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Share QR Code"
+            android:text="Share"
             android:backgroundTint="#64B5F6"
             android:textColor="@color/black"
             android:paddingStart="16dp"
