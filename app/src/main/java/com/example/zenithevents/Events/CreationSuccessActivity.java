@@ -18,9 +18,6 @@ import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
 import com.github.jinatonic.confetti.CommonConfetti;
 import com.github.jinatonic.confetti.ConfettiView;
-import com.google.zxing.qrcode.encoder.QRCode;
-
-import java.util.Arrays;
 
 
 /**
@@ -70,7 +67,7 @@ public class CreationSuccessActivity extends AppCompatActivity {
         });
 
         if (event != null) {
-            eventNameText.setText(event.getEventTitle());
+            eventNameText.setText(event.getEventName());
 
             if (event.getImageUrl() != null) {
                 eventImage = QRCodeUtils.decodeBase64ToBitmap(event.getImageUrl());

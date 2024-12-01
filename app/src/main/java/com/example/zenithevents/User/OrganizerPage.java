@@ -46,8 +46,6 @@ import java.util.ArrayList;
 public class OrganizerPage extends AppCompatActivity {
     ImageButton createEventButton, viewFacilityButton;
     Button createFacilityButton;
-    ArrayList<Event> organizerEvents;
-    EventUtils eventUtils = new EventUtils();
     String deviceId;
 
     private FirebaseFirestore db;
@@ -79,11 +77,6 @@ public class OrganizerPage extends AppCompatActivity {
         createFacilityButton = findViewById(R.id.createFacilityButton);
         viewFacilityButton = findViewById(R.id.viewFacilityButton);
 
-//        FloatingActionButton sendNotifsButton = findViewById(R.id.sendNotifsButton);
-//        sendNotifsButton.setOnClickListener(v -> {
-//            Toast.makeText(this, "Notifications sent", Toast.LENGTH_SHORT).show();
-//        });
-
         progressBar.setVisibility(View.VISIBLE);
         createFacilityButton.setVisibility(View.GONE);
         viewFacilityButton.setVisibility(View.GONE);
@@ -93,10 +86,8 @@ public class OrganizerPage extends AppCompatActivity {
 
         createEventButton = findViewById(R.id.createEventButton);
         createEventButton.setOnClickListener(v -> {
-            Event event = new Event();
             Intent intent = new Intent(OrganizerPage.this, CreateEventPage.class);
-            intent.putExtra("page_title", "Create Event");
-            intent.putExtra("Event", (Serializable) event);
+            intent.putExtra("Event Id", "");
             Log.d("FunctionCall", "11,1");
             startActivity(intent);
             finish();
@@ -108,8 +99,8 @@ public class OrganizerPage extends AppCompatActivity {
 
         createFacilityButton.setOnClickListener(v -> {
             Intent intent = new Intent(OrganizerPage.this, CreateFacility.class);
+            intent.putExtra("Event Id", "");
             startActivity(intent);
-            finish();
         });
 
         viewFacilityButton.setOnClickListener(v -> {

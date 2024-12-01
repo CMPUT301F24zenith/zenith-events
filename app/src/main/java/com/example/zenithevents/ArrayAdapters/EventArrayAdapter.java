@@ -147,7 +147,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         }
 
         assert event != null;
-        eventTitle.setText(event.getEventTitle());
+        eventTitle.setText(event.getEventName());
         facilityUtils.fetchFacilityName(event.getOwnerFacility(), v -> {
             if (v != null) {
                 facilityName.setText(v);

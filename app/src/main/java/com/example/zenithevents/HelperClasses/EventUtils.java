@@ -291,7 +291,7 @@ public class EventUtils {
     public static Map<String, Object> convertEventToMap(Event event) {
         Map<String, Object> eventMap = new HashMap<>();
         eventMap.put("eventId", event.getEventId());
-        eventMap.put("eventTitle", event.getEventTitle());
+        eventMap.put("eventTitle", event.getEventName());
         eventMap.put("imageUrl", event.getImageUrl());
         eventMap.put("numParticipants", event.getNumParticipants());
         eventMap.put("waitingList", event.getWaitingList());
