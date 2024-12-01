@@ -29,6 +29,7 @@
         android:text="Share"
         android:fontFamily="@font/inter"
         android:backgroundTint="#64B5F6"
+        android:textColor="@color/black"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:textFontWeight="900"
@@ -44,6 +45,7 @@
         android:paddingEnd="16dp"
         android:backgroundTint="@color/inactive_button_color"
         android:fontFamily="@font/inter"
+        android:textColor="@color/black"
         android:textFontWeight="900" />
 
     <Button
@@ -53,6 +55,7 @@
         android:layout_height="wrap_content"
         android:text="Delete"
         android:backgroundTint="#FF5252"
+        android:textColor="@color/black"
         android:fontFamily="@font/inter"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
