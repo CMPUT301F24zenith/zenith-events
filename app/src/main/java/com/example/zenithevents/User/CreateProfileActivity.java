@@ -91,16 +91,16 @@ public class CreateProfileActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        Log.d("FunctionCall", "Requesting permission");
-                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(CreateProfileActivity.this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
-                        }
-                    }
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//                        Log.d("FunctionCall", "Requesting permission");
+//                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
+//                                != PackageManager.PERMISSION_GRANTED) {
+//                            ActivityCompat.requestPermissions(CreateProfileActivity.this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+//                        }
+//                    }
                     Log.d("FunctionCall", "No Requesting permission");
-                    wantsNotifs = true;
                     checkAndRequestNotificationPermission();
+                    wantsNotifs = true;
 
                 } else {
                     wantsNotifs = false;
