@@ -28,10 +28,10 @@
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topTextView"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5">
 
         <TextView
             android:layout_width="match_parent"
@@ -65,13 +65,13 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/home_background_image" />
+                    android:background="@drawable/main_activity_entrant" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@drawable/translucent_background"
+                    android:background="@drawable/main_activity_entrant"
                     android:orientation="vertical"
                     android:padding="20dp">
 
@@ -116,6 +116,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
+                android:layout_gravity="center"
                 android:layout_height="200dp">
 
                 <ImageView
@@ -123,13 +124,13 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/home_background_image" />
+                    android:background="@drawable/main_activity_organizer" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@drawable/translucent_background"
+                    android:background="@drawable/main_activity_organizer"
                     android:orientation="vertical"
                     android:padding="20dp">
 
@@ -160,11 +161,12 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:layout_gravity="center"
             android:id="@+id/adminCard"
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:layout_margin="10dp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
@@ -175,6 +177,7 @@
 
             <FrameLayout
                 android:id="@+id/adminLayout"
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="200dp">
 
@@ -183,13 +186,13 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/home_background_image" />
+                    android:background="@drawable/main_activity_admin" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@drawable/translucent_background"
+                    android:background="@drawable/main_activity_admin"
                     android:orientation="vertical"
                     android:padding="20dp">
 

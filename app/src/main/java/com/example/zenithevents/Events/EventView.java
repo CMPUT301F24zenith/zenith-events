@@ -215,11 +215,14 @@ public class EventView extends AppCompatActivity {
         Log.d("FunctionCall", "deviceID: " + deviceID);
 
         if (event.getCancelledList().contains(deviceID) ||
-                event.getRegistrants().contains(deviceID) ||
-                event.getSelected().contains(deviceID)) {
+                event.getRegistrants().contains(deviceID)) {
             btnJoinLeaveWaitingList.setEnabled(false);
             btnJoinLeaveWaitingList.setText("Attendance can not be changed");
             btnJoinLeaveWaitingList.setBackgroundColor(getResources().getColor(R.color.inactive_button_color));
+        }
+
+        if (event.getSelected().contains(deviceID)) {
+            btnJoinLeaveWaitingList.setVisibility(View.GONE);
         }
 
         if (event.getWaitingList().contains(deviceID)) {

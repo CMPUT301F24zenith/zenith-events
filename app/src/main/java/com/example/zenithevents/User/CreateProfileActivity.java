@@ -22,6 +22,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.HelperClasses.ValidationUtils;
@@ -33,6 +34,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Activity for creating a new user profile with anonymous authentication.
@@ -59,11 +61,13 @@ public class CreateProfileActivity extends AppCompatActivity {
     private boolean wantsNotifs;
     private EditText etEntrantFirstName, etEntrantLastName, etEntrantPhoneNumber, etEntrantEmail;
     private LottieAnimationView animationView;
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_profile);
+        type = getIntent().getStringExtra("type");
 
         EdgeToEdge.enable(this);
 
@@ -84,26 +88,20 @@ public class CreateProfileActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        notifsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    wantsNotifs = true;
-                    checkAndRequestNotificationPermission();
+        notifsCheckBox.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (isChecked) {
+                wantsNotifs = true;
+                checkAndRequestNotificationPermission();
 
-                } else {
-                    wantsNotifs = false;
-
-                }
-
+            } else {
+                wantsNotifs = false;
             }
         });
 
 
-        confirmButton.setOnClickListener(v -> {
-            validateAndSignIn();
-        });
+        confirmButton.setOnClickListener(v -> validateAndSignIn());
     }
+
     /**
      * Validates input fields and initiates anonymous sign-in if inputs are valid.
      *
@@ -174,10 +172,9 @@ public class CreateProfileActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser currentUser = mAuth.getCurrentUser();
-                        Toast.makeText(CreateProfileActivity.this, "Anonymous authentication successful", Toast.LENGTH_SHORT).show();
                         if (currentUser != null) {
 
-                            String deviceId = new DeviceUtils().getDeviceID(CreateProfileActivity.this);;
+                            String deviceId = new DeviceUtils().getDeviceID(this);;
                             createProfile(currentUser.getUid(),deviceId, firstName, lastName, email, phoneNumber);
                         }
                     } else {
@@ -227,8 +224,6 @@ public class CreateProfileActivity extends AppCompatActivity {
                         new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
                         NOTIFICATION_PERMISSION_REQUEST_CODE
                 );
-            } else {
-                Toast.makeText(this, "Notification permission already granted", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -262,9 +257,12 @@ public class CreateProfileActivity extends AppCompatActivity {
             public void onAnimationEnd(Animator animation) {
 
                 animationView.setVisibility(View.GONE);
-                Intent intent = new Intent(CreateProfileActivity.this, MainActivity.class);
-                startActivity(intent);
-
+                if (Objects.equals(type, "Join Event")) finish();
+                if (Objects.equals(type, "Create Event")) {
+                    Intent intent = new Intent(CreateProfileActivity.this, EntrantViewActivity.class);
+                    startActivity(intent);
+                    finish();
+                };
             }
 
             @Override
