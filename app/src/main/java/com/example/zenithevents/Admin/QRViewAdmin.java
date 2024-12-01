@@ -38,6 +38,7 @@ public class QRViewAdmin extends AppCompatActivity {
     private Button shareQRButton, doneButton, deleteButton;
     Event event;
     Bitmap qrCode;
+    String eventId;
     EventUtils eventUtils = new EventUtils();
 
     /**
@@ -58,11 +59,15 @@ public class QRViewAdmin extends AppCompatActivity {
         doneButton = findViewById(R.id.doneButton);
         deleteButton = findViewById(R.id.deleteQRCodeButton);
 
-        event = (Event) getIntent().getSerializableExtra("Event");
+        eventId = getIntent().getStringExtra("Event Id");
+        eventUtils.fetchEventById(eventId, event_ -> {
+            event = event_;
 
-        if (event != null) {
-            eventTitleText.setText(event.getEventName());
+            if (event != null) {
+                eventTitleText.setText(event.getEventName());
 
+                qrCode = QRCodeUtils.decodeBase64ToBitmap(event.getQRCodeBitmap());
+                qrCodeView.setImageBitmap(qrCode);
             qrCode = QRCodeUtils.decodeBase64ToBitmap(event.getQRCodeBitmap());
             BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), qrCode);
             Glide.with(this)
@@ -70,35 +75,37 @@ public class QRViewAdmin extends AppCompatActivity {
                     .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
                     .into(qrCodeView);
 
-            shareQRButton.setOnClickListener(v -> {
-                shareQRCode(qrCode);
-            });
-
-            doneButton.setOnClickListener(v -> {
-                finish();
-            });
-            deleteButton.setOnClickListener(v -> {
-                String newQRContent = QRCodeUtils.generateRandomString(16);
-                Bitmap newQRBitmap = QRCodeUtils.generateQRCode(newQRContent);
-                String qrCodeBase64 = QRCodeUtils.encodeBitmapToBase64(newQRBitmap);
-                event.setQRCodeBitmap(qrCodeBase64);
-                String qrCodeHashed = QRCodeUtils.hashQRCodeData(newQRContent);
-                event.setQRCodeHash(qrCodeHashed);
-
-                eventUtils.createUpdateEvent(QRViewAdmin.this, event, eventId_ -> {
-                    if (eventId_ != null) {
-                        Log.d("Firestore", "QR code hash updated successfully.");
-                        Toast.makeText(this, "QR Code was successfully deleted!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "There was an error updating the QR code. Please try again!", Toast.LENGTH_SHORT).show();
-                        Log.w("Firestore", "Failed to update QR code hash.");
-                    }
+                shareQRButton.setOnClickListener(v -> {
+                    shareQRCode(qrCode);
                 });
 
-                finish();
-            });
+                doneButton.setOnClickListener(v -> {
+                    finish();
+                });
+                deleteButton.setOnClickListener(v -> {
+                    String newQRContent = QRCodeUtils.generateRandomString(16);
+                    Bitmap newQRBitmap = QRCodeUtils.generateQRCode(newQRContent);
+                    String qrCodeBase64 = QRCodeUtils.encodeBitmapToBase64(newQRBitmap);
+                    event.setQRCodeBitmap(qrCodeBase64);
+                    String qrCodeHashed = QRCodeUtils.hashQRCodeData(newQRContent);
+                    event.setQRCodeHash(qrCodeHashed);
 
-        }
+                    eventUtils.createUpdateEvent(QRViewAdmin.this, event, eventId_1 -> {
+                        if (eventId_1 != null) {
+                            Log.d("Firestore", "QR code hash updated successfully.");
+                            Toast.makeText(this, "QR Code was successfully deleted!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "There was an error updating the QR code. Please try again!", Toast.LENGTH_SHORT).show();
+                            Log.w("Firestore", "Failed to update QR code hash.");
+                        }
+                    });
+
+                    finish();
+                });
+
+            }
+
+        });
     }
 
     /**
