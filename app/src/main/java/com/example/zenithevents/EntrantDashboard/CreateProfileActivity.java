@@ -152,7 +152,7 @@ public class CreateProfileActivity extends AppCompatActivity {
      * Signs in the user anonymously using Firebase Authentication.
      *
      * <p>This method initiates an anonymous sign-in with Firebase. If successful, it retrieves the user's
-     * unique ID and calls {@link #createProfile(String, String, String, String, String)} to store the user’s
+     * unique ID and calls
      * profile in Firestore. If sign-in fails, an error message is displayed.
      *
      * <p><strong>AI-Generated Documentation:</strong> This Javadoc was generated with assistance from a generative AI
@@ -252,8 +252,10 @@ public class CreateProfileActivity extends AppCompatActivity {
                         101);
                 notifsCheckBox.setChecked(true);
 
-    }
+            }
 
+        }
+    }
 }
 
 
