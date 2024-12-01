@@ -215,7 +215,7 @@ public class CreateEventPage extends AppCompatActivity {
                             Log.d("Firestore", "QR code hash updated successfully.");
                             Toast.makeText(this, "Event was successfully published!", Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(CreateEventPage.this, CreationSuccessActivity.class);
+                            Intent intent = new Intent(this, CreationSuccessActivity.class);
                             intent.putExtra("eventID", event.getEventId());
                             intent.putExtra("eventName", event.getEventName());
                             facilityUtils.fetchFacilityName(event.getOwnerFacility(), name -> {

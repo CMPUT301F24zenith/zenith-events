@@ -232,8 +232,8 @@ public class UserUtils {
                             updateEventApplyLeave(deviceId, user, eventId, callback);
                         }
                     } else {
-                        Log.d("FunctionCall", "aaa");
                         Intent intent = new Intent(context, CreateProfileActivity.class);
+                        intent.putExtra("type", "Join Event");
                         context.startActivity(intent);
                         callback.onUserJoinComplete(-1, null);
                     }

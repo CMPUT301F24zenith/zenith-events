@@ -70,9 +70,6 @@
         <activity
             android:name=".Events.EventView"
             android:exported="false" />
-        <activity
-            android:name=".EntrantDashboard.CreateProfileActivity"
-            android:exported="false" />
 
         <activity
             android:name=".User.CreateProfileActivity"
