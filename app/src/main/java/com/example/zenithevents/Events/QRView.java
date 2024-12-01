@@ -53,7 +53,7 @@ public class QRView extends AppCompatActivity {
         event = (Event) getIntent().getSerializableExtra("Event");
 
         if (event != null) {
-            eventTitleText.setText(event.getEventTitle());
+            eventTitleText.setText(event.getEventName());
 
             qrCode = QRCodeUtils.decodeBase64ToBitmap(event.getQRCodeBitmap());
             qrCodeView.setImageBitmap(qrCode);

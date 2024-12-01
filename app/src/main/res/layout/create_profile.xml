@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background_color"
     android:gravity="center"
-    android:padding="16dp">
+    android:padding="10dp">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -93,6 +94,18 @@
      android:textColor="@color/active_button_color"
      android:text="Confirm"
      />
+
+ <com.airbnb.lottie.LottieAnimationView
+     android:id="@+id/confirm"
+     android:layout_gravity="center"
+     android:layout_width="150dp"
+     android:layout_height="150dp"
+     app:lottie_rawRes="@raw/check_mark_with_confetti2"
+     android:visibility="visible"
+     app:lottie_autoPlay="false"
+     app:lottie_loop="false" />
+
+
 
 </LinearLayout>
 </LinearLayout>
