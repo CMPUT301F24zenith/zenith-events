@@ -1,5 +1,6 @@
 package com.example.zenithevents.User;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -18,6 +19,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.example.zenithevents.EntrantsList.SampledEntrants;
+import com.example.zenithevents.Events.EventView;
 import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.InitialsGenerator;
@@ -43,7 +47,7 @@ public class ProfileDetailActivity extends AppCompatActivity {
     private String initials;
     private String userID, type;
     private Button deleteUserButton, deleteImage;
-
+    private LottieAnimationView deleteProfileAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,8 @@ public class ProfileDetailActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         deleteUserButton = findViewById(R.id.deleteProfile);
         deleteImage = findViewById(R.id.deleteImage);
+        deleteProfileAnimation = findViewById(R.id.deleteProfileAnimation);
+
         userUtils = new UserUtils();
         db = FirebaseFirestore.getInstance();
         profileImageView = findViewById(R.id.profileImage);
@@ -161,9 +167,8 @@ public class ProfileDetailActivity extends AppCompatActivity {
         db.collection("users").document(userID)
                 .delete()
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(ProfileDetailActivity.this, "Profile deleted", Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
-                    finish();
+                    playAnimation();
+
                 })
                 .addOnFailureListener(e-> {
                     Toast.makeText(ProfileDetailActivity.this, "Failed to delete profile", Toast.LENGTH_SHORT).show();
@@ -208,6 +213,35 @@ public class ProfileDetailActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(ProfileDetailActivity.this, "Failed to remove profile picture.", Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private void playAnimation() {
+        deleteProfileAnimation.setVisibility(View.VISIBLE);
+        deleteProfileAnimation.playAnimation();
+        deleteProfileAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+            public void onAnimationStart(Animator animation) {
+                deleteProfileAnimation.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+                deleteProfileAnimation.setVisibility(View.GONE);
+                Toast.makeText(ProfileDetailActivity.this, "Profile deleted", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                finish();
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                deleteProfileAnimation.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
     }
 
 }

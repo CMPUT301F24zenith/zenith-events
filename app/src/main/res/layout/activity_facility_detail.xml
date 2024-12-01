@@ -75,7 +75,15 @@
                 android:layout_height="550dp"
                 android:layout_marginTop="10dp" />
         </LinearLayout>
-
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/deleteFacilityAnimation"
+            android:layout_gravity="center"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:lottie_rawRes="@raw/deleted"
+            android:visibility="gone"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false" />
         <Button
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:id="@+id/deleteFacility"

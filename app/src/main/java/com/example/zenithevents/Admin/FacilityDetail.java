@@ -1,8 +1,10 @@
 package com.example.zenithevents.Admin;
 
+import android.animation.Animator;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ListView;
@@ -15,11 +17,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.zenithevents.ArrayAdapters.EventArrayAdapter;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.ProfileDetailActivity;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -35,8 +39,11 @@ public class FacilityDetail extends AppCompatActivity {
     private EventArrayAdapter eventArrayAdapter;
     private List<Event> eventList = new ArrayList<>();
     private ListenerRegistration eventsListener;
+    private LottieAnimationView deleteFacilityAnimation;
+    private String facilityId;
     EventUtils eventUtils;
     FacilityUtils facilityUtils;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +67,7 @@ public class FacilityDetail extends AppCompatActivity {
         facilityPhoneNumber = findViewById(R.id.facilityPhoneNumber);
         facilityEventsListView = findViewById(R.id.facilityEventsListView);
         deleteFacilityButton = findViewById(R.id.deleteFacility);
+        deleteFacilityAnimation = findViewById(R.id.deleteFacilityAnimation);
 
         eventArrayAdapter = new EventArrayAdapter(this, eventList, "admin", null);
         facilityEventsListView.setAdapter(eventArrayAdapter);
@@ -68,7 +76,7 @@ public class FacilityDetail extends AppCompatActivity {
                 AnimationUtils.loadLayoutAnimation(this, R.anim.list_layout_animation)
         );
         Intent intent = getIntent();
-        String facilityId = intent.getStringExtra("facilityId");
+        facilityId = intent.getStringExtra("facilityId");
 
         eventsListeners(facilityId);
 
@@ -90,7 +98,10 @@ public class FacilityDetail extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle("Delete Facility")
                     .setMessage("Are you sure you want to delete this facility")
-                    .setPositiveButton("Delete", (dialog, which) -> facilityUtils.deleteFacility(this, facilityId))
+                    .setPositiveButton("Delete", (dialog, which) -> {
+                        playAnimation();
+                        deleteFacilityButton.setVisibility(View.GONE);
+                    })
                     .setNegativeButton("Cancel", null)
                     .show();
         });
@@ -127,6 +138,35 @@ public class FacilityDetail extends AppCompatActivity {
         if (eventsListener != null) {
             eventsListener.remove();
         }
+    }
+
+    void playAnimation(){
+        deleteFacilityAnimation.setVisibility(View.VISIBLE);
+        deleteFacilityAnimation.playAnimation();
+        deleteFacilityAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+            public void onAnimationStart(Animator animation) {
+                deleteFacilityAnimation.setVisibility(View.VISIBLE);
+                deleteFacilityButton.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+                deleteFacilityAnimation.setVisibility(View.GONE);
+                facilityUtils.deleteFacility(FacilityDetail.this, facilityId);
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                deleteFacilityAnimation.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
+
     }
 
 
