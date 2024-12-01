@@ -1,9 +1,7 @@
 package com.example.zenithevents.EntrantDashboard;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -18,10 +16,12 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.Fragment;
 
 
+import com.example.zenithevents.EntrantsList.EventsFragment;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Events.QRScannerActivity;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.CreateProfileActivity;
 import com.example.zenithevents.User.UserProfile;
 
 /**

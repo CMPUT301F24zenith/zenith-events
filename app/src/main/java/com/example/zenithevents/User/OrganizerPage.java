@@ -18,17 +18,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.zenithevents.EntrantDashboard.EventsFragment;
+import com.example.zenithevents.EntrantsList.EventsFragment;
 import com.example.zenithevents.Events.CreateEventPage;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
-import com.example.zenithevents.HelperClasses.EventUtils;
-import com.example.zenithevents.Objects.Event;
+
 import com.example.zenithevents.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+
 
 /**
  * OrganizerPage is an Android activity that provides functionality for an event organizer

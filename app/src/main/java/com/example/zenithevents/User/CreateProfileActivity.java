@@ -1,9 +1,11 @@
 package com.example.zenithevents.User;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -19,6 +21,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.HelperClasses.ValidationUtils;
@@ -55,7 +58,7 @@ public class CreateProfileActivity extends AppCompatActivity {
     private CheckBox notifsCheckBox;
     private boolean wantsNotifs;
     private EditText etEntrantFirstName, etEntrantLastName, etEntrantPhoneNumber, etEntrantEmail;
-
+    private LottieAnimationView animationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,7 @@ public class CreateProfileActivity extends AppCompatActivity {
         etEntrantEmail = findViewById(R.id.etEntrantEmail);
         confirmButton = findViewById(R.id.btnEntrantConfirm);
         notifsCheckBox = findViewById(R.id.notifsCheckBox);
+        animationView = findViewById(R.id.confirm);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -198,9 +202,7 @@ public class CreateProfileActivity extends AppCompatActivity {
                 .set(userData)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Profile created successfully", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CreateProfileActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish(); // End CreateProfileActivity after success
+                    playAnimation();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error creating profile", Toast.LENGTH_SHORT).show());
     }
@@ -231,6 +233,36 @@ public class CreateProfileActivity extends AppCompatActivity {
                 Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+
+    void playAnimation(){
+
+        animationView.playAnimation();
+        animationView.addAnimatorListener(new Animator.AnimatorListener() {
+            public void onAnimationStart(Animator animation) {
+                animationView.setVisibility(View.VISIBLE);
+                animationView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+                animationView.setVisibility(View.GONE);
+                Intent intent = new Intent(CreateProfileActivity.this, MainActivity.class);
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                animationView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
     }
 
 
