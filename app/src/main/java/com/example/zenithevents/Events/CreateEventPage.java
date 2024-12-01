@@ -132,31 +132,30 @@ public class CreateEventPage extends AppCompatActivity {
             event.setEventDescription(eventDescription);
             event.setEventAddress(eventLocation);
 
-            if (!eventId.isEmpty()) {
+            if (eventId.isEmpty()) {
                 event.setHasGeolocation(geolocationCheck.isChecked());
 
                 if (!numParticipants.isEmpty()) {
-                    event.setNumParticipants(Integer.parseInt(numParticipants));
+                    if (numParticipants.equals("0")) {
+                        eventLimitView.setError("Limit can't be 0");
+                        eventLimitView.requestFocus();
+                        return;
+                    } else {
+                        event.setNumParticipants(Integer.parseInt(numParticipants));
+                    }
                 } else {
                     event.setNumParticipants(0);
                 }
 
                 if (!selectedLimitString.isEmpty()) {
-                    event.setSelectedLimit(Integer.parseInt(selectedLimitString));
+                    if (selectedLimitString.equals("0")) {
+                        selectedLimitView.setError("Selected Limit can't be 0");
+                        selectedLimitView.requestFocus();
+                    } else {
+                        event.setSelectedLimit(Integer.parseInt(selectedLimitString));
+                    }
                 } else {
                     event.setSelectedLimit(0);
-                }
-            } else {
-                if (Objects.equals(numParticipants, "0")) {
-                    eventLimitView.setError("Limit can't be 0");
-                    eventLimitView.requestFocus();
-                    return;
-                }
-
-                if (Objects.equals(selectedLimitString, "0")) {
-                    selectedLimitView.setError("Selected Limit can't be 0");
-                    selectedLimitView.requestFocus();
-                    return;
                 }
             }
 
