@@ -23,6 +23,7 @@ import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.OrganizerPage;
 import com.github.jinatonic.confetti.CommonConfetti;
 import com.github.jinatonic.confetti.ConfettiView;
 
@@ -108,11 +109,11 @@ public class CreationSuccessActivity extends AppCompatActivity {
         acceptBtn.setVisibility(View.GONE);
         declineBtn.setVisibility(View.GONE);
 
-        shareQRButton.setOnClickListener(v -> {
-            shareQRCode(QRCode);
-        });
+        shareQRButton.setOnClickListener(v -> shareQRCode(QRCode));
 
         exitButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OrganizerPage.class);
+            startActivity(intent);
             finish();
         });
     }
