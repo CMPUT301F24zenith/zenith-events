@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -49,12 +50,16 @@ public class AdminEventsFragment extends Fragment {
         eventsListView = view.findViewById(R.id.eventsListView);
         adapter = new EventArrayAdapter(requireContext(), eventList, "admin", null);
         eventsListView.setAdapter(adapter);
+        eventsListView.setLayoutAnimation(
+                AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.list_layout_animation)
+        );
 
         FirestoreEventsCollection.listenForEventChanges(events -> {
             if (events != null) {
                 eventList.clear();
                 eventList.addAll(events);
                 adapter.notifyDataSetChanged();
+                eventsListView.scheduleLayoutAnimation();
             } else {
                 Log.e(TAG, "Failed to fetch events");
             }

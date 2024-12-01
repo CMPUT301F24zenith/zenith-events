@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.zenithevents.ArrayAdapters.EntrantArrayAdapter;
+import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.FirestoreUserCollection;
 import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
@@ -27,11 +29,11 @@ public class AdminUsersFragment extends Fragment {
     private ListView listView;
     private EntrantArrayAdapter adapter;
     private List<User> userList = new ArrayList<>();
+    private String currentUserId;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflate the fragment layout
         return inflater.inflate(R.layout.fragment_admin_user, container, false);
     }
 
@@ -39,7 +41,8 @@ public class AdminUsersFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Handle window insets
+        currentUserId = DeviceUtils.getDeviceID(requireContext()); // we get the current user Id to exclude from the list
+
         ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -50,16 +53,25 @@ public class AdminUsersFragment extends Fragment {
         listView.setAdapter(adapter);
 
 
-        // Initialize the ListView and adapter
+
         listView = view.findViewById(R.id.listView);
         adapter = new EntrantArrayAdapter(requireContext(), userList, "admin", null);
         listView.setAdapter(adapter);
+        listView.setLayoutAnimation(
+                AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.list_layout_animation)
+        );
 
-        // Fetch and display user data
         FirestoreUserCollection.listenForUserChanges(users -> {
             if (users != null) {
                 userList.clear();
-                userList.addAll(users);
+
+                for (User user : users) {
+                    if (!user.getDeviceID().equals(currentUserId)) {
+                        userList.add(user);
+                        listView.scheduleLayoutAnimation();
+                    }
+                }
+
                 adapter.notifyDataSetChanged();
             } else {
                 Log.e(TAG, "Failed to fetch users");
@@ -70,7 +82,8 @@ public class AdminUsersFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // Stop listening to user changes
         FirestoreUserCollection.stopListeningForUserChanges();
     }
+
+
 }

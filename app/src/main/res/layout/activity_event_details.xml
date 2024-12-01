@@ -226,7 +226,27 @@
             android:layout_gravity="center"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            app:lottie_rawRes="@raw/lottery_animation"
+            app:lottie_rawRes="@raw/check_mark_with_confetti2"
+            android:visibility="gone"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/joinEventAnimation"
+            android:layout_gravity="center"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:lottie_rawRes="@raw/calendar_check_mark2"
+            app:lottie_colorFilter="@color/positive_button_color"
+            android:visibility="gone"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/sendNotifAnimation"
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_rawRes="@raw/message_sent"
             android:visibility="gone"
             app:lottie_autoPlay="false"
             app:lottie_loop="false" />

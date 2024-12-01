@@ -5,22 +5,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
 import com.example.zenithevents.User.OrganizerPage;
 import com.example.zenithevents.Admin.AdminViewActivity;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
-import com.example.zenithevents.User.UserProfile;
-//import com.example.zenithevents.admin.AdminViewActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -38,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonEntrant;
     Button organizerButton;
     Button buttonAdmin;
+    LinearLayout adminLayout;
 
     /**
      * Initializes the activity, sets up button click listeners for navigation
@@ -54,18 +50,18 @@ public class MainActivity extends AppCompatActivity {
         buttonEntrant = findViewById(R.id.entrantButton);
         organizerButton = findViewById(R.id.organizerButton);
         buttonAdmin = findViewById(R.id.adminButton);
+        adminLayout = findViewById(R.id.admin_layout);
 
         FirebaseMessaging.getInstance().subscribeToTopic("news")
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                String msg = "done";
-                                if (!task.isSuccessful()) {
-                                    msg = "failed";
-                                }
-                            }
-                        });
-
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "done";
+                        if (!task.isSuccessful()) {
+                            msg = "failed";
+                        }
+                    }
+                });
 
 
         organizerButton.setOnClickListener(v -> {
@@ -81,25 +77,30 @@ public class MainActivity extends AppCompatActivity {
         String deviceID = DeviceUtils.getDeviceID(this);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users").document(deviceID)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
+                .addSnapshotListener((documentSnapshot, error) -> {
+                    if (error != null) {
+                        // Handle errors
+                        adminLayout.setVisibility(View.GONE);
+                        Log.e("Firebase", "Error retrieving user document", error);
+                        return;
+                    }
+
+                    if (documentSnapshot != null && documentSnapshot.exists()) {
                         Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
                         if (Boolean.TRUE.equals(isAdmin)) {
-                            buttonAdmin.setVisibility(View.VISIBLE);
+                            adminLayout.setVisibility(View.VISIBLE);
                             buttonAdmin.setOnClickListener(v -> {
                                 Intent intent = new Intent(MainActivity.this, AdminViewActivity.class);
                                 startActivity(intent);
                             });
+                        } else {
+                            adminLayout.setVisibility(View.GONE);
                         }
                     } else {
-                        buttonAdmin.setVisibility(View.GONE);
+                        adminLayout.setVisibility(View.GONE);
                         Log.d("UserClass", "No isAdmin field");
                     }
-                })
-                .addOnFailureListener(exception -> {
-                    buttonAdmin.setVisibility(View.GONE);
-                    Log.d("Firebase", "Error retrieving user document", exception);
                 });
+
     }
 }

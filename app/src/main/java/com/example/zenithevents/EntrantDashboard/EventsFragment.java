@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 
 import com.example.zenithevents.ArrayAdapters.EventArrayAdapter;
@@ -95,7 +96,9 @@ public class EventsFragment extends Fragment {
         eventUtils = new EventUtils();
         Context context = getActivity();
         int[] counter = {0};
-
+        eventListView.setLayoutAnimation(
+                AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.list_layout_animation)
+        );
         if (getArguments() != null) {
             type = getArguments().getString("type");
             if (Objects.equals(type, "organizer")) {
@@ -106,7 +109,9 @@ public class EventsFragment extends Fragment {
                         events.addAll(fetchedOrganizerEvents);
                         adapter = new EventArrayAdapter(requireContext(), events, "organizer", null);
                         eventListView.setAdapter(adapter);
+
                         adapter.notifyDataSetChanged();
+                        eventListView.scheduleLayoutAnimation();
                         Log.d("Firestore", "Fetched: " + waitingEventsList.size());
                     }
                 });

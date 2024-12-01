@@ -53,7 +53,7 @@
 
                     <TextView
                         android:id="@+id/eventTitle"
-                        android:layout_width="250dp"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:text="Event Title"
                         android:fontFamily="@font/inter"
@@ -75,25 +75,26 @@
                     android:gravity="end"
                     >
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/acceptEventBtn"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:drawableLeft="@drawable/green_check"
-                        android:text=""
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:contentDescription=""
+                        android:src="@drawable/baseline_check_circle_24"
+                        android:backgroundTint="@color/zxing_transparent"
+                        app:tint="@color/positive_button_color"
                         android:visibility="gone"
+                        android:scaleType="fitCenter"
                         />
-
                     <ImageButton
                         android:id="@+id/declineEventBtn"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:contentDescription=""
+                        android:scaleType="fitCenter"
                         android:src="@android:drawable/ic_menu_delete"
                         android:backgroundTint="@color/zxing_transparent"
-                        app:tint="@color/darkRed"
+                        app:tint="@color/negative_button_color"
                         android:visibility="gone"
                         />
                 </LinearLayout>

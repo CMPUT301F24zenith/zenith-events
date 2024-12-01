@@ -9,6 +9,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
+    android:background="@color/background_color"
     tools:context=".User.UserProfile">
 
     <FrameLayout
@@ -46,26 +47,39 @@
 
 
     <Button
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnRemove"
+        android:textColor="@color/active_button_color"
+        android:backgroundTint="@color/container_background"
+        android:layout_marginBottom="10dp"
         android:text="Remove Picture"/>
 
     <EditText
         android:id="@+id/editFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_input"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"
         android:hint="First Name"
          />
     <EditText
         android:id="@+id/editLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_input"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"
         android:hint="Last Name"
         />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_input"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"
         android:hint="Email"
         android:id="@+id/editEmail" />
 
@@ -73,19 +87,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Phone Number"
+        android:background="@drawable/rounded_input"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"
         android:id="@+id/editPhoneNumber" />
     <CheckBox
         android:id="@+id/notifsCheckBox"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Receive Notifications"
         android:textSize="18dp"
+        android:textColor="@color/active_button_color"
+        app:buttonTint="@color/active_button_color"
         />
 
     <Button
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnSave"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/positive_button_color"
         android:text="Save Profile"/>
 
     <ProgressBar

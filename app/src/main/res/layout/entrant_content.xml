@@ -98,6 +98,7 @@
                     android:textSize="18sp"
                     android:textColor="@color/white"/>
 
+
             </LinearLayout>
         </LinearLayout>
         </FrameLayout>
@@ -111,22 +112,28 @@
         android:orientation="horizontal"
         android:gravity="end">
 
-        <Button
-            android:id="@+id/acceptEntrantBtn"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:backgroundTint="#00FF00"
-            android:visibility="gone"
-        />
 
-        <Button
-            android:id="@+id/declineEntrantBtn"
-            style="?android:attr/buttonBarButtonStyle"
+        <ImageButton
+            android:id="@+id/acceptEntrantBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:contentDescription=""
+            android:src="@drawable/baseline_check_circle_24"
+            android:backgroundTint="@color/zxing_transparent"
+            app:tint="@color/positive_button_color"
             android:visibility="gone"
-            android:backgroundTint="#FF0000"
+            android:scaleType="fitCenter"
+            />
+        <ImageButton
+            android:id="@+id/declineEntrantBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription=""
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_menu_delete"
+            android:backgroundTint="@color/zxing_transparent"
+            app:tint="@color/negative_button_color"
+            android:visibility="gone"
             />
     </LinearLayout>
 </LinearLayout>

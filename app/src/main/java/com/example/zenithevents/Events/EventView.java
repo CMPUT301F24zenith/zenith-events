@@ -80,7 +80,7 @@ public class EventView extends AppCompatActivity {
     FacilityUtils facilityUtils = new FacilityUtils();
     EventUtils eventUtils = new EventUtils();
     private String eventId, type;
-    private LottieAnimationView lotteryAnimation;
+    private LottieAnimationView lotteryAnimation, joinEventAnimation, sendNotifAnimation;
 
 
     /**
@@ -126,6 +126,9 @@ public class EventView extends AppCompatActivity {
         mapButton = findViewById(R.id.mapButton);
         sendNotifsButton = findViewById(R.id.sendNotifsButton);
         lotteryAnimation = findViewById(R.id.lotteryAnimation);
+        joinEventAnimation = findViewById(R.id.joinEventAnimation);
+        sendNotifAnimation = findViewById(R.id.sendNotifAnimation);
+
 
     }
 
@@ -286,7 +289,10 @@ public class EventView extends AppCompatActivity {
                                         Log.d("Location", "Location is null");
                                     }
                                 }
-                                Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                                joinEventAnimation.setVisibility(View.VISIBLE);
+                                joinEventAnimation.setSpeed(0.5f);
+                                joinEventAnimation.playAnimation();
+                                Log.d("EventView", "Successfully joined the event!");
                             } else if (isSuccess == 0) {
                                 Toast.makeText(context, "Successfully left the event!", Toast.LENGTH_SHORT).show();
                             } else if (isSuccess == -1) {
@@ -294,6 +300,23 @@ public class EventView extends AppCompatActivity {
                             }
 
                         });
+                    });
+
+                    joinEventAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+                        public void onAnimationStart(Animator animation) {
+                            joinEventAnimation.setVisibility(View.VISIBLE);
+                        }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            joinEventAnimation.setVisibility(View.GONE);
+                        }
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+                            joinEventAnimation.setVisibility(View.GONE);
+                        }
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+                        }
                     });
             });
 
@@ -400,7 +423,7 @@ public class EventView extends AppCompatActivity {
 
             });
 
-
+            lotteryAnimation.removeAllAnimatorListeners();
             lotteryAnimation.addAnimatorListener(new Animator.AnimatorListener() {
                 public void onAnimationStart(Animator animation) {
                     lotteryAnimation.setVisibility(View.VISIBLE);
@@ -526,6 +549,25 @@ public class EventView extends AppCompatActivity {
             String message = input.getText().toString().trim();
             if (!message.isEmpty()) {
                 event.sendNotifications(context, message, Entrants);
+                sendNotifAnimation.setVisibility(View.VISIBLE);
+                sendNotifAnimation.setMinAndMaxProgress(0.3f, 1f);
+                sendNotifAnimation.playAnimation();
+                sendNotifAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+                    public void onAnimationStart(Animator animation) {
+                        sendNotifAnimation.setVisibility(View.VISIBLE);
+                    }
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        sendNotifAnimation.setVisibility(View.GONE);
+                    }
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                        sendNotifAnimation.setVisibility(View.GONE);
+                    }
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+                    }
+                });
             }
             else {
                 Toast.makeText(this, "Please enter a message.", Toast.LENGTH_SHORT).show();
