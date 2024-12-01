@@ -13,8 +13,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.zenithevents.Events.CreateEventPage;
-import com.example.zenithevents.Events.CreationSuccessActivity;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.Event;
@@ -59,7 +57,7 @@ public class QRViewAdmin extends AppCompatActivity {
         event = (Event) getIntent().getSerializableExtra("Event");
 
         if (event != null) {
-            eventTitleText.setText(event.getEventTitle());
+            eventTitleText.setText(event.getEventName());
 
             qrCode = QRCodeUtils.decodeBase64ToBitmap(event.getQRCodeBitmap());
             qrCodeView.setImageBitmap(qrCode);

@@ -1,8 +1,5 @@
-import static android.graphics.Insets.add;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import androidx.core.widget.TextViewCompat;
 
 import com.example.zenithevents.Objects.Event;
 
@@ -19,7 +16,7 @@ public class DrawLotteryTest {
     public void setUp() {
         event = new Event();
         event.setEventId("12345");
-        event.setEventTitle("Random Event");
+        event.setEventName("Random Event");
 
         ArrayList<String> waitingList = new ArrayList<>();
         waitingList.add("person1");

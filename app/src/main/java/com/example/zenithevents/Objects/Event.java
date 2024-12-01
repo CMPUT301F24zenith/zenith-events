@@ -160,7 +160,7 @@ public class Event implements Serializable {
      * @return The event title.
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
-    public String getEventTitle() {
+    public String getEventName() {
         return this.eventTitle;
     }
 
@@ -262,7 +262,7 @@ public class Event implements Serializable {
      * @param eventTitle The title to set for the event.
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
-    public void setEventTitle(String eventTitle) {
+    public void setEventName(String eventTitle) {
         this.eventTitle = eventTitle;
     }
 
@@ -345,7 +345,7 @@ public class Event implements Serializable {
 
                     if (sampledList.contains(deviceId) && callback.getWantsNotifs()) {
                         Log.d("FunctionCall", "wants notifs");
-                        callback.sendNotification(context, "Congratulations! You have been selected for " + this.getEventTitle());
+                        callback.sendNotification(context, "Congratulations! You have been selected for " + this.getEventName());
                     }
                     userUtils.updateUserByObject(callback, callback2 -> {
                         Log.d("FunctionCall", "User: " + deviceId + "info updated.");
@@ -355,7 +355,7 @@ public class Event implements Serializable {
             for (String deviceId : this.getWaitingList()) {
                 userUtils.fetchUserProfile(deviceId, callback -> {
                     if (callback.getWantsNotifs()) {
-                        callback.sendNotification(context, "You have not been selected for " + this.getEventTitle());
+                        callback.sendNotification(context, "You have not been selected for " + this.getEventName());
                         userUtils.updateUserByObject(callback, callback2 -> {
                             Log.d("Notification", "User: " + deviceId + "notified.");
                         });

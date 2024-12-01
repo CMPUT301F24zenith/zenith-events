@@ -31,12 +31,12 @@ public class FacilityDeleteTest {
 
         Event eventFirst = new Event();
         eventFirst.setEventId("event1");
-        eventFirst.setEventTitle("Event 1");
+        eventFirst.setEventName("Event 1");
         eventFirst.setNumParticipants(100);
 
         Event eventSecond = new Event();
         eventSecond.setEventId("event2");
-        eventSecond.setEventTitle("Event 2");
+        eventSecond.setEventName("Event 2");
         eventSecond.setNumParticipants(200);
         testingEvents.add(eventFirst);
         testingEvents.add(eventSecond);
