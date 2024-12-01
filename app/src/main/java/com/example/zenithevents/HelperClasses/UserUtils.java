@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.example.zenithevents.EntrantDashboard.CreateProfileActivity;
 import com.example.zenithevents.Objects.Event;
+import com.example.zenithevents.User.CreateProfileActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
