@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         entrantCard = findViewById(R.id.entrantCard);
-        adminCard = findViewById(R.id.organizerCard);
-        organizerCard = findViewById(R.id.adminCard);
+        organizerCard = findViewById(R.id.organizerCard);
+        adminCard = findViewById(R.id.adminCard);
         adminLayout = findViewById(R.id.adminLayout);
 
         FirebaseMessaging.getInstance().subscribeToTopic("news")
