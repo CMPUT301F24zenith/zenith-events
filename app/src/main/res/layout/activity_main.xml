@@ -69,6 +69,7 @@
             android:id="@+id/organizerCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:layout_margin="10dp"
             app:cardBackgroundColor="@color/container_background"
             app:cardCornerRadius="15dp"
@@ -105,11 +106,11 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-
         <androidx.cardview.widget.CardView
             android:id="@+id/adminCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animation="@anim/linear_layout_animation"
             android:layout_margin="10dp"
             app:cardBackgroundColor="@color/container_background"
             app:cardCornerRadius="15dp"

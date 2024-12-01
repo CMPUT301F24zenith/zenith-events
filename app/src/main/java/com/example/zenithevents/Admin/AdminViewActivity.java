@@ -39,6 +39,7 @@ public class AdminViewActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         btnViewProfiles = findViewById(R.id.btnUsers);
         btnViewEvents = findViewById(R.id.btnEvents);
         btnViewFacilities = findViewById(R.id.btnFacilites);
@@ -48,7 +49,6 @@ public class AdminViewActivity extends AppCompatActivity {
             loadFragment(new AdminUsersFragment(), "users");
             updateButtonStates(btnViewProfiles);
         }
-        // Set up button click listeners
         btnViewProfiles.setOnClickListener(v -> {
             loadFragment(new AdminUsersFragment(), "users");
             updateButtonStates(btnViewProfiles);
@@ -67,14 +67,12 @@ public class AdminViewActivity extends AppCompatActivity {
         }
 
     private void loadFragment(Fragment fragment, String tag) {
-        // Check if the fragment is already displayed
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if (currentFragment != null && currentFragment.getTag() != null && currentFragment.getTag().equals(tag)) {
             Log.d(TAG, "Fragment " + tag + " is already displayed.");
             return; // Skip reloading the fragment
         }
 
-        // Replace the fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment, tag);
         transaction.commit();
@@ -84,13 +82,11 @@ public class AdminViewActivity extends AppCompatActivity {
     private void updateButtonStates(Button activeButton) {
 
         resetButtonStates();
-
-        btnViewProfiles.setTextColor(ContextCompat.getColor(this, R.color.active_button_color));
+        activeButton.setTextColor(ContextCompat.getColor(this, R.color.active_button_color));
         activeButton.setCompoundDrawableTintList(ContextCompat.getColorStateList(this, R.color.active_button_color));
     }
 
     private void resetButtonStates() {
-        // Set inactive text color for all buttons
         btnViewProfiles.setTextColor(ContextCompat.getColor(this, R.color.inactive_button_color));
         btnViewEvents.setTextColor(ContextCompat.getColor(this, R.color.inactive_button_color));
         btnViewFacilities.setTextColor(ContextCompat.getColor(this, R.color.inactive_button_color));
