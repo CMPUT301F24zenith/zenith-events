@@ -35,6 +35,7 @@ public class QRViewAdmin extends AppCompatActivity {
     Event event;
     Bitmap qrCode;
     EventUtils eventUtils = new EventUtils();
+    String eventId;
 
     /**
      * Called when the activity is first created. Initializes the UI components, retrieves the Event object passed
@@ -54,43 +55,47 @@ public class QRViewAdmin extends AppCompatActivity {
         doneButton = findViewById(R.id.doneButton);
         deleteButton = findViewById(R.id.deleteQRCodeButton);
 
-        event = (Event) getIntent().getSerializableExtra("Event");
+        eventId = getIntent().getStringExtra("Event Id");
 
-        if (event != null) {
-            eventTitleText.setText(event.getEventName());
+        eventUtils.fetchEventById(eventId, event_ -> {
+            event = event_;
+            if (event != null) {
+                eventTitleText.setText(event.getEventName());
 
-            qrCode = QRCodeUtils.decodeBase64ToBitmap(event.getQRCodeBitmap());
-            qrCodeView.setImageBitmap(qrCode);
+                qrCode = QRCodeUtils.decodeBase64ToBitmap(event.getQRCodeBitmap());
+                qrCodeView.setImageBitmap(qrCode);
 
-            shareQRButton.setOnClickListener(v -> {
-                shareQRCode(qrCode);
-            });
-
-            doneButton.setOnClickListener(v -> {
-                finish();
-            });
-            deleteButton.setOnClickListener(v -> {
-                String newQRContent = QRCodeUtils.generateRandomString(16);
-                Bitmap newQRBitmap = QRCodeUtils.generateQRCode(newQRContent);
-                String qrCodeBase64 = QRCodeUtils.encodeBitmapToBase64(newQRBitmap);
-                event.setQRCodeBitmap(qrCodeBase64);
-                String qrCodeHashed = QRCodeUtils.hashQRCodeData(newQRContent);
-                event.setQRCodeHash(qrCodeHashed);
-
-                eventUtils.createUpdateEvent(QRViewAdmin.this, event, eventId_ -> {
-                    if (eventId_ != null) {
-                        Log.d("Firestore", "QR code hash updated successfully.");
-                        Toast.makeText(this, "QR Code was successfully deleted!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "There was an error updating the QR code. Please try again!", Toast.LENGTH_SHORT).show();
-                        Log.w("Firestore", "Failed to update QR code hash.");
-                    }
+                shareQRButton.setOnClickListener(v -> {
+                    shareQRCode(qrCode);
                 });
 
-                finish();
-            });
+                doneButton.setOnClickListener(v -> {
+                    finish();
+                });
+                deleteButton.setOnClickListener(v -> {
+                    String newQRContent = QRCodeUtils.generateRandomString(16);
+                    Bitmap newQRBitmap = QRCodeUtils.generateQRCode(newQRContent);
+                    String qrCodeBase64 = QRCodeUtils.encodeBitmapToBase64(newQRBitmap);
+                    event.setQRCodeBitmap(qrCodeBase64);
+                    String qrCodeHashed = QRCodeUtils.hashQRCodeData(newQRContent);
+                    event.setQRCodeHash(qrCodeHashed);
 
-        }
+                    eventUtils.createUpdateEvent(QRViewAdmin.this, event, eventId_ -> {
+                        if (eventId_ != null) {
+                            Log.d("Firestore", "QR code hash updated successfully.");
+                            Toast.makeText(this, "QR Code was successfully deleted!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "There was an error updating the QR code. Please try again!", Toast.LENGTH_SHORT).show();
+                            Log.w("Firestore", "Failed to update QR code hash.");
+                        }
+                    });
+
+                    finish();
+                });
+
+            }
+
+        });
     }
 
     /**

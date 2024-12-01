@@ -470,20 +470,24 @@ public class EventView extends AppCompatActivity {
         }
 
         qrCodeButton.setOnClickListener(v -> {
-            DocumentReference userRef = db.collection("users").document(deviceID);
+            DocumentReference userRef = db.collection("user").document(deviceID);
             userRef.get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
                             Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
                             if (Boolean.TRUE.equals(isAdmin) && Objects.equals(type, "admin")) {
                                 Intent intent = new Intent(this, QRViewAdmin.class);
-                                intent.putExtra("Event", (Serializable) event);
+                                intent.putExtra("Event Id", event.getEventId());
                                 startActivity(intent);
                             } else {
                                 Intent intent = new Intent(this, QRView.class);
-                                intent.putExtra("Event", (Serializable) event);
+                                intent.putExtra("Event Id", event.getEventId());
                                 startActivity(intent);
                             }
+                        } else {
+                            Intent intent = new Intent(this, QRView.class);
+                            intent.putExtra("Event Id", event.getEventId());
+                            startActivity(intent);
                         }
                     })
                     .addOnFailureListener(e -> Log.e("Firestore", "Can't find document", e));
