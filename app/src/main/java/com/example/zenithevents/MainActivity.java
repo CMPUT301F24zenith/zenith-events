@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         entrantCard = findViewById(R.id.entrantCard);
         organizerCard = findViewById(R.id.organizerCard);
@@ -80,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         db.collection("users").document(deviceID)
                 .addSnapshotListener((documentSnapshot, error) -> {
                     if (error != null) {
-                        // Handle errors
                         adminLayout.setVisibility(View.GONE);
                         Log.e("Firebase", "Error retrieving user document", error);
                         return;
