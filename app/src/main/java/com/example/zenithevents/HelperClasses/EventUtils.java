@@ -8,6 +8,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
@@ -156,6 +157,10 @@ public class EventUtils {
                     callback.onEventsFetchComplete(null);
                 });
     }
+
+
+
+
 
     /**
      * Deletes an event from Firestore.

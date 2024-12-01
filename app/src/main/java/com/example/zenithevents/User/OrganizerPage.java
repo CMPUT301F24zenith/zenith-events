@@ -146,7 +146,7 @@ public class OrganizerPage extends AppCompatActivity {
     private void loadFragment(Fragment fragment, Bundle args) {
         fragment.setArguments(args);
 
-        // Replace the fragment in the fragmentContainer
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.myEventsFragment, fragment);

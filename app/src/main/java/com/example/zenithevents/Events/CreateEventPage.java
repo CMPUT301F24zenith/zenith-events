@@ -268,6 +268,7 @@ public class CreateEventPage extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             uploadedPosterUri = data.getData();
+            eventPosterImage.setVisibility(View.VISIBLE);
             eventPosterImage.setImageURI(uploadedPosterUri);
         }
     }
