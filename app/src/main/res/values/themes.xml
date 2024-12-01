@@ -11,8 +11,9 @@
     <color name="container_background">#E2DAD6</color>
     <color name="active_button_color">#2E2E2E</color>
     <color name="inactive_button_color">#9B9B9B</color>
-    <color name="negative_button_color">#FF1414</color>
-    <color name="positive_button_color">#2DA92D</color>
+    <color name="negative_button_color">#CC2727</color>
+    <color name="positive_button_color">#49A649</color>
+    <color name="share_button_color">#2EA4B4</color>
 
 
 </resources>

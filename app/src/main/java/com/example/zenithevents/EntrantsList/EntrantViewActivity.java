@@ -30,6 +30,7 @@ import com.example.zenithevents.User.UserProfile;
  * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
  */
 public class EntrantViewActivity extends AppCompatActivity {
+
     private static final String TAG = "EntrantViewActivity";
     Button scanQRButton, viewProfileButton;
     private TextView currentSelection, next, previous;
@@ -179,4 +180,6 @@ public class EntrantViewActivity extends AppCompatActivity {
 
         loadFragment(new EventsFragment(), nArgs);
     }
+
+
 }

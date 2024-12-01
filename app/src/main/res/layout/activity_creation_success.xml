@@ -51,8 +51,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Share"
-            android:backgroundTint="#64B5F6"
-            android:textColor="@color/black"
+            android:backgroundTint="@color/share_button_color"
+            android:textColor="@color/white"
             android:paddingStart="16dp"
             android:paddingEnd="16dp" />
 
@@ -62,8 +62,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Exit"
-            android:textColor="@color/black"
-            android:backgroundTint="#FF5252"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/negative_button_color"
             android:paddingStart="16dp"
             android:paddingEnd="16dp" />
 

@@ -28,10 +28,10 @@
         android:layout_height="wrap_content"
         android:text="Share"
         android:fontFamily="@font/inter"
-        android:backgroundTint="#64B5F6"
+        android:backgroundTint="@color/positive_button_color"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textFontWeight="900"
         android:layout_marginTop="20dp" />
 
@@ -42,8 +42,8 @@
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:textColor="@color/black"
-        android:backgroundTint="@color/inactive_button_color"
+        android:textColor="@color/active_button_color"
+        android:backgroundTint="@color/container_background"
         android:textFontWeight="900"
         android:text="Done"
         android:fontFamily="@font/inter" />

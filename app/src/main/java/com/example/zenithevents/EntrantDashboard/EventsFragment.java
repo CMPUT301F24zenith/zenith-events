@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.zenithevents.ArrayAdapters.EventArrayAdapter;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
@@ -39,6 +41,7 @@ public class EventsFragment extends Fragment {
     List<Event> events, waitingEventsList;
     EventUtils eventUtils;
     private static final String TAG = "EventsFragment";
+    private boolean shouldUpdateAdapter = true; // Flag to control adapter updates
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference eventsRef;
@@ -88,13 +91,15 @@ public class EventsFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_events, container, false);
         eventListView = view.findViewById(R.id.eventsListView);
         events = new ArrayList<>();
         waitingEventsList = new ArrayList<>();
         eventUtils = new EventUtils();
         Context context = getActivity();
+
+
         int[] counter = {0};
         eventListView.setLayoutAnimation(
                 AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.list_layout_animation)
@@ -120,6 +125,7 @@ public class EventsFragment extends Fragment {
                 adapter = new EventArrayAdapter(requireContext(), events, "waitingEvents", null);
                 eventListView.setAdapter(adapter);
                 fetchEntrantWaitingEvents("waitingEvents");
+
             }
             if (Objects.equals(type, "entrant-selected")) {
                 adapter = new EventArrayAdapter(requireContext(), events, "selectedEvents", null);
@@ -195,4 +201,10 @@ public class EventsFragment extends Fragment {
                     }
                 });
     }
+
+
+
+
+
+
 }
