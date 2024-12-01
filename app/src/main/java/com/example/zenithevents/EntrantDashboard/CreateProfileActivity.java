@@ -252,8 +252,10 @@ public class CreateProfileActivity extends AppCompatActivity {
                         101);
                 notifsCheckBox.setChecked(true);
 
-    }
+            }
 
+        }
+    }
 }
 
 
