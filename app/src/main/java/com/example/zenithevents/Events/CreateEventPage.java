@@ -106,18 +106,18 @@ public class CreateEventPage extends AppCompatActivity {
                 geolocationCheck.setEnabled(false);
 
                 if (event.getSelectedLimit() == 0) {
-                    selectedLimitView.setVisibility(View.GONE);
+                    selectedLimitView.setText("Waitlist Lmmit: unlimited");
                 } else {
                     selectedLimitView.setText(String.valueOf(event.getSelectedLimit()));
-                    selectedLimitView.setEnabled(false);
                 }
+                selectedLimitView.setEnabled(false);
 
                 if (event.getNumParticipants() == 0) {
-                    eventLimitView.setVisibility(View.GONE);
+                    eventLimitView.setText("Selected Lmmit: unlimited");
                 } else {
                     eventLimitView.setText(String.valueOf(event.getNumParticipants()));
-                    eventLimitView.setEnabled(false);
                 }
+                eventLimitView.setEnabled(false);
             });
         } else {
             pageTitleView.setText("Create Event");
@@ -211,8 +211,7 @@ public class CreateEventPage extends AppCompatActivity {
                             Toast.makeText(this, "Event was successfully published!", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(CreateEventPage.this, CreationSuccessActivity.class);
-                            intent.putExtra("Event", event);
-                            intent.putExtra("qr_code", qrCodeBase64);
+                            intent.putExtra("Event Id", event.getEventId());
                             startActivity(intent);
                             finish();
                         } else {
