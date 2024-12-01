@@ -9,6 +9,7 @@
     <color name="container_background">#2C394B</color>
     <color name="active_button_color">#EBEBEB</color>
     <color name="inactive_button_color">#7A7A7A</color>
-    <color name="negative_button_color">#FF4E4E</color>
-    <color name="positive_button_color">#81E081</color>
+    <color name="negative_button_color">#D54242</color>
+    <color name="positive_button_color">#5FA85F</color>
+    <color name="share_button_color">#1A727E</color>
 </resources>

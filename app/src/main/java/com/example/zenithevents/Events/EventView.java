@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -29,6 +30,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.example.zenithevents.Admin.FacilityDetail;
 import com.example.zenithevents.Admin.QRViewAdmin;
 import com.example.zenithevents.EntrantsList.CancelledEntrants;
 import com.example.zenithevents.EntrantsList.EnrolledEntrants;
@@ -80,7 +82,7 @@ public class EventView extends AppCompatActivity {
     FacilityUtils facilityUtils = new FacilityUtils();
     EventUtils eventUtils = new EventUtils();
     private String eventId, type;
-    private LottieAnimationView lotteryAnimation, joinEventAnimation, sendNotifAnimation;
+    private LottieAnimationView lotteryAnimation, joinEventAnimation, sendNotifAnimation, deleteEventAnimation;
 
 
     /**
@@ -128,6 +130,7 @@ public class EventView extends AppCompatActivity {
         lotteryAnimation = findViewById(R.id.lotteryAnimation);
         joinEventAnimation = findViewById(R.id.joinEventAnimation);
         sendNotifAnimation = findViewById(R.id.sendNotifAnimation);
+        deleteEventAnimation = findViewById(R.id.deleteEventAnimation);
 
 
     }
@@ -455,8 +458,31 @@ public class EventView extends AppCompatActivity {
                 eventUtils.removeEvent(eventId, success-> {
                     progressBar.setVisibility(View.GONE);
                     if (success) {
-                        Toast.makeText(this, "Event deleted", Toast.LENGTH_SHORT).show();
-                        finish();
+                        deleteEventAnimation.setVisibility(View.VISIBLE);
+                        deleteEventAnimation.playAnimation();
+                        deleteEventAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+                            public void onAnimationStart(Animator animation) {
+                                deleteEventAnimation.setVisibility(View.VISIBLE);
+                                deleteEventAnimation.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+
+                                deleteEventAnimation.setVisibility(View.GONE);
+                                finish();
+
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+                                deleteEventAnimation.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
+                            }
+                        });
                     } else {
                         Toast.makeText(this, "Event did not delete", Toast.LENGTH_SHORT).show();
                     }
@@ -477,13 +503,17 @@ public class EventView extends AppCompatActivity {
                             Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
                             if (Boolean.TRUE.equals(isAdmin) && Objects.equals(type, "admin")) {
                                 Intent intent = new Intent(this, QRViewAdmin.class);
-                                intent.putExtra("Event", (Serializable) event);
+                                intent.putExtra("Event Id", event.getEventId());
                                 startActivity(intent);
                             } else {
                                 Intent intent = new Intent(this, QRView.class);
-                                intent.putExtra("Event", (Serializable) event);
+                                intent.putExtra("Event Id", event.getEventId());
                                 startActivity(intent);
                             }
+                        } else {
+                            Intent intent = new Intent(this, QRView.class);
+                            intent.putExtra("Event Id", event.getEventId());
+                            startActivity(intent);
                         }
                     })
                     .addOnFailureListener(e -> Log.e("Firestore", "Can't find document", e));

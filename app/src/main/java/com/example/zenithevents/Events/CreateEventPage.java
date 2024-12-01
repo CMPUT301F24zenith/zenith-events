@@ -24,6 +24,8 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import android.Manifest;
+
+import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.R;
@@ -106,19 +108,21 @@ public class CreateEventPage extends AppCompatActivity {
                 geolocationCheck.setEnabled(false);
 
                 if (event.getSelectedLimit() == 0) {
-                    selectedLimitView.setVisibility(View.GONE);
+                    selectedLimitView.setText("Waitlist Limit: N/A");
                 } else {
                     selectedLimitView.setText(String.valueOf(event.getSelectedLimit()));
-                    selectedLimitView.setEnabled(false);
                 }
+                selectedLimitView.setEnabled(false);
 
                 if (event.getNumParticipants() == 0) {
-                    eventLimitView.setVisibility(View.GONE);
+                    eventLimitView.setText("Selected Limit: N/A");
                 } else {
                     eventLimitView.setText(String.valueOf(event.getNumParticipants()));
-                    eventLimitView.setEnabled(false);
                 }
+                eventLimitView.setEnabled(false);
             });
+        } else {
+            pageTitleView.setText("Create Event");
         }
 
         createEventSaveButton.setOnClickListener(v -> {
@@ -203,16 +207,28 @@ public class CreateEventPage extends AppCompatActivity {
                         qrCodeBase64 = event.getQRCodeBitmap();
                     }
 
+                    FacilityUtils facilityUtils = new FacilityUtils();
+
+
                     eventUtils.createUpdateEvent(this, event, eventId_ -> {
                         if (eventId_ != null) {
                             Log.d("Firestore", "QR code hash updated successfully.");
                             Toast.makeText(this, "Event was successfully published!", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(CreateEventPage.this, CreationSuccessActivity.class);
-                            intent.putExtra("Event", event);
-                            intent.putExtra("qr_code", qrCodeBase64);
-                            startActivity(intent);
-                            finish();
+                            intent.putExtra("eventID", event.getEventId());
+                            intent.putExtra("eventName", event.getEventName());
+                            facilityUtils.fetchFacilityName(event.getOwnerFacility(), name -> {
+                                if (name != null) {
+                                    intent.putExtra("eventFacility", name);
+                                } else {
+                                    intent.putExtra("eventFacility", "");
+                                }
+                                intent.putExtra("eventImage", event.getImageUrl());
+                                intent.putExtra("qr_code", qrCodeBase64);
+                                startActivity(intent);
+                                finish();
+                            });
                         } else {
                             Toast.makeText(this, "There was an error updating the QR code. Please try again!", Toast.LENGTH_SHORT).show();
                             Log.w("Firestore", "Failed to update QR code hash.");
@@ -252,6 +268,7 @@ public class CreateEventPage extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             uploadedPosterUri = data.getData();
+            eventPosterImage.setVisibility(View.VISIBLE);
             eventPosterImage.setImageURI(uploadedPosterUri);
         }
     }

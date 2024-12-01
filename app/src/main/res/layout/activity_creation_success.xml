@@ -2,68 +2,68 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/confettiLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_color">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp"
-        android:gravity="center_horizontal">
+        android:gravity="center">
 
         <TextView
             android:id="@+id/congratulationsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Congratulations!"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp"
-            android:textColor="#4CAF50" />
+            android:textSize="28sp"
+            android:fontFamily="@font/inter"
+            android:textFontWeight="900"
+            android:layout_marginBottom="20dp" />
 
         <TextView
-            android:id="@+id/eventNameText"
+            android:id="@+id/successfulText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Event Name"
-            android:textSize="20sp"
-            android:layout_marginBottom="16dp"
-            android:textColor="#333333" />
+            android:text="You have successfully created:"
+            android:textSize="24sp"
+            android:fontFamily="@font/inter"
+            android:layout_marginBottom="16dp" />
 
 
-        <ImageView
-            android:id="@+id/eventImageView"
-            android:layout_width="381dp"
-            android:layout_height="200dp"
-            android:layout_marginBottom="16dp"
-            android:scaleType="centerCrop" />
+        <include
+            layout="@layout/events_content"
+            android:id="@+id/eventCard" />
 
         <ImageView
             android:id="@+id/qrCodeView"
+            android:src="@drawable/rounded_corners_image"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_marginBottom="20dp"
-            android:scaleType="centerInside" />
+            android:paddingTop="10dp"
+            android:layout_marginBottom="20dp" />
 
         <Button
+
             android:id="@+id/shareQRButton"
-            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Share QR Code"
-            android:layout_marginTop="20dp"
-            android:textColor="#FFFFFF"
-            android:background="@android:color/background_light"
+            android:text="Share"
+            android:backgroundTint="@color/share_button_color"
+            android:textColor="@color/white"
             android:paddingStart="16dp"
             android:paddingEnd="16dp" />
 
         <Button
             android:id="@+id/exitButton"
-            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Exit"
-            android:layout_marginTop="20dp"
-            android:textColor="#FFFFFF"
-            android:background="@android:color/holo_green_dark"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/negative_button_color"
             android:paddingStart="16dp"
             android:paddingEnd="16dp" />
 

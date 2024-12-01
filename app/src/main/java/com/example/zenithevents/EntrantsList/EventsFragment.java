@@ -1,4 +1,4 @@
-package com.example.zenithevents.EntrantDashboard;
+package com.example.zenithevents.EntrantsList;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -39,6 +39,7 @@ public class EventsFragment extends Fragment {
     List<Event> events, waitingEventsList;
     EventUtils eventUtils;
     private static final String TAG = "EventsFragment";
+    private boolean shouldUpdateAdapter = true; // Flag to control adapter updates
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference eventsRef;
@@ -88,13 +89,15 @@ public class EventsFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_events, container, false);
         eventListView = view.findViewById(R.id.eventsListView);
         events = new ArrayList<>();
         waitingEventsList = new ArrayList<>();
         eventUtils = new EventUtils();
         Context context = getActivity();
+
+
         int[] counter = {0};
         eventListView.setLayoutAnimation(
                 AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.list_layout_animation)
@@ -120,6 +123,7 @@ public class EventsFragment extends Fragment {
                 adapter = new EventArrayAdapter(requireContext(), events, "waitingEvents", null);
                 eventListView.setAdapter(adapter);
                 fetchEntrantWaitingEvents("waitingEvents");
+
             }
             if (Objects.equals(type, "entrant-selected")) {
                 adapter = new EventArrayAdapter(requireContext(), events, "selectedEvents", null);
@@ -195,4 +199,10 @@ public class EventsFragment extends Fragment {
                     }
                 });
     }
+
+
+
+
+
+
 }

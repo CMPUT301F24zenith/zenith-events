@@ -250,6 +250,15 @@
             android:visibility="gone"
             app:lottie_autoPlay="false"
             app:lottie_loop="false" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/deleteEventAnimation"
+            android:layout_gravity="center"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:lottie_rawRes="@raw/deleted"
+            android:visibility="gone"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false" />
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
