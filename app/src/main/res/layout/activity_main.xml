@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
     android:layout_gravity="center"
-    android:background="@color/background_color">
+    android:background="@color/container_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,8 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Zenith Events"
+            android:fontFamily="@font/inter"
             android:textSize="24sp"
-            android:textStyle="bold"
+            android:textFontWeight="900"
             android:gravity="center"
             android:layout_marginBottom="16dp" />
 
@@ -33,6 +34,7 @@
             app:cardElevation="4dp"
             android:clickable="true"
             android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:padding="20dp">
 
             <FrameLayout
@@ -44,88 +46,97 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/home_background_image"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_alignParentTop="true" />
 
-                    <LinearLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:background="@drawable/translucent_background">
+
+                    <TextView
+                        android:id="@+id/entrantTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Entrant"
+                        android:fontFamily="@font/inter"
+                        android:textSize="20sp"
+                        android:textFontWeight="900"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:id="@+id/entrantDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="20dp"
-                        android:orientation="vertical">
+                        android:text="A participant who can join event waiting lists, manage their profile, and receive notifications about event participation."
+                        android:textSize="16sp"
+                        android:fontFamily="@font/inter_italic"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center" />
 
-                        <TextView
-                            android:id="@+id/entrant_description"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Entrant: A participant who can join event waiting lists, manage their profile, and receive notifications about event participation."
-                            android:textSize="16sp"
-                            android:textStyle="italic"
-                            android:textColor="@color/active_button_color"
-                            android:layout_marginBottom="10dp" />
-
-                        <Button
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:id="@+id/entrantButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Entrant"
-                            android:textSize="16sp"
-                            android:textColor="@color/active_button_color"
-                            android:layout_gravity="center" />
-            </LinearLayout>
+                </LinearLayout>
             </FrameLayout>
         </androidx.cardview.widget.CardView>
-
 
         <androidx.cardview.widget.CardView
             android:id="@+id/organizerCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_margin="10dp"
             app:cardBackgroundColor="@color/container_background"
             app:cardCornerRadius="15dp"
             app:cardElevation="4dp"
             android:clickable="true"
             android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:padding="20dp">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/home_organizer_image"
-                android:layout_alignParentTop="true"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/home_background_image"
+                    android:layout_alignParentTop="true" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
                     android:padding="20dp"
-                    android:orientation="vertical">
+                    android:background="@drawable/translucent_background">
 
                     <TextView
-                        android:id="@+id/organizer_description"
+                        android:id="@+id/organizerTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/active_button_color"
-                        android:text="Organizer: A user responsible for creating and managing events, viewing entrant data, sending notifications, and managing event settings like geolocation or waiting list limits."
-                        android:textSize="16sp"
-                        android:textStyle="italic"
-                        android:layout_marginBottom="10dp" />
-
-                    <Button
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:id="@+id/organizerButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/active_button_color"
                         android:text="Organizer"
-                        android:textSize="16sp"
+                        android:fontFamily="@font/inter"
+                        android:textSize="20sp"
+                        android:textFontWeight="900"
+                        android:textColor="@color/white"
                         android:layout_gravity="center" />
-            </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/organizerDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="A user responsible for creating and managing events, viewing entrant data, sending notifications, and managing event settings like geolocation or waiting list limits."
+                        android:textSize="16sp"
+                        android:fontFamily="@font/inter_italic"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center" />
+
+                </LinearLayout>
             </FrameLayout>
         </androidx.cardview.widget.CardView>
 
@@ -133,54 +144,58 @@
             android:id="@+id/adminCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:animation="@anim/linear_layout_animation"
             android:layout_margin="10dp"
             app:cardBackgroundColor="@color/container_background"
             app:cardCornerRadius="15dp"
             app:cardElevation="4dp"
             android:clickable="true"
             android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:padding="20dp">
 
             <FrameLayout
+                android:id="@+id/adminLayout"
                 android:layout_width="match_parent"
                 android:layout_height="200dp">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/home_admin_image"
-                android:layout_alignParentTop="true"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/home_background_image"
+                    android:layout_alignParentTop="true" />
 
                 <LinearLayout
-                    android:id="@+id/admin_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
                     android:padding="20dp"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:background="@drawable/translucent_background">
 
                     <TextView
-                        android:id="@+id/admin_description"
+                        android:id="@+id/adminTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/active_button_color"
-                        android:text="Administrator: A user with oversight capabilities, responsible for maintaining app integrity by managing and removing events, profiles, facilities, and inappropriate content."
-                        android:textSize="16sp"
-                        android:textStyle="italic"
-                        android:layout_marginBottom="10dp" />
-
-                    <Button
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:id="@+id/adminButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/active_button_color"
-                        android:text="Administrator"
-                        android:textSize="16sp"
+                        android:text="Admin"
+                        android:fontFamily="@font/inter"
+                        android:textSize="20sp"
+                        android:textFontWeight="900"
+                        android:textColor="@color/white"
                         android:layout_gravity="center" />
-            </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/adminDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="A user with oversight capabilities, responsible for maintaining app integrity by managing and removing events, profiles, facilities, and inappropriate content."
+                        android:textSize="16sp"
+                        android:fontFamily="@font/inter_italic"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center" />
+
+                </LinearLayout>
             </FrameLayout>
         </androidx.cardview.widget.CardView>
 
