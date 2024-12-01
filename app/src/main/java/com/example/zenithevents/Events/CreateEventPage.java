@@ -105,11 +105,19 @@ public class CreateEventPage extends AppCompatActivity {
                 geolocationCheck.setChecked(event.getHasGeolocation());
                 geolocationCheck.setEnabled(false);
 
-                selectedLimitView.setText(String.valueOf(event.getSelectedLimit()));
-                selectedLimitView.setEnabled(false);
+                if (event.getSelectedLimit() == 0) {
+                    selectedLimitView.setVisibility(View.GONE);
+                } else {
+                    selectedLimitView.setText(String.valueOf(event.getSelectedLimit()));
+                    selectedLimitView.setEnabled(false);
+                }
 
-                eventLimitView.setText(String.valueOf(event.getNumParticipants()));
-                eventLimitView.setEnabled(false);
+                if (event.getNumParticipants() == 0) {
+                    eventLimitView.setVisibility(View.GONE);
+                } else {
+                    eventLimitView.setText(String.valueOf(event.getNumParticipants()));
+                    eventLimitView.setEnabled(false);
+                }
             });
         }
 
