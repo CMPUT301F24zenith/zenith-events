@@ -88,21 +88,14 @@ public class CreateProfileActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        requestNotifsPerms();
         notifsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        if (ContextCompat.checkSelfPermission(CreateProfileActivity.this,
-                                Manifest.permission.POST_NOTIFICATIONS)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(CreateProfileActivity.this,
-                                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
-                                    101);
-                        }
-                    }
+                    requestNotifsPerms();
                     wantsNotifs = true;
-//                    Toast.makeText(CreateProfileActivity.this, "Notifications enabled", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateProfileActivity.this, "Notifications enabled", Toast.LENGTH_SHORT).show();
                 } else {
                     wantsNotifs = false;
                     Toast.makeText(CreateProfileActivity.this, "Notifications disabled", Toast.LENGTH_SHORT).show();
@@ -249,5 +242,18 @@ public class CreateProfileActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error creating profile", Toast.LENGTH_SHORT).show());
     }
+    public void requestNotifsPerms() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(CreateProfileActivity.this,
+                    Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(CreateProfileActivity.this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        101);
+                notifsCheckBox.setChecked(true);
+
+    }
 
 }
+
+

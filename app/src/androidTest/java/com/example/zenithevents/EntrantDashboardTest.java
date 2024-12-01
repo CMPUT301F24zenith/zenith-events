@@ -35,7 +35,7 @@ public class EntrantDashboardTest {
 
     @Test
     public void testEventFragmentButton() {
-        Espresso.onView(ViewMatchers.withId(R.id.entrantButton)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.organizerCard)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(EntrantViewActivity.class.getName()));
 //        Espresso.onView(ViewMatchers.withId(R.id.btnEvents)).check(matches(isDisplayed()));
 
