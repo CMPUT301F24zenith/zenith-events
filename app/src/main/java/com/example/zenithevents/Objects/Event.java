@@ -160,7 +160,7 @@ public class Event implements Serializable {
      * @return The event title.
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
-    public String getEventTitle() {
+    public String getEventName() {
         return this.eventTitle;
     }
 
@@ -262,7 +262,7 @@ public class Event implements Serializable {
      * @param eventTitle The title to set for the event.
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
-    public void setEventTitle(String eventTitle) {
+    public void setEventName(String eventTitle) {
         this.eventTitle = eventTitle;
     }
 
@@ -336,16 +336,16 @@ public class Event implements Serializable {
         eventUtils.createUpdateEvent(this, eventId -> {
             for (String deviceId : this.getSelected()) {
                 userUtils.fetchUserProfile(deviceId, callback -> {
-                    ArrayList<String> waitingEvents = callback.getWaitingEvents();
-                    waitingEvents.remove(this.eventId);
-                    callback.setWaitingEvents(waitingEvents);
+                    callback.getWaitingEvents().remove(this.eventId);
 
                     ArrayList<String> selectedEvents = callback.getSelectedEvents();
-                    selectedEvents.add(this.eventId);
+                    if (!selectedEvents.contains(this.eventId))
+                        selectedEvents.add(this.eventId);
                     callback.setSelectedEvents(selectedEvents);
-                    if (callback.getWantsNotifs()) {
+
+                    if (sampledList.contains(deviceId) && callback.getWantsNotifs()) {
                         Log.d("FunctionCall", "wants notifs");
-                        callback.sendNotification(context, "Congratulations! You have been selected for " + this.getEventTitle());
+                        callback.sendNotification(context, "Congratulations! You have been selected for " + this.getEventName());
                     }
                     userUtils.updateUserByObject(callback, callback2 -> {
                         Log.d("FunctionCall", "User: " + deviceId + "info updated.");
@@ -355,7 +355,7 @@ public class Event implements Serializable {
             for (String deviceId : this.getWaitingList()) {
                 userUtils.fetchUserProfile(deviceId, callback -> {
                     if (callback.getWantsNotifs()) {
-                        callback.sendNotification(context, "You have not been selected for " + this.getEventTitle());
+                        callback.sendNotification(context, "You have not been selected for " + this.getEventName());
                         userUtils.updateUserByObject(callback, callback2 -> {
                             Log.d("Notification", "User: " + deviceId + "notified.");
                         });
@@ -363,8 +363,7 @@ public class Event implements Serializable {
                 });
             }
         });
-        Log.d("FunctionCall", "4-- " + this.getSelected().size());
-        Log.d("FunctionCall", "5-- " + this.getWaitingList().size());
+
         return this.getSelected();
     }
 
@@ -391,7 +390,7 @@ public class Event implements Serializable {
                     }
                 });
             }
-            Toast.makeText(context, "Notifications sent successfully!", Toast.LENGTH_SHORT).show();
+            Log.d("SendNotifications.event", "Notifications sent successfully!");
         } catch (Exception e) {
             Toast.makeText(context, "Error sending notifications: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,10 +80,9 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
         TextView emailView = convertView.findViewById(R.id.entrantEmail);
         TextView initials = convertView.findViewById(R.id.initials);
         ImageView profileImage = convertView.findViewById(R.id.profileImage);
-        Button acceptBtn = convertView.findViewById(R.id.acceptEntrantBtn);
-        Button declineBtn = convertView.findViewById(R.id.declineEntrantBtn);
+        ImageButton acceptBtn = convertView.findViewById(R.id.acceptEntrantBtn);
+        ImageButton declineBtn = convertView.findViewById(R.id.declineEntrantBtn);
         androidx.cardview.widget.CardView viewCard = convertView.findViewById(R.id.viewEntrantCard);
-//        viewCard.setBackgroundResource(R.drawable.space_image);
 
         UserUtils userUtils = new UserUtils();
 
@@ -113,11 +113,16 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
                     users.remove(position);
                     notifyDataSetChanged();
 
+
                     EventUtils eventUtils = new EventUtils();
                     Log.d("FunctionCall", "drawing eventId::" + this.eventId);
 
                     eventUtils.fetchEventById(this.eventId, event -> {
                         if (event == null) return;
+                        ArrayList<String> entrant_ = new ArrayList<>();
+                        entrant_.add(user.getDeviceID());
+                        event.sendNotifications(getContext(), "You have been declined from the event", entrant_);
+
                         Log.d("FunctionCall", "drawing eventId not null::" + event.getEventId());
 
                         ArrayList<String> newSelectedList = event.drawLottery(getContext());

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@drawable/gradient_background"
+    android:background="@color/background_color"
     tools:context=".Admin.FacilityDetail">
 
     <LinearLayout
@@ -17,76 +17,76 @@
         android:gravity="center_horizontal"
         android:clipToPadding="true">
 
-        <!-- Facility Information -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp">
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/facilityName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:fontFamily="@font/inter"
+                android:textFontWeight="900"
                 android:textSize="20dp"
                 android:text="Facility Name"
-                android:textColor="@color/pasteColor" />
+                android:textColor="@color/active_button_color" />
 
             <TextView
                 android:id="@+id/facilityEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
+                android:fontFamily="@font/inter_italic"
                 android:textSize="15dp"
-                android:textColor="@color/pasteColor"
+                android:textColor="@color/active_button_color"
                 android:text="Email" />
 
             <TextView
                 android:id="@+id/facilityPhoneNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
+                android:fontFamily="@font/inter_italic"
                 android:textSize="15dp"
-                android:textColor="@color/pasteColor"
+                android:textColor="@color/active_button_color"
                 android:text="Phone Number" />
-            <Button
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:id="@+id/deleteFacility"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/darkRed"
-                android:text="Delete Facility" />
         </LinearLayout>
 
-
-        <!-- Facility Events -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/surrounding_text"
+            android:background="@color/background_color"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Facility Events"
+                android:text="Events"
                 android:textSize="20dp"
-                android:textStyle="bold" />
-
+                android:fontFamily="@font/inter"
+                android:textFontWeight="900" />
 
             <ListView
                 android:id="@+id/facilityEventsListView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="550dp"
                 android:layout_marginTop="10dp" />
         </LinearLayout>
 
-
+        <Button
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:id="@+id/deleteFacility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/negative_button_color"
+            android:text="Delete Facility"
+            android:fontFamily="@font/inter"
+            android:textFontWeight="900" />
     </LinearLayout>
 
 </ScrollView>

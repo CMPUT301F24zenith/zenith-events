@@ -7,7 +7,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="@color/container_background"
     tools:context=".Events.EventView">
 
     <ImageView
@@ -34,12 +34,12 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:id="@+id/deleteImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/red"
+            android:textColor="@color/negative_button_color"
             android:text="Delete Event Image"
             android:visibility="gone" />
         <LinearLayout
@@ -53,40 +53,52 @@
                 android:id="@+id/sendNotifsButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="@color/background_color"
                 android:layout_margin="4dp"
                 android:visibility="gone"
                 android:contentDescription="notification_button"
-                android:src="@drawable/baseline_notification_add_24" />
+                android:src="@drawable/baseline_notification_add_24"
+                app:tint="@color/active_button_color"/>
 
             <ImageButton
                 style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
                 android:id="@+id/btnEditEvent"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="@color/background_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:contentDescription="Edit event"
                 android:visibility="gone"
-                android:src="@drawable/baseline_edit_24" />
+                android:src="@drawable/baseline_edit_24"
+                app:tint="@color/active_button_color"/>
 
             <ImageButton
                 style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
                 android:id="@+id/mapButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="@color/background_color"
                 android:layout_margin="4dp"
                 android:contentDescription="Map"
                 android:visibility="gone"
-                android:src="@drawable/baseline_map_24" />
+                android:src="@drawable/baseline_map_24"
+                app:tint="@color/active_button_color"/>
 
             <ImageButton
                 style="@style/Widget.MaterialComponents.TimePicker.ImageButton"
                 android:id="@+id/qrCodeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="@color/background_color"
                 android:layout_margin="4dp"
                 android:contentDescription="QRCODE"
                 android:visibility="visible"
-                android:src="@drawable/baseline_qr_code_24" />
+                android:src="@drawable/baseline_qr_code_24"
+                app:tint="@color/active_button_color"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -109,6 +121,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/baseline_home_work_24"
                 android:drawablePadding="8dp"
+                app:tint="@color/active_button_color"
                 android:fontFamily="@font/inter_italic"
                 android:text="Facility Name"
                 android:textSize="15sp" />
@@ -119,6 +132,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/baseline_location_on_24"
                 android:text="Location"
+                app:tint="@color/active_button_color"
                 android:fontFamily="@font/inter"
                 android:drawablePadding="8dp"
                 android:textSize="15sp" />
@@ -149,18 +163,18 @@
                 android:textSize="24sp"
                 android:padding="16dp"
                 android:gravity="center"
-                android:textColor="@color/black" />
+                android:textColor="@color/active_button_color" />
 
             <TextView
                 android:id="@+id/currentOptionText"
+                android:padding="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Waitlisted Entrants"
                 android:fontFamily="@font/inter"
-                android:textSize="16sp"
                 android:paddingHorizontal="20dp"
-                android:gravity="center"
-                android:background="@drawable/square_button" />
+                android:textColor="@color/active_button_color"
+                android:background="@drawable/rounded_button" />
 
             <TextView
                 android:id="@+id/rightArrowButton"
@@ -170,7 +184,7 @@
                 android:textSize="24sp"
                 android:padding="16dp"
                 android:gravity="center"
-                android:textColor="@color/black" />
+                android:textColor="@color/active_button_color" />
         </LinearLayout>
         <Button
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -180,30 +194,62 @@
             android:text="Sample Users"
             android:textFontWeight="700"
             android:fontFamily="@font/inter"
+            android:textColor="@color/active_button_color"
+            android:backgroundTint="@color/background_color"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/btnJoinWaitingList"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Join Waiting List"
             android:textFontWeight="700"
+
             android:fontFamily="@font/inter" />
 
         <Button
             android:id="@+id/deleteEvent"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delete Event"
             android:textFontWeight="700"
             android:gravity="center"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/negative_button_color"
             android:layout_gravity="center"
             android:visibility="gone"
             android:fontFamily="@font/inter" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lotteryAnimation"
+            android:layout_gravity="center"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:lottie_rawRes="@raw/check_mark_with_confetti2"
+            android:visibility="gone"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/joinEventAnimation"
+            android:layout_gravity="center"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:lottie_rawRes="@raw/calendar_check_mark2"
+            app:lottie_colorFilter="@color/positive_button_color"
+            android:visibility="gone"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/sendNotifAnimation"
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_rawRes="@raw/message_sent"
+            android:visibility="gone"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false" />
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"

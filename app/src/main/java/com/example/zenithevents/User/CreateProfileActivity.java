@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -52,7 +53,7 @@ import java.util.Map;
  * a clear understanding of each method’s purpose and usage within the class.
  */
 public class CreateProfileActivity extends AppCompatActivity {
-
+    private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 1;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private Button  confirmButton;
@@ -99,10 +100,11 @@ public class CreateProfileActivity extends AppCompatActivity {
                     }
                     Log.d("FunctionCall", "No Requesting permission");
                     wantsNotifs = true;
-                    Toast.makeText(CreateProfileActivity.this, "Notifications enabled", Toast.LENGTH_SHORT).show();
+                    checkAndRequestNotificationPermission();
+
                 } else {
                     wantsNotifs = false;
-                    Toast.makeText(CreateProfileActivity.this, "Notifications disabled", Toast.LENGTH_SHORT).show();
+
                 }
 
             }
@@ -156,7 +158,7 @@ public class CreateProfileActivity extends AppCompatActivity {
      * Signs in the user anonymously using Firebase Authentication.
      *
      * <p>This method initiates an anonymous sign-in with Firebase. If successful, it retrieves the user's
-     * unique ID and calls {@link #createProfile(String, String, String, String, String)} to store the user’s
+     *
      * profile in Firestore. If sign-in fails, an error message is displayed.
      *
      * <p><strong>AI-Generated Documentation:</strong> This Javadoc was generated with assistance from a generative AI
@@ -217,5 +219,34 @@ public class CreateProfileActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error creating profile", Toast.LENGTH_SHORT).show());
     }
+
+    private void checkAndRequestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
+                        NOTIFICATION_PERMISSION_REQUEST_CODE
+                );
+            } else {
+                Toast.makeText(this, "Notification permission already granted", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
 }
