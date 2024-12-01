@@ -86,7 +86,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         ImageView eventImage = convertView.findViewById(R.id.eventImage);
         TextView eventTitle = convertView.findViewById(R.id.eventTitle);
         TextView facilityName = convertView.findViewById(R.id.facilityName);
-        Button acceptBtn = convertView.findViewById(R.id.acceptEventBtn);
+        ImageButton acceptBtn = convertView.findViewById(R.id.acceptEventBtn);
         ImageButton declineBtn = convertView.findViewById(R.id.declineEventBtn);
         ProgressBar progressBar = convertView.findViewById(R.id.progressBar);
         androidx.cardview.widget.CardView viewCard = convertView.findViewById(R.id.viewCard);
@@ -147,7 +147,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         }
 
         assert event != null;
-        eventTitle.setText(event.getEventTitle());
+        eventTitle.setText(event.getEventName());
         facilityUtils.fetchFacilityName(event.getOwnerFacility(), v -> {
             if (v != null) {
                 facilityName.setText(v);

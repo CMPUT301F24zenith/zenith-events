@@ -107,10 +107,10 @@ public class UserProfile extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
                     wantsNotifs = true;
-                    Toast.makeText(UserProfile.this, "Notifications enabled", Toast.LENGTH_SHORT).show();
+
                 } else {
                     wantsNotifs = false;
-                    Toast.makeText(UserProfile.this, "Notifications disabled", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });

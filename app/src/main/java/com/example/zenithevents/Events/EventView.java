@@ -23,7 +23,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -43,7 +42,6 @@ import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -82,7 +80,7 @@ public class EventView extends AppCompatActivity {
     FacilityUtils facilityUtils = new FacilityUtils();
     EventUtils eventUtils = new EventUtils();
     private String eventId, type;
-    private LottieAnimationView lotteryAnimation;
+    private LottieAnimationView lotteryAnimation, joinEventAnimation, sendNotifAnimation;
 
 
     /**
@@ -128,6 +126,9 @@ public class EventView extends AppCompatActivity {
         mapButton = findViewById(R.id.mapButton);
         sendNotifsButton = findViewById(R.id.sendNotifsButton);
         lotteryAnimation = findViewById(R.id.lotteryAnimation);
+        joinEventAnimation = findViewById(R.id.joinEventAnimation);
+        sendNotifAnimation = findViewById(R.id.sendNotifAnimation);
+
 
     }
 
@@ -179,8 +180,7 @@ public class EventView extends AppCompatActivity {
     private void displayEventDetails(Event event) {
         Log.d("FunctionCall", "displayingDetails");
 
-        // Set event details
-        eventName.setText(event.getEventTitle());
+        eventName.setText(event.getEventName());
         facilityUtils.fetchFacilityName(event.getOwnerFacility(), v -> {
             if (v != null) {
                 facilityName.setText(v);
@@ -188,15 +188,15 @@ public class EventView extends AppCompatActivity {
                 facilityName.setText("");
             }
         });
-        // Check if imageUrl is null or empty
+
         if (event.getImageUrl() == null || event.getImageUrl().isEmpty()) {
             Log.d("ImageCheck", "No image available for this event.");
-            deleteImageButton.setVisibility(View.GONE); // Hide delete button if no image
-            eventPosterImageView.setImageResource(R.drawable.event_place_holder); // Set placeholder image
+            deleteImageButton.setVisibility(View.GONE);
+            eventPosterImageView.setImageResource(R.drawable.event_place_holder);
         } else {
             Log.d("ImageCheck", "Image available. Showing delete button.");
-            if(Objects.equals(type, "admin")) deleteImageButton.setVisibility(View.VISIBLE); // Show delete button if image exists
-            loadImage(event.getImageUrl(), eventPosterImageView); // Load the actual image
+            if(Objects.equals(type, "admin")) deleteImageButton.setVisibility(View.VISIBLE);
+            loadImage(event.getImageUrl(), eventPosterImageView);
         }
 
         eventAddress.setText(event.getEventAddress());
@@ -289,7 +289,10 @@ public class EventView extends AppCompatActivity {
                                         Log.d("Location", "Location is null");
                                     }
                                 }
-                                Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
+                                joinEventAnimation.setVisibility(View.VISIBLE);
+                                joinEventAnimation.setSpeed(0.5f);
+                                joinEventAnimation.playAnimation();
+                                Log.d("EventView", "Successfully joined the event!");
                             } else if (isSuccess == 0) {
                                 Toast.makeText(context, "Successfully left the event!", Toast.LENGTH_SHORT).show();
                             } else if (isSuccess == -1) {
@@ -297,6 +300,23 @@ public class EventView extends AppCompatActivity {
                             }
 
                         });
+                    });
+
+                    joinEventAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+                        public void onAnimationStart(Animator animation) {
+                            joinEventAnimation.setVisibility(View.VISIBLE);
+                        }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            joinEventAnimation.setVisibility(View.GONE);
+                        }
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+                            joinEventAnimation.setVisibility(View.GONE);
+                        }
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+                        }
                     });
             });
 
@@ -391,9 +411,7 @@ public class EventView extends AppCompatActivity {
             if (Objects.equals(type, "organizer")) sendNotifsButton.setVisibility(View.VISIBLE);
             btnEditEvent.setOnClickListener(v -> {
                 Intent intent = new Intent(this, CreateEventPage.class);
-                intent.putExtra("page_title", "Edit Event");
-                intent.putExtra("Event", (Serializable) event);
-                intent.putExtra("type", "edit");
+                intent.putExtra("Event Id", event.getEventId());
                 startActivity(intent);
             });
 
@@ -405,12 +423,10 @@ public class EventView extends AppCompatActivity {
 
             });
 
-
+            lotteryAnimation.removeAllAnimatorListeners();
             lotteryAnimation.addAnimatorListener(new Animator.AnimatorListener() {
                 public void onAnimationStart(Animator animation) {
-                    // Animation started
                     lotteryAnimation.setVisibility(View.VISIBLE);
-
                 }
 
                 @Override
@@ -425,13 +441,11 @@ public class EventView extends AppCompatActivity {
 
                 @Override
                 public void onAnimationCancel(Animator animation) {
-                    // Animation canceled
                     lotteryAnimation.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onAnimationRepeat(Animator animation) {
-                    // No action needed for repeat
                 }
             });
 
@@ -535,6 +549,25 @@ public class EventView extends AppCompatActivity {
             String message = input.getText().toString().trim();
             if (!message.isEmpty()) {
                 event.sendNotifications(context, message, Entrants);
+                sendNotifAnimation.setVisibility(View.VISIBLE);
+                sendNotifAnimation.setMinAndMaxProgress(0.3f, 1f);
+                sendNotifAnimation.playAnimation();
+                sendNotifAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+                    public void onAnimationStart(Animator animation) {
+                        sendNotifAnimation.setVisibility(View.VISIBLE);
+                    }
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        sendNotifAnimation.setVisibility(View.GONE);
+                    }
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                        sendNotifAnimation.setVisibility(View.GONE);
+                    }
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+                    }
+                });
             }
             else {
                 Toast.makeText(this, "Please enter a message.", Toast.LENGTH_SHORT).show();
@@ -586,7 +619,7 @@ public class EventView extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (eventListener != null) {
-            eventListener.remove(); // Remove the listener to avoid memory leaks
+            eventListener.remove();
         }
     }
 

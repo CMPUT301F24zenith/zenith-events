@@ -1,42 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    tools:context=".MainActivity"
-    android:orientation="vertical"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background_color">
 
-    <Button
-        android:id="@+id/entrantButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/square_button"
-        android:text="Entrant"
-        android:layout_gravity="center"
-        />
 
-    <Button
-        android:id="@+id/organizerButton"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/topTextView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/square_button"
-        android:text="Organizer"
-        android:layout_gravity="center"
-        />
+        android:text="Zenith Events"
+        android:fontFamily="@font/inter"
+        android:textSize="28sp"
+        android:textFontWeight="900"
+        android:gravity="center"
+        android:padding="16dp"
+        android:elevation="4dp" />
 
-    <Button
-        android:id="@+id/adminButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/square_button"
-        android:text="Admin"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        />
-</LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Mode:"
+                android:fontFamily="@font/inter"
+                android:textSize="24sp"
+                android:textFontWeight="900"
+                android:gravity="center"
+                android:layout_marginBottom="16dp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/entrantCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardBackgroundColor="@color/container_background"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="20dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/home_background_image"
+                        android:layout_alignParentTop="true" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:background="@drawable/translucent_background">
+
+                        <TextView
+                            android:id="@+id/entrantTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Entrant"
+                            android:fontFamily="@font/inter"
+                            android:textSize="20sp"
+                            android:textFontWeight="900"
+                            android:textColor="@color/white"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:id="@+id/entrantDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="A participant who can join event waiting lists, manage their profile, and receive notifications about event participation."
+                            android:textSize="16sp"
+                            android:fontFamily="@font/inter_italic"
+                            android:textColor="@color/white"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center" />
+
+                    </LinearLayout>
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/organizerCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardBackgroundColor="@color/container_background"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="20dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/home_background_image"
+                        android:layout_alignParentTop="true" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:background="@drawable/translucent_background">
+
+                        <TextView
+                            android:id="@+id/organizerTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Organizer"
+                            android:fontFamily="@font/inter"
+                            android:textSize="20sp"
+                            android:textFontWeight="900"
+                            android:textColor="@color/white"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:id="@+id/organizerDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="A user responsible for creating and managing events, viewing entrant data, sending notifications, and managing event settings like geolocation or waiting list limits."
+                            android:textSize="16sp"
+                            android:fontFamily="@font/inter_italic"
+                            android:textColor="@color/white"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center" />
+
+                    </LinearLayout>
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/adminCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardBackgroundColor="@color/container_background"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="20dp">
+
+                <FrameLayout
+                    android:id="@+id/adminLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/home_background_image"
+                        android:layout_alignParentTop="true" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:background="@drawable/translucent_background">
+
+                        <TextView
+                            android:id="@+id/adminTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Admin"
+                            android:fontFamily="@font/inter"
+                            android:textSize="20sp"
+                            android:textFontWeight="900"
+                            android:textColor="@color/white"
+                            android:layout_gravity="center" />
+
+                        <TextView
+                            android:id="@+id/adminDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="A user with oversight capabilities, responsible for maintaining app integrity by managing and removing events, profiles, facilities, and inappropriate content."
+                            android:textSize="16sp"
+                            android:fontFamily="@font/inter_italic"
+                            android:textColor="@color/white"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center" />
+
+                    </LinearLayout>
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>
