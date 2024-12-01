@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
@@ -35,6 +36,7 @@ public class CreationSuccessActivity extends AppCompatActivity {
     Bitmap QRCode, eventImage;
     ConfettiView confettiView;
     FrameLayout confettiLayout;
+    String eventId;
 
     /**
      * Called when the activity is first created. Initializes the UI components, retrieves the Event object passed
@@ -57,36 +59,39 @@ public class CreationSuccessActivity extends AppCompatActivity {
         confettiView = findViewById(R.id.confettiView);
         confettiLayout = findViewById(R.id.confettiLayout);
 
-        event = (Event) getIntent().getSerializableExtra("Event");
+        eventId = getIntent().getStringExtra("Event Id");
+        EventUtils eventUtils = new EventUtils();
+        eventUtils.fetchEventById(eventId, event_ -> {
+            event = event_;
+            confettiLayout.post(() -> {
+                CommonConfetti.rainingConfetti(
+                        confettiLayout,
+                        new int[]{Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW}
+                ).stream(3000);
+            });
 
-        confettiLayout.post(() -> {
-            CommonConfetti.rainingConfetti(
-                    confettiLayout,
-                    new int[]{Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW}
-            ).stream(3000);
+            if (event != null) {
+                eventNameText.setText(event.getEventName());
+
+                if (event.getImageUrl() != null) {
+                    eventImage = QRCodeUtils.decodeBase64ToBitmap(event.getImageUrl());
+                    eventImageView.setImageBitmap(eventImage);
+                }
+
+                if (event.getQRCodeBitmap() != null) {
+                    QRCode = QRCodeUtils.decodeBase64ToBitmap(event.getQRCodeBitmap());
+                    qrCodeView.setImageBitmap(QRCode);
+                }
+
+                shareQRButton.setOnClickListener(v -> {
+                    shareQRCode(QRCode);
+                });
+
+                exitButton.setOnClickListener(v -> {
+                    finish();
+                });
+            }
         });
-
-        if (event != null) {
-            eventNameText.setText(event.getEventName());
-
-            if (event.getImageUrl() != null) {
-                eventImage = QRCodeUtils.decodeBase64ToBitmap(event.getImageUrl());
-                eventImageView.setImageBitmap(eventImage);
-            }
-
-            if (getIntent().getStringExtra("qr_code") != null) {
-                QRCode = QRCodeUtils.decodeBase64ToBitmap(getIntent().getStringExtra("qr_code"));
-                qrCodeView.setImageBitmap(QRCode);
-            }
-
-            shareQRButton.setOnClickListener(v -> {
-                shareQRCode(QRCode);
-            });
-
-            exitButton.setOnClickListener(v -> {
-                finish();
-            });
-        }
     }
 
     /**
