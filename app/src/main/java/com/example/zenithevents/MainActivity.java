@@ -1,9 +1,12 @@
 package com.example.zenithevents;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     CardView entrantCard, adminCard, organizerCard;
     FrameLayout adminLayout;
 
+
     /**
      * Initializes the activity, sets up button click listeners for navigation
      * and initializes Firebase authentication.
@@ -51,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
         organizerCard = findViewById(R.id.organizerCard);
         adminCard = findViewById(R.id.adminCard);
         adminLayout = findViewById(R.id.adminLayout);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.background_color)); // Replace with your background color
+        }
 
         FirebaseMessaging.getInstance().subscribeToTopic("news")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -79,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         db.collection("users").document(deviceID)
                 .addSnapshotListener((documentSnapshot, error) -> {
                     if (error != null) {
-                        adminLayout.setVisibility(View.GONE);
+                        adminCard.setVisibility(View.GONE);
                         Log.e("Firebase", "Error retrieving user document", error);
                         return;
                     }
@@ -87,16 +96,16 @@ public class MainActivity extends AppCompatActivity {
                     if (documentSnapshot != null && documentSnapshot.exists()) {
                         Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
                         if (Boolean.TRUE.equals(isAdmin)) {
-                            adminLayout.setVisibility(View.VISIBLE);
+                            adminCard.setVisibility(View.VISIBLE);
                             adminCard.setOnClickListener(v -> {
                                 Intent intent = new Intent(MainActivity.this, AdminViewActivity.class);
                                 startActivity(intent);
                             });
                         } else {
-                            adminLayout.setVisibility(View.GONE);
+                            adminCard.setVisibility(View.GONE);
                         }
                     } else {
-                        adminLayout.setVisibility(View.GONE);
+                        adminCard.setVisibility(View.GONE);
                         Log.d("UserClass", "No isAdmin field");
                     }
                 });
