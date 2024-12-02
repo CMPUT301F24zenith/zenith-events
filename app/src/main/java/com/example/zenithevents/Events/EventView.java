@@ -44,6 +44,7 @@ import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.OrganizerPage;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -215,6 +216,7 @@ public class EventView extends AppCompatActivity {
         if (event.getCancelledList().contains(deviceID) ||
                 event.getRegistrants().contains(deviceID)) {
             btnJoinLeaveWaitingList.setEnabled(false);
+
             btnJoinLeaveWaitingList.setText("Attendance can not be changed");
             btnJoinLeaveWaitingList.setBackgroundColor(getResources().getColor(R.color.inactive_button_color));
         }
@@ -234,14 +236,22 @@ public class EventView extends AppCompatActivity {
                 joinEventLoadingAnimation.setSpeed(0.5f);
                 joinEventLoadingAnimation.playAnimation();
 
+                btnSampleUsers.setEnabled(false);
+                btnJoinLeaveWaitingList.setEnabled(false);
+                deleteEventButton.setEnabled(false);
+
                 userUtils.applyLeaveEvent(this, deviceID, event.getEventId(), (isSuccess, event_) -> {
                     if (isSuccess == 0) {
                         joinEventLoadingAnimation.setVisibility(View.GONE);
+                        btnSampleUsers.setEnabled(true);
                         btnJoinLeaveWaitingList.setEnabled(true);
+                        deleteEventButton.setEnabled(true);
                         Toast.makeText(this, "Successfully left the event!", Toast.LENGTH_SHORT).show();
                     } else if (isSuccess == -1) {
                         joinEventLoadingAnimation.setVisibility(View.GONE);
+                        btnSampleUsers.setEnabled(true);
                         btnJoinLeaveWaitingList.setEnabled(true);
+                        deleteEventButton.setEnabled(true);
                         Toast.makeText(this, "Failed to change attendance. Please try again.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -264,7 +274,9 @@ public class EventView extends AppCompatActivity {
                 joinEventLoadingAnimation.setSpeed(0.5f);
                 joinEventLoadingAnimation.playAnimation();
 
+                btnSampleUsers.setEnabled(false);
                 btnJoinLeaveWaitingList.setEnabled(false);
+                deleteEventButton.setEnabled(false);
 
                 fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -273,7 +285,9 @@ public class EventView extends AppCompatActivity {
                             LOCATION_PERMISSION_REQUEST_CODE);
 
                     joinEventLoadingAnimation.setVisibility(View.GONE);
+                    btnSampleUsers.setEnabled(true);
                     btnJoinLeaveWaitingList.setEnabled(true);
+                    deleteEventButton.setEnabled(true);
                 }
 
                 fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
@@ -296,7 +310,9 @@ public class EventView extends AppCompatActivity {
                                         Log.d("FunctionCall", "updatingEvent...");
                                         eventUtils.createUpdateEvent(event_, callback -> {
                                             joinEventLoadingAnimation.setVisibility(View.GONE);
+                                            btnSampleUsers.setEnabled(true);
                                             btnJoinLeaveWaitingList.setEnabled(true);
+                                            deleteEventButton.setEnabled(true);
 
                                             if (callback != null) {
                                                 joinEventAnimation.setVisibility(View.VISIBLE);
@@ -312,7 +328,9 @@ public class EventView extends AppCompatActivity {
                                     }
                                 } else {
                                     joinEventLoadingAnimation.setVisibility(View.GONE);
+                                    btnSampleUsers.setEnabled(true);
                                     btnJoinLeaveWaitingList.setEnabled(true);
+                                    deleteEventButton.setEnabled(true);
 
                                     joinEventAnimation.setVisibility(View.VISIBLE);
                                     joinEventAnimation.setSpeed(0.5f);
@@ -321,11 +339,15 @@ public class EventView extends AppCompatActivity {
                                 Log.d("EventView", "Successfully joined the event!");
                             } else if (isSuccess == 0) {
                                 joinEventLoadingAnimation.setVisibility(View.GONE);
+                                btnSampleUsers.setEnabled(true);
                                 btnJoinLeaveWaitingList.setEnabled(true);
+                                deleteEventButton.setEnabled(true);
                                 Toast.makeText(this, "Successfully left the event!", Toast.LENGTH_SHORT).show();
                             } else if (isSuccess == -1) {
                                 joinEventLoadingAnimation.setVisibility(View.GONE);
+                                btnSampleUsers.setEnabled(true);
                                 btnJoinLeaveWaitingList.setEnabled(true);
+                                deleteEventButton.setEnabled(true);
                                 Toast.makeText(this, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
                             }
 
@@ -353,6 +375,7 @@ public class EventView extends AppCompatActivity {
             if (event.getNumParticipants() != 0 &&
                     event.getCancelledList().size() + event.getSelected().size() + event.getRegistrants().size() + event.getWaitingList().size() >= event.getNumParticipants()) {
                 btnJoinLeaveWaitingList.setEnabled(false);
+
                 btnJoinLeaveWaitingList.setText("Event is full");
                 btnJoinLeaveWaitingList.setBackgroundColor(Color.GRAY);
             }
@@ -444,12 +467,16 @@ public class EventView extends AppCompatActivity {
                 startActivity(intent);
             });
 
-            if(Objects.equals(type, "organizer")) btnSampleUsers.setVisibility(View.VISIBLE);
+            if (Objects.equals(type, "organizer")) btnSampleUsers.setVisibility(View.VISIBLE);
             btnSampleUsers.setOnClickListener(v -> {
+                btnSampleUsers.setEnabled(false);
+                btnJoinLeaveWaitingList.setEnabled(false);
+                deleteEventButton.setEnabled(false);
+
                 event.drawLottery(this);
+
                 lotteryAnimation.setVisibility(View.VISIBLE);
                 lotteryAnimation.playAnimation();
-
             });
 
             joinEventLoadingAnimation.removeAllAnimatorListeners();
@@ -483,6 +510,10 @@ public class EventView extends AppCompatActivity {
                 public void onAnimationEnd(Animator animation) {
 
                     lotteryAnimation.setVisibility(View.GONE);
+                    btnSampleUsers.setEnabled(true);
+                    btnJoinLeaveWaitingList.setEnabled(true);
+                    deleteEventButton.setEnabled(true);
+
                     Intent intent = new Intent(EventView.this, SampledEntrants.class);
                     intent.putExtra("eventId", event.getEventId());
                     startActivity(intent);
@@ -501,24 +532,31 @@ public class EventView extends AppCompatActivity {
 
             deleteEventButton.setVisibility(View.VISIBLE);
             deleteEventButton.setOnClickListener(v-> {
+                deleteEventButton.setEnabled(false);
+                btnJoinLeaveWaitingList.setEnabled(false);
+                btnSampleUsers.setEnabled(false);
+
                 progressBar.setVisibility(View.VISIBLE);
                 eventUtils.removeEvent(eventId, success-> {
                     progressBar.setVisibility(View.GONE);
                     if (success) {
                         deleteEventAnimation.setVisibility(View.VISIBLE);
                         deleteEventAnimation.playAnimation();
+                        joinEventAnimation.setVisibility(View.GONE);
+                        joinEventLoadingAnimation.setVisibility(View.GONE);
+
                         deleteEventAnimation.addAnimatorListener(new Animator.AnimatorListener() {
                             public void onAnimationStart(Animator animation) {
                                 deleteEventAnimation.setVisibility(View.VISIBLE);
-                                deleteEventAnimation.setVisibility(View.GONE);
                             }
 
                             @Override
                             public void onAnimationEnd(Animator animation) {
-
                                 deleteEventAnimation.setVisibility(View.GONE);
-                                finish();
 
+                                Intent intent = new Intent(EventView.this, OrganizerPage.class);
+                                startActivity(intent);
+                                finish();
                             }
 
                             @Override
@@ -530,7 +568,11 @@ public class EventView extends AppCompatActivity {
                             public void onAnimationRepeat(Animator animation) {
                             }
                         });
+
                     } else {
+                        deleteEventButton.setEnabled(true);
+                        btnJoinLeaveWaitingList.setEnabled(true);
+                        btnSampleUsers.setEnabled(true);
                         Toast.makeText(this, "Event did not delete", Toast.LENGTH_SHORT).show();
                     }
                 });
