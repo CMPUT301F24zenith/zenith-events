@@ -255,14 +255,8 @@ public class CreateProfileActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-
                 animationView.setVisibility(View.GONE);
-                if (Objects.equals(type, "Join Event")) finish();
-                if (Objects.equals(type, "Create Event")) {
-                    Intent intent = new Intent(CreateProfileActivity.this, EntrantViewActivity.class);
-                    startActivity(intent);
-                    finish();
-                };
+                finish();
             }
 
             @Override

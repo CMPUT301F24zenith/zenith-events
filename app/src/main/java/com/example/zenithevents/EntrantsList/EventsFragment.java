@@ -17,9 +17,10 @@ import android.widget.ListView;
 import com.example.zenithevents.ArrayAdapters.EventArrayAdapter;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
+import com.example.zenithevents.HelperClasses.FirestoreEventsCollection;
+import com.example.zenithevents.HelperClasses.FirestoreFacilitiesCollection;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,7 +31,7 @@ import java.util.Objects;
 
 /**
  * Fragment that displays a list of events based on the user's role and event type.
- * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ * <p>Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.</p>
  */
 public class EventsFragment extends Fragment {
 
@@ -39,18 +40,13 @@ public class EventsFragment extends Fragment {
     List<Event> events, waitingEventsList;
     EventUtils eventUtils;
     private static final String TAG = "EventsFragment";
-    private boolean shouldUpdateAdapter = true; // Flag to control adapter updates
-
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference eventsRef;
     String type, deviceID;
 
     public EventsFragment() {
         // Required empty public constructor
     }
 
-
-    // TODO: Rename and change types and number of parameters
     /**
      * Creates a new instance of the EventsFragment.
      *
@@ -74,8 +70,6 @@ public class EventsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     /**
@@ -89,7 +83,6 @@ public class EventsFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_events, container, false);
         eventListView = view.findViewById(R.id.eventsListView);
         events = new ArrayList<>();
@@ -98,7 +91,6 @@ public class EventsFragment extends Fragment {
         Context context = getActivity();
 
 
-        int[] counter = {0};
         eventListView.setLayoutAnimation(
                 AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.list_layout_animation)
         );
@@ -113,35 +105,116 @@ public class EventsFragment extends Fragment {
                         adapter = new EventArrayAdapter(requireContext(), events, "organizer", null);
                         eventListView.setAdapter(adapter);
 
-                        adapter.notifyDataSetChanged();
-                        eventListView.scheduleLayoutAnimation();
+                        listentoEvents();
+
+                        FirestoreFacilitiesCollection.listenForSpecificFacilityChanges(deviceID, facility -> {
+                            if (facility != null) {
+                                eventUtils.fetchFacilityEvents(deviceID, events_ -> {
+                                    events.clear();
+                                    events.addAll(events_);
+                                    adapter.notifyDataSetChanged();
+                                    eventListView.scheduleLayoutAnimation();
+                                });
+                            } else {
+                                events.clear();
+                                adapter.notifyDataSetChanged();
+                                eventListView.scheduleLayoutAnimation();
+                            }
+                        });
                         Log.d("Firestore", "Fetched: " + waitingEventsList.size());
                     }
                 });
             }
+
             if (Objects.equals(type, "entrant-waiting")) {
                 adapter = new EventArrayAdapter(requireContext(), events, "waitingEvents", null);
                 eventListView.setAdapter(adapter);
+                FirestoreEventsCollection.listenForUserEventChanges(deviceID, events -> {
+                    if (events != null) {
+                        List<Event> eventList = new ArrayList<>();
+                        eventList.clear();
+                        eventList.addAll(events);
+                        adapter.notifyDataSetChanged();
+                        eventListView.scheduleLayoutAnimation();
+                    } else {
+                        Log.e(TAG, "Failed to fetch events");
+                    }
+                });
                 fetchEntrantWaitingEvents("waitingEvents");
-
             }
             if (Objects.equals(type, "entrant-selected")) {
                 adapter = new EventArrayAdapter(requireContext(), events, "selectedEvents", null);
                 eventListView.setAdapter(adapter);
+                FirestoreEventsCollection.listenForUserEventArrayChanges(deviceID, "selectedEvents", events -> {
+                    if (events != null) {
+                        List<Event> eventList = new ArrayList<>();
+                        eventList.clear();
+                        eventList.addAll(events);
+                        adapter.notifyDataSetChanged();
+                        eventListView.scheduleLayoutAnimation();
+                    } else {
+                        Log.e(TAG, "Failed to fetch events");
+                    }
+                });
                 fetchEntrantWaitingEvents("selectedEvents");
             }
+
             if (Objects.equals(type, "entrant-cancelled")) {
                 adapter = new EventArrayAdapter(requireContext(), events, "cancelledEvents", null);
                 eventListView.setAdapter(adapter);
+                FirestoreEventsCollection.listenForUserEventChanges(deviceID, events -> {
+                    if (events != null) {
+                        List<Event> eventList = new ArrayList<>();
+                        eventList.clear();
+                        eventList.addAll(events);
+                        adapter.notifyDataSetChanged();
+                        eventListView.scheduleLayoutAnimation();
+                    } else {
+                        Log.e(TAG, "Failed to fetch events");
+                    }
+                });
                 fetchEntrantWaitingEvents("cancelledEvents");
             }
+
             if (Objects.equals(type, "entrant-registrant")) {
                 adapter = new EventArrayAdapter(requireContext(), events, "registeredEvents", null);
                 eventListView.setAdapter(adapter);
+                FirestoreEventsCollection.listenForUserEventChanges(deviceID, events -> {
+                    if (events != null) {
+                        List<Event> eventList = new ArrayList<>();
+                        eventList.clear();
+                        eventList.addAll(events);
+                        adapter.notifyDataSetChanged();
+                        eventListView.scheduleLayoutAnimation();
+                    } else {
+                        Log.e(TAG, "Failed to fetch events");
+                    }
+                });
                 fetchEntrantWaitingEvents("registeredEvents");
             }
         }
+
         return view;
+    }
+
+    /**
+     * Listens for changes in the user's events collection in Firestore.
+     * Updates the events list and notifies the adapter of data changes.
+     * Triggers a layout animation for the updated event list.
+     */
+    private void listentoEvents() {
+        FirestoreEventsCollection.listenForUserEventChanges(deviceID, events_ -> {
+            if (events_ != null) {
+                events.clear();
+                events.addAll(events_);
+                adapter.notifyDataSetChanged();
+                eventListView.scheduleLayoutAnimation();
+                Log.d("FunctionCall", "now has::: " + events.size());
+            } else {
+                events.clear();
+                Log.e(TAG, "Failed to fetch events");
+            }
+        });
     }
 
     /**
@@ -199,10 +272,4 @@ public class EventsFragment extends Fragment {
                     }
                 });
     }
-
-
-
-
-
-
 }

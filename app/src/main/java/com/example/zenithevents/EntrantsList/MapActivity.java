@@ -27,6 +27,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The MapActivity class handles the display of user locations on a map for a specific event.
+ * It uses Google Maps to show markers for user locations stored in Firestore and allows interaction
+ * with the markers to view user profiles.
+ * The JavaDocs for this class were generated using OpenAI's ChatGPT.
+ */
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -34,6 +40,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private FirebaseFirestore db;
     private ProgressBar progressBar;
 
+    /**
+     * Initializes the activity and sets up the map fragment and Firestore reference.
+     * Retrieves the event ID from the intent to query user locations.
+     *
+     * @param savedInstanceState The saved instance state of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +63,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         eventID = getIntent().getStringExtra("EventID");
     }
 
+    /**
+     * Called when the map is ready for use. Fetches user locations from Firestore
+     * and displays them as markers on the map.
+     *
+     * @param googleMap The GoogleMap object to interact with.
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -91,6 +109,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         });
     }
 
+    /**
+     * Displays user locations on the map as markers and adjusts the camera to fit all markers.
+     *
+     * @param userLocations A map of user IDs to their latitude and longitude coordinates.
+     */
     private void displayMarkersOnMap(HashMap<String, Map<String, Object>> userLocations) {
         LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
 
@@ -116,4 +139,3 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         mMap.animateCamera(cameraUpdate);
     }
 }
-

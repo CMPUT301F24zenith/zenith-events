@@ -374,7 +374,7 @@ public class Event implements Serializable {
      * @param message  The message to send to participants who enabled notifications.
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
-    public void sendNotifications(Context context,String message, ArrayList<String> entrants){
+    public void sendNotifications(Context context, String message, ArrayList<String> entrants){
 //         Send notifications to recipients
         UserUtils userUtils = new UserUtils();
         try {

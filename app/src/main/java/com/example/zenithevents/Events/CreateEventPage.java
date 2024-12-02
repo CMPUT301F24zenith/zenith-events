@@ -37,7 +37,7 @@ import java.util.Objects;
 
 /**
  * Activity that allows the creation and editing of event details, including uploading a poster image and generating a QR code.
- * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ * <p>Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.</p>
  */
 public class CreateEventPage extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
@@ -83,7 +83,7 @@ public class CreateEventPage extends AppCompatActivity {
 
         event = new Event();
 
-        if (!eventId.isEmpty()) {
+        if (eventId != null && !eventId.isEmpty()) {
             eventUtils.fetchEventById(eventId, event_ -> {
                 event = event_;
 
@@ -225,7 +225,6 @@ public class CreateEventPage extends AppCompatActivity {
                                 } else {
                                     intent.putExtra("eventFacility", "");
                                 }
-                                intent.putExtra("eventImage", event.getImageUrl());
                                 intent.putExtra("qr_code", qrCodeBase64);
                                 startActivity(intent);
                                 finish();
@@ -243,8 +242,6 @@ public class CreateEventPage extends AppCompatActivity {
         });
 
         createEventCancelButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, OrganizerPage.class);
-            startActivity(intent);
             finish();
         });
 

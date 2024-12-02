@@ -26,13 +26,15 @@ import com.example.zenithevents.R;
 import com.example.zenithevents.User.OrganizerPage;
 import com.github.jinatonic.confetti.CommonConfetti;
 import com.github.jinatonic.confetti.ConfettiView;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 /**
  * CreationSuccessActivity is an activity that is displayed after successfully creating an event.
  * It shows the event's title, image, and a generated QR code, and allows the user to share the QR code.
  * <p>
- * Note: The Javadocs for this class were generated with the assistance of an AI language model.
+ * Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.
  * </p>
  */
 public class CreationSuccessActivity extends AppCompatActivity {
@@ -44,11 +46,13 @@ public class CreationSuccessActivity extends AppCompatActivity {
     androidx.cardview.widget.CardView cardView;
     ConfettiView confettiView;
     FrameLayout confettiLayout;
+    FirebaseFirestore db;
 
     /**
      * Called when the activity is first created. Initializes the UI components, retrieves the Event object passed
      * from the previous activity, and sets up the event name, image, and QR code.
      * It also sets listeners for the buttons to allow sharing the QR code and exiting the activity.
+     * It also signals to rain confetti on the screen, activating the ConfettiView.
      *
      * @param savedInstanceState A Bundle containing the activity's previously saved state.
      *                           If the activity has never been created, this will be null.
@@ -73,21 +77,30 @@ public class CreationSuccessActivity extends AppCompatActivity {
         eventID = getIntent().getStringExtra("eventID");
         eventNameString = getIntent().getStringExtra("eventName");
         eventFacilityString = getIntent().getStringExtra("eventFacility");
-        eventBitmap = getIntent().getStringExtra("eventImage");
 
-        eventName.setText(eventNameString);
-        eventFacility.setText(eventFacilityString);
+        db = FirebaseFirestore.getInstance();
+        db.collection("events").document(eventID)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        if (documentSnapshot.exists()) {
+                            eventBitmap = documentSnapshot.getString("imageUrl");
+                            eventName.setText(eventNameString);
+                            eventFacility.setText(eventFacilityString);
 
-        if (eventBitmap != null) {
-            Bitmap eventTrueBitmap = BitmapUtils.decodeBase64ToBitmap(eventBitmap);
-            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), eventTrueBitmap);
-            Glide.with(this)
-                    .load(bitmapDrawable)
-                    .into(eventImageView);
-        } else {
-            eventImageView.setImageResource(R.drawable.event_place_holder);
-        }
-
+                            if (eventBitmap != null) {
+                                Bitmap eventTrueBitmap = BitmapUtils.decodeBase64ToBitmap(eventBitmap);
+                                BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), eventTrueBitmap);
+                                Glide.with(this)
+                                        .load(bitmapDrawable)
+                                        .into(eventImageView);
+                            } else {
+                                eventImageView.setImageResource(R.drawable.event_place_holder);
+                            }
+                        }
+                    }
+                });
 
         confettiLayout.post(() -> {
             CommonConfetti.rainingConfetti(
@@ -112,8 +125,6 @@ public class CreationSuccessActivity extends AppCompatActivity {
         shareQRButton.setOnClickListener(v -> shareQRCode(QRCode));
 
         exitButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, OrganizerPage.class);
-            startActivity(intent);
             finish();
         });
     }

@@ -3,12 +3,14 @@ package com.example.zenithevents.User;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.Objects.Facility;
 import com.example.zenithevents.R;
 import com.google.firebase.firestore.DocumentReference;
@@ -41,25 +43,24 @@ public class ViewFacility extends AppCompatActivity {
         setContentView(R.layout.activity_view_facility);
 
         db = FirebaseFirestore.getInstance();
-//        deviceId = DeviceUtils.getDeviceID(this);
         deviceId = getIntent().getStringExtra("deviceId");
+
         facilityName = findViewById(R.id.namefield);
         facilityPhone = findViewById(R.id.phonefield);
         facilityEmail = findViewById(R.id.emailfield);
         editButton = findViewById(R.id.editbuttonfield);
 
-        if (deviceId != null) {
-            showFacilityData(deviceId);
-        } else {
-            Toast.makeText(this, "Error in getting Facility", Toast.LENGTH_SHORT).show();
-            finish();
-        }
-
-        showFacilityData(deviceId);
+        FacilityUtils.listenForFacilitiesChanges(facilities -> {
+            if (deviceId != null) {
+                showFacilityData(deviceId);
+            } else {
+                Toast.makeText(this, "Error in getting Facility", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
 
         editButton.setOnClickListener(v-> {
             Intent editIntent = new Intent(this, CreateFacility.class);
-            editIntent.putExtra("type", "Edit Facility");
             editIntent.putExtra("deviceId", deviceId);
             startActivity(editIntent);
         });
@@ -86,40 +87,4 @@ public class ViewFacility extends AppCompatActivity {
             }
         }).addOnFailureListener(e -> Toast.makeText(this, "Cannot load Facility", Toast.LENGTH_SHORT).show());
     }
-
-
-
-
-//    private void loadEventData(String deviceId) {
-//        db.collection("facilities").document(deviceId).collection("events")
-//                .get()
-//                .addOnCompleteListener(task -> {
-//                    if (task.isSuccessful()) {
-//                        List<Event> events = new ArrayList<>();
-//                        for (QueryDocumentSnapshot document : task.getResult()) {
-//                            Event event = document.toObject(Event.class);
-//                            events.add(event);
-//                        }
-//                        displayEventDataInChart(events);
-//                    } else {
-//                        Toast.makeText(ViewFacility.this, "Failed to load events", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
-//
-//    private void displayEventDataInChart(List<Event> events) {
-//        List<BarEntry> entries = new ArrayList<>();
-//        for (int i = 0; i < events.size(); i++) {
-//            // Assuming Event has a method getNumParticipants() that returns the number of enrolled participants
-//            entries.add(new BarEntry(i, events.get(i).getNumParticipants()));
-//        }
-//
-//        BarDataSet dataSet = new BarDataSet(entries, "Enrolled Participants");
-//        BarData data = new BarData(dataSet);
-//        eventBarChart.setData(data);
-//        eventBarChart.invalidate(); // Refresh the chart
-//    }
-
-
-
 }

@@ -34,7 +34,6 @@ public class CreateFacility extends AppCompatActivity {
     private EditText facilityEmail;
     private FirebaseFirestore db;
     private String deviceId;
-    String type;
 
     /**
      * Called when the activity is created. Initializes the UI elements and loads existing facility data if available.
@@ -48,15 +47,14 @@ public class CreateFacility extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         deviceId = getIntent().getStringExtra("deviceId");
-        type = getIntent().getStringExtra("type");
 
         facilityName = findViewById(R.id.facility_name);
         facilityPhone = findViewById(R.id.facility_phone);
         facilityEmail = findViewById(R.id.facility_email);
         saveButton = findViewById(R.id.facility_save);
 
-        loadFacility(deviceId);
-
+        if (deviceId != null)
+            loadFacility(deviceId);
 
         saveButton.setOnClickListener(view -> {
             String name = facilityName.getText().toString().trim();
@@ -92,6 +90,7 @@ public class CreateFacility extends AppCompatActivity {
 
         if (!ValidationUtils.isValidEmail(email)) {
             facilityEmail.setError("Invalid email format");
+            facilityEmail.requestFocus();
             return false;
         }
         return true;
@@ -134,14 +133,7 @@ public class CreateFacility extends AppCompatActivity {
      * Navigates to the OrganizerPage and displays a success message.
      */
     private void changeToView() {
-        if (Objects.equals(type, "Edit Facility")) {
-            finish();
-        } else if (Objects.equals(type, "Create Facility")) {
-            Intent viewIntent = new Intent(this, OrganizerPage.class);
-            viewIntent.putExtra("deviceId", deviceId);
-            startActivity(viewIntent);
-            finish();
-        }
+        finish();
         Toast.makeText(this, "Facility saved", Toast.LENGTH_SHORT).show();
     }
 }

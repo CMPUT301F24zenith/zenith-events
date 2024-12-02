@@ -28,7 +28,7 @@ import com.example.zenithevents.R;
  * It includes a button to share the QR code and a button to close the activity.
  * </p>
  * <p>
- * Note: The Javadocs for this class were generated with the assistance of an AI language model.
+ * Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.
  * </p>
  */
 public class QRView extends AppCompatActivity {

@@ -30,6 +30,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.example.zenithevents.Admin.AdminEventsFragment;
+import com.example.zenithevents.Admin.AdminViewActivity;
 import com.example.zenithevents.Admin.FacilityDetail;
 import com.example.zenithevents.Admin.QRViewAdmin;
 import com.example.zenithevents.EntrantsList.CancelledEntrants;
@@ -44,6 +46,7 @@ import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.OrganizerPage;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -61,7 +64,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * the details of an event, allowing users to join/leave the waiting list, view the
  * event's description and image, and perform various event-related actions.
  *
- * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.
+ * <p>Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.
  */
 public class EventView extends AppCompatActivity {
 
@@ -215,6 +218,7 @@ public class EventView extends AppCompatActivity {
         if (event.getCancelledList().contains(deviceID) ||
                 event.getRegistrants().contains(deviceID)) {
             btnJoinLeaveWaitingList.setEnabled(false);
+
             btnJoinLeaveWaitingList.setText("Attendance can not be changed");
             btnJoinLeaveWaitingList.setBackgroundColor(getResources().getColor(R.color.inactive_button_color));
         }
@@ -234,14 +238,22 @@ public class EventView extends AppCompatActivity {
                 joinEventLoadingAnimation.setSpeed(0.5f);
                 joinEventLoadingAnimation.playAnimation();
 
+                btnSampleUsers.setEnabled(false);
+                btnJoinLeaveWaitingList.setEnabled(false);
+                deleteEventButton.setEnabled(false);
+
                 userUtils.applyLeaveEvent(this, deviceID, event.getEventId(), (isSuccess, event_) -> {
                     if (isSuccess == 0) {
                         joinEventLoadingAnimation.setVisibility(View.GONE);
+                        btnSampleUsers.setEnabled(true);
                         btnJoinLeaveWaitingList.setEnabled(true);
+                        deleteEventButton.setEnabled(true);
                         Toast.makeText(this, "Successfully left the event!", Toast.LENGTH_SHORT).show();
                     } else if (isSuccess == -1) {
                         joinEventLoadingAnimation.setVisibility(View.GONE);
+                        btnSampleUsers.setEnabled(true);
                         btnJoinLeaveWaitingList.setEnabled(true);
+                        deleteEventButton.setEnabled(true);
                         Toast.makeText(this, "Failed to change attendance. Please try again.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -264,7 +276,9 @@ public class EventView extends AppCompatActivity {
                 joinEventLoadingAnimation.setSpeed(0.5f);
                 joinEventLoadingAnimation.playAnimation();
 
+                btnSampleUsers.setEnabled(false);
                 btnJoinLeaveWaitingList.setEnabled(false);
+                deleteEventButton.setEnabled(false);
 
                 fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -273,7 +287,9 @@ public class EventView extends AppCompatActivity {
                             LOCATION_PERMISSION_REQUEST_CODE);
 
                     joinEventLoadingAnimation.setVisibility(View.GONE);
+                    btnSampleUsers.setEnabled(true);
                     btnJoinLeaveWaitingList.setEnabled(true);
+                    deleteEventButton.setEnabled(true);
                 }
 
                 fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
@@ -296,12 +312,15 @@ public class EventView extends AppCompatActivity {
                                         Log.d("FunctionCall", "updatingEvent...");
                                         eventUtils.createUpdateEvent(event_, callback -> {
                                             joinEventLoadingAnimation.setVisibility(View.GONE);
-                                            btnJoinLeaveWaitingList.setEnabled(true);
 
                                             if (callback != null) {
                                                 joinEventAnimation.setVisibility(View.VISIBLE);
                                                 joinEventAnimation.setSpeed(0.5f);
                                                 joinEventAnimation.playAnimation();
+
+                                                btnSampleUsers.setEnabled(true);
+                                                btnJoinLeaveWaitingList.setEnabled(true);
+                                                deleteEventButton.setEnabled(true);
                                                 Log.d("FunctionCall", "Location added successfully.");
                                             } else {
                                                 Log.d("FunctionCall", "Failed to update event.");
@@ -312,7 +331,6 @@ public class EventView extends AppCompatActivity {
                                     }
                                 } else {
                                     joinEventLoadingAnimation.setVisibility(View.GONE);
-                                    btnJoinLeaveWaitingList.setEnabled(true);
 
                                     joinEventAnimation.setVisibility(View.VISIBLE);
                                     joinEventAnimation.setSpeed(0.5f);
@@ -321,29 +339,63 @@ public class EventView extends AppCompatActivity {
                                 Log.d("EventView", "Successfully joined the event!");
                             } else if (isSuccess == 0) {
                                 joinEventLoadingAnimation.setVisibility(View.GONE);
+
+                                btnSampleUsers.setEnabled(true);
                                 btnJoinLeaveWaitingList.setEnabled(true);
+                                deleteEventButton.setEnabled(true);
                                 Toast.makeText(this, "Successfully left the event!", Toast.LENGTH_SHORT).show();
                             } else if (isSuccess == -1) {
                                 joinEventLoadingAnimation.setVisibility(View.GONE);
+
+                                btnSampleUsers.setEnabled(true);
                                 btnJoinLeaveWaitingList.setEnabled(true);
+                                deleteEventButton.setEnabled(true);
                                 Toast.makeText(this, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
                             }
 
                         });
                     });
 
+                // Handles the visibility and button states during the lifecycle of an animation.
                     joinEventAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+                        /**
+                         * Called when the animation starts. Makes the `joinEventAnimation` view visible.
+                         *
+                         * @param animation The animator that started the animation.
+                         */
                         public void onAnimationStart(Animator animation) {
                             joinEventAnimation.setVisibility(View.VISIBLE);
                         }
+
+                        /**
+                         * Called when the animation ends. Hides the `joinEventAnimation` view and re-enables the buttons.
+                         *
+                         * @param animation The animator that ended the animation.
+                         */
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             joinEventAnimation.setVisibility(View.GONE);
+
+                            btnSampleUsers.setEnabled(true);
+                            btnJoinLeaveWaitingList.setEnabled(true);
+                            deleteEventButton.setEnabled(true);
                         }
+
+                        /**
+                         * Called when the animation is canceled. Ensures that the `joinEventAnimation` view is hidden.
+                         *
+                         * @param animation The animator that was canceled.
+                         */
                         @Override
                         public void onAnimationCancel(Animator animation) {
                             joinEventAnimation.setVisibility(View.GONE);
                         }
+
+                        /**
+                         * Called when the animation repeats. No action is taken.
+                         *
+                         * @param animation The animator that is repeating.
+                         */
                         @Override
                         public void onAnimationRepeat(Animator animation) {
                         }
@@ -353,6 +405,7 @@ public class EventView extends AppCompatActivity {
             if (event.getNumParticipants() != 0 &&
                     event.getCancelledList().size() + event.getSelected().size() + event.getRegistrants().size() + event.getWaitingList().size() >= event.getNumParticipants()) {
                 btnJoinLeaveWaitingList.setEnabled(false);
+
                 btnJoinLeaveWaitingList.setText("Event is full");
                 btnJoinLeaveWaitingList.setBackgroundColor(Color.GRAY);
             }
@@ -444,56 +497,115 @@ public class EventView extends AppCompatActivity {
                 startActivity(intent);
             });
 
-            if(Objects.equals(type, "organizer")) btnSampleUsers.setVisibility(View.VISIBLE);
+            if (Objects.equals(type, "organizer")) btnSampleUsers.setVisibility(View.VISIBLE);
             btnSampleUsers.setOnClickListener(v -> {
+                btnSampleUsers.setEnabled(false);
+                btnJoinLeaveWaitingList.setEnabled(false);
+                deleteEventButton.setEnabled(false);
+
                 event.drawLottery(this);
+
                 lotteryAnimation.setVisibility(View.VISIBLE);
                 lotteryAnimation.playAnimation();
-
             });
 
             joinEventLoadingAnimation.removeAllAnimatorListeners();
+            // Handles the visibility and button states during the lifecycle of an animation.
             joinEventLoadingAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+
+                /**
+                 * This method is called when the animation starts.
+                 * It makes the loading animation visible to indicate that an action is in progress.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 public void onAnimationStart(Animator animation) {
                     joinEventLoadingAnimation.setVisibility(View.VISIBLE);
                 }
 
+                /**
+                 * This method is called when the animation ends.
+                 * It hides the loading animation once the animation is complete, indicating the action has finished.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     joinEventLoadingAnimation.setVisibility(View.GONE);
                 }
 
+                /**
+                 * This method is called if the animation is canceled before it finishes.
+                 * It ensures that the loading animation is hidden in case the animation does not complete.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 @Override
                 public void onAnimationCancel(Animator animation) {
                     joinEventLoadingAnimation.setVisibility(View.GONE);
                 }
 
+                /**
+                 * This method is called when the animation repeats.
+                 * Since no action is required during the repetition of the animation, this method is left empty.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 @Override
                 public void onAnimationRepeat(Animator animation) {
                 }
             });
 
             lotteryAnimation.removeAllAnimatorListeners();
+            // Handles the visibility and button states during the lifecycle of an animation.
             lotteryAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+
+                /**
+                 * This method is called when the animation starts.
+                 * It makes the lottery animation visible to indicate the start of the event processing.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 public void onAnimationStart(Animator animation) {
                     lotteryAnimation.setVisibility(View.VISIBLE);
                 }
 
+                /**
+                 * This method is called when the animation ends.
+                 * It hides the lottery animation, enables the action buttons, and starts a new activity to show the sampled entrants.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 @Override
                 public void onAnimationEnd(Animator animation) {
 
                     lotteryAnimation.setVisibility(View.GONE);
+                    btnSampleUsers.setEnabled(true);
+                    btnJoinLeaveWaitingList.setEnabled(true);
+                    deleteEventButton.setEnabled(true);
+
                     Intent intent = new Intent(EventView.this, SampledEntrants.class);
                     intent.putExtra("eventId", event.getEventId());
                     startActivity(intent);
-
                 }
 
+                /**
+                 * This method is called if the animation is canceled before it completes.
+                 * It hides the lottery animation in case of cancellation to prevent lingering UI elements.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 @Override
                 public void onAnimationCancel(Animator animation) {
                     lotteryAnimation.setVisibility(View.GONE);
                 }
 
+                /**
+                 * This method is called when the animation repeats.
+                 * Since no action is required when the animation repeats, this method is left empty.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 @Override
                 public void onAnimationRepeat(Animator animation) {
                 }
@@ -501,36 +613,71 @@ public class EventView extends AppCompatActivity {
 
             deleteEventButton.setVisibility(View.VISIBLE);
             deleteEventButton.setOnClickListener(v-> {
+                deleteEventButton.setEnabled(false);
+                btnJoinLeaveWaitingList.setEnabled(false);
+                btnSampleUsers.setEnabled(false);
+
                 progressBar.setVisibility(View.VISIBLE);
                 eventUtils.removeEvent(eventId, success-> {
                     progressBar.setVisibility(View.GONE);
                     if (success) {
                         deleteEventAnimation.setVisibility(View.VISIBLE);
                         deleteEventAnimation.playAnimation();
+                        joinEventAnimation.setVisibility(View.GONE);
+                        joinEventLoadingAnimation.setVisibility(View.GONE);
+
+                         // This listener handles the animation lifecycle events for the "Delete Event Animation" during event deletion.
+                         // It ensures that the animation visibility is managed properly and the activity finishes after the animation completes.
                         deleteEventAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+
+                            /**
+                             * This method is called when the animation starts.
+                             * It makes the delete event animation visible to indicate that the deletion process is beginning.
+                             *
+                             * @param animation The animator that triggered this event.
+                             */
                             public void onAnimationStart(Animator animation) {
                                 deleteEventAnimation.setVisibility(View.VISIBLE);
-                                deleteEventAnimation.setVisibility(View.GONE);
                             }
 
+                            /**
+                             * This method is called when the animation ends.
+                             * It hides the delete event animation and finishes the activity to indicate that the deletion process is complete.
+                             *
+                             * @param animation The animator that triggered this event.
+                             */
                             @Override
                             public void onAnimationEnd(Animator animation) {
-
                                 deleteEventAnimation.setVisibility(View.GONE);
                                 finish();
-
                             }
 
+                            /**
+                             * This method is called if the animation is canceled before it completes.
+                             * It hides the delete event animation in case of cancellation to prevent lingering UI elements.
+                             *
+                             * @param animation The animator that triggered this event.
+                             */
                             @Override
                             public void onAnimationCancel(Animator animation) {
                                 deleteEventAnimation.setVisibility(View.GONE);
                             }
 
+                            /**
+                             * This method is called when the animation repeats.
+                             * Since no action is required when the animation repeats, this method is left empty.
+                             *
+                             * @param animation The animator that triggered this event.
+                             */
                             @Override
                             public void onAnimationRepeat(Animator animation) {
                             }
                         });
+
                     } else {
+                        deleteEventButton.setEnabled(true);
+                        btnJoinLeaveWaitingList.setEnabled(true);
+                        btnSampleUsers.setEnabled(true);
                         Toast.makeText(this, "Event did not delete", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -629,18 +776,48 @@ public class EventView extends AppCompatActivity {
                 sendNotifAnimation.setVisibility(View.VISIBLE);
                 sendNotifAnimation.setMinAndMaxProgress(0.3f, 1f);
                 sendNotifAnimation.playAnimation();
+                // This listener handles the animation lifecycle events for the "Send Notification Animation."
+                // It ensures that the animation visibility is properly managed during the notification sending process.
                 sendNotifAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+
+                    /**
+                     * This method is called when the animation starts.
+                     * It makes the send notification animation visible to indicate that the notification sending process is starting.
+                     *
+                     * @param animation The animator that triggered this event.
+                     */
                     public void onAnimationStart(Animator animation) {
                         sendNotifAnimation.setVisibility(View.VISIBLE);
                     }
+
+                    /**
+                     * This method is called when the animation ends.
+                     * It hides the send notification animation once the notification sending process is complete.
+                     *
+                     * @param animation The animator that triggered this event.
+                     */
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         sendNotifAnimation.setVisibility(View.GONE);
                     }
+
+                    /**
+                     * This method is called if the animation is canceled before it completes.
+                     * It ensures the send notification animation is hidden in case of cancellation.
+                     *
+                     * @param animation The animator that triggered this event.
+                     */
                     @Override
                     public void onAnimationCancel(Animator animation) {
                         sendNotifAnimation.setVisibility(View.GONE);
                     }
+
+                    /**
+                     * This method is called when the animation repeats.
+                     * Since no action is required when the animation repeats, this method is left empty.
+                     *
+                     * @param animation The animator that triggered this event.
+                     */
                     @Override
                     public void onAnimationRepeat(Animator animation) {
                     }
@@ -700,6 +877,10 @@ public class EventView extends AppCompatActivity {
         }
     }
 
+    /**
+     * Removes the event's picture by resetting the image view to a placeholder and updating the event's image URL in Firestore.
+     * It also hides the delete button and shows a Toast message to indicate success or failure.
+     */
     private void removePicture() {
         eventPosterImageView.setImageResource(R.drawable.event_place_holder);
         deleteImageButton.setVisibility(View.GONE);
