@@ -6,7 +6,6 @@ import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.Objects.User;
 
 import org.junit.Test;
-import org.junit.runner.manipulation.Ordering;
 
 import java.util.ArrayList;
 
