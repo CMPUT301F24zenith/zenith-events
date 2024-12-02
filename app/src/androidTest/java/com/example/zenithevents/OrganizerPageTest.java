@@ -25,7 +25,6 @@ public class OrganizerPageTest {
     @Before
     public void setUp() {
         Intents.init();
-
     }
     @After
     public void tearDown() {
@@ -37,5 +36,4 @@ public class OrganizerPageTest {
         Espresso.onView(ViewMatchers.withId(R.id.organizerCard)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(OrganizerPage.class.getName()));
     }
-
 }
