@@ -22,6 +22,7 @@ import com.example.zenithevents.EntrantsList.EventsFragment;
 import com.example.zenithevents.Events.CreateEventPage;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 
+import com.example.zenithevents.MainActivity;
 import com.example.zenithevents.R;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -150,4 +151,31 @@ public class OrganizerPage extends AppCompatActivity {
         fragmentTransaction.replace(R.id.myEventsFragment, fragment);
         fragmentTransaction.commit();
     }
+
+
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed(); // Call the parent class's onBackPressed() for default behavior
+//
+//
+//        Intent intent = new Intent(this, OrganizerPage.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
+//        finish();
+//    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed(); // Call the parent class's method for default behavior
+
+        // Navigate back to MainActivity
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish(); // Finish OrganizerPage to avoid stacking
+    }
+
+
+
+
 }
