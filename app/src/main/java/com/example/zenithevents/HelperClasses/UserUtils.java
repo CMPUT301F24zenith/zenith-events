@@ -218,6 +218,9 @@ public class UserUtils {
                                             .setNegativeButton("No", (dialog, which) ->
                                                 callback.onUserJoinComplete(-1, null)
                                             )
+                                            .setOnCancelListener(e ->
+                                                    callback.onUserJoinComplete(-1, null)
+                                            )
                                             .show();
                                 } else {
                                     user.getWaitingEvents().add(eventId);

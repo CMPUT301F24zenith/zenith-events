@@ -58,10 +58,10 @@ public class ViewFacility extends AppCompatActivity {
         showFacilityData(deviceId);
 
         editButton.setOnClickListener(v-> {
-            Intent editIntent = new Intent(ViewFacility.this, CreateFacility.class);
+            Intent editIntent = new Intent(this, CreateFacility.class);
+            editIntent.putExtra("type", "Edit Facility");
             editIntent.putExtra("deviceId", deviceId);
             startActivity(editIntent);
-            finish();
         });
 
     }
