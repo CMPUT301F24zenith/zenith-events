@@ -34,7 +34,7 @@ import com.example.zenithevents.User.UserProfile;
  */
 public class EntrantViewActivity extends AppCompatActivity {
     private static final String TAG = "EntrantViewActivity";
-    ImageButton scanQRButton, viewProfileButton;
+    ImageButton scanQRButton, viewProfileButton, sendNotificationButton;
     private TextView currentSelection, next, previous;
     private final String[] options = {"Events Invited To", "Registered Events", "Waitlisted Events", "Cancelled Events"};
     private int currentIndex = 0;
@@ -70,6 +70,7 @@ public class EntrantViewActivity extends AppCompatActivity {
 
         currentSelection.setText(options[currentIndex]);
         viewProfileButton = findViewById(R.id.viewProfileButton);
+        sendNotificationButton = findViewById(R.id.notificationButton);
 
         Bundle args = new Bundle();
         args.putString("type", "entrant-selected");
@@ -98,6 +99,11 @@ public class EntrantViewActivity extends AppCompatActivity {
                 });
             }
         });
+        sendNotificationButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, QRScannerActivity.class); //  change this to notification activity
+            startActivity(intent);
+        });
+
     }
 
     /**
