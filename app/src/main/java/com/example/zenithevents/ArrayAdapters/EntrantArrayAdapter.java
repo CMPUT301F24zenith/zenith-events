@@ -30,7 +30,7 @@ import java.util.Objects;
  * Custom ArrayAdapter to display a list of {@link User} objects in a list view.
  * This adapter is responsible for populating each item in the list with relevant user data.
  *
- * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ * <p>Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.</p>
  */
 public class EntrantArrayAdapter extends ArrayAdapter<User> {
     String type, eventId;

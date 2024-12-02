@@ -37,7 +37,7 @@ import java.util.Objects;
  * This adapter is responsible for populating each item in the list with relevant event data
  * and providing a click event to navigate to the EventView activity.
  *
- * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ * <p>Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.</p>
  */
 public class EventArrayAdapter extends ArrayAdapter<Event> {
 
@@ -185,5 +185,4 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
 
         return convertView;
     }
-
 }

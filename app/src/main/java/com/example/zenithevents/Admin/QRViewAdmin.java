@@ -25,6 +25,7 @@ import com.example.zenithevents.R;
 /**
  * QRViewAdmin is an activity that displays the QR code for a specific event,
  * allows sharing the QR code, regenerating a new QR code, and navigating back to the previous screen.
+ * The JavaDocs for this class were generated using OpenAI's ChatGPT.
  */
 public class QRViewAdmin extends AppCompatActivity {
     private TextView eventTitleText;
