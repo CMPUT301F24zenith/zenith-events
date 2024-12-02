@@ -9,6 +9,8 @@ import androidx.test.filters.LargeTest;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
 import static androidx.test.espresso.assertion.ViewAssertions.*;
@@ -60,17 +62,17 @@ public class CreateEventTestUI {
     @Test
     public void testEventNameInput() {
         // Create an Intent with a valid eventId (non-null)
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), CreateEventPage.class);
-        intent.putExtra("Event Id", "");  // Provide a valid event ID
+        Intent intent = new Intent(getApplicationContext(), CreateEventPage.class);
+        intent.putExtra("Event Id", "kR6gW0xoWTrVzmYrgZu5");  // Provide a valid event ID
 
         // Launch the activity with the intent
         ActivityScenario.launch(intent);
 
         // Fill out event name
-        onView(withId(R.id.eventNameInput)).perform(typeText("Test Event"), closeSoftKeyboard());
+        onView(withId(R.id.eventNameInput)).perform(typeText("class demo"), closeSoftKeyboard());
 
-        // Verify if the event name input field contains the correct text
-        onView(withId(R.id.eventNameInput)).check(matches(withText("Test Event")));
+//         Verify if the event name input field contains the correct text
+        onView(withId(R.id.eventNameInput)).check(matches(withText("class demo")));
     }
 
 
