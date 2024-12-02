@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 
 import com.example.zenithevents.EntrantsList.EventsFragment;
+import com.example.zenithevents.Events.NotificationActivity;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.FirestoreEventsCollection;
 import com.example.zenithevents.HelperClasses.FirestoreUserCollection;
@@ -85,6 +86,11 @@ public class EntrantViewActivity extends AppCompatActivity {
         });
         userUtils = new UserUtils();
         String currentUser = DeviceUtils.getDeviceID(this);
+        sendNotificationButton.setOnClickListener(v -> {
+            Log.d("FunctionCall", "CLICKED NOTIF");
+            Intent intent = new Intent(this, NotificationActivity.class);
+            startActivity(intent);
+        });
 
         FirestoreUserCollection.listenForSpecificUserChanges(currentUser, user -> {
             if (user == null) {
@@ -99,11 +105,6 @@ public class EntrantViewActivity extends AppCompatActivity {
                 });
             }
         });
-        sendNotificationButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, QRScannerActivity.class); //  change this to notification activity
-            startActivity(intent);
-        });
-
     }
 
     /**

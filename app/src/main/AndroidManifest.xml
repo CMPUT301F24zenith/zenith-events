@@ -59,6 +59,9 @@
             android:name=".EntrantsList.SampledEntrants"
             android:exported="false" />
         <activity
+            android:name=".Events.NotificationActivity"
+            android:exported="false" />
+        <activity
             android:name=".EntrantsList.CancelledEntrants"
             android:exported="false" />
         <activity
