@@ -23,14 +23,8 @@ import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
 
 /**
- * QRView is an activity that displays a QR code for an event, allowing the user to view and share it.
- * <p>
- * This activity retrieves an Event object, displays the event title, and generates a QR code that can be shared with others.
- * It includes a button to share the QR code and a button to close the activity.
- * </p>
- * <p>
- * Note: The Javadocs for this class were generated with the assistance of an AI language model.
- * </p>
+ * QRViewAdmin is an activity that displays the QR code for a specific event,
+ * allows sharing the QR code, regenerating a new QR code, and navigating back to the previous screen.
  */
 public class QRViewAdmin extends AppCompatActivity {
     private TextView eventTitleText;
@@ -41,12 +35,15 @@ public class QRViewAdmin extends AppCompatActivity {
     String eventId;
     EventUtils eventUtils = new EventUtils();
 
+
     /**
-     * Called when the activity is first created. Initializes the UI components, retrieves the Event object passed
-     * from the previous activity, and sets up event handling for the buttons.
+     * Called when the activity is created. Initializes the UI components,
+     * retrieves the event data, and sets up button listeners for sharing,
+     * deleting, and finishing the activity.
      *
-     * @param savedInstanceState A Bundle containing the activity's previously saved state.
-     *                           If the activity has never been created, this will be null.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *                           previously being shut down, then this Bundle contains
+     *                           the most recent data supplied. Otherwise, it is null.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,20 +93,16 @@ public class QRViewAdmin extends AppCompatActivity {
                             Log.w("Firestore", "Failed to update QR code hash.");
                         }
                     });
-
                     finish();
                 });
-
             }
-
         });
     }
 
     /**
-     * Shares the QR code bitmap as an image using an intent.
-     * The image is inserted into the device's media store, and an intent is launched to allow the user to share the image.
+     * Shares the QR code via an intent. Converts the QR code to a URI and opens a share dialog.
      *
-     * @param qrCodeBitmap The Bitmap representation of the QR code to be shared.
+     * @param qrCodeBitmap The bitmap of the QR code to be shared.
      */
     private void shareQRCode(Bitmap qrCodeBitmap) {
         String path = MediaStore.Images.Media.insertImage(getContentResolver(), qrCodeBitmap, "QR Code", "Event QR Code");
