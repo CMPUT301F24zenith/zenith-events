@@ -15,11 +15,21 @@ import com.example.zenithevents.R;
 import java.util.List;
 
 /**
- * Custom ArrayAdapter to display a list of {@link Notification} objects in a list view.
+ * Custom ArrayAdapter to display a list of {@link Notification} objects in a ListView.
+ * Each notification includes event details, a message, and a subject, displayed in a card view.
  */
 public class NotificationArrayAdapter extends ArrayAdapter<Notification> {
     private List<String> eventNames, eventIds, messages, subjects;
 
+    /**
+     * Constructor to initialize the adapter with data for notifications.
+     *
+     * @param context   The context in which the adapter is running.
+     * @param eventNames A list of event names to display.
+     * @param eventIds A list of event IDs for navigation.
+     * @param messages A list of notification messages.
+     * @param subjects A list of subjects related to the notifications.
+     */
     public NotificationArrayAdapter(Context context, List<String> eventNames, List<String> eventIds, List<String> messages, List<String> subjects) {
         super(context, 0);
         this.eventNames = eventNames;
@@ -28,6 +38,16 @@ public class NotificationArrayAdapter extends ArrayAdapter<Notification> {
         this.subjects = subjects;
     }
 
+    /**
+     * Retrieves the view for an item at a specific position in the list.
+     * This method populates the views with event details, message, and subject, and sets up a click listener
+     * to navigate to the event's details when the card is clicked.
+     *
+     * @param position The position of the item within the list.
+     * @param convertView The old view to reuse if possible.
+     * @param parent The parent view that this view will be attached to.
+     * @return The view for the item at the specified position.
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the current event data from the lists using the position index

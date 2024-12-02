@@ -15,8 +15,21 @@ import com.example.zenithevents.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Activity to display the list of notifications for a user.
+ * It fetches the notifications from Firestore using {@link NotificationUtils}
+ * and displays them in a ListView using a custom adapter, {@link NotificationArrayAdapter}.
+ */
 public class NotificationActivity extends AppCompatActivity {
 
+    /**
+     * Called when the activity is first created.
+     * This method sets up the layout and fetches the user's notifications from Firestore.
+     * It then populates the ListView with the fetched data.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the data it most recently supplied.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
