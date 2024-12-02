@@ -118,28 +118,39 @@ public class CreateProfileActivity extends AppCompatActivity {
         String phoneNumber = etEntrantPhoneNumber.getText().toString().trim();
         String email = etEntrantEmail.getText().toString().trim();
 
-
+        boolean isValid = true;
         if (firstName.isEmpty()) {
             etEntrantFirstName.setError("First name is required");
-            return;
+            etEntrantFirstName.requestFocus();
+            isValid = false;
         }
-
         if (lastName.isEmpty()) {
-            etEntrantFirstName.setError("Last name is required");
-            return;
+            etEntrantLastName.setError("Last name is required");
+            if (isValid) {
+                etEntrantLastName.requestFocus();
+            }
+            isValid = false;
         }
         if (email.isEmpty()) {
-            etEntrantFirstName.setError("Email is required");
-            return;
+            etEntrantEmail.setError("Email is required");
+            if (isValid) {
+                etEntrantEmail.requestFocus();
+            }
+            isValid = false;
         }
-
-        if (!ValidationUtils.isValidEmail(email)) {
+        if (!email.isEmpty() && !ValidationUtils.isValidEmail(email)) {
             etEntrantEmail.setError("Invalid email format");
-            return;
+            if (isValid) {
+                etEntrantEmail.requestFocus();
+            }
+            isValid = false;
         }
-
-        signInAnonymously(firstName, lastName, email, phoneNumber);
+        if (isValid) {
+            signInAnonymously(firstName, lastName, email, phoneNumber);
+        }
     }
+
+
 
     /**
      * Signs in the user anonymously using Firebase Authentication.
