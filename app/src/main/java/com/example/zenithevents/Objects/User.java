@@ -224,23 +224,7 @@ public class User {
         this.wantsNotifs = wantsNotifs;
     }
 
-    /**
-     * Sets the admin status of the user.
-     *
-     * @param admin A boolean representing if the user is an admin.
-     */
-    public void setIsAdmin(Boolean admin) {
-        isAdmin = admin;
-    }
 
-    /**
-     * Sets the facility associated with the user.
-     *
-     * @param myFacility A string representing the user's facility.
-     */
-    public void setMyFacility(String myFacility) {
-        this.myFacility = myFacility;
-    }
 
     /**
      * Sends a notification with the provided message.
@@ -332,14 +316,6 @@ public class User {
         return waitingEvents;
     }
 
-    /**
-     * Sets the list of events the user is waiting for.
-     *
-     * @param waitingEvents An ArrayList of strings representing the waiting events.
-     */
-    public void setWaitingEvents(ArrayList<String> waitingEvents) {
-        this.waitingEvents = waitingEvents;
-    }
 
     /**
      * Sets the list of events the user was selected for.
@@ -350,14 +326,6 @@ public class User {
         this.selectedEvents = selectedEvents;
     }
 
-    /**
-     * Sets the list of events the user is registered for.
-     *
-     * @param registeredEvents An ArrayList of strings representing the registered events.
-     */
-    public void setRegisteredEvents(ArrayList<String> registeredEvents) {
-        this.registeredEvents = registeredEvents;
-    }
 
     /**
      * Sets the list of events the user has cancelled.

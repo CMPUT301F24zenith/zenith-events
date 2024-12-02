@@ -66,24 +66,6 @@ public class UserUtils {
         void onUserFetchComplete(User user);
     }
 
-    /**
-     * Checks if the currently authenticated user exists in the Firestore database.
-     *
-     * @param callback The callback invoked upon completion with a boolean indicating user existence.
-     */
-    public void checkUserExists(UserExistenceCallback callback) {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        db.collection("users").document(userId).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        callback.onUserCheckComplete(document != null && document.exists());
-                    } else {
-                        callback.onUserCheckComplete(false); // Assume user doesn't exist in case of error
-                    }
-                });
-    }
 
     /**
      * Creates or updates the profile for the currently authenticated user in Firestore.
@@ -97,21 +79,6 @@ public class UserUtils {
         db.collection("users").document(user.getDeviceID()).set(user)
                 .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))
                 .addOnFailureListener(e -> callback.onUserCheckComplete(false));
-    }
-
-
-    /**
-     * Deletes the profile of the currently authenticated user from Firestore.
-     *
-     * @param callback The callback invoked upon completion with a boolean indicating success.
-     */
-    public void deleteUserProfile(UserExistenceCallback callback) {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        db.collection("users").document(userId)
-                .delete()
-                .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))  // Deleted successfully
-                .addOnFailureListener(e -> callback.onUserCheckComplete(false));   // Deletion failed
     }
 
     /**
@@ -137,43 +104,6 @@ public class UserUtils {
                 });  // Fetch failed
     }
 
-
-    /**
-     * Updates a specific field of the currently authenticated user profile in Firestore.
-     *
-     * @param fieldName The name of the field to update.
-     * @param value     The new value to set for the specified field.
-     * @param callback  The callback invoked upon completion with a boolean indicating success.
-     */
-    public void updateUserField(String fieldName, Object value, UserExistenceCallback callback) {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        db.collection("users").document(userId)
-                .update(fieldName, value)
-                .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))  // Update successful
-                .addOnFailureListener(e -> callback.onUserCheckComplete(false));    // Update failed
-    }
-
-
-    /**
-     * Checks the "isAdmin" status of the currently authenticated user.
-     *
-     * @param callback The callback invoked upon completion with a boolean indicating whether the user is an admin.
-     */
-    public void checkAdminStatus(UserExistenceCallback callback) {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        db.collection("users").document(userId).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
-                        callback.onUserCheckComplete(isAdmin != null && isAdmin);
-                    } else {
-                        callback.onUserCheckComplete(false);
-                    }
-                })
-                .addOnFailureListener(e -> callback.onUserCheckComplete(false));
-    }
 
     /**
      * Applies or removes a user from the waiting list of an event. Adds the event to the waiting list if
