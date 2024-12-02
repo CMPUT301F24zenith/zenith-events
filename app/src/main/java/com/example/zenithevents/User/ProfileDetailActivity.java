@@ -37,7 +37,6 @@ import java.util.Objects;
 
 public class ProfileDetailActivity extends AppCompatActivity {
 
-    private static final String TAG = "ProfileDetailActivity";
     private TextView FirstNameTextView, LastNameTextView, EmailTextView, PhoneNumberTextView, initialsTextView;
     private UserUtils userUtils;
     private ProgressBar progressBar;

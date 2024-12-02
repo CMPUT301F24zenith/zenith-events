@@ -32,7 +32,7 @@ public class EntrantListTest {
     }
 
     @Test
-    public void testEntrantListButton() { // Modify this test to match button's ID
+    public void testEntrantListButton() {
         Espresso.onView(ViewMatchers.withId(R.id.organizerCard)).perform(ViewActions.click());
         Intents.intended(IntentMatchers.hasComponent(OrganizerPage.class.getName()));
     }

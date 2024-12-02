@@ -85,6 +85,21 @@
             app:layout_constraintBottom_toTopOf="@+id/fragmentContainer"
             />
 
+        <ImageButton
+            android:id="@+id/notificationButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/circle_background"
+            android:contentDescription="Scan QR"
+            android:scaleType="centerInside"
+            android:src="@drawable/baseline_circle_notifications_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/active_button_color" />
+
         <FrameLayout
             android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
