@@ -47,20 +47,6 @@ public class EventsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Creates a new instance of the EventsFragment.
-     *
-     * @param param1 The first parameter (unused).
-     * @param param2 The second parameter (unused).
-     * @return A new instance of EventsFragment.
-     */
-    public static EventsFragment newInstance(String param1, String param2) {
-        EventsFragment fragment = new EventsFragment();
-        Bundle args = new Bundle();
-
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     /**
      * Called when the fragment is created.
