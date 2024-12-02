@@ -20,6 +20,8 @@ import com.example.zenithevents.R;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 /**
  * Activity that allows users to create and edit a facility profile, saving data to Firestore.
  * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
@@ -32,6 +34,7 @@ public class CreateFacility extends AppCompatActivity {
     private EditText facilityEmail;
     private FirebaseFirestore db;
     private String deviceId;
+    String type;
 
     /**
      * Called when the activity is created. Initializes the UI elements and loads existing facility data if available.
@@ -44,7 +47,8 @@ public class CreateFacility extends AppCompatActivity {
         setContentView(R.layout.activity_create_facility);
 
         db = FirebaseFirestore.getInstance();
-        deviceId = DeviceUtils.getDeviceID(this);
+        deviceId = getIntent().getStringExtra("deviceId");
+        type = getIntent().getStringExtra("type");
 
         facilityName = findViewById(R.id.facility_name);
         facilityPhone = findViewById(R.id.facility_phone);
@@ -130,10 +134,14 @@ public class CreateFacility extends AppCompatActivity {
      * Navigates to the OrganizerPage and displays a success message.
      */
     private void changeToView() {
-        Intent viewIntent = new Intent(CreateFacility.this, OrganizerPage.class);
-        viewIntent.putExtra("deviceId", deviceId);
-        startActivity(viewIntent);
-        finish();
-        Toast.makeText(CreateFacility.this, "Facility saved", Toast.LENGTH_SHORT).show();
+        if (Objects.equals(type, "Edit Facility")) {
+            finish();
+        } else if (Objects.equals(type, "Create Facility")) {
+            Intent viewIntent = new Intent(this, OrganizerPage.class);
+            viewIntent.putExtra("deviceId", deviceId);
+            startActivity(viewIntent);
+            finish();
+        }
+        Toast.makeText(this, "Facility saved", Toast.LENGTH_SHORT).show();
     }
 }

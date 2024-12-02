@@ -29,6 +29,7 @@ import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.OrganizerPage;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -224,7 +225,6 @@ public class CreateEventPage extends AppCompatActivity {
                                 } else {
                                     intent.putExtra("eventFacility", "");
                                 }
-                                intent.putExtra("eventImage", event.getImageUrl());
                                 intent.putExtra("qr_code", qrCodeBase64);
                                 startActivity(intent);
                                 finish();
@@ -241,7 +241,11 @@ public class CreateEventPage extends AppCompatActivity {
             });
         });
 
-        createEventCancelButton.setOnClickListener(v -> finish());
+        createEventCancelButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OrganizerPage.class);
+            startActivity(intent);
+            finish();
+        });
 
         uploadEventPosterButton.setOnClickListener(v -> checkStoragePermission());
     }
