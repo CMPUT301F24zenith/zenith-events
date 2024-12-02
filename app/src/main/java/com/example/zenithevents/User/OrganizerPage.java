@@ -84,7 +84,7 @@ public class OrganizerPage extends AppCompatActivity {
 
         createEventButton = findViewById(R.id.createEventButton);
         createEventButton.setOnClickListener(v -> {
-            Intent intent = new Intent(OrganizerPage.this, CreateEventPage.class);
+            Intent intent = new Intent(this, CreateEventPage.class);
             intent.putExtra("Event Id", "");
             Log.d("FunctionCall", "11,1");
             startActivity(intent);
@@ -96,8 +96,9 @@ public class OrganizerPage extends AppCompatActivity {
         loadFragment(new EventsFragment(), args);
 
         createFacilityButton.setOnClickListener(v -> {
-            Intent intent = new Intent(OrganizerPage.this, CreateFacility.class);
-            intent.putExtra("Event Id", "");
+            Intent intent = new Intent(this, CreateFacility.class);
+            intent.putExtra("type", "Create Facility");
+            intent.putExtra("deviceId", deviceId);
             startActivity(intent);
         });
 
@@ -105,7 +106,6 @@ public class OrganizerPage extends AppCompatActivity {
             Intent intent = new Intent(OrganizerPage.this, ViewFacility.class);
             intent.putExtra("deviceId", deviceId);
             startActivity(intent);
-            finish();
         });
     }
 
