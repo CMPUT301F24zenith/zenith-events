@@ -22,10 +22,16 @@ import com.example.zenithevents.EntrantsList.EventsFragment;
 import com.example.zenithevents.Events.CreateEventPage;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 
+import com.example.zenithevents.HelperClasses.EventUtils;
+import com.example.zenithevents.HelperClasses.FirestoreEventsCollection;
+import com.example.zenithevents.HelperClasses.FirestoreFacilitiesCollection;
+import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -61,6 +67,10 @@ public class OrganizerPage extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         deviceId = DeviceUtils.getDeviceID(this);
 
+        FirestoreFacilitiesCollection.listenForSpecificFacilityChanges(deviceId, facility -> {
+            checkFacilityExists();
+        });
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.organizer_main);
 
@@ -80,15 +90,12 @@ public class OrganizerPage extends AppCompatActivity {
         viewFacilityButton.setVisibility(View.GONE);
         createEventButton.setVisibility(View.GONE);
 
-        checkFacilityExists();
-
         createEventButton = findViewById(R.id.createEventButton);
         createEventButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, CreateEventPage.class);
             intent.putExtra("Event Id", "");
             Log.d("FunctionCall", "11,1");
             startActivity(intent);
-            finish();
         });
 
         Bundle args = new Bundle();
@@ -97,13 +104,12 @@ public class OrganizerPage extends AppCompatActivity {
 
         createFacilityButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, CreateFacility.class);
-            intent.putExtra("type", "Create Facility");
             intent.putExtra("deviceId", deviceId);
             startActivity(intent);
         });
 
         viewFacilityButton.setOnClickListener(v -> {
-            Intent intent = new Intent(OrganizerPage.this, ViewFacility.class);
+            Intent intent = new Intent(this, ViewFacility.class);
             intent.putExtra("deviceId", deviceId);
             startActivity(intent);
         });
@@ -143,7 +149,6 @@ public class OrganizerPage extends AppCompatActivity {
      */
     private void loadFragment(Fragment fragment, Bundle args) {
         fragment.setArguments(args);
-
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

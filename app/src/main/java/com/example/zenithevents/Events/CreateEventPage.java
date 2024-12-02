@@ -242,8 +242,6 @@ public class CreateEventPage extends AppCompatActivity {
         });
 
         createEventCancelButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, OrganizerPage.class);
-            startActivity(intent);
             finish();
         });
 

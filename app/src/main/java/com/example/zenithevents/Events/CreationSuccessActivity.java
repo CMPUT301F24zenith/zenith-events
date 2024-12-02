@@ -124,8 +124,6 @@ public class CreationSuccessActivity extends AppCompatActivity {
         shareQRButton.setOnClickListener(v -> shareQRCode(QRCode));
 
         exitButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, OrganizerPage.class);
-            startActivity(intent);
             finish();
         });
     }
