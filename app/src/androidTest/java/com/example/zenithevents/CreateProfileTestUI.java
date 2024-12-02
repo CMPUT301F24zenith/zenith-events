@@ -16,11 +16,6 @@ import com.example.zenithevents.User.CreateProfileActivity;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class CreateProfileTestUI {
-
-    @Rule
-    public ActivityScenarioRule<CreateProfileActivity> activityRule =
-            new ActivityScenarioRule<>(CreateProfileActivity.class);
-
     @Test
     public void profileFieldsCheck() {
         ActivityScenario.launch(CreateProfileActivity.class);

@@ -53,7 +53,8 @@ public class CreateFacility extends AppCompatActivity {
         facilityEmail = findViewById(R.id.facility_email);
         saveButton = findViewById(R.id.facility_save);
 
-        loadFacility(deviceId);
+        if (deviceId != null)
+            loadFacility(deviceId);
 
         saveButton.setOnClickListener(view -> {
             String name = facilityName.getText().toString().trim();
@@ -89,6 +90,7 @@ public class CreateFacility extends AppCompatActivity {
 
         if (!ValidationUtils.isValidEmail(email)) {
             facilityEmail.setError("Invalid email format");
+            facilityEmail.requestFocus();
             return false;
         }
         return true;

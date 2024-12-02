@@ -40,6 +40,35 @@ public class FirestoreUserCollection {
                 });
     }
 
+    /*
+     * This function was generated from ChatGpt
+     */
+    public static void listenForSpecificUserChanges(String userId, FetchUsersCallback callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        listenerRegistration = db.collection("users")
+                .document(userId)  // Listen to a specific user document
+                .addSnapshotListener((documentSnapshot, e) -> {
+                    if (e != null) {
+                        Log.e("Firestore", "Listen failed.", e);
+                        callback.onCallback(null);
+                        return;
+                    }
+
+                    if (documentSnapshot != null && documentSnapshot.exists()) {
+                        User user = documentSnapshot.toObject(User.class);
+                        List<User> userList = new ArrayList<>();
+                        if (user != null) {
+                            userList.add(user);  // Only add this specific user to the list
+                        }
+                        callback.onCallback(userList);  // Pass the list containing just one user
+                    } else {
+                        // If the user does not exist
+                        callback.onCallback(null);
+                    }
+                });
+    }
+
     public static void stopListeningForUserChanges() {
         if (listenerRegistration != null) {
             listenerRegistration.remove();
