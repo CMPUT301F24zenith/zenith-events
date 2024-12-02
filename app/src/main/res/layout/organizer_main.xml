@@ -51,8 +51,8 @@
     <ImageButton
         android:id="@+id/viewFacilityButton"
         android:background="@drawable/circle_background"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:contentDescription="Manage Facility"
         android:src="@drawable/building_svgrepo_com"
         android:layout_marginTop="50dp"
@@ -65,8 +65,8 @@
 
     <ImageButton
         android:id="@+id/createEventButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:background="@drawable/circle_background"
         android:src="@android:drawable/ic_input_add"
         android:layout_gravity="end"

@@ -9,6 +9,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
+    android:background="@color/background_color"
     tools:context=".User.UserProfile">
 
     <FrameLayout
@@ -16,7 +17,8 @@
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:background="@drawable/circle_background"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        >
 
         <ImageView
             android:layout_width="match_parent"
@@ -27,7 +29,8 @@
             android:adjustViewBounds="true"
             android:clipToOutline="true"
             android:contentDescription="Profile Picture"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            />
 
         <TextView
             android:layout_width="match_parent"
@@ -35,6 +38,7 @@
             android:id="@+id/initials"
             android:gravity="center"
             android:text=""
+            android:fontFamily="@font/inter"
             android:textColor="@color/active_button_color"
             android:visibility="visible"
             android:textSize="35sp"/>
@@ -46,46 +50,78 @@
 
 
     <Button
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnRemove"
+        android:textColor="@color/active_button_color"
+        android:fontFamily="@font/inter"
+        android:textFontWeight="900"
+        android:backgroundTint="@color/container_background"
+        android:layout_marginBottom="10dp"
         android:text="Remove Picture"/>
 
     <EditText
         android:id="@+id/editFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_input"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"
         android:hint="First Name"
+        android:fontFamily="@font/inter"
          />
     <EditText
         android:id="@+id/editLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_input"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"
         android:hint="Last Name"
+        android:fontFamily="@font/inter"
         />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_input"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"
         android:hint="Email"
-        android:id="@+id/editEmail" />
+        android:id="@+id/editEmail"
+        android:fontFamily="@font/inter"
+        />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Phone Number"
-        android:id="@+id/editPhoneNumber" />
+        android:background="@drawable/rounded_input"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/editPhoneNumber"
+        android:fontFamily="@font/inter"
+        />
     <CheckBox
         android:id="@+id/notifsCheckBox"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Receive Notifications"
+        android:fontFamily="@font/inter"
         android:textSize="18dp"
+        android:textColor="@color/active_button_color"
+        app:buttonTint="@color/active_button_color"
         />
 
     <Button
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnSave"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/positive_button_color"
+        android:fontFamily="@font/inter"
+        android:textFontWeight="900"
         android:text="Save Profile"/>
 
     <ProgressBar

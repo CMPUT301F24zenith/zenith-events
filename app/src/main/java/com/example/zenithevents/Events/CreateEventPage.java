@@ -7,8 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,22 +22,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import android.Manifest;
+
+import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.R;
 import com.example.zenithevents.User.OrganizerPage;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Activity that allows the creation and editing of event details, including uploading a poster image and generating a QR code.
@@ -49,14 +43,15 @@ public class CreateEventPage extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
 
     Button createEventSaveButton, createEventCancelButton, uploadEventPosterButton;
-    String pageTitle, eventTitle, selectedLimitString, eventLimitString, numParticipants, uploadedPosterString, eventLocation, eventDescription, type;
+    String eventName, selectedLimitString, eventLimitString, numParticipants, uploadedPosterString, eventLocation, eventDescription;
     TextView pageTitleView;
     EditText eventNameView, eventLimitView, eventLocationView, eventDescriptionView, selectedLimitView;
     CheckBox geolocationCheck;
     Boolean isGeolocationChecked;
-    Event event;
+    String eventId;
     ImageView eventPosterImage;
     Uri uploadedPosterUri;
+    Event event;
     private EventUtils eventUtils;
 
     /**
@@ -67,109 +62,117 @@ public class CreateEventPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("FunctionCall", "11,2");
         setContentView(R.layout.create_event_main);
         Log.d("FunctionCall", "11,3");
         eventUtils = new EventUtils();
         Log.d("FunctionCall", "11,4");
-        pageTitle = getIntent().getStringExtra("page_title");
-        Log.d("FunctionCall", "11,5");
-        event = (Event) getIntent().getSerializableExtra("Event");
+        eventId = getIntent().getStringExtra("Event Id");
         Log.d("FunctionCall", "11,6");
-        type = getIntent().getStringExtra("type");
-
-        eventPosterImage = findViewById(R.id.eventPosterImage);
-        uploadedPosterString = event.getImageUrl();
-        if (uploadedPosterString != null) {
-            Bitmap decodedImage = QRCodeUtils.decodeBase64ToBitmap(uploadedPosterString);
-            Glide.with(this).load(decodedImage).into(eventPosterImage);
-        }
-
 
         pageTitleView = findViewById(R.id.createEventTitle);
-        pageTitleView.setText(pageTitle);
-
-        eventTitle = event.getEventTitle();
         eventNameView = findViewById(R.id.eventNameInput);
-        eventNameView.setText(eventTitle);
-
-        eventLimitString = event.getNumParticipants() == 0 ? "" : String.valueOf(event.getNumParticipants());
         eventLimitView = findViewById(R.id.eventLimitInput);
-        eventLimitView.setText(eventLimitString);
-
-        eventDescription = event.getEventDescription();
-        eventDescriptionView = findViewById(R.id.eventDescriptionInput);
-        eventDescriptionView.setText(eventDescription);
-
-        eventLocation = event.getEventAddress();
         eventLocationView = findViewById(R.id.eventLocationInput);
-        eventLocationView.setText(eventLocation);
-
-
-        selectedLimitString = event.getSelectedLimit() == 0 ? "" : String.valueOf(event.getSelectedLimit());
+        eventDescriptionView = findViewById(R.id.eventDescriptionInput);
+        eventPosterImage = findViewById(R.id.eventPosterImage);
+        createEventSaveButton = findViewById(R.id.createEventSaveButton);
+        createEventCancelButton = findViewById(R.id.createEventCancelButton);
+        uploadEventPosterButton = findViewById(R.id.uploadEventPosterButton);
         selectedLimitView = findViewById(R.id.selectedLimitInput);
-        selectedLimitView.setText(selectedLimitString);
-
         geolocationCheck = findViewById(R.id.geolocationCheckbox);
-        geolocationCheck.setChecked(event.getHasGeolocation());
 
-        if (Objects.equals(type, "edit")) {
-            geolocationCheck.setVisibility(View.GONE);
-            selectedLimitView.setVisibility(View.GONE);
-            eventLimitView.setVisibility(View.GONE);
+        event = new Event();
+
+        if (!eventId.isEmpty()) {
+            eventUtils.fetchEventById(eventId, event_ -> {
+                event = event_;
+
+                Log.d("FunctionCall", "EVENT NULL... test");
+                uploadedPosterString = event.getImageUrl();
+                if (uploadedPosterString != null) {
+                    Bitmap decodedImage = QRCodeUtils.decodeBase64ToBitmap(uploadedPosterString);
+                    Glide.with(this).load(decodedImage).into(eventPosterImage);
+                }
+
+                pageTitleView.setText("Edit Event");
+
+                eventName = event.getEventName();
+                eventNameView.setText(eventName);
+
+                eventDescription = event.getEventDescription();
+                eventDescriptionView.setText(eventDescription);
+
+                eventLocation = event.getEventAddress();
+                eventLocationView.setText(eventLocation);
+
+                geolocationCheck.setChecked(event.getHasGeolocation());
+                geolocationCheck.setEnabled(false);
+
+                if (event.getSelectedLimit() == 0) {
+                    selectedLimitView.setText("Waitlist Limit: N/A");
+                } else {
+                    selectedLimitView.setText(String.valueOf(event.getSelectedLimit()));
+                }
+                selectedLimitView.setEnabled(false);
+
+                if (event.getNumParticipants() == 0) {
+                    eventLimitView.setText("Selected Limit: N/A");
+                } else {
+                    eventLimitView.setText(String.valueOf(event.getNumParticipants()));
+                }
+                eventLimitView.setEnabled(false);
+            });
+        } else {
+            pageTitleView.setText("Create Event");
         }
 
-        createEventSaveButton = findViewById(R.id.createEventSaveButton);
         createEventSaveButton.setOnClickListener(v -> {
-            Log.d("FunctionCall", "createEventSaveButton");
-
-            eventTitle = eventNameView.getText().toString();
-            numParticipants = eventLimitView.getText().toString() ;
+            eventName = eventNameView.getText().toString();
+            numParticipants = eventLimitView.getText().toString();
             eventLocation = eventLocationView.getText().toString();
             eventDescription = eventDescriptionView.getText().toString();
-            selectedLimitString = selectedLimitView.getText().toString() ;
+            selectedLimitString = selectedLimitView.getText().toString();
 
-            Context context = CreateEventPage.this;
+            event.setEventName(eventName);
+            event.setEventDescription(eventDescription);
+            event.setEventAddress(eventLocation);
 
-            if (Objects.equals(eventTitle, "")) {
+            if (eventId.isEmpty()) {
+                event.setHasGeolocation(geolocationCheck.isChecked());
+
+                if (!numParticipants.isEmpty()) {
+                    if (numParticipants.equals("0")) {
+                        eventLimitView.setError("Limit can't be 0");
+                        eventLimitView.requestFocus();
+                        return;
+                    } else {
+                        event.setNumParticipants(Integer.parseInt(numParticipants));
+                    }
+                } else {
+                    event.setNumParticipants(0);
+                }
+
+                if (!selectedLimitString.isEmpty()) {
+                    if (selectedLimitString.equals("0")) {
+                        selectedLimitView.setError("Selected Limit can't be 0");
+                        selectedLimitView.requestFocus();
+                    } else {
+                        event.setSelectedLimit(Integer.parseInt(selectedLimitString));
+                    }
+                } else {
+                    event.setSelectedLimit(0);
+                }
+            }
+
+            Log.d("FunctionCall1", "---" + event.getSelectedLimit());
+
+            if (Objects.equals(eventName, "")) {
                 eventNameView.setError("Event Name can't be empty");
                 eventNameView.requestFocus();
                 return;
             }
 
-            if (Objects.equals(numParticipants, "0")) {
-                eventLimitView.setError("Limit can't be 0");
-                eventLimitView.requestFocus();
-                return;
-            }
-
-            if (Objects.equals(selectedLimitString, "0")) {
-                selectedLimitView.setError("Selected Limit can't be 0");
-                selectedLimitView.requestFocus();
-                return;
-            }
-
             Log.d("FunctionCall", "if1");
-
-            event.setEventTitle(eventTitle);
-            if (!numParticipants.isEmpty()) {
-                event.setNumParticipants(Integer.parseInt(numParticipants));
-            } else {
-                event.setNumParticipants(0);
-            }
-
-            event.setEventDescription(eventDescription);
-            event.setEventAddress(eventLocation);
-            if (!selectedLimitString.isEmpty()) {
-                event.setSelectedLimit(Integer.parseInt(selectedLimitString));
-            } else {
-                event.setSelectedLimit(0);
-            }
-
-            Log.d("FunctionCall1", "---" + event.getSelectedLimit());
-
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-            StorageReference imageRef = storageRef.child("images/" + UUID.randomUUID().toString());
 
             if (uploadedPosterUri != null) {
                 try {
@@ -183,10 +186,8 @@ public class CreateEventPage extends AppCompatActivity {
                 }
             }
 
-            isGeolocationChecked = geolocationCheck.isChecked();
-            event.setHasGeolocation(isGeolocationChecked);
-
-            eventUtils.createUpdateEvent(context, event, eventId -> {
+            Log.d("FunctionCall", "clicked....");
+            eventUtils.createUpdateEvent(this, event, eventId -> {
                 if (eventId != null) {
                     event.setEventId(eventId);
                     Log.d("FunctionCall", "if2.5");
@@ -207,32 +208,46 @@ public class CreateEventPage extends AppCompatActivity {
                         qrCodeBase64 = event.getQRCodeBitmap();
                     }
 
-                    eventUtils.createUpdateEvent(context, event, eventId_ -> {
+                    FacilityUtils facilityUtils = new FacilityUtils();
+
+
+                    eventUtils.createUpdateEvent(this, event, eventId_ -> {
                         if (eventId_ != null) {
                             Log.d("Firestore", "QR code hash updated successfully.");
                             Toast.makeText(this, "Event was successfully published!", Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(CreateEventPage.this, CreationSuccessActivity.class);
-                            intent.putExtra("Event", event);
-                            intent.putExtra("qr_code", qrCodeBase64);
-                            startActivity(intent);
-                            finish();
+                            Intent intent = new Intent(this, CreationSuccessActivity.class);
+                            intent.putExtra("eventID", event.getEventId());
+                            intent.putExtra("eventName", event.getEventName());
+                            facilityUtils.fetchFacilityName(event.getOwnerFacility(), name -> {
+                                if (name != null) {
+                                    intent.putExtra("eventFacility", name);
+                                } else {
+                                    intent.putExtra("eventFacility", "");
+                                }
+                                intent.putExtra("eventImage", event.getImageUrl());
+                                intent.putExtra("qr_code", qrCodeBase64);
+                                startActivity(intent);
+                                finish();
+                            });
                         } else {
                             Toast.makeText(this, "There was an error updating the QR code. Please try again!", Toast.LENGTH_SHORT).show();
                             Log.w("Firestore", "Failed to update QR code hash.");
                         }
                     });
                 } else {
-                    Toast.makeText(context, "There was an error. Please try again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "There was an error. Please try again!", Toast.LENGTH_SHORT).show();
                     Log.d("FunctionCall", "if2.6");
                 }
             });
         });
 
-        createEventCancelButton = findViewById(R.id.createEventCancelButton);
-        createEventCancelButton.setOnClickListener(v -> finish());
+        createEventCancelButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OrganizerPage.class);
+            startActivity(intent);
+            finish();
+        });
 
-        uploadEventPosterButton = findViewById(R.id.uploadEventPosterButton);
         uploadEventPosterButton.setOnClickListener(v -> checkStoragePermission());
     }
 
@@ -258,6 +273,7 @@ public class CreateEventPage extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             uploadedPosterUri = data.getData();
+            eventPosterImage.setVisibility(View.VISIBLE);
             eventPosterImage.setImageURI(uploadedPosterUri);
         }
     }

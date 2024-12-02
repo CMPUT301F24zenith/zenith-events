@@ -18,17 +18,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.zenithevents.EntrantDashboard.EventsFragment;
+import com.example.zenithevents.EntrantsList.EventsFragment;
 import com.example.zenithevents.Events.CreateEventPage;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
-import com.example.zenithevents.HelperClasses.EventUtils;
-import com.example.zenithevents.Objects.Event;
+
 import com.example.zenithevents.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+
 
 /**
  * OrganizerPage is an Android activity that provides functionality for an event organizer
@@ -46,8 +44,6 @@ import java.util.ArrayList;
 public class OrganizerPage extends AppCompatActivity {
     ImageButton createEventButton, viewFacilityButton;
     Button createFacilityButton;
-    ArrayList<Event> organizerEvents;
-    EventUtils eventUtils = new EventUtils();
     String deviceId;
 
     private FirebaseFirestore db;
@@ -79,11 +75,6 @@ public class OrganizerPage extends AppCompatActivity {
         createFacilityButton = findViewById(R.id.createFacilityButton);
         viewFacilityButton = findViewById(R.id.viewFacilityButton);
 
-//        FloatingActionButton sendNotifsButton = findViewById(R.id.sendNotifsButton);
-//        sendNotifsButton.setOnClickListener(v -> {
-//            Toast.makeText(this, "Notifications sent", Toast.LENGTH_SHORT).show();
-//        });
-
         progressBar.setVisibility(View.VISIBLE);
         createFacilityButton.setVisibility(View.GONE);
         viewFacilityButton.setVisibility(View.GONE);
@@ -93,10 +84,8 @@ public class OrganizerPage extends AppCompatActivity {
 
         createEventButton = findViewById(R.id.createEventButton);
         createEventButton.setOnClickListener(v -> {
-            Event event = new Event();
-            Intent intent = new Intent(OrganizerPage.this, CreateEventPage.class);
-            intent.putExtra("page_title", "Create Event");
-            intent.putExtra("Event", (Serializable) event);
+            Intent intent = new Intent(this, CreateEventPage.class);
+            intent.putExtra("Event Id", "");
             Log.d("FunctionCall", "11,1");
             startActivity(intent);
             finish();
@@ -107,16 +96,16 @@ public class OrganizerPage extends AppCompatActivity {
         loadFragment(new EventsFragment(), args);
 
         createFacilityButton.setOnClickListener(v -> {
-            Intent intent = new Intent(OrganizerPage.this, CreateFacility.class);
+            Intent intent = new Intent(this, CreateFacility.class);
+            intent.putExtra("type", "Create Facility");
+            intent.putExtra("deviceId", deviceId);
             startActivity(intent);
-            finish();
         });
 
         viewFacilityButton.setOnClickListener(v -> {
             Intent intent = new Intent(OrganizerPage.this, ViewFacility.class);
             intent.putExtra("deviceId", deviceId);
             startActivity(intent);
-            finish();
         });
     }
 
@@ -155,7 +144,7 @@ public class OrganizerPage extends AppCompatActivity {
     private void loadFragment(Fragment fragment, Bundle args) {
         fragment.setArguments(args);
 
-        // Replace the fragment in the fragmentContainer
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.myEventsFragment, fragment);

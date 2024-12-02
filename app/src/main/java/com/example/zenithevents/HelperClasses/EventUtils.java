@@ -8,6 +8,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
@@ -157,6 +158,10 @@ public class EventUtils {
                 });
     }
 
+
+
+
+
     /**
      * Deletes an event from Firestore.
      *
@@ -291,7 +296,7 @@ public class EventUtils {
     public static Map<String, Object> convertEventToMap(Event event) {
         Map<String, Object> eventMap = new HashMap<>();
         eventMap.put("eventId", event.getEventId());
-        eventMap.put("eventTitle", event.getEventTitle());
+        eventMap.put("eventTitle", event.getEventName());
         eventMap.put("imageUrl", event.getImageUrl());
         eventMap.put("numParticipants", event.getNumParticipants());
         eventMap.put("waitingList", event.getWaitingList());

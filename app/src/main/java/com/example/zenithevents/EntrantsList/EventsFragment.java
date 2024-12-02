@@ -1,4 +1,4 @@
-package com.example.zenithevents.Events;
+package com.example.zenithevents.EntrantsList;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 
 import com.example.zenithevents.ArrayAdapters.EventArrayAdapter;
@@ -38,6 +39,7 @@ public class EventsFragment extends Fragment {
     List<Event> events, waitingEventsList;
     EventUtils eventUtils;
     private static final String TAG = "EventsFragment";
+    private boolean shouldUpdateAdapter = true; // Flag to control adapter updates
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference eventsRef;
@@ -87,37 +89,57 @@ public class EventsFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_events, container, false);
         eventListView = view.findViewById(R.id.eventsListView);
         events = new ArrayList<>();
         waitingEventsList = new ArrayList<>();
         eventUtils = new EventUtils();
         Context context = getActivity();
-        int[] counter = {0};
 
+
+        int[] counter = {0};
+        eventListView.setLayoutAnimation(
+                AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.list_layout_animation)
+        );
         if (getArguments() != null) {
             type = getArguments().getString("type");
             if (Objects.equals(type, "organizer")) {
+                deviceID = DeviceUtils.getDeviceID(context);
                 eventUtils.fetchFacilityEvents(deviceID, fetchedOrganizerEvents -> {
                     if (fetchedOrganizerEvents != null) {
                         events.clear();
                         events.addAll(fetchedOrganizerEvents);
                         adapter = new EventArrayAdapter(requireContext(), events, "organizer", null);
                         eventListView.setAdapter(adapter);
+
                         adapter.notifyDataSetChanged();
+                        eventListView.scheduleLayoutAnimation();
                         Log.d("Firestore", "Fetched: " + waitingEventsList.size());
                     }
                 });
             }
-            if (Objects.equals(type, "entrant-waiting"))
+            if (Objects.equals(type, "entrant-waiting")) {
+                adapter = new EventArrayAdapter(requireContext(), events, "waitingEvents", null);
+                eventListView.setAdapter(adapter);
                 fetchEntrantWaitingEvents("waitingEvents");
-            if (Objects.equals(type, "entrant-selected"))
+
+            }
+            if (Objects.equals(type, "entrant-selected")) {
+                adapter = new EventArrayAdapter(requireContext(), events, "selectedEvents", null);
+                eventListView.setAdapter(adapter);
                 fetchEntrantWaitingEvents("selectedEvents");
-            if (Objects.equals(type, "entrant-cancelled"))
+            }
+            if (Objects.equals(type, "entrant-cancelled")) {
+                adapter = new EventArrayAdapter(requireContext(), events, "cancelledEvents", null);
+                eventListView.setAdapter(adapter);
                 fetchEntrantWaitingEvents("cancelledEvents");
-            if (Objects.equals(type, "entrant-accepted"))
-                fetchEntrantWaitingEvents("registrantsEvents");
+            }
+            if (Objects.equals(type, "entrant-registrant")) {
+                adapter = new EventArrayAdapter(requireContext(), events, "registeredEvents", null);
+                eventListView.setAdapter(adapter);
+                fetchEntrantWaitingEvents("registeredEvents");
+            }
         }
         return view;
     }
@@ -177,4 +199,10 @@ public class EventsFragment extends Fragment {
                     }
                 });
     }
+
+
+
+
+
+
 }

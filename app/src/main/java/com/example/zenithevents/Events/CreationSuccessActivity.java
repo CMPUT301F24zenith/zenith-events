@@ -3,24 +3,29 @@ package com.example.zenithevents.Events;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.zenithevents.HelperClasses.BitmapUtils;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.OrganizerPage;
 import com.github.jinatonic.confetti.CommonConfetti;
 import com.github.jinatonic.confetti.ConfettiView;
-import com.google.zxing.qrcode.encoder.QRCode;
-
-import java.util.Arrays;
 
 
 /**
@@ -31,11 +36,12 @@ import java.util.Arrays;
  * </p>
  */
 public class CreationSuccessActivity extends AppCompatActivity {
-    private TextView eventNameText;
+    private TextView successfulText, eventName, eventFacility;
     private ImageView eventImageView, qrCodeView;
     private Button shareQRButton, exitButton;
-    Event event;
+    String eventID, eventNameString, eventFacilityString, eventBitmap;
     Bitmap QRCode, eventImage;
+    androidx.cardview.widget.CardView cardView;
     ConfettiView confettiView;
     FrameLayout confettiLayout;
 
@@ -52,15 +58,36 @@ public class CreationSuccessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creation_success);
 
-        eventNameText = findViewById(R.id.eventNameText);
-        eventImageView = findViewById(R.id.eventImageView);
+        successfulText = findViewById(R.id.successfulText);
         qrCodeView = findViewById(R.id.qrCodeView);
         shareQRButton = findViewById(R.id.shareQRButton);
         exitButton = findViewById(R.id.exitButton);
         confettiView = findViewById(R.id.confettiView);
         confettiLayout = findViewById(R.id.confettiLayout);
+        ImageButton acceptBtn = findViewById(R.id.acceptEventBtn);
+        ImageButton declineBtn = findViewById(R.id.declineEventBtn);
+        eventName = findViewById(R.id.eventTitle);
+        eventFacility = findViewById(R.id.facilityName);
+        eventImageView = findViewById(R.id.eventImage);
 
-        event = (Event) getIntent().getSerializableExtra("Event");
+        eventID = getIntent().getStringExtra("eventID");
+        eventNameString = getIntent().getStringExtra("eventName");
+        eventFacilityString = getIntent().getStringExtra("eventFacility");
+        eventBitmap = getIntent().getStringExtra("eventImage");
+
+        eventName.setText(eventNameString);
+        eventFacility.setText(eventFacilityString);
+
+        if (eventBitmap != null) {
+            Bitmap eventTrueBitmap = BitmapUtils.decodeBase64ToBitmap(eventBitmap);
+            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), eventTrueBitmap);
+            Glide.with(this)
+                    .load(bitmapDrawable)
+                    .into(eventImageView);
+        } else {
+            eventImageView.setImageResource(R.drawable.event_place_holder);
+        }
+
 
         confettiLayout.post(() -> {
             CommonConfetti.rainingConfetti(
@@ -69,27 +96,26 @@ public class CreationSuccessActivity extends AppCompatActivity {
             ).stream(3000);
         });
 
-        if (event != null) {
-            eventNameText.setText(event.getEventTitle());
-
-            if (event.getImageUrl() != null) {
-                eventImage = QRCodeUtils.decodeBase64ToBitmap(event.getImageUrl());
-                eventImageView.setImageBitmap(eventImage);
-            }
-
-            if (getIntent().getStringExtra("qr_code") != null) {
-                QRCode = QRCodeUtils.decodeBase64ToBitmap(getIntent().getStringExtra("qr_code"));
-                qrCodeView.setImageBitmap(QRCode);
-            }
-
-            shareQRButton.setOnClickListener(v -> {
-                shareQRCode(QRCode);
-            });
-
-            exitButton.setOnClickListener(v -> {
-                finish();
-            });
+        String qrCodeBase64 = getIntent().getStringExtra("qr_code");
+        if (qrCodeBase64 != null) {
+            QRCode = QRCodeUtils.decodeBase64ToBitmap(qrCodeBase64);
+            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), QRCode);
+            Glide.with(this)
+                    .load(bitmapDrawable)
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
+                    .into(qrCodeView);
         }
+
+        acceptBtn.setVisibility(View.GONE);
+        declineBtn.setVisibility(View.GONE);
+
+        shareQRButton.setOnClickListener(v -> shareQRCode(QRCode));
+
+        exitButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OrganizerPage.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     /**

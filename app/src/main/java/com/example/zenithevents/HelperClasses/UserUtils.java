@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.example.zenithevents.EntrantDashboard.CreateProfileActivity;
 import com.example.zenithevents.Objects.Event;
+import com.example.zenithevents.User.CreateProfileActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -218,6 +218,9 @@ public class UserUtils {
                                             .setNegativeButton("No", (dialog, which) ->
                                                 callback.onUserJoinComplete(-1, null)
                                             )
+                                            .setOnCancelListener(e ->
+                                                    callback.onUserJoinComplete(-1, null)
+                                            )
                                             .show();
                                 } else {
                                     user.getWaitingEvents().add(eventId);
@@ -232,8 +235,8 @@ public class UserUtils {
                             updateEventApplyLeave(deviceId, user, eventId, callback);
                         }
                     } else {
-                        Log.d("FunctionCall", "aaa");
                         Intent intent = new Intent(context, CreateProfileActivity.class);
+                        intent.putExtra("type", "Join Event");
                         context.startActivity(intent);
                         callback.onUserJoinComplete(-1, null);
                     }

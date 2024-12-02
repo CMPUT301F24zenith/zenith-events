@@ -1,7 +1,11 @@
 package com.example.zenithevents.User;
 
+import android.animation.Animator;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -9,11 +13,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.example.zenithevents.EntrantDashboard.EntrantViewActivity;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.HelperClasses.ValidationUtils;
@@ -25,6 +34,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Activity for creating a new user profile with anonymous authentication.
@@ -43,19 +53,21 @@ import java.util.Map;
  * a clear understanding of each method’s purpose and usage within the class.
  */
 public class CreateProfileActivity extends AppCompatActivity {
-
+    private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 1;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private Button  confirmButton;
     private CheckBox notifsCheckBox;
     private boolean wantsNotifs;
     private EditText etEntrantFirstName, etEntrantLastName, etEntrantPhoneNumber, etEntrantEmail;
-
+    private LottieAnimationView animationView;
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_profile);
+        type = getIntent().getStringExtra("type");
 
         EdgeToEdge.enable(this);
 
@@ -69,31 +81,27 @@ public class CreateProfileActivity extends AppCompatActivity {
         etEntrantEmail = findViewById(R.id.etEntrantEmail);
         confirmButton = findViewById(R.id.btnEntrantConfirm);
         notifsCheckBox = findViewById(R.id.notifsCheckBox);
+        animationView = findViewById(R.id.confirm);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        notifsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    wantsNotifs = true;
-                    Toast.makeText(CreateProfileActivity.this, "Notifications enabled", Toast.LENGTH_SHORT).show();
-                } else {
-                    wantsNotifs = false;
-                    Toast.makeText(CreateProfileActivity.this, "Notifications disabled", Toast.LENGTH_SHORT).show();
-                }
+        notifsCheckBox.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (isChecked) {
+                wantsNotifs = true;
+                checkAndRequestNotificationPermission();
 
+            } else {
+                wantsNotifs = false;
             }
         });
 
 
-        confirmButton.setOnClickListener(v -> {
-            validateAndSignIn();
-        });
+        confirmButton.setOnClickListener(v -> validateAndSignIn());
     }
+
     /**
      * Validates input fields and initiates anonymous sign-in if inputs are valid.
      *
@@ -110,34 +118,45 @@ public class CreateProfileActivity extends AppCompatActivity {
         String phoneNumber = etEntrantPhoneNumber.getText().toString().trim();
         String email = etEntrantEmail.getText().toString().trim();
 
-
+        boolean isValid = true;
         if (firstName.isEmpty()) {
             etEntrantFirstName.setError("First name is required");
-            return;
+            etEntrantFirstName.requestFocus();
+            isValid = false;
         }
-
         if (lastName.isEmpty()) {
-            etEntrantFirstName.setError("Last name is required");
-            return;
+            etEntrantLastName.setError("Last name is required");
+            if (isValid) {
+                etEntrantLastName.requestFocus();
+            }
+            isValid = false;
         }
         if (email.isEmpty()) {
-            etEntrantFirstName.setError("Email is required");
-            return;
+            etEntrantEmail.setError("Email is required");
+            if (isValid) {
+                etEntrantEmail.requestFocus();
+            }
+            isValid = false;
         }
-
-        if (!ValidationUtils.isValidEmail(email)) {
+        if (!email.isEmpty() && !ValidationUtils.isValidEmail(email)) {
             etEntrantEmail.setError("Invalid email format");
-            return;
+            if (isValid) {
+                etEntrantEmail.requestFocus();
+            }
+            isValid = false;
         }
-
-        signInAnonymously(firstName, lastName, email, phoneNumber);
+        if (isValid) {
+            signInAnonymously(firstName, lastName, email, phoneNumber);
+        }
     }
+
+
 
     /**
      * Signs in the user anonymously using Firebase Authentication.
      *
      * <p>This method initiates an anonymous sign-in with Firebase. If successful, it retrieves the user's
-     * unique ID and calls {@link #createProfile(String, String, String, String, String)} to store the user’s
+     *
      * profile in Firestore. If sign-in fails, an error message is displayed.
      *
      * <p><strong>AI-Generated Documentation:</strong> This Javadoc was generated with assistance from a generative AI
@@ -153,10 +172,9 @@ public class CreateProfileActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser currentUser = mAuth.getCurrentUser();
-                        Toast.makeText(CreateProfileActivity.this, "Anonymous authentication successful", Toast.LENGTH_SHORT).show();
                         if (currentUser != null) {
 
-                            String deviceId = new DeviceUtils().getDeviceID(CreateProfileActivity.this);;
+                            String deviceId = new DeviceUtils().getDeviceID(this);;
                             createProfile(currentUser.getUid(),deviceId, firstName, lastName, email, phoneNumber);
                         }
                     } else {
@@ -192,11 +210,71 @@ public class CreateProfileActivity extends AppCompatActivity {
                 .set(userData)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Profile created successfully", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CreateProfileActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish(); // End CreateProfileActivity after success
+                    playAnimation();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error creating profile", Toast.LENGTH_SHORT).show());
     }
+
+    private void checkAndRequestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
+                        NOTIFICATION_PERMISSION_REQUEST_CODE
+                );
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show();
+                notifsCheckBox.setChecked(true);
+            } else {
+                Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show();
+                notifsCheckBox.setChecked(false);
+            }
+        }
+    }
+
+
+    void playAnimation(){
+
+        animationView.playAnimation();
+        animationView.addAnimatorListener(new Animator.AnimatorListener() {
+            public void onAnimationStart(Animator animation) {
+                animationView.setVisibility(View.VISIBLE);
+                animationView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+                animationView.setVisibility(View.GONE);
+                if (Objects.equals(type, "Join Event")) finish();
+                if (Objects.equals(type, "Create Event")) {
+                    Intent intent = new Intent(CreateProfileActivity.this, EntrantViewActivity.class);
+                    startActivity(intent);
+                    finish();
+                };
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                animationView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
+    }
+
 
 }
