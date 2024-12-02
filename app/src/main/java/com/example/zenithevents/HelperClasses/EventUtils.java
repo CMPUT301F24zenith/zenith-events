@@ -63,24 +63,6 @@ public class EventUtils {
     }
 
     /**
-     * Checks if an event exists in Firestore.
-     *
-     * @param eventId  The unique identifier of the event to check.
-     * @param callback Callback that provides a boolean indicating existence.
-     */
-    public void checkEventExists(String eventId, EventExistenceCallback callback) {
-        db.collection("events").document(eventId).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        callback.onEventCheckComplete(document != null && document.exists());
-                    } else {
-                        callback.onEventCheckComplete(false); // Assume event doesn't exist in case of error
-                    }
-                });
-    }
-
-    /**
      * This method is used to create or update an event. It first sets the owner facility of the event
      * based on the device ID and then calls the internal method to create or update the event in the database.
      *

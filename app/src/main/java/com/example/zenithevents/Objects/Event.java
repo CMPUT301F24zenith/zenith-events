@@ -30,7 +30,7 @@ public class Event implements Serializable {
     /**
      * Default constructor that initializes all lists and fields to default values.
      * The lists are initialized as empty, and the string fields are initialized as null.
-     * The participant-related fields are set to 0.
+     * The participant-related fields are set to 1.
      * <p>Note: The Javadocs for this constructor were generated with the assistance of an AI language model.</p>
      */
     public Event(){
