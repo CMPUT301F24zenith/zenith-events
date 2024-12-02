@@ -24,7 +24,7 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 /**
  * Activity that provides QR code scanning functionality for scanning event QR codes.
  * <p>This activity uses the camera to scan QR codes and checks the scanned code against a Firestore database to find matching events. If a valid event is found, the user is directed to the event details screen. If the QR code is invalid or the event is not found, a toast message is displayed to the user.</p>
- * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ * <p>Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.</p>
  * <p>The methods in this class enable the following functionality:</p>
  * <ul>
  *     <li>Requesting camera permission if it is not already granted.</li>

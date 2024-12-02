@@ -37,7 +37,7 @@ import java.util.Objects;
 
 /**
  * Activity that allows the creation and editing of event details, including uploading a poster image and generating a QR code.
- * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ * <p>Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.</p>
  */
 public class CreateEventPage extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
