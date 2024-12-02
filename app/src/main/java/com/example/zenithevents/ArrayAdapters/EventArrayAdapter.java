@@ -41,7 +41,6 @@ import java.util.Objects;
  */
 public class EventArrayAdapter extends ArrayAdapter<Event> {
 
-    private FirebaseFirestore db;
     FacilityUtils facilityUtils;
     EventUtils eventUtils;
     String deviceId, type;
