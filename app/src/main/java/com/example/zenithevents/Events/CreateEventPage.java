@@ -225,7 +225,6 @@ public class CreateEventPage extends AppCompatActivity {
                                 } else {
                                     intent.putExtra("eventFacility", "");
                                 }
-                                intent.putExtra("eventImage", event.getImageUrl());
                                 intent.putExtra("qr_code", qrCodeBase64);
                                 startActivity(intent);
                                 finish();
