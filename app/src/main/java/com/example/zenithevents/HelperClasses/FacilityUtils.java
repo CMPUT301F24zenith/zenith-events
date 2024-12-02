@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Utility class for handling facility-related operations, including retrieving facility names from Firestore.
  * <p>
- * <b>Disclaimer:</b> The Javadocs for this class were generated with the assistance of AI.
+ * <b>Disclaimer:</b> The JavaDocs for this class were generated using OpenAI's ChatGPT.
  */
 public class FacilityUtils {
     private FirebaseFirestore db;
@@ -67,10 +67,24 @@ public class FacilityUtils {
                 });
     }
 
+    /**
+     * Callback interface for retrieving a list of facilities from Firestore.
+     */
     public interface FirestoreFacilitiesCallback{
+
+        /**
+         * This method is called when the list of facilities is fetched from Firestore.
+         *
+         * @param facilityList A list of facilities fetched from Firestore, or null if an error occurred.
+         */
         void onCallback(List<Facility> facilityList);
     }
 
+    /**
+     * Listens for changes in the facilities collection in Firestore and notifies the provided callback.
+     *
+     * @param callback The callback to be invoked when the list of facilities is retrieved or when an error occurs.
+     */
     public static void listenForFacilitiesChanges(FirestoreFacilitiesCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         listenerRegistration = db.collection("facilities")
@@ -91,6 +105,12 @@ public class FacilityUtils {
                 });
     }
 
+    /**
+     * Deletes a facility and all its associated events from Firestore.
+     *
+     * @param context The context in which this operation is being called, used to show Toast messages.
+     * @param deviceId The ID of the facility to be deleted.
+     */
     public void deleteFacility(Context context, String deviceId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("facilities").document(deviceId)
@@ -123,14 +143,14 @@ public class FacilityUtils {
                 });
     }
 
+    /**
+     * Stops listening for changes in the facilities collection in Firestore.
+     * This is used to remove the listener when it is no longer needed.
+     */
     public static void stopListeningForFacilities() {
         if (listenerRegistration != null) {
             listenerRegistration.remove();
             listenerRegistration = null;
         }
     }
-
-
-
-
 }

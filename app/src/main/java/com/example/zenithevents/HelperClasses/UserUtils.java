@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * user existence, creating/updating profiles, deleting profiles, retrieving user data, and updating specific fields
  * in Firestore.
  * <p>
- * <b>Disclaimer:</b> These Javadocs were generated with the assistance of AI.
+ * <b>Disclaimer:</b> The JavaDocs for this class were generated using OpenAI's ChatGPT.
  */
 public class UserUtils {
 
@@ -246,6 +246,16 @@ public class UserUtils {
                 });
     }
 
+    /**
+     * Updates the user's status in an event by either adding them to the waiting list or
+     * removing them from all event lists (selected, registrants, cancelled, waiting list)
+     * depending on their current status. It also updates the user's data in the Firestore.
+     *
+     * @param deviceId The device ID of the user applying to leave or join the event.
+     * @param user The user object containing updated user information.
+     * @param eventId The ID of the event that the user is applying to leave or join.
+     * @param callback The callback to notify once the operation is complete, with a result status.
+     */
     public void updateEventApplyLeave(String deviceId, User user, String eventId, joinEventCallback callback) {
         EventUtils eventUtils = new EventUtils();
         db.collection("users").document(deviceId)
@@ -291,6 +301,15 @@ public class UserUtils {
                 }).addOnFailureListener(e -> callback.onUserJoinComplete(-1, null));
     }
 
+    /**
+     * Rejects an event invitation by removing the user's device ID from the selected events list
+     * and adding it to the cancelled events list. It also updates the event's selected list
+     * and adds the user's device ID to the event's cancelled list.
+     *
+     * @param deviceId The device ID of the user rejecting the invitation.
+     * @param eventId The ID of the event being rejected.
+     * @param callback The callback to notify once the process is complete.
+     */
     public void rejectEvent(String deviceId, String eventId, joinEventCallback callback) {
         EventUtils eventUtils = new EventUtils();
         fetchUserProfile(deviceId, user -> {
@@ -324,6 +343,14 @@ public class UserUtils {
         });
     }
 
+    /**
+     * Accepts an event invitation by updating the user's and the event's status.
+     * The method removes the deviceId from the selected list and adds it to the registrants list of the event.
+     * It then updates the user's registered and selected events.
+     *
+     * @param deviceId The device ID of the user accepting the invitation.
+     * @param eventId The ID of the event to which the invitation is being accepted.
+     */
     public void acceptEventInvitation(String deviceId, String eventId) {
         EventUtils eventUtils = new EventUtils();
         eventUtils.fetchEventById(eventId, event -> {
@@ -376,28 +403,5 @@ public class UserUtils {
         if (user.getWantsNotifs() != null) userMap.put("wantsNotifs", user.getWantsNotifs());
 
         return userMap;
-    }
-
-    /**
-     * Updates multiple fields of the user profile in Firestore.
-     *
-     * <p>This method takes a map of field names and their new values, and updates
-     * the corresponding fields in the user's document in the Firestore database.
-     * The user is identified using the current Firebase Authentication UID.</p>
-     *
-     * @param fieldsToUpdate A map where the keys are the field names (e.g., "firstName", "email")
-     *                       and the values are the new values to be set for those fields.
-     * @param callback A {@link UserExistenceCallback} that will be triggered once the update operation
-     *                 is complete. The callback's {@link UserExistenceCallback#onUserCheckComplete(boolean)}
-     *                 method will be called with `true` if the update was successful,
-     *                 or `false` if the update failed.
-     */
-    public void updateUserFields(Map<String, Object> fieldsToUpdate, UserExistenceCallback callback) {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.d("UserId: ", userId);
-        db.collection("users").document(userId)
-                .update(fieldsToUpdate)
-                .addOnSuccessListener(aVoid -> callback.onUserCheckComplete(true))  // Update successful
-                .addOnFailureListener(e -> callback.onUserCheckComplete(false));    // Update failed
     }
 }
