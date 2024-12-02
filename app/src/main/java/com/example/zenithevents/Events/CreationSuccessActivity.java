@@ -26,6 +26,8 @@ import com.example.zenithevents.R;
 import com.example.zenithevents.User.OrganizerPage;
 import com.github.jinatonic.confetti.CommonConfetti;
 import com.github.jinatonic.confetti.ConfettiView;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 /**
@@ -44,6 +46,7 @@ public class CreationSuccessActivity extends AppCompatActivity {
     androidx.cardview.widget.CardView cardView;
     ConfettiView confettiView;
     FrameLayout confettiLayout;
+    FirebaseFirestore db;
 
     /**
      * Called when the activity is first created. Initializes the UI components, retrieves the Event object passed
@@ -73,21 +76,30 @@ public class CreationSuccessActivity extends AppCompatActivity {
         eventID = getIntent().getStringExtra("eventID");
         eventNameString = getIntent().getStringExtra("eventName");
         eventFacilityString = getIntent().getStringExtra("eventFacility");
-        eventBitmap = getIntent().getStringExtra("eventImage");
 
-        eventName.setText(eventNameString);
-        eventFacility.setText(eventFacilityString);
+        db = FirebaseFirestore.getInstance();
+        db.collection("events").document(eventID)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        if (documentSnapshot.exists()) {
+                            eventBitmap = documentSnapshot.getString("imageUrl");
+                            eventName.setText(eventNameString);
+                            eventFacility.setText(eventFacilityString);
 
-        if (eventBitmap != null) {
-            Bitmap eventTrueBitmap = BitmapUtils.decodeBase64ToBitmap(eventBitmap);
-            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), eventTrueBitmap);
-            Glide.with(this)
-                    .load(bitmapDrawable)
-                    .into(eventImageView);
-        } else {
-            eventImageView.setImageResource(R.drawable.event_place_holder);
-        }
-
+                            if (eventBitmap != null) {
+                                Bitmap eventTrueBitmap = BitmapUtils.decodeBase64ToBitmap(eventBitmap);
+                                BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), eventTrueBitmap);
+                                Glide.with(this)
+                                        .load(bitmapDrawable)
+                                        .into(eventImageView);
+                            } else {
+                                eventImageView.setImageResource(R.drawable.event_place_holder);
+                            }
+                        }
+                    }
+                });
 
         confettiLayout.post(() -> {
             CommonConfetti.rainingConfetti(
