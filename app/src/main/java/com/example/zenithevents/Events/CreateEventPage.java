@@ -83,7 +83,7 @@ public class CreateEventPage extends AppCompatActivity {
 
         event = new Event();
 
-        if (!eventId.isEmpty()) {
+        if (eventId != null && !eventId.isEmpty()) {
             eventUtils.fetchEventById(eventId, event_ -> {
                 event = event_;
 
