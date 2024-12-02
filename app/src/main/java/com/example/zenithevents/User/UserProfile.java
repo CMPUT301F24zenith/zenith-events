@@ -226,7 +226,6 @@ public class UserProfile extends AppCompatActivity {
         }
 
         updateUserProfile(DeviceUtils.getDeviceID(this), firstName, lastName, email, phoneNumber, updatedProfileImageURL);
-
     }
 
 

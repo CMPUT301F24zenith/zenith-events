@@ -312,14 +312,15 @@ public class EventView extends AppCompatActivity {
                                         Log.d("FunctionCall", "updatingEvent...");
                                         eventUtils.createUpdateEvent(event_, callback -> {
                                             joinEventLoadingAnimation.setVisibility(View.GONE);
-                                            btnSampleUsers.setEnabled(true);
-                                            btnJoinLeaveWaitingList.setEnabled(true);
-                                            deleteEventButton.setEnabled(true);
 
                                             if (callback != null) {
                                                 joinEventAnimation.setVisibility(View.VISIBLE);
                                                 joinEventAnimation.setSpeed(0.5f);
                                                 joinEventAnimation.playAnimation();
+
+                                                btnSampleUsers.setEnabled(true);
+                                                btnJoinLeaveWaitingList.setEnabled(true);
+                                                deleteEventButton.setEnabled(true);
                                                 Log.d("FunctionCall", "Location added successfully.");
                                             } else {
                                                 Log.d("FunctionCall", "Failed to update event.");
@@ -330,9 +331,6 @@ public class EventView extends AppCompatActivity {
                                     }
                                 } else {
                                     joinEventLoadingAnimation.setVisibility(View.GONE);
-                                    btnSampleUsers.setEnabled(true);
-                                    btnJoinLeaveWaitingList.setEnabled(true);
-                                    deleteEventButton.setEnabled(true);
 
                                     joinEventAnimation.setVisibility(View.VISIBLE);
                                     joinEventAnimation.setSpeed(0.5f);
@@ -341,12 +339,14 @@ public class EventView extends AppCompatActivity {
                                 Log.d("EventView", "Successfully joined the event!");
                             } else if (isSuccess == 0) {
                                 joinEventLoadingAnimation.setVisibility(View.GONE);
+
                                 btnSampleUsers.setEnabled(true);
                                 btnJoinLeaveWaitingList.setEnabled(true);
                                 deleteEventButton.setEnabled(true);
                                 Toast.makeText(this, "Successfully left the event!", Toast.LENGTH_SHORT).show();
                             } else if (isSuccess == -1) {
                                 joinEventLoadingAnimation.setVisibility(View.GONE);
+
                                 btnSampleUsers.setEnabled(true);
                                 btnJoinLeaveWaitingList.setEnabled(true);
                                 deleteEventButton.setEnabled(true);
@@ -363,6 +363,10 @@ public class EventView extends AppCompatActivity {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             joinEventAnimation.setVisibility(View.GONE);
+
+                            btnSampleUsers.setEnabled(true);
+                            btnJoinLeaveWaitingList.setEnabled(true);
+                            deleteEventButton.setEnabled(true);
                         }
                         @Override
                         public void onAnimationCancel(Animator animation) {

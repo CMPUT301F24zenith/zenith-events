@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class OrganizerPage extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private ProgressBar progressBar;
+    FrameLayout myEventsFragment;
 
     /**
      * Initializes the activity, sets up Firebase Firestore, and handles button visibility based on
@@ -74,6 +76,8 @@ public class OrganizerPage extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.organizer_main);
 
+        myEventsFragment = findViewById(R.id.myEventsFragment);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.myEventsFragment), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom);
@@ -84,13 +88,15 @@ public class OrganizerPage extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         createFacilityButton = findViewById(R.id.createFacilityButton);
         viewFacilityButton = findViewById(R.id.viewFacilityButton);
+        createEventButton = findViewById(R.id.createEventButton);
 
         progressBar.setVisibility(View.VISIBLE);
         createFacilityButton.setVisibility(View.GONE);
         viewFacilityButton.setVisibility(View.GONE);
         createEventButton.setVisibility(View.GONE);
+        myEventsFragment.setVisibility(View.GONE);
 
-        createEventButton = findViewById(R.id.createEventButton);
+
         createEventButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, CreateEventPage.class);
             intent.putExtra("Event Id", "");
@@ -129,8 +135,10 @@ public class OrganizerPage extends AppCompatActivity {
                         createFacilityButton.setVisibility(View.GONE);
                         viewFacilityButton.setVisibility(View.VISIBLE);
                         createEventButton.setVisibility(View.VISIBLE);
+                        myEventsFragment.setVisibility(View.VISIBLE);
                     } else {
                         createFacilityButton.setVisibility(View.VISIBLE);
+                        myEventsFragment.setVisibility(View.GONE);
                         viewFacilityButton.setVisibility(View.GONE);
                         createEventButton.setVisibility(View.GONE);
                     }

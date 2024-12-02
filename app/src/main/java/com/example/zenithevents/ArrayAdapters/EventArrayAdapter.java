@@ -121,6 +121,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
                     events.remove(position);
                     notifyDataSetChanged();
                 }));
+
             else if (Objects.equals(this.type, "selectedEvents"))
                 declineBtn.setOnClickListener(v -> userUtils.rejectEvent(deviceId, event.getEventId(), (isSuccess, event_) -> {
                     if (isSuccess == 0) {

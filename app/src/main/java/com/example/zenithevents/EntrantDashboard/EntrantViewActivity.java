@@ -2,6 +2,7 @@ package com.example.zenithevents.EntrantDashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -18,6 +19,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.zenithevents.EntrantsList.EventsFragment;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
+import com.example.zenithevents.HelperClasses.FirestoreEventsCollection;
+import com.example.zenithevents.HelperClasses.FirestoreUserCollection;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Events.QRScannerActivity;
 import com.example.zenithevents.R;
@@ -76,22 +79,21 @@ public class EntrantViewActivity extends AppCompatActivity {
         next.setOnClickListener(v -> moveToNext());
 
         scanQRButton.setOnClickListener(v -> {
-            Intent intent = new Intent(EntrantViewActivity.this, QRScannerActivity.class);
+            Intent intent = new Intent(this, QRScannerActivity.class);
             startActivity(intent);
         });
         userUtils = new UserUtils();
         String currentUser = DeviceUtils.getDeviceID(this);
-        userUtils.fetchUserProfile(currentUser, v -> {
-            if (v == null) {
+
+        FirestoreUserCollection.listenForSpecificUserChanges(currentUser, user -> {
+            if (user == null) {
                 viewProfileButton.setOnClickListener(v1 -> {
-                    Intent intent = new Intent(EntrantViewActivity.this, CreateProfileActivity.class);
-                    intent.putExtra("type", "Create Event");
+                    Intent intent = new Intent(this, CreateProfileActivity.class);
                     startActivity(intent);
-                    finish();
                 });
             } else {
                 viewProfileButton.setOnClickListener(v1 -> {
-                    Intent intent = new Intent(EntrantViewActivity.this, UserProfile.class);
+                    Intent intent = new Intent(this, UserProfile.class);
                     startActivity(intent);
                 });
             }
@@ -153,13 +155,9 @@ public class EntrantViewActivity extends AppCompatActivity {
      * Loads the appropriate fragment based on the selected event category.
      */
     private void loadFragmentBasedOnSelection() {
-        Fragment selectedFragment;
         Bundle nArgs = new Bundle();
 
         switch (options[currentIndex]) {
-            case "Waitlisted Events":
-                nArgs.putString("type", "entrant-waiting");
-                break;
             case "Registered Events":
                 nArgs.putString("type", "entrant-registrant");
                 break;
