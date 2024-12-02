@@ -172,11 +172,13 @@ public class CreateProfileActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser currentUser = mAuth.getCurrentUser();
-                        if (currentUser != null) {
-
-                            String deviceId = new DeviceUtils().getDeviceID(this);;
-                            createProfile(currentUser.getUid(),deviceId, firstName, lastName, email, phoneNumber);
-                        }
+                        DeviceUtils deviceUtils = new DeviceUtils();
+                        deviceUtils.getDeviceToken(callback -> {
+                            if (currentUser != null) {
+                                String deviceId = new DeviceUtils().getDeviceID(this);;
+                                createProfile(currentUser.getUid(), deviceId, callback, firstName, lastName, email, phoneNumber);
+                            }
+                        });
                     } else {
                         Toast.makeText(CreateProfileActivity.this, "Anonymous authentication failed", Toast.LENGTH_SHORT).show();
                     }
@@ -199,9 +201,9 @@ public class CreateProfileActivity extends AppCompatActivity {
      * @param email The user's email address.
      * @param phoneNumber The user's phone number.
      */
-    private void createProfile(String AnonymousAuthID,String deviceId, String firstName, String lastName, String email, String phoneNumber) {
+    private void createProfile(String AnonymousAuthID, String deviceId, String deviceToken, String firstName, String lastName, String email, String phoneNumber) {
         // TODO change the function to get the full user object
-        User userProfile = new User(deviceId, firstName, lastName, email, phoneNumber);
+        User userProfile = new User(deviceId, deviceToken, firstName, lastName, email, phoneNumber);
         userProfile.setAnonymousAuthID(AnonymousAuthID);
         userProfile.setWantsNotifs(wantsNotifs);
         Map<String, Object> userData = UserUtils.convertUserToMap(userProfile);

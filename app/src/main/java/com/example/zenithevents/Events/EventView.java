@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -45,6 +47,7 @@ import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
+import com.example.zenithevents.Objects.User;
 import com.example.zenithevents.R;
 import com.example.zenithevents.User.OrganizerPage;
 import com.google.firebase.firestore.DocumentReference;
@@ -57,6 +60,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -423,8 +427,41 @@ public class EventView extends AppCompatActivity {
                 if (!optionSelected.get()){
                     Toast.makeText(this, "Please select at least one option.", Toast.LENGTH_SHORT).show();
                 }
+                // This if statement was generated using ChatGpt
                 else if (!selectedEntrants.isEmpty()) {
-                    showMessageInputDialog(this, selectedEntrants, event);
+                    // Create a CountDownLatch to wait for all fetchUserProfile calls to complete
+                    CountDownLatch latch = new CountDownLatch(selectedEntrants.size());
+
+                    // Use a thread-safe list to store user profiles
+                    CopyOnWriteArrayList<User> ent = new CopyOnWriteArrayList<>();
+
+                    for (String deviceId_ : selectedEntrants) {
+                        userUtils.fetchUserProfile(deviceId_, callback_ -> {
+                            if (callback_ != null) {
+                                // Handle the fetched user profile
+                                Log.d("FunctionCall", "Fetched profile for: " + deviceId_);
+                                ent.add(callback_); // Add the user profile to the list
+
+                                // Decrement the latch count
+                                latch.countDown();
+                            }
+                            else {
+                                latch.countDown(); // Still need to decrement the latch count even on failure
+                            }
+                        });
+                    }
+                    // Wait until all the profiles have been fetched
+                    try {
+                        latch.await();  // This will block the thread until the countDown() is called for each entrant
+
+                        // Convert the CopyOnWriteArrayList to an ArrayList
+                        ArrayList<User> userArray = new ArrayList<>(ent);  // This constructor creates a new ArrayList from the CopyOnWriteArrayList
+
+                        // After all profiles are fetched, show the message input dialog with the ArrayList of Users
+                        showMessageInputDialog(this, userArray, event);  // Pass the ArrayList to the dialog
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
                 else if (selectedEntrants.isEmpty()) {
                     Toast.makeText(this, "There is no one is the lists you have selected", Toast.LENGTH_SHORT).show();
@@ -657,20 +694,24 @@ public class EventView extends AppCompatActivity {
     /**
      * Sets up navigation between different entrant lists.
      *
-     * @param Entrants An array of device IDs representing entrants.
+     * @param entrants An array of Users representing entrants.
      * @param event    The unique identifier of the event.
      */
-    private void showMessageInputDialog(Context context, ArrayList<String> Entrants, Event event) {
+    private void showMessageInputDialog(Context context, ArrayList<User> entrants, Event event) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Write message");
         builder.setMessage("Enter message");
         final EditText input = new EditText(this);
         input.setHint("Enter Message...");
         builder.setView(input);
+
         builder.setPositiveButton("OK", (dialog, which) -> {
             String message = input.getText().toString().trim();
             if (!message.isEmpty()) {
-                event.sendNotifications(context, message, Entrants);
+                Log.d("FunctionCall", "SENDING NOTIF>>>" + entrants.size());
+
+                event.sendNotifications(context, event.getEventId(), event.getEventName(), message, entrants);
+
                 sendNotifAnimation.setVisibility(View.VISIBLE);
                 sendNotifAnimation.setMinAndMaxProgress(0.3f, 1f);
                 sendNotifAnimation.playAnimation();

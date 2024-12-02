@@ -1,4 +1,4 @@
-package com.example.zenithevents.Organizer;
+package com.example.zenithevents.Admin;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;

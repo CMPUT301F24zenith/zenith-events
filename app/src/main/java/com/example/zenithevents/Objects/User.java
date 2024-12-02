@@ -38,7 +38,7 @@ import java.util.ArrayList;
  */
 public class User {
 
-    private String deviceID, firstName, lastName, email;
+    private String deviceID, deviceToken, firstName, lastName, email;
     private String phoneNumber;
     private String profileImageURL;
     private Boolean wantsNotifs;
@@ -64,7 +64,7 @@ public class User {
      * @param email      The email address of the user.
      * @param phoneNumber The phone number of the user.
      */
-    public User(String deviceID, String firstName, String lastName, String email, String phoneNumber) {
+    public User(String deviceID, String deviceToken, String firstName, String lastName, String email, String phoneNumber) {
         this.deviceID = deviceID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -76,8 +76,7 @@ public class User {
         this.cancelledEvents = new ArrayList<>();
         this.selectedEvents = new ArrayList<>();
         this.waitingEvents = new ArrayList<>();
-
-
+        this.deviceToken = deviceToken;
     }
 
     /**
@@ -247,48 +246,48 @@ public class User {
      *
      * @param message The content of the notification message.
      */
-    public void sendNotification(Context context, String message) {
-        Log.d("FunctionCall", "MESSAGE: " + message + "info updated.");
-
-        if (context == null) {
-            Log.e("NotificationError", "Context is null. Cannot send notification.");
-            return;
-        }
-        String channelID = "ZENITH_EVENTS_NOTIFICATION_CHANNEL";
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (notificationManager == null) {
-            Log.e("NotificationError", "NotificationManager is null.");
-            return;
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    channelID,
-                    "Zenith Events Notifications",
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            channel.setDescription("Notifications for Zenith Events app");
-            channel.enableLights(true);
-            channel.setLightColor(Color.GREEN);
-            channel.enableVibration(true);
-
-            notificationManager.createNotificationChannel(channel);
-        }
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelID)
-                .setSmallIcon(R.drawable.event_place_holder)
-                .setContentTitle("Zenith Events Notification")
-                .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true);
-
-        Intent intent = new Intent(context, EntrantViewActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra("type", "entrant-selected");
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-        builder.setContentIntent(pendingIntent);
-        notificationManager.notify(1, builder.build());
-    }
+//    public void sendUserNotification(Context context, String message) {
+//        Log.d("FunctionCall", "MESSAGE: " + message + "info updated.");
+//
+//        if (context == null) {
+//            Log.e("NotificationError", "Context is null. Cannot send notification.");
+//            return;
+//        }
+//        String channelID = "ZENITH_EVENTS_NOTIFICATION_CHANNEL";
+//        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//        if (notificationManager == null) {
+//            Log.e("NotificationError", "NotificationManager is null.");
+//            return;
+//        }
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            NotificationChannel channel = new NotificationChannel(
+//                    channelID,
+//                    "Zenith Events Notifications",
+//                    NotificationManager.IMPORTANCE_HIGH
+//            );
+//            channel.setDescription("Notifications for Zenith Events app");
+//            channel.enableLights(true);
+//            channel.setLightColor(Color.GREEN);
+//            channel.enableVibration(true);
+//
+//            notificationManager.createNotificationChannel(channel);
+//        }
+//
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelID)
+//                .setSmallIcon(R.drawable.event_place_holder)
+//                .setContentTitle("Zenith Events Notification")
+//                .setContentText(message)
+//                .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                .setAutoCancel(true);
+//
+//        Intent intent = new Intent(context, EntrantViewActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        intent.putExtra("type", "entrant-selected");
+//        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+//        builder.setContentIntent(pendingIntent);
+//        notificationManager.notify(1, builder.build());
+//    }
 
     /**
      * Gets the list of events the user has cancelled the invitation for.
@@ -380,4 +379,11 @@ public class User {
         this.anonymousAuthID = anonymousAuthID;
     }
 
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
+    }
 }

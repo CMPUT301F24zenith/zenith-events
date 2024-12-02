@@ -121,7 +121,7 @@ public class EntrantArrayAdapter extends ArrayAdapter<User> {
                         if (event == null) return;
                         ArrayList<String> entrant_ = new ArrayList<>();
                         entrant_.add(user.getDeviceID());
-                        event.sendNotifications(getContext(), "You have been declined from the event", entrant_);
+                        event.sendNotifications(getContext(), this.eventId, event.getEventName(),"You have been declined from the event", entrant_);
 
                         Log.d("FunctionCall", "drawing eventId not null::" + event.getEventId());
 

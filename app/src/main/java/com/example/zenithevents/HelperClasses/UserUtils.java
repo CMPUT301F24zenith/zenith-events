@@ -374,6 +374,7 @@ public class UserUtils {
         if (user.getCancelledEvents() != null) userMap.put("cancelledEvents", user.getCancelledEvents());
         if (user.getAnonymousAuthID() != null) userMap.put("anonymousAuthID", user.getAnonymousAuthID());
         if (user.getWantsNotifs() != null) userMap.put("wantsNotifs", user.getWantsNotifs());
+        if (user.getDeviceToken() != null) userMap.put("deviceToken", user.getDeviceToken());
 
         return userMap;
     }

@@ -17,13 +17,13 @@ public class NotificationsTest {
     @Test
     public void testSendNotificationWinner() {
         User user = new User("deviceID", "firstName", "lastName", "email", "phoneNumber");
-        user.sendNotification(context,"Congratulations! You have been selected for");
+        user.sendUserNotification(context,"Congratulations! You have been selected for");
 
     }
     @Test
     public void testSendNotificationLoser() {
         User user = new User("deviceID", "firstName", "lastName", "email", "phoneNumber");
-        user.sendNotification(context,"You have not been selected for");
+        user.sendUserNotification(context,"You have not been selected for");
     }
     @Test
     public void testSendNotificationToSelected() {
@@ -44,7 +44,7 @@ public class NotificationsTest {
         for (String deviceID : event.getSelected()) {
             for (User user : selected) {
                 if (user.getDeviceID().equals(deviceID)) {
-                    user.sendNotification(context,"You have been selected for");
+                    user.sendUserNotification(context,"You have been selected for");
                 }
             }
         }
@@ -69,7 +69,7 @@ public class NotificationsTest {
         for (String deviceID : event.getSelected()) {
             for (User user : waitingList) {
                 if (user.getDeviceID().equals(deviceID)) {
-                    user.sendNotification(context,"Notifs to waitingList");
+                    user.sendUserNotification(context,"Notifs to waitingList");
                 }
             }
         }
@@ -94,7 +94,7 @@ public class NotificationsTest {
         for (String deviceID : event.getSelected()) {
             for (User user : cancelledList) {
                 if (user.getDeviceID().equals(deviceID)) {
-                    user.sendNotification(context,"Notifs to cancelledList");
+                    user.sendUserNotification(context,"Notifs to cancelledList");
                 }
             }
         }
@@ -119,7 +119,7 @@ public class NotificationsTest {
         for (String deviceID : event.getSelected()) {
             for (User user : signUpList) {
                 if (user.getDeviceID().equals(deviceID)) {
-                    user.sendNotification(context,"Notifs to signUpList");
+                    user.sendUserNotification(context,"Notifs to signUpList");
                 }
             }
         }

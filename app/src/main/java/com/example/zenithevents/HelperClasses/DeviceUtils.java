@@ -2,6 +2,9 @@ package com.example.zenithevents.HelperClasses;
 
 import android.provider.Settings;
 import android.content.Context;
+import android.util.Log;
+
+import com.google.firebase.messaging.FirebaseMessaging;
 
 /**
  * Utility class for retrieving device-specific information.
@@ -22,6 +25,9 @@ import android.content.Context;
  * </p>
  */
 public class DeviceUtils {
+    public interface TokenCallback {
+        void onTokenReceived(String token);
+    }
 
     /**
      * Retrieves a unique device ID for the Android device.
@@ -35,5 +41,20 @@ public class DeviceUtils {
      */
     public static String getDeviceID(Context context) {
         return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
+
+    public void getDeviceToken(TokenCallback callback) {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String deviceToken = task.getResult();
+                        callback.onTokenReceived(deviceToken);
+                        Log.d("FCM", "Device Token: " + deviceToken);
+                        // You can send this token to your backend server or use it to target notifications
+                    } else {
+                        Log.w("FCM", "Fetching FCM registration token failed", task.getException());
+                        callback.onTokenReceived(null);
+                    }
+                });
     }
 }

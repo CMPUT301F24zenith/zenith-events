@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.zenithevents.HelperClasses.EventUtils;
+import com.example.zenithevents.HelperClasses.NotificationUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 
 import java.io.Serializable;
@@ -345,17 +346,23 @@ public class Event implements Serializable {
 
                     if (sampledList.contains(deviceId) && callback.getWantsNotifs()) {
                         Log.d("FunctionCall", "wants notifs");
-                        callback.sendNotification(context, "Congratulations! You have been selected for " + this.getEventName());
+                        ArrayList<String> entrants = new ArrayList<>();
+                        entrants.add(deviceId);
+                        sendNotifications(context,  this.getEventId(), this.getEventName(), "Congratulations! You have been selected for " + this.getEventName(), entrants);
                     }
                     userUtils.updateUserByObject(callback, callback2 -> {
                         Log.d("FunctionCall", "User: " + deviceId + "info updated.");
                     });
                 });
             }
+
             for (String deviceId : this.getWaitingList()) {
                 userUtils.fetchUserProfile(deviceId, callback -> {
                     if (callback.getWantsNotifs()) {
-                        callback.sendNotification(context, "You have not been selected for " + this.getEventName());
+                        ArrayList<String> entrants = new ArrayList<>();
+                        entrants.add(callback.getDeviceID());
+                        sendNotifications(context,  this.getEventId(), this.getEventName(), "Congratulations! You have been selected for " + this.getEventName(), entrants);
+
                         userUtils.updateUserByObject(callback, callback2 -> {
                             Log.d("Notification", "User: " + deviceId + "notified.");
                         });
@@ -374,23 +381,14 @@ public class Event implements Serializable {
      * @param message  The message to send to participants who enabled notifications.
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
-    public void sendNotifications(Context context, String message, ArrayList<String> entrants){
-//         Send notifications to recipients
-        UserUtils userUtils = new UserUtils();
+    public void sendNotifications(Context context, String eventId, String subject, String message, ArrayList<User> entrants){
         try {
-            for (String deviceID : entrants) {
-                Log.d("FunctionCall", "Profile fetched for: " + deviceID);
-                userUtils.fetchUserProfile(deviceID, user -> {
-                    Log.d("FunctionCall", "Profile fetched for: " + user.getDeviceID());
-                    if (user.getWantsNotifs()) {
-                        user.sendNotification(context, message);
-                        userUtils.updateUserByObject(user, user2 -> {
-                            Log.d("FunctionCall", "Notification sent to: " + deviceID);
-                        });
-                    }
-                });
-            }
-            Log.d("SendNotifications.event", "Notifications sent successfully!");
+            Log.d("FunctionCall", "NOTIFYING::: >>>" + entrants.size());
+            Notification notif = new Notification(eventId, subject, message, entrants);
+            NotificationUtils notifUtils = new NotificationUtils();
+            notifUtils.createNotification(notif, callback -> {
+                Log.d("FunctionCall", "Notifications sent successfully!");
+            });
         } catch (Exception e) {
             Toast.makeText(context, "Error sending notifications: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
