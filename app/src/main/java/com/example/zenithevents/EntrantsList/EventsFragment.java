@@ -43,10 +43,16 @@ public class EventsFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     String type, deviceID;
 
+    /**
+     * Default constructor for the EventsFragment.
+     *
+     * This constructor is required by the Android framework for fragment initialization.
+     * It does not perform any operations but ensures that the fragment can be instantiated
+     * when needed by the system.
+     */
     public EventsFragment() {
         // Required empty public constructor
     }
-
 
     /**
      * Called when the fragment is created.
