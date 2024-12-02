@@ -31,7 +31,7 @@ import java.util.Objects;
 
 /**
  * Fragment that displays a list of events based on the user's role and event type.
- * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ * <p>Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.</p>
  */
 public class EventsFragment extends Fragment {
 
@@ -47,8 +47,6 @@ public class EventsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-    // TODO: Rename and change types and number of parameters
     /**
      * Creates a new instance of the EventsFragment.
      *
@@ -72,8 +70,6 @@ public class EventsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     /**
@@ -201,6 +197,11 @@ public class EventsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Listens for changes in the user's events collection in Firestore.
+     * Updates the events list and notifies the adapter of data changes.
+     * Triggers a layout animation for the updated event list.
+     */
     private void listentoEvents() {
         FirestoreEventsCollection.listenForUserEventChanges(deviceID, events_ -> {
             if (events_ != null) {

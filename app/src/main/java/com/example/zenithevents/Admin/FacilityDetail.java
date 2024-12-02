@@ -31,6 +31,11 @@ import com.google.firebase.firestore.ListenerRegistration;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * FacilityDetail is an activity that displays detailed information about a specific facility.
+ * It allows administrators to view facility details, associated events, and delete the facility.
+ * The JavaDocs for this class were generated using OpenAI's ChatGPT.
+ */
 public class FacilityDetail extends AppCompatActivity {
     private static final String TAG = "FacilityDetail";
     private TextView facilityName, facilityEmail, facilityPhoneNumber;
@@ -44,6 +49,11 @@ public class FacilityDetail extends AppCompatActivity {
     EventUtils eventUtils;
     FacilityUtils facilityUtils;
 
+    /**
+     * Called when the activity is first created. Initializes UI components, fetches facility events, and sets up listeners.
+     *
+     * @param savedInstanceState A Bundle containing the activity's previously saved state, if any.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +117,11 @@ public class FacilityDetail extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sets up a listener to monitor changes in events associated with the facility.
+     *
+     * @param facilityId The ID of the facility whose events are being monitored.
+     */
     private void eventsListeners(String facilityId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         eventsListener = db.collection("events")
@@ -133,6 +148,9 @@ public class FacilityDetail extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Handles cleanup when the activity is destroyed, including removing Firestore listeners.
+     */
     protected void onDestroy() {
         super.onDestroy();
         if (eventsListener != null) {
@@ -140,6 +158,9 @@ public class FacilityDetail extends AppCompatActivity {
         }
     }
 
+    /**
+     * Plays an animation when the facility is deleted and triggers the deletion process.
+     */
     void playAnimation(){
         deleteFacilityAnimation.setVisibility(View.VISIBLE);
         deleteFacilityAnimation.playAnimation();
@@ -166,8 +187,5 @@ public class FacilityDetail extends AppCompatActivity {
             public void onAnimationRepeat(Animator animation) {
             }
         });
-
     }
-
-
 }

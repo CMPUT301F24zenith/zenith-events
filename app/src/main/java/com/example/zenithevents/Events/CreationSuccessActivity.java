@@ -34,7 +34,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
  * CreationSuccessActivity is an activity that is displayed after successfully creating an event.
  * It shows the event's title, image, and a generated QR code, and allows the user to share the QR code.
  * <p>
- * Note: The Javadocs for this class were generated with the assistance of an AI language model.
+ * Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.
  * </p>
  */
 public class CreationSuccessActivity extends AppCompatActivity {
@@ -52,6 +52,7 @@ public class CreationSuccessActivity extends AppCompatActivity {
      * Called when the activity is first created. Initializes the UI components, retrieves the Event object passed
      * from the previous activity, and sets up the event name, image, and QR code.
      * It also sets listeners for the buttons to allow sharing the QR code and exiting the activity.
+     * It also signals to rain confetti on the screen, activating the ConfettiView.
      *
      * @param savedInstanceState A Bundle containing the activity's previously saved state.
      *                           If the activity has never been created, this will be null.

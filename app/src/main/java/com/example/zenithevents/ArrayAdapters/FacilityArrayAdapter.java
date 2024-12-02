@@ -18,7 +18,7 @@ import java.util.List;
  * Custom ArrayAdapter to display a list of {@link Facility} objects in a list view.
  * This adapter is responsible for populating each item in the list with relevant facility data.
  *
- * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ * <p>Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.</p>
  */
 public class FacilityArrayAdapter extends ArrayAdapter<Facility> {
 
