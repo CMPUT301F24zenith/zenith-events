@@ -107,25 +107,17 @@ public class UserProfile extends AppCompatActivity {
 
         fetchUserProfile();
 
-        notifsCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    wantsNotifs = true;
-                    checkAndRequestNotificationPermission();
-                } else {
-                    wantsNotifs = false;
-
-                }
+        notifsCheckBox.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (isChecked) {
+                wantsNotifs = true;
+                checkAndRequestNotificationPermission();
+            } else {
+                wantsNotifs = false;
             }
         });
 
-        btnSave.setOnClickListener(v -> {
-            saveProfile();
-        });
-        btnRemove.setOnClickListener(v -> {
-            removeProfileImg();
-        });
+        btnSave.setOnClickListener(v -> saveProfile());
+        btnRemove.setOnClickListener(v -> removeProfileImg());
 
         profileImage.setOnClickListener(v -> openImagePicker());
     }
@@ -234,7 +226,6 @@ public class UserProfile extends AppCompatActivity {
         }
 
         updateUserProfile(DeviceUtils.getDeviceID(this), firstName, lastName, email, phoneNumber, updatedProfileImageURL);
-
     }
 
 

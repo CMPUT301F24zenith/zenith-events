@@ -29,6 +29,7 @@ import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.OrganizerPage;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -82,7 +83,7 @@ public class CreateEventPage extends AppCompatActivity {
 
         event = new Event();
 
-        if (!eventId.isEmpty()) {
+        if (eventId != null && !eventId.isEmpty()) {
             eventUtils.fetchEventById(eventId, event_ -> {
                 event = event_;
 
@@ -215,7 +216,7 @@ public class CreateEventPage extends AppCompatActivity {
                             Log.d("Firestore", "QR code hash updated successfully.");
                             Toast.makeText(this, "Event was successfully published!", Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(CreateEventPage.this, CreationSuccessActivity.class);
+                            Intent intent = new Intent(this, CreationSuccessActivity.class);
                             intent.putExtra("eventID", event.getEventId());
                             intent.putExtra("eventName", event.getEventName());
                             facilityUtils.fetchFacilityName(event.getOwnerFacility(), name -> {
@@ -224,7 +225,6 @@ public class CreateEventPage extends AppCompatActivity {
                                 } else {
                                     intent.putExtra("eventFacility", "");
                                 }
-                                intent.putExtra("eventImage", event.getImageUrl());
                                 intent.putExtra("qr_code", qrCodeBase64);
                                 startActivity(intent);
                                 finish();
@@ -241,7 +241,9 @@ public class CreateEventPage extends AppCompatActivity {
             });
         });
 
-        createEventCancelButton.setOnClickListener(v -> finish());
+        createEventCancelButton.setOnClickListener(v -> {
+            finish();
+        });
 
         uploadEventPosterButton.setOnClickListener(v -> checkStoragePermission());
     }

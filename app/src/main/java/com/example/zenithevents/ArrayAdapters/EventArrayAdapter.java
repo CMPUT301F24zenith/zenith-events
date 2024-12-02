@@ -3,6 +3,9 @@ package com.example.zenithevents.ArrayAdapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.example.zenithevents.HelperClasses.DeviceUtils;
 import com.example.zenithevents.HelperClasses.EventUtils;
 import com.example.zenithevents.HelperClasses.FacilityUtils;
+import com.example.zenithevents.HelperClasses.FirestoreEventsCollection;
 import com.example.zenithevents.HelperClasses.QRCodeUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
@@ -117,6 +121,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
                     events.remove(position);
                     notifyDataSetChanged();
                 }));
+
             else if (Objects.equals(this.type, "selectedEvents"))
                 declineBtn.setOnClickListener(v -> userUtils.rejectEvent(deviceId, event.getEventId(), (isSuccess, event_) -> {
                     if (isSuccess == 0) {
@@ -125,13 +130,12 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
                     events.remove(position);
                     notifyDataSetChanged();
                 }));
+
             if (Objects.equals(this.type, "organizer")) {
                 declineBtn.setOnClickListener(v-> {
                     progressBar.setVisibility(View.VISIBLE);
-                    eventUtils.removeEvent(event.getEventId(), success-> {
+                    eventUtils.removeEvent(event.getEventId(), success -> {
                         progressBar.setVisibility(View.GONE);
-                        events.remove(position);
-                        notifyDataSetChanged();
                         if (success) {
                             Toast.makeText(getContext(), "Event deleted", Toast.LENGTH_SHORT).show();
                         } else {

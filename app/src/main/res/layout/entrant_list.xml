@@ -2,7 +2,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/img_3">
+    <TextView
+        android:id="@+id/myEventsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        android:textFontWeight="900"
+        android:layout_marginTop="30dp"
+        android:textColor="#333333"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:paddingHorizontal="24dp"
+        />
+
+    <TextView
+        android:id="@+id/noEvents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:textAlignment="center"
+        android:text="No entrants to display"
+        android:textSize="24sp"
+        android:textStyle="italic"
+        android:textColor="#E4DADA"
+        android:textFontWeight="900"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:padding="12dp"
+        android:background="@drawable/rounded_background"
+        android:paddingHorizontal="24dp"
+        />
 
     <ListView
         android:id="@+id/list_entrants"

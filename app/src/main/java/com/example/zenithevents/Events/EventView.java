@@ -30,6 +30,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.example.zenithevents.Admin.AdminEventsFragment;
+import com.example.zenithevents.Admin.AdminViewActivity;
 import com.example.zenithevents.Admin.FacilityDetail;
 import com.example.zenithevents.Admin.QRViewAdmin;
 import com.example.zenithevents.EntrantsList.CancelledEntrants;
@@ -44,6 +46,7 @@ import com.example.zenithevents.HelperClasses.FacilityUtils;
 import com.example.zenithevents.HelperClasses.UserUtils;
 import com.example.zenithevents.Objects.Event;
 import com.example.zenithevents.R;
+import com.example.zenithevents.User.OrganizerPage;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -82,7 +85,7 @@ public class EventView extends AppCompatActivity {
     FacilityUtils facilityUtils = new FacilityUtils();
     EventUtils eventUtils = new EventUtils();
     private String eventId, type;
-    private LottieAnimationView lotteryAnimation, joinEventAnimation, sendNotifAnimation, deleteEventAnimation;
+    private LottieAnimationView lotteryAnimation, joinEventAnimation, sendNotifAnimation, deleteEventAnimation, joinEventLoadingAnimation;
 
 
     /**
@@ -131,8 +134,7 @@ public class EventView extends AppCompatActivity {
         joinEventAnimation = findViewById(R.id.joinEventAnimation);
         sendNotifAnimation = findViewById(R.id.sendNotifAnimation);
         deleteEventAnimation = findViewById(R.id.deleteEventAnimation);
-
-
+        joinEventLoadingAnimation = findViewById(R.id.joinEventLoadingAnimation);
     }
 
     /**
@@ -159,7 +161,6 @@ public class EventView extends AppCompatActivity {
                     }
 
                     if (documentSnapshot != null && documentSnapshot.exists()) {
-                        // Convert document snapshot to Event object
                         Event event = documentSnapshot.toObject(Event.class);
                         this.eventId = event != null ? event.getEventId() : null;
 
@@ -215,11 +216,15 @@ public class EventView extends AppCompatActivity {
         Log.d("FunctionCall", "deviceID: " + deviceID);
 
         if (event.getCancelledList().contains(deviceID) ||
-                event.getRegistrants().contains(deviceID) ||
-                event.getSelected().contains(deviceID)) {
+                event.getRegistrants().contains(deviceID)) {
             btnJoinLeaveWaitingList.setEnabled(false);
+
             btnJoinLeaveWaitingList.setText("Attendance can not be changed");
             btnJoinLeaveWaitingList.setBackgroundColor(getResources().getColor(R.color.inactive_button_color));
+        }
+
+        if (event.getSelected().contains(deviceID)) {
+            btnJoinLeaveWaitingList.setVisibility(View.GONE);
         }
 
         if (event.getWaitingList().contains(deviceID)) {
@@ -229,14 +234,27 @@ public class EventView extends AppCompatActivity {
             btnJoinLeaveWaitingList.setEnabled(true);
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
-                Context context = this;
-                userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), (isSuccess, event_) -> {
-                    if (isSuccess == 1) {
-                        Toast.makeText(context, "Successfully joined the event!", Toast.LENGTH_SHORT).show();
-                    } else if (isSuccess == 0) {
-                        Toast.makeText(context, "Successfully left the event!", Toast.LENGTH_SHORT).show();
+                joinEventLoadingAnimation.setVisibility(View.VISIBLE);
+                joinEventLoadingAnimation.setSpeed(0.5f);
+                joinEventLoadingAnimation.playAnimation();
+
+                btnSampleUsers.setEnabled(false);
+                btnJoinLeaveWaitingList.setEnabled(false);
+                deleteEventButton.setEnabled(false);
+
+                userUtils.applyLeaveEvent(this, deviceID, event.getEventId(), (isSuccess, event_) -> {
+                    if (isSuccess == 0) {
+                        joinEventLoadingAnimation.setVisibility(View.GONE);
+                        btnSampleUsers.setEnabled(true);
+                        btnJoinLeaveWaitingList.setEnabled(true);
+                        deleteEventButton.setEnabled(true);
+                        Toast.makeText(this, "Successfully left the event!", Toast.LENGTH_SHORT).show();
                     } else if (isSuccess == -1) {
-                        Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                        joinEventLoadingAnimation.setVisibility(View.GONE);
+                        btnSampleUsers.setEnabled(true);
+                        btnJoinLeaveWaitingList.setEnabled(true);
+                        deleteEventButton.setEnabled(true);
+                        Toast.makeText(this, "Failed to change attendance. Please try again.", Toast.LENGTH_SHORT).show();
                     }
                 });
             });
@@ -254,18 +272,29 @@ public class EventView extends AppCompatActivity {
             btnJoinLeaveWaitingList.setEnabled(true);
 
             btnJoinLeaveWaitingList.setOnClickListener(v -> {
-                Context context = this;
-                fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
-                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                joinEventLoadingAnimation.setVisibility(View.VISIBLE);
+                joinEventLoadingAnimation.setSpeed(0.5f);
+                joinEventLoadingAnimation.playAnimation();
+
+                btnSampleUsers.setEnabled(false);
+                btnJoinLeaveWaitingList.setEnabled(false);
+                deleteEventButton.setEnabled(false);
+
+                fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this,
                             new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                             LOCATION_PERMISSION_REQUEST_CODE);
+
+                    joinEventLoadingAnimation.setVisibility(View.GONE);
+                    btnSampleUsers.setEnabled(true);
+                    btnJoinLeaveWaitingList.setEnabled(true);
+                    deleteEventButton.setEnabled(true);
                 }
 
                 fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
                     .addOnSuccessListener(location -> {
-
-                        userUtils.applyLeaveEvent(context, deviceID, event.getEventId(), (isSuccess, event_) -> {
+                        userUtils.applyLeaveEvent(this, deviceID, event.getEventId(), (isSuccess, event_) -> {
                             Log.d("FunctionCall", "Applying.." + isSuccess);
                             if (isSuccess == 1) {
                                 if (event_.getHasGeolocation()) {
@@ -282,7 +311,16 @@ public class EventView extends AppCompatActivity {
 
                                         Log.d("FunctionCall", "updatingEvent...");
                                         eventUtils.createUpdateEvent(event_, callback -> {
+                                            joinEventLoadingAnimation.setVisibility(View.GONE);
+
                                             if (callback != null) {
+                                                joinEventAnimation.setVisibility(View.VISIBLE);
+                                                joinEventAnimation.setSpeed(0.5f);
+                                                joinEventAnimation.playAnimation();
+
+                                                btnSampleUsers.setEnabled(true);
+                                                btnJoinLeaveWaitingList.setEnabled(true);
+                                                deleteEventButton.setEnabled(true);
                                                 Log.d("FunctionCall", "Location added successfully.");
                                             } else {
                                                 Log.d("FunctionCall", "Failed to update event.");
@@ -291,15 +329,28 @@ public class EventView extends AppCompatActivity {
                                     } else {
                                         Log.d("Location", "Location is null");
                                     }
+                                } else {
+                                    joinEventLoadingAnimation.setVisibility(View.GONE);
+
+                                    joinEventAnimation.setVisibility(View.VISIBLE);
+                                    joinEventAnimation.setSpeed(0.5f);
+                                    joinEventAnimation.playAnimation();
                                 }
-                                joinEventAnimation.setVisibility(View.VISIBLE);
-                                joinEventAnimation.setSpeed(0.5f);
-                                joinEventAnimation.playAnimation();
                                 Log.d("EventView", "Successfully joined the event!");
                             } else if (isSuccess == 0) {
-                                Toast.makeText(context, "Successfully left the event!", Toast.LENGTH_SHORT).show();
+                                joinEventLoadingAnimation.setVisibility(View.GONE);
+
+                                btnSampleUsers.setEnabled(true);
+                                btnJoinLeaveWaitingList.setEnabled(true);
+                                deleteEventButton.setEnabled(true);
+                                Toast.makeText(this, "Successfully left the event!", Toast.LENGTH_SHORT).show();
                             } else if (isSuccess == -1) {
-                                Toast.makeText(context, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
+                                joinEventLoadingAnimation.setVisibility(View.GONE);
+
+                                btnSampleUsers.setEnabled(true);
+                                btnJoinLeaveWaitingList.setEnabled(true);
+                                deleteEventButton.setEnabled(true);
+                                Toast.makeText(this, "Failed to join event. Please try again.", Toast.LENGTH_SHORT).show();
                             }
 
                         });
@@ -312,6 +363,10 @@ public class EventView extends AppCompatActivity {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             joinEventAnimation.setVisibility(View.GONE);
+
+                            btnSampleUsers.setEnabled(true);
+                            btnJoinLeaveWaitingList.setEnabled(true);
+                            deleteEventButton.setEnabled(true);
                         }
                         @Override
                         public void onAnimationCancel(Animator animation) {
@@ -326,13 +381,13 @@ public class EventView extends AppCompatActivity {
             if (event.getNumParticipants() != 0 &&
                     event.getCancelledList().size() + event.getSelected().size() + event.getRegistrants().size() + event.getWaitingList().size() >= event.getNumParticipants()) {
                 btnJoinLeaveWaitingList.setEnabled(false);
+
                 btnJoinLeaveWaitingList.setText("Event is full");
                 btnJoinLeaveWaitingList.setBackgroundColor(Color.GRAY);
             }
         }
 
         sendNotifsButton.setOnClickListener(v -> {
-            Context context = EventView.this;
             String[] options = {"Registered Entrants", "Selected Entrants", "Cancelled Entrants", "Waitlisted Entrants"};
             boolean[] selectedOptions = new boolean[options.length];
             AtomicBoolean optionSelected = new AtomicBoolean(false);
@@ -369,7 +424,7 @@ public class EventView extends AppCompatActivity {
                     Toast.makeText(this, "Please select at least one option.", Toast.LENGTH_SHORT).show();
                 }
                 else if (!selectedEntrants.isEmpty()) {
-                    showMessageInputDialog(context, selectedEntrants, event);
+                    showMessageInputDialog(this, selectedEntrants, event);
                 }
                 else if (selectedEntrants.isEmpty()) {
                     Toast.makeText(this, "There is no one is the lists you have selected", Toast.LENGTH_SHORT).show();
@@ -418,12 +473,37 @@ public class EventView extends AppCompatActivity {
                 startActivity(intent);
             });
 
-            if(Objects.equals(type, "organizer")) btnSampleUsers.setVisibility(View.VISIBLE);
+            if (Objects.equals(type, "organizer")) btnSampleUsers.setVisibility(View.VISIBLE);
             btnSampleUsers.setOnClickListener(v -> {
+                btnSampleUsers.setEnabled(false);
+                btnJoinLeaveWaitingList.setEnabled(false);
+                deleteEventButton.setEnabled(false);
+
                 event.drawLottery(this);
+
                 lotteryAnimation.setVisibility(View.VISIBLE);
                 lotteryAnimation.playAnimation();
+            });
 
+            joinEventLoadingAnimation.removeAllAnimatorListeners();
+            joinEventLoadingAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+                public void onAnimationStart(Animator animation) {
+                    joinEventLoadingAnimation.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    joinEventLoadingAnimation.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    joinEventLoadingAnimation.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+                }
             });
 
             lotteryAnimation.removeAllAnimatorListeners();
@@ -436,6 +516,10 @@ public class EventView extends AppCompatActivity {
                 public void onAnimationEnd(Animator animation) {
 
                     lotteryAnimation.setVisibility(View.GONE);
+                    btnSampleUsers.setEnabled(true);
+                    btnJoinLeaveWaitingList.setEnabled(true);
+                    deleteEventButton.setEnabled(true);
+
                     Intent intent = new Intent(EventView.this, SampledEntrants.class);
                     intent.putExtra("eventId", event.getEventId());
                     startActivity(intent);
@@ -454,24 +538,28 @@ public class EventView extends AppCompatActivity {
 
             deleteEventButton.setVisibility(View.VISIBLE);
             deleteEventButton.setOnClickListener(v-> {
+                deleteEventButton.setEnabled(false);
+                btnJoinLeaveWaitingList.setEnabled(false);
+                btnSampleUsers.setEnabled(false);
+
                 progressBar.setVisibility(View.VISIBLE);
                 eventUtils.removeEvent(eventId, success-> {
                     progressBar.setVisibility(View.GONE);
                     if (success) {
                         deleteEventAnimation.setVisibility(View.VISIBLE);
                         deleteEventAnimation.playAnimation();
+                        joinEventAnimation.setVisibility(View.GONE);
+                        joinEventLoadingAnimation.setVisibility(View.GONE);
+
                         deleteEventAnimation.addAnimatorListener(new Animator.AnimatorListener() {
                             public void onAnimationStart(Animator animation) {
                                 deleteEventAnimation.setVisibility(View.VISIBLE);
-                                deleteEventAnimation.setVisibility(View.GONE);
                             }
 
                             @Override
                             public void onAnimationEnd(Animator animation) {
-
                                 deleteEventAnimation.setVisibility(View.GONE);
                                 finish();
-
                             }
 
                             @Override
@@ -483,7 +571,11 @@ public class EventView extends AppCompatActivity {
                             public void onAnimationRepeat(Animator animation) {
                             }
                         });
+
                     } else {
+                        deleteEventButton.setEnabled(true);
+                        btnJoinLeaveWaitingList.setEnabled(true);
+                        btnSampleUsers.setEnabled(true);
                         Toast.makeText(this, "Event did not delete", Toast.LENGTH_SHORT).show();
                     }
                 });

@@ -20,19 +20,18 @@ import com.example.zenithevents.R;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 /**
  * Activity that allows users to create and edit a facility profile, saving data to Firestore.
  * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
  */
 public class CreateFacility extends AppCompatActivity {
 
-    private static final int PICK_IMAGE = 1;
-
-    private Button saveButton, saveButtontwo;
+    private Button saveButton;
     private EditText facilityName;
     private EditText facilityPhone;
     private EditText facilityEmail;
-    private Uri uploadedImageUrl;
     private FirebaseFirestore db;
     private String deviceId;
 
@@ -47,28 +46,24 @@ public class CreateFacility extends AppCompatActivity {
         setContentView(R.layout.activity_create_facility);
 
         db = FirebaseFirestore.getInstance();
-        deviceId = DeviceUtils.getDeviceID(this);
+        deviceId = getIntent().getStringExtra("deviceId");
 
         facilityName = findViewById(R.id.facility_name);
         facilityPhone = findViewById(R.id.facility_phone);
         facilityEmail = findViewById(R.id.facility_email);
         saveButton = findViewById(R.id.facility_save);
 
-        loadFacility(deviceId);
+        if (deviceId != null)
+            loadFacility(deviceId);
 
+        saveButton.setOnClickListener(view -> {
+            String name = facilityName.getText().toString().trim();
+            String phone = facilityPhone.getText().toString().trim();
+            String email = facilityEmail.getText().toString().trim();
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = facilityName.getText().toString().trim();
-                String phone = facilityPhone.getText().toString().trim();
-                String email = facilityEmail.getText().toString().trim();
-
-                if (checkFields(name, email)) {
-                    Facility facility = new Facility(name, phone, email, deviceId);
-                    storeFacility(facility);
-                }
-
+            if (checkFields(name, email)) {
+                Facility facility = new Facility(name, phone, email, deviceId);
+                storeFacility(facility);
             }
         });
     }
@@ -95,6 +90,7 @@ public class CreateFacility extends AppCompatActivity {
 
         if (!ValidationUtils.isValidEmail(email)) {
             facilityEmail.setError("Invalid email format");
+            facilityEmail.requestFocus();
             return false;
         }
         return true;
@@ -137,10 +133,7 @@ public class CreateFacility extends AppCompatActivity {
      * Navigates to the OrganizerPage and displays a success message.
      */
     private void changeToView() {
-        Intent viewIntent = new Intent(CreateFacility.this, OrganizerPage.class);
-        viewIntent.putExtra("deviceId", deviceId);
-        startActivity(viewIntent);
         finish();
-        Toast.makeText(CreateFacility.this, "Facility saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Facility saved", Toast.LENGTH_SHORT).show();
     }
 }
