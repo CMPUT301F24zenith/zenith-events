@@ -243,9 +243,15 @@ public class User {
     }
 
     /**
-     * Sends a notification message to the user.
+     * Sends a notification with the provided message.
      *
-     * @param message The content of the notification message.
+     * This method creates and sends a high-priority notification to the user with a message
+     * that is passed as a parameter. It also sets up a notification channel for devices running
+     * Android Oreo (API level 26) or higher.
+     *
+     * @param context The context in which the notification should be sent. It is required to get
+     *                the system's notification service and create the notification.
+     * @param message The message to be displayed in the notification.
      */
     public void sendNotification(Context context, String message) {
         Log.d("FunctionCall", "MESSAGE: " + message + "info updated.");
@@ -379,5 +385,4 @@ public class User {
     public void setAnonymousAuthID(String anonymousAuthID) {
         this.anonymousAuthID = anonymousAuthID;
     }
-
 }

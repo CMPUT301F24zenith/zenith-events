@@ -18,7 +18,7 @@ import java.util.Map;
  * Represents an event in the system.
  * The event includes information such as the event ID, title, description,
  * participants (waiting list, selected participants, registrants), and more.
- * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ * <p>Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.</p>
  */
 public class Event implements Serializable {
     private ArrayList<String> waitingList, selected, cancelledList, registrants;
@@ -53,18 +53,20 @@ public class Event implements Serializable {
     }
 
     /**
-     * Constructor to initialize an event with specific values such as event ID, title, image, and QR code details.
-     * This constructor is used to create an event with the provided parameters.
+     * Constructs an Event object with the provided event details, initializing lists for
+     * waiting list, selected participants, cancelled participants, and registrants.
+     * It also stores event-related information such as title, image, QR code details,
+     * participant count, address, geolocation availability, and user locations.
      *
-     * @param eventId         The unique identifier for the event.
-     * @param eventTitle      The title of the event.
-     * @param eventImage      The URL of the image associated with the event.
-     * @param QRCodeHash      The hash of the event's QR code.
-     * @param QRCodeBitmap    The bitmap representation of the event's QR code.
-     * @param numParticipants The number of participants allowed in the event.
-     * @param eventAddress    The address where the event is taking place.
-     * @param hasGeolocation  Whether the event will track geolocation
-     * <p>Note: The Javadocs for this constructor were generated with the assistance of an AI language model.</p>
+     * @param eventId The unique ID of the event.
+     * @param eventTitle The title or name of the event.
+     * @param eventImage The URL of the event's image.
+     * @param QRCodeHash The hash of the event's QR code, used for verification.
+     * @param QRCodeBitmap The bitmap representation of the event's QR code.
+     * @param numParticipants The maximum number of participants allowed for the event.
+     * @param eventAddress The address where the event will take place.
+     * @param hasGeolocation A flag indicating whether the event has geolocation features.
+     * @param userLocations A map containing the device locations of users registered for the event.
      */
     public Event(String eventId, String eventTitle, String eventImage, String QRCodeHash, String QRCodeBitmap, int numParticipants, String eventAddress, Boolean hasGeolocation, Map<String, Object> userLocations){
         this.waitingList = new ArrayList<>();
@@ -449,29 +451,49 @@ public class Event implements Serializable {
     /**
      * Gets the selected limit for the event, which constrains the number of selected participants.
      *
-     * @return The selected limit for the event.
      * <p>Note: The Javadocs for this method were generated with the assistance of an AI language model.</p>
      */
     public void setSelectedLimit(int selectedLimit) {
         this.selectedLimit = selectedLimit;
     }
 
+    /**
+     * Gets the geolocation status of the event.
+     *
+     * @return A Boolean indicating whether the event has geolocation features.
+     *         Returns true if geolocation is enabled, false otherwise.
+     */
     public Boolean getHasGeolocation() {
         return hasGeolocation;
     }
 
+    /**
+     * Sets the geolocation status for the event.
+     *
+     * @param hasGeolocation A Boolean indicating whether the event has geolocation features.
+     *                       Pass true to enable geolocation, false to disable it.
+     */
     public void setHasGeolocation(Boolean hasGeolocation) {
         this.hasGeolocation = hasGeolocation;
     }
 
+    /**
+     * Gets the user locations associated with the event.
+     *
+     * @return A Map where the key is the user ID (String) and the value is another Map containing
+     *         the user's latitude and longitude (as "latitude" and "longitude" keys).
+     */
     public Map<String, Object> getUserLocations() {
         return userLocations;
     }
 
-    public void setUserLocations(Map<String, Object> userLocations) {
-        this.userLocations = userLocations;
-    }
-
+    /**
+     * Updates the location of a specific user in the event.
+     *
+     * @param userId The ID of the user whose location is being updated.
+     * @param latitude The new latitude of the user's location.
+     * @param longitude The new longitude of the user's location.
+     */
     public void updateUserLocation(String userId, double latitude, double longitude) {
         Log.d("FunctionCall", "updating location...");
         if (userLocations != null) {
