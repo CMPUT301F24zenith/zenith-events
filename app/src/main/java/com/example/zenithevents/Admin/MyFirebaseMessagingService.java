@@ -1,4 +1,5 @@
-package com.example.zenithevents.Organizer;
+package com.example.zenithevents.Admin;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,11 +16,22 @@ import com.example.zenithevents.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+/**
+ * MyFirebaseMessagingService handles incoming Firebase Cloud Messaging (FCM) messages.
+ * It processes notifications and displays them to the user using the Android notification system.
+ * The JavaDocs for this class were generated using OpenAI's ChatGPT.
+ */
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
 
 
+    /**
+     * Called when a message is received from FCM.
+     * Handles the notification payload and triggers a notification.
+     *
+     * @param remoteMessage The message received from Firebase Cloud Messaging.
+     */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // TODO(developer): Handle FCM messages here.
@@ -32,7 +44,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-
+    /**
+     * Builds and displays a notification based on the FCM message.
+     *
+     * @param title The title of the notification.
+     * @param body  The body text of the notification.
+     */
     private void sendNotification(String title, String body) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -63,6 +80,4 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
-
-
 }

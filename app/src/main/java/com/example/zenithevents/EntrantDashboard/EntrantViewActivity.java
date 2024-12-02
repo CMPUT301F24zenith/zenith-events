@@ -30,7 +30,7 @@ import com.example.zenithevents.User.UserProfile;
 /**
  * Activity that displays the entrant dashboard, allowing the user to navigate through various
  * event lists, scan QR codes, and view or create a profile.
- * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ * <p>Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.</p>
  */
 public class EntrantViewActivity extends AppCompatActivity {
     private static final String TAG = "EntrantViewActivity";

@@ -17,17 +17,22 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.zenithevents.R;
 
-
 /**
- * TODO project part 4
- * xml files in progress - not used in the app
+ * AdminViewActivity is an activity that serves as the central hub for administrators to manage users, events,
+ * and facilities. The activity provides buttons for navigation and dynamically loads the corresponding fragments
+ * into a container. It ensures an intuitive and visually consistent user interface.
+ * The JavaDocs for this class were generated using OpenAI's ChatGPT.
  */
 public class AdminViewActivity extends AppCompatActivity {
     private static final String TAG = "AdminViewActivity";
     private Button btnViewProfiles, btnViewEvents, btnViewFacilities;
     FrameLayout fragmentContainer;
 
-
+    /**
+     * Initializes the activity, sets up the layout, and loads the default fragment.
+     *
+     * @param savedInstanceState A Bundle object containing the activity's previously saved state, if any.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +71,12 @@ public class AdminViewActivity extends AppCompatActivity {
 
         }
 
+    /**
+     * Loads a specified fragment into the container and avoids reloading the fragment if it is already displayed.
+     *
+     * @param fragment The fragment to be displayed.
+     * @param tag      A unique tag identifying the fragment.
+     */
     private void loadFragment(Fragment fragment, String tag) {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if (currentFragment != null && currentFragment.getTag() != null && currentFragment.getTag().equals(tag)) {
@@ -78,7 +89,11 @@ public class AdminViewActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-
+    /**
+     * Updates the visual state of the buttons, highlighting the active button.
+     *
+     * @param activeButton The button corresponding to the currently active fragment.
+     */
     private void updateButtonStates(Button activeButton) {
 
         resetButtonStates();
@@ -86,6 +101,9 @@ public class AdminViewActivity extends AppCompatActivity {
         activeButton.setCompoundDrawableTintList(ContextCompat.getColorStateList(this, R.color.active_button_color));
     }
 
+    /**
+     * Resets the visual state of all buttons to the inactive state.
+     */
     private void resetButtonStates() {
         btnViewProfiles.setTextColor(ContextCompat.getColor(this, R.color.inactive_button_color));
         btnViewEvents.setTextColor(ContextCompat.getColor(this, R.color.inactive_button_color));
@@ -95,6 +113,4 @@ public class AdminViewActivity extends AppCompatActivity {
         btnViewEvents.setCompoundDrawableTintList(ContextCompat.getColorStateList(this, R.color.inactive_button_color));
         btnViewFacilities.setCompoundDrawableTintList(ContextCompat.getColorStateList(this, R.color.inactive_button_color));
     }
-
-
 }

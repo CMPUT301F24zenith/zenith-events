@@ -64,7 +64,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * the details of an event, allowing users to join/leave the waiting list, view the
  * event's description and image, and perform various event-related actions.
  *
- * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.
+ * <p>Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.
  */
 public class EventView extends AppCompatActivity {
 
@@ -356,10 +356,22 @@ public class EventView extends AppCompatActivity {
                         });
                     });
 
+                // Handles the visibility and button states during the lifecycle of an animation.
                     joinEventAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+                        /**
+                         * Called when the animation starts. Makes the `joinEventAnimation` view visible.
+                         *
+                         * @param animation The animator that started the animation.
+                         */
                         public void onAnimationStart(Animator animation) {
                             joinEventAnimation.setVisibility(View.VISIBLE);
                         }
+
+                        /**
+                         * Called when the animation ends. Hides the `joinEventAnimation` view and re-enables the buttons.
+                         *
+                         * @param animation The animator that ended the animation.
+                         */
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             joinEventAnimation.setVisibility(View.GONE);
@@ -368,10 +380,22 @@ public class EventView extends AppCompatActivity {
                             btnJoinLeaveWaitingList.setEnabled(true);
                             deleteEventButton.setEnabled(true);
                         }
+
+                        /**
+                         * Called when the animation is canceled. Ensures that the `joinEventAnimation` view is hidden.
+                         *
+                         * @param animation The animator that was canceled.
+                         */
                         @Override
                         public void onAnimationCancel(Animator animation) {
                             joinEventAnimation.setVisibility(View.GONE);
                         }
+
+                        /**
+                         * Called when the animation repeats. No action is taken.
+                         *
+                         * @param animation The animator that is repeating.
+                         */
                         @Override
                         public void onAnimationRepeat(Animator animation) {
                         }
@@ -486,32 +510,72 @@ public class EventView extends AppCompatActivity {
             });
 
             joinEventLoadingAnimation.removeAllAnimatorListeners();
+            // Handles the visibility and button states during the lifecycle of an animation.
             joinEventLoadingAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+
+                /**
+                 * This method is called when the animation starts.
+                 * It makes the loading animation visible to indicate that an action is in progress.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 public void onAnimationStart(Animator animation) {
                     joinEventLoadingAnimation.setVisibility(View.VISIBLE);
                 }
 
+                /**
+                 * This method is called when the animation ends.
+                 * It hides the loading animation once the animation is complete, indicating the action has finished.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     joinEventLoadingAnimation.setVisibility(View.GONE);
                 }
 
+                /**
+                 * This method is called if the animation is canceled before it finishes.
+                 * It ensures that the loading animation is hidden in case the animation does not complete.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 @Override
                 public void onAnimationCancel(Animator animation) {
                     joinEventLoadingAnimation.setVisibility(View.GONE);
                 }
 
+                /**
+                 * This method is called when the animation repeats.
+                 * Since no action is required during the repetition of the animation, this method is left empty.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 @Override
                 public void onAnimationRepeat(Animator animation) {
                 }
             });
 
             lotteryAnimation.removeAllAnimatorListeners();
+            // Handles the visibility and button states during the lifecycle of an animation.
             lotteryAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+
+                /**
+                 * This method is called when the animation starts.
+                 * It makes the lottery animation visible to indicate the start of the event processing.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 public void onAnimationStart(Animator animation) {
                     lotteryAnimation.setVisibility(View.VISIBLE);
                 }
 
+                /**
+                 * This method is called when the animation ends.
+                 * It hides the lottery animation, enables the action buttons, and starts a new activity to show the sampled entrants.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 @Override
                 public void onAnimationEnd(Animator animation) {
 
@@ -523,14 +587,25 @@ public class EventView extends AppCompatActivity {
                     Intent intent = new Intent(EventView.this, SampledEntrants.class);
                     intent.putExtra("eventId", event.getEventId());
                     startActivity(intent);
-
                 }
 
+                /**
+                 * This method is called if the animation is canceled before it completes.
+                 * It hides the lottery animation in case of cancellation to prevent lingering UI elements.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 @Override
                 public void onAnimationCancel(Animator animation) {
                     lotteryAnimation.setVisibility(View.GONE);
                 }
 
+                /**
+                 * This method is called when the animation repeats.
+                 * Since no action is required when the animation repeats, this method is left empty.
+                 *
+                 * @param animation The animator that triggered this event.
+                 */
                 @Override
                 public void onAnimationRepeat(Animator animation) {
                 }
@@ -551,22 +626,49 @@ public class EventView extends AppCompatActivity {
                         joinEventAnimation.setVisibility(View.GONE);
                         joinEventLoadingAnimation.setVisibility(View.GONE);
 
+                         // This listener handles the animation lifecycle events for the "Delete Event Animation" during event deletion.
+                         // It ensures that the animation visibility is managed properly and the activity finishes after the animation completes.
                         deleteEventAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+
+                            /**
+                             * This method is called when the animation starts.
+                             * It makes the delete event animation visible to indicate that the deletion process is beginning.
+                             *
+                             * @param animation The animator that triggered this event.
+                             */
                             public void onAnimationStart(Animator animation) {
                                 deleteEventAnimation.setVisibility(View.VISIBLE);
                             }
 
+                            /**
+                             * This method is called when the animation ends.
+                             * It hides the delete event animation and finishes the activity to indicate that the deletion process is complete.
+                             *
+                             * @param animation The animator that triggered this event.
+                             */
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 deleteEventAnimation.setVisibility(View.GONE);
                                 finish();
                             }
 
+                            /**
+                             * This method is called if the animation is canceled before it completes.
+                             * It hides the delete event animation in case of cancellation to prevent lingering UI elements.
+                             *
+                             * @param animation The animator that triggered this event.
+                             */
                             @Override
                             public void onAnimationCancel(Animator animation) {
                                 deleteEventAnimation.setVisibility(View.GONE);
                             }
 
+                            /**
+                             * This method is called when the animation repeats.
+                             * Since no action is required when the animation repeats, this method is left empty.
+                             *
+                             * @param animation The animator that triggered this event.
+                             */
                             @Override
                             public void onAnimationRepeat(Animator animation) {
                             }
@@ -674,18 +776,48 @@ public class EventView extends AppCompatActivity {
                 sendNotifAnimation.setVisibility(View.VISIBLE);
                 sendNotifAnimation.setMinAndMaxProgress(0.3f, 1f);
                 sendNotifAnimation.playAnimation();
+                // This listener handles the animation lifecycle events for the "Send Notification Animation."
+                // It ensures that the animation visibility is properly managed during the notification sending process.
                 sendNotifAnimation.addAnimatorListener(new Animator.AnimatorListener() {
+
+                    /**
+                     * This method is called when the animation starts.
+                     * It makes the send notification animation visible to indicate that the notification sending process is starting.
+                     *
+                     * @param animation The animator that triggered this event.
+                     */
                     public void onAnimationStart(Animator animation) {
                         sendNotifAnimation.setVisibility(View.VISIBLE);
                     }
+
+                    /**
+                     * This method is called when the animation ends.
+                     * It hides the send notification animation once the notification sending process is complete.
+                     *
+                     * @param animation The animator that triggered this event.
+                     */
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         sendNotifAnimation.setVisibility(View.GONE);
                     }
+
+                    /**
+                     * This method is called if the animation is canceled before it completes.
+                     * It ensures the send notification animation is hidden in case of cancellation.
+                     *
+                     * @param animation The animator that triggered this event.
+                     */
                     @Override
                     public void onAnimationCancel(Animator animation) {
                         sendNotifAnimation.setVisibility(View.GONE);
                     }
+
+                    /**
+                     * This method is called when the animation repeats.
+                     * Since no action is required when the animation repeats, this method is left empty.
+                     *
+                     * @param animation The animator that triggered this event.
+                     */
                     @Override
                     public void onAnimationRepeat(Animator animation) {
                     }
@@ -745,6 +877,10 @@ public class EventView extends AppCompatActivity {
         }
     }
 
+    /**
+     * Removes the event's picture by resetting the image view to a placeholder and updating the event's image URL in Firestore.
+     * It also hides the delete button and shows a Toast message to indicate success or failure.
+     */
     private void removePicture() {
         eventPosterImageView.setImageResource(R.drawable.event_place_holder);
         deleteImageButton.setVisibility(View.GONE);

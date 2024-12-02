@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * Activity that displays a list of cancelled entrants for a specific event.
- * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.</p>
+ * <p>Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.</p>
  */
 public class CancelledEntrants extends AppCompatActivity {
 

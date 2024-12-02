@@ -24,6 +24,12 @@ import com.example.zenithevents.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * AdminUsersFragment is a fragment that displays and manages a list of users for the admin interface.
+ * The fragment listens for real-time updates from a Firestore collection and dynamically updates the UI,
+ * excluding the current user's device ID from the list.
+ * The JavaDocs for this class were generated using OpenAI's ChatGPT.
+ */
 public class AdminUsersFragment extends Fragment {
     private static final String TAG = "ViewUsersAdminFragment";
     private ListView listView;
@@ -31,12 +37,27 @@ public class AdminUsersFragment extends Fragment {
     private List<User> userList = new ArrayList<>();
     private String currentUserId;
 
+    /**
+     * Inflates the layout for the fragment.
+     *
+     * @param inflater  The LayoutInflater object that can be used to inflate views in the fragment.
+     * @param container The parent view that this fragment's UI should be attached to, if applicable.
+     * @param savedInstanceState A Bundle object containing the fragment's previously saved state, if any.
+     * @return The root view of the fragment's layout.
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_admin_user, container, false);
     }
 
+    /**
+     * Called immediately after {@link #onCreateView}. Initializes UI components, retrieves the current user's ID,
+     * and sets up event listeners for real-time user updates from Firestore.
+     *
+     * @param view The View returned by {@link #onCreateView}.
+     * @param savedInstanceState A Bundle containing the fragment's previously saved state, if any.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -79,11 +100,13 @@ public class AdminUsersFragment extends Fragment {
         });
     }
 
+    /**
+     * Called when the fragment's view is being destroyed. Cleans up resources and stops
+     * listening for real-time user updates.
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         FirestoreUserCollection.stopListeningForUserChanges();
     }
-
-
 }
