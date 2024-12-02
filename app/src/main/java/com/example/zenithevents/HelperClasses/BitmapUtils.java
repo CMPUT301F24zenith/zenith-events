@@ -13,7 +13,7 @@ import java.io.InputStream;
 /**
  * A utility class for handling Bitmap operations such as encoding to Base64 and decoding from Base64.
  * <p>
- * Note: The Javadocs for this class were generated with the assistance of an AI language model.
+ * Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.
  * </p>
  * This class includes methods to:
  * <ul>
@@ -67,26 +67,5 @@ public class BitmapUtils {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public static Bitmap compressBitmapToMaxSize(Bitmap bitmap, int maxSizeKB) {
-        try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            int quality = 100; // Start with maximum quality
-
-            // Compress the Bitmap while its size is larger than the max size
-            do {
-                outputStream.reset(); // Clear the stream
-                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-                quality -= 5; // Reduce quality incrementally
-            } while (outputStream.size() / 1024 > maxSizeKB && quality > 0);
-
-            byte[] compressedBytes = outputStream.toByteArray();
-            return BitmapFactory.decodeByteArray(compressedBytes, 0, compressedBytes.length);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return bitmap; // Return the original Bitmap if compression fails
-        }
-
     }
 }

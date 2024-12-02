@@ -7,9 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -109,6 +107,5 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("UserClass", "No isAdmin field");
                     }
                 });
-
     }
 }

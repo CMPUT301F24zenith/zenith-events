@@ -9,8 +9,7 @@ import java.util.regex.Pattern;
  * <p>This class contains methods to validate various types of data inputs, such as
  * email addresses. It uses regular expressions to perform the validations.</p>
  *
- * <p><strong>Note:</strong> The Javadocs documentation
- *  for this class was created using AI assistance</p>
+ * <p><strong>Note:</strong> The JavaDocs for this class were generated using OpenAI's ChatGPT.</p>
  */
 public class ValidationUtils {
 

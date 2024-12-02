@@ -23,9 +23,6 @@ import com.google.firebase.messaging.RemoteMessage;
  */
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-    private static final String TAG = "MyFirebaseMsgService";
-
-
     /**
      * Called when a message is received from FCM.
      * Handles the notification payload and triggers a notification.

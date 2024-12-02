@@ -80,6 +80,14 @@ public class EventUtils {
                 });
     }
 
+    /**
+     * This method is used to create or update an event. It first sets the owner facility of the event
+     * based on the device ID and then calls the internal method to create or update the event in the database.
+     *
+     * @param context The context of the caller, used to access device-specific information such as the device ID.
+     * @param event The event object that contains details of the event to be created or updated.
+     * @param callback The callback to handle the result of the create or update operation.
+     */
     public void createUpdateEvent(Context context, Event event, EventUpdateCallback callback) {
         Log.d("FunctionCall1", "" + event.getSelectedLimit());
 
@@ -87,6 +95,7 @@ public class EventUtils {
         event.setOwnerFacility(deviceID);
         createUpdateEvent(event, callback);
     }
+
     /**
      * Creates a new event or updates an existing event in Firestore.
      *
@@ -208,81 +217,6 @@ public class EventUtils {
     }
 
     /**
-     * Fetches all events stored in Firestore.
-     *
-     * @param callback Callback to return a list of all events.
-     */
-    public void fetchAllEvents(EventsFetchCallback callback) {
-        db.collection("events").get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    ArrayList<Event> events = new ArrayList<>();
-                    for (DocumentSnapshot document : queryDocumentSnapshots) {
-                        Event event = document.toObject(Event.class);
-                        events.add(event);
-                    }
-                    callback.onEventsFetchComplete(events);
-                })
-                .addOnFailureListener(e -> callback.onEventsFetchComplete(null));  // Fetch failed
-    }
-
-    /**
-     * Updates a specific field of an event in Firestore.
-     *
-     * @param eventId   The unique identifier of the event.
-     * @param fieldName The name of the field to update.
-     * @param value     The new value for the specified field.
-     * @param callback  Callback to return success status of the update operation.
-     */
-    public void updateEventField(String eventId, String fieldName, Object value, EventExistenceCallback callback) {
-        db.collection("events").document(eventId)
-                .update(fieldName, value)
-                .addOnSuccessListener(aVoid -> callback.onEventCheckComplete(true))
-                .addOnFailureListener(e -> callback.onEventCheckComplete(false));
-    }
-
-    /**
-     * Updates multiple fields of an event in Firestore.
-     *
-     * @param eventId         The unique identifier of the event.
-     * @param fieldsToUpdate  A map containing field names and their new values.
-     * @param callback        Callback to return success status of the update operation.
-     */
-    public void updateEventFields(String eventId, Map<String, Object> fieldsToUpdate, EventExistenceCallback callback) {
-        db.collection("events").document(eventId)
-                .update(fieldsToUpdate)
-                .addOnSuccessListener(aVoid -> callback.onEventCheckComplete(true))
-                .addOnFailureListener(e -> callback.onEventCheckComplete(false));
-    }
-
-    /**
-     * Adds a user to an event's waiting list in Firestore.
-     *
-     * @param eventId  The unique identifier of the event.
-     * @param userId   The unique identifier of the user.
-     * @param callback Callback to return success status of the operation.
-     */
-    public void addUserToWaitingList(String eventId, String userId, EventExistenceCallback callback) {
-        db.collection("events").document(eventId)
-                .update("waitingList", FieldValue.arrayUnion(userId))
-                .addOnSuccessListener(aVoid -> callback.onEventCheckComplete(true))
-                .addOnFailureListener(e -> callback.onEventCheckComplete(false));
-    }
-
-    /**
-     * Removes a user from an event's waiting list in Firestore.
-     *
-     * @param eventId  The unique identifier of the event.
-     * @param userId   The unique identifier of the user.
-     * @param callback Callback to return success status of the operation.
-     */
-    public void removeUserFromWaitingList(String eventId, String userId, EventExistenceCallback callback) {
-        db.collection("events").document(eventId)
-                .update("waitingList", FieldValue.arrayRemove(userId))
-                .addOnSuccessListener(aVoid -> callback.onEventCheckComplete(true))
-                .addOnFailureListener(e -> callback.onEventCheckComplete(false));
-    }
-
-    /**
      * Converts an Event object into a map representation suitable for storage in Firestore.
      *
      * <p>This method takes an Event object and maps its properties to a {@link Map}, with each
@@ -308,6 +242,5 @@ public class EventUtils {
         eventMap.put("userLocations", event.getUserLocations());
         return eventMap;
     }
-
 }
 
