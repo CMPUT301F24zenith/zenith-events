@@ -16,7 +16,7 @@ import java.util.Random;
 
 /**
  * A utility class that provides various methods for handling QR codes and related operations.
- * <p>Note: The Javadocs for this class were generated with the assistance of an AI language model.
+ * <p>Note: The JavaDocs for this class were generated using OpenAI's ChatGPT.
  * <p>
  * This class includes methods to:
  * <ul>
