@@ -18,7 +18,6 @@ public class NotificationsTest {
     public void testSendNotificationWinner() {
         User user = new User("deviceID", "firstName", "lastName", "email", "phoneNumber");
         user.sendNotification(context,"Congratulations! You have been selected for");
-
     }
     @Test
     public void testSendNotificationLoser() {
