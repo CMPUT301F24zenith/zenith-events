@@ -33,7 +33,7 @@ public class EntrantViewActivity extends AppCompatActivity {
     private static final String TAG = "EntrantViewActivity";
     ImageButton scanQRButton, viewProfileButton;
     private TextView currentSelection, next, previous;
-    private final String[] options = {"Waitlisted Events", "Events Invited To", "Registered Events", "Cancelled Events"};
+    private final String[] options = {"Events Invited To", "Registered Events", "Waitlisted Events", "Cancelled Events"};
     private int currentIndex = 0;
     private UserUtils userUtils;
 
@@ -69,7 +69,7 @@ public class EntrantViewActivity extends AppCompatActivity {
         viewProfileButton = findViewById(R.id.viewProfileButton);
 
         Bundle args = new Bundle();
-        args.putString("type", "entrant-waiting");
+        args.putString("type", "entrant-selected");
         loadFragment(new EventsFragment(), args);
 
         previous.setOnClickListener(v -> moveToPrevious());

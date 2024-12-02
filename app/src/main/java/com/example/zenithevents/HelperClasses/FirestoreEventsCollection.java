@@ -40,6 +40,52 @@ public class FirestoreEventsCollection {
                 });
     }
 
+    public static void listenForUserEventChanges(String userId, FetchEventsCallback callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        listenerRegistration = db.collection("events")
+                .whereEqualTo("ownerFacility", userId)
+                .addSnapshotListener((querySnapshot, e) -> {
+                    if (e != null) {
+                        Log.e("Firestore", "Listen failed.", e);
+                        callback.onCallback(null);
+                        return;
+                    }
+
+                    List<Event> eventList = new ArrayList<>();
+                    if (querySnapshot != null) {
+                        for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                            Event event = document.toObject(Event.class);
+                            eventList.add(event);
+                        }
+                    }
+                    callback.onCallback(eventList);
+                });
+    }
+
+    public static void listenForUserEventArrayChanges(String userId, String arrayType, FetchEventsCallback callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        listenerRegistration = db.collection("events")
+                .whereEqualTo("ownerFacility", userId)
+                .addSnapshotListener((querySnapshot, e) -> {
+                    if (e != null) {
+                        Log.e("Firestore", "Listen failed.", e);
+                        callback.onCallback(null);
+                        return;
+                    }
+
+                    List<Event> eventList = new ArrayList<>();
+                    if (querySnapshot != null) {
+                        for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                            Event event = document.toObject(Event.class);
+                            eventList.add(event);
+                        }
+                    }
+                    callback.onCallback(eventList);
+                });
+    }
+
     public static void stopListeningForEventChanges() {
         if (listenerRegistration != null) {
             listenerRegistration.remove();

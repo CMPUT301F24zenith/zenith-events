@@ -30,6 +30,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.example.zenithevents.Admin.AdminEventsFragment;
+import com.example.zenithevents.Admin.AdminViewActivity;
 import com.example.zenithevents.Admin.FacilityDetail;
 import com.example.zenithevents.Admin.QRViewAdmin;
 import com.example.zenithevents.EntrantsList.CancelledEntrants;
@@ -553,9 +555,6 @@ public class EventView extends AppCompatActivity {
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 deleteEventAnimation.setVisibility(View.GONE);
-
-                                Intent intent = new Intent(EventView.this, OrganizerPage.class);
-                                startActivity(intent);
                                 finish();
                             }
 
